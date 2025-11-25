@@ -1,53 +1,27 @@
 // ============================================================================
-// CRV DISC — API NOTÍCIAS FULL (VERSÃO FINAL, LIMPA E OTIMIZADA)
-// Classificação automática inteligente (títulos + resumos + conteúdos)
-// Categorias padronizadas: disc, lideranca, tendencias, gestao, tecnologia, cultura
-// Fontes: Você RH, Startups, MIT Sloan (Liderança + Gestão de Pessoas)
-// Cache 6h
+// CRV DISC — NOTÍCIAS RH (Netlify Functions / CommonJS)
 // ============================================================================
-
-import Parser from "rss-parser";
+const Parser = require("rss-parser");
 
 const parser = new Parser({
   headers: { "User-Agent": "CRV-DISC-Dashboard" },
   timeout: 20000
 });
 
-// ============================================================================
-// FONTES DEFINITIVAS
-// ============================================================================
 const FEEDS = [
-  {
-    url: "https://vocerh.abril.com.br/feed/",
-    prioridade: 1,
-    fonte: "Você RH"
-  },
-  {
-    url: "https://startups.com.br/feed/",
-    prioridade: 2,
-    fonte: "Startups"
-  },
-  {
-    url: "https://mitsloanreview.com.br/categoria/lideranca/feed/",
-    prioridade: 3,
-    fonte: "MIT Sloan – Liderança"
-  },
-  {
-    url: "https://mitsloanreview.com.br/categoria/gestao-de-pessoas/feed/",
-    prioridade: 3,
-    fonte: "MIT Sloan – Gestão de Pessoas"
-  }
+  { url: "https://vocerh.abril.com.br/feed/", prioridade: 1, fonte: "Você RH" },
+  { url: "https://startups.com.br/feed/", prioridade: 2, fonte: "Startups" },
+  { url: "https://mitsloanreview.com.br/categoria/lideranca/feed/", prioridade: 3, fonte: "MIT Sloan – Liderança" },
+  { url: "https://mitsloanreview.com.br/categoria/gestao-de-pessoas/feed/", prioridade: 3, fonte: "MIT Sloan – Gestão de Pessoas" }
 ];
 
-// ============================================================================
-// CACHE – 6 HORAS
-// ============================================================================
+// CACHE
 let CACHE = null;
 let CACHE_TIME = 0;
 const TTL = 6 * 60 * 60 * 1000;
 
 // ============================================================================
-// Funções utilitárias
+// Utilidades
 // ============================================================================
 function limparTexto(str = "") {
   return str.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -66,64 +40,16 @@ function extrairImagem(item) {
   return src ? src[1] : null;
 }
 
-// ============================================================================
-// CLASSIFICAÇÃO AUTOMÁTICA INTELIGENTE (OPÇÃO A)
-// ============================================================================
 function categorizarAutomatico(titulo, resumo, fonte) {
   const txt = (titulo + " " + resumo).toLowerCase();
 
-  // DISC
-  if (txt.includes("disc") || txt.includes("comportamento") || txt.includes("perfil")) {
-    return "disc";
-  }
+  if (txt.includes("disc") || txt.includes("comportamento") || txt.includes("perfil")) return "disc";
+  if (txt.includes("liderança") || txt.includes("líder")) return "lideranca";
+  if (txt.includes("gestão") || txt.includes("gestao") || txt.includes("processos")) return "gestao";
+  if (txt.includes("tendência") || txt.includes("mercado")) return "tendencias";
+  if (txt.includes("ia") || txt.includes("inteligência artificial") || txt.includes("tecnologia")) return "tecnologia";
+  if (txt.includes("cultura") || txt.includes("engajamento") || txt.includes("comunicação")) return "cultura";
 
-  // Liderança
-  if (
-    txt.includes("liderança") ||
-    txt.includes("lideranca") ||
-    txt.includes("líder") ||
-    txt.includes("lider")
-  ) {
-    return "lideranca";
-  }
-
-  // Gestão
-  if (txt.includes("gestão") || txt.includes("gestao") || txt.includes("processos")) {
-    return "gestao";
-  }
-
-  // Tendências
-  if (
-    txt.includes("tendência") ||
-    txt.includes("tendencias") ||
-    txt.includes("tendência") ||
-    txt.includes("mercado")
-  ) {
-    return "tendencias";
-  }
-
-  // Tecnologia
-  if (
-    txt.includes("ia") ||
-    txt.includes("inteligência artificial") ||
-    txt.includes("tecnologia") ||
-    txt.includes("digital") ||
-    txt.includes("inovação")
-  ) {
-    return "tecnologia";
-  }
-
-  // Cultura
-  if (
-    txt.includes("cultura") ||
-    txt.includes("engajamento") ||
-    txt.includes("ambiente") ||
-    txt.includes("comunicação")
-  ) {
-    return "cultura";
-  }
-
-  // fallback por fonte
   if (fonte.includes("MIT")) return "lideranca";
   if (fonte.includes("Startups")) return "tecnologia";
   if (fonte.includes("Você RH")) return "gestao";
@@ -132,7 +58,7 @@ function categorizarAutomatico(titulo, resumo, fonte) {
 }
 
 // ============================================================================
-// Coleta e processamento
+// COLETA
 // ============================================================================
 async function coletarNoticias() {
   let todas = [];
@@ -144,12 +70,8 @@ async function coletarNoticias() {
 
       itens.forEach((item) => {
         const titulo = limparTexto(item.title);
-        const resumo = resumoCurto(
-          item.contentSnippet || item.content || item["content:encoded"] || ""
-        );
-        const textoCompleto = limparTexto(
-          item["content:encoded"] || item.content || item.summary || ""
-        );
+        const resumo = resumoCurto(item.contentSnippet || item.content || item["content:encoded"] || "");
+        const textoCompleto = limparTexto(item["content:encoded"] || item.content || item.summary || "");
 
         todas.push({
           titulo,
@@ -163,12 +85,9 @@ async function coletarNoticias() {
           data: item.pubDate ? new Date(item.pubDate) : new Date(0)
         });
       });
-    } catch (e) {
-      console.error("Erro ao ler feed:", feed.url, e.message);
-    }
+    } catch {}
   }
 
-  // Ordenar: data DESC + prioridade
   todas.sort((a, b) => {
     if (b.data - a.data !== 0) return b.data - a.data;
     return a.prioridade - b.prioridade;
@@ -178,17 +97,16 @@ async function coletarNoticias() {
 }
 
 // ============================================================================
-// HANDLER FINAL
+// HANDLER
 // ============================================================================
-export default async function handler(req, res) {
+exports.handler = async () => {
   const agora = Date.now();
 
-  // cache válido
   if (CACHE && agora - CACHE_TIME < TTL) {
-    return res.status(200).json({
-      atualizado: new Date(),
-      noticias: CACHE
-    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ atualizado: new Date(), noticias: CACHE })
+    };
   }
 
   try {
@@ -197,16 +115,14 @@ export default async function handler(req, res) {
     CACHE = noticias;
     CACHE_TIME = agora;
 
-    return res.status(200).json({
-      atualizado: new Date(),
-      noticias
-    });
-  } catch (e) {
-    console.error("ERRO CRÍTICO /api/noticias_full:", e);
-
-    return res.status(200).json({
-      atualizado: new Date(),
-      noticias: CACHE.slice(0, 2)
-    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ atualizado: new Date(), noticias })
+    };
+  } catch {
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ atualizado: new Date(), noticias: CACHE?.slice(0, 2) || [] })
+    };
   }
-}
+};

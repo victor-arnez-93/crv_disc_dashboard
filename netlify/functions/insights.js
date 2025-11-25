@@ -1,64 +1,38 @@
 // ============================================================================
-// CRV DISC — INSIGHTS (v4 FINAL)
-// Retorna SEMPRE 2 insights curtos, PT-BR, formato estilo ERP
-// Fontes brasileiras reais → fallback IA se necessário
+// CRV DISC — INSIGHTS (Netlify Functions / CommonJS)
+// Compatível sem alterações na lógica original
 // ============================================================================
 
-import Parser from "rss-parser";
+const Parser = require("rss-parser");
 
 const parser = new Parser({
   timeout: 12000,
   headers: { "User-Agent": "CRV_DISC_Insights" }
 });
 
-// ============================================================================
-// FONTES — todas BR
-// ============================================================================
+// FEEDS BR
 const FEEDS = [
-  {
-    nome: "MIT Sloan Review Brasil",
-    url: "https://www.mitsloanreview.com.br/feed/"
-  },
-  {
-    nome: "Exame – Gestão de Pessoas",
-    url: "https://exame.com/noticias-sobre/gestao-de-pessoas/feed/"
-  },
-  {
-    nome: "Você RH",
-    url: "https://vocerh.abril.com.br/feed/"
-  },
-  {
-    nome: "Endeavor Brasil",
-    url: "https://endeavor.org.br/feed/"
-  },
-  {
-    nome: "Sebrae – Liderança",
-    url: "https://sebrae.com.br/sites/PortalSebrae/busca?q=lideranca&format=rss"
-  }
+  { nome: "MIT Sloan Review Brasil", url: "https://www.mitsloanreview.com.br/feed/" },
+  { nome: "Exame – Gestão de Pessoas", url: "https://exame.com/noticias-sobre/gestao-de-pessoas/feed/" },
+  { nome: "Você RH", url: "https://vocerh.abril.com.br/feed/" },
+  { nome: "Endeavor Brasil", url: "https://endeavor.org.br/feed/" },
+  { nome: "Sebrae – Liderança", url: "https://sebrae.com.br/sites/PortalSebrae/busca?q=lideranca&format=rss" }
 ];
 
-// ============================================================================
-// CACHE (2h)
-// ============================================================================
+// CACHE
 let CACHE = null;
 let CACHE_TIME = 0;
 const TTL = 2 * 60 * 60 * 1000;
 
 // ============================================================================
-// Limpar HTML / deixar texto curto
+// Utilidades
 // ============================================================================
 function limpar(str) {
   return (
-    str
-      ?.replace(/<[^>]+>/g, "")
-      .replace(/\s+/g, " ")
-      .trim() || ""
+    str?.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim() || ""
   );
 }
 
-// ============================================================================
-// Coletar UM insight curto
-// ============================================================================
 async function coletarInsight(feed) {
   try {
     const rss = await parser.parseURL(feed.url);
@@ -75,7 +49,6 @@ async function coletarInsight(feed) {
 
     if (!texto || texto.length < 40) return null;
 
-    // deixa compacto estilo ERP
     texto = texto.slice(0, 160);
 
     return {
@@ -88,9 +61,6 @@ async function coletarInsight(feed) {
   }
 }
 
-// ============================================================================
-// FALLBACK IA PT-BR — NOVO (não repete banco interno)
-// ============================================================================
 function fallbackIA() {
   const frases = [
     "Pequenos alinhamentos frequentes evitam grandes desalinhamentos futuros.",
@@ -115,12 +85,15 @@ function fallbackIA() {
 }
 
 // ============================================================================
-// HANDLER FINAL — retorna exatamente 2 insights
+// HANDLER
 // ============================================================================
-export default async function handler(req, res) {
+exports.handler = async () => {
   // cache
   if (CACHE && Date.now() - CACHE_TIME < TTL) {
-    return res.status(200).json(CACHE);
+    return {
+      statusCode: 200,
+      body: JSON.stringify(CACHE)
+    };
   }
 
   const insights = [];
@@ -132,7 +105,6 @@ export default async function handler(req, res) {
     if (ins) insights.push(ins);
   }
 
-  // se vier menos de 2 → completa com IA
   if (insights.length < 2) {
     const faltam = 2 - insights.length;
     const ia = fallbackIA();
@@ -142,5 +114,9 @@ export default async function handler(req, res) {
   CACHE = insights;
   CACHE_TIME = Date.now();
 
-  return res.status(200).json(insights);
-}
+  return {
+    statusCode: 200,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(insights)
+  };
+};
