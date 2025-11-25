@@ -1,6 +1,5 @@
 // ============================================================================
-// INICIO.JS — VERSÃO FINAL (ES MODULES)
-// DISC Dashboard – CRV
+// INICIO.JS — VERSÃO FINAL CORRIGIDA (ENDPOINTS NETLIFY OK)
 // ============================================================================
 
 import {
@@ -11,7 +10,7 @@ import {
 } from "./banco_interno.js";
 
 // ============================================================================
-// 1) FRASE PRINCIPAL (15 FRASES FIXAS) — COM SETAS
+// 1) FRASE PRINCIPAL
 // ============================================================================
 
 const frasesPrincipais = [
@@ -87,7 +86,7 @@ function criarSetasFrase() {
 }
 
 // ============================================================================
-// 2) 4 CARDS ROTATIVOS AUTOMÁTICOS (20s)
+// 2) ROTATIVOS
 // ============================================================================
 
 let rotacaoIndex = 0;
@@ -116,11 +115,8 @@ function atualizarCardsRotativos() {
     rotacaoIndex = (rotacaoIndex + 1) % dicas.length;
 }
 
-// 20 segundos
-setInterval(atualizarCardsRotativos, 20000);
-
 // ============================================================================
-// 3) INSIGHTS DO DIA
+// 3) INSIGHTS DO DIA  (CORRIGIDO)
 // ============================================================================
 
 async function carregarInsights() {
@@ -128,7 +124,7 @@ async function carregarInsights() {
     if (!ul) return;
 
     try {
-        const res = await fetch("/api/insights.js");
+        const res = await fetch("/api/insights");   // ✔ CORRIGIDO
         const dados = await res.json();
 
         ul.innerHTML = "";
@@ -152,7 +148,7 @@ async function carregarInsights() {
 }
 
 // ============================================================================
-// 4) NOTÍCIAS DO DIA
+// 4) NOTÍCIAS DO DIA (CORRIGIDO)
 // ============================================================================
 
 async function carregarNoticias() {
@@ -160,8 +156,9 @@ async function carregarNoticias() {
     if (!ul) return;
 
     try {
-        const res = await fetch("/api/noticias_full.js");
-        const dados = await res.json();
+        const res = await fetch("/api/noticias_rh");   // ✔ CORRIGIDO
+        const json = await res.json();
+        const dados = json.noticias || [];
 
         ul.innerHTML = "";
 
@@ -181,7 +178,7 @@ async function carregarNoticias() {
 }
 
 // ============================================================================
-// 5) FOTO DO DIA
+// 5) FOTO DO DIA (CORRIGIDO)
 // ============================================================================
 
 async function carregarFoto() {
@@ -190,7 +187,7 @@ async function carregarFoto() {
     const fonte = document.getElementById("fotoFonte");
 
     try {
-        const res = await fetch("/api/foto.js");
+        const res = await fetch("/api/foto");   // ✔ CORRIGIDO
         const foto = await res.json();
 
         img.src = foto.url;
