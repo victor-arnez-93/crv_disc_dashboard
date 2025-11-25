@@ -1,5 +1,5 @@
 // ============================================================================
-// INICIO.JS — VERSÃO FINAL CORRIGIDA (ENDPOINTS NETLIFY OK)
+// INICIO.JS — CORRIGIDO
 // ============================================================================
 
 import {
@@ -42,7 +42,6 @@ function atualizarFrasePrincipal() {
 
     setTimeout(() => {
         elemento.textContent = frasesPrincipais[fraseIndex];
-
         elemento.style.transform = "translateY(12px)";
 
         setTimeout(() => {
@@ -81,7 +80,6 @@ function criarSetasFrase() {
 
     wrapper.appendChild(btnEsq);
     wrapper.appendChild(btnDir);
-
     card.appendChild(wrapper);
 }
 
@@ -94,7 +92,6 @@ let rotacaoIndex = 0;
 function animarTroca(element) {
     element.style.opacity = 0;
     element.style.transform = "translateY(-10px)";
-
     setTimeout(() => {
         element.style.opacity = 1;
         element.style.transform = "translateY(0)";
@@ -116,12 +113,8 @@ function atualizarCardsRotativos() {
 }
 
 // ============================================================================
-// 3) INSIGHTS DO DIA  (CORRIGIDO)
+// 3) INSIGHTS DO DIA (BANCO INTERNO)
 // ============================================================================
-
-async function carregarInsights() {
-    const ul = document.getElementById("insightsList");
-    if (!ul) return;
 
 function obterInsightsDoDia() {
     const cache = localStorage.getItem("insightsDia");
@@ -147,12 +140,11 @@ function obterInsightsDoDia() {
     return resultado;
 }
 
-async function carregarInsights() {
+function carregarInsights() {
     const ul = document.getElementById("insightsList");
     if (!ul) return;
 
     const lista = obterInsightsDoDia();
-
     ul.innerHTML = "";
 
     lista.forEach((txt) => {
@@ -165,9 +157,8 @@ async function carregarInsights() {
     });
 }
 
-
 // ============================================================================
-// 4) NOTÍCIAS DO DIA (CORRIGIDO)
+// 4) NOTÍCIAS DO DIA
 // ============================================================================
 
 async function carregarNoticias() {
@@ -175,7 +166,7 @@ async function carregarNoticias() {
     if (!ul) return;
 
     try {
-        const res = await fetch("/api/noticias_rh");   // ✔ CORRIGIDO
+        const res = await fetch("/api/noticias_rh");
         const json = await res.json();
         const dados = json.noticias || [];
 
@@ -197,7 +188,7 @@ async function carregarNoticias() {
 }
 
 // ============================================================================
-// 5) FOTO DO DIA (CORRIGIDO)
+// 5) FOTO DO DIA
 // ============================================================================
 
 async function carregarFoto() {
@@ -206,7 +197,7 @@ async function carregarFoto() {
     const fonte = document.getElementById("fotoFonte");
 
     try {
-        const res = await fetch("/api/foto");   // ✔ CORRIGIDO
+        const res = await fetch("/api/foto");
         const foto = await res.json();
 
         img.src = foto.url;
@@ -221,9 +212,8 @@ async function carregarFoto() {
 }
 
 // ============================================================================
-// INICIALIZAÇÃO
+// INICIALIZAR
 // ============================================================================
-
 document.addEventListener("DOMContentLoaded", () => {
     atualizarFrasePrincipal();
     criarSetasFrase();

@@ -60,13 +60,11 @@ const modalClima = document.getElementById('modalClima');
 const closeModalClima = document.getElementById('closeModalClima');
 
 if (weatherBox && modalClima) {
-    // Toggle dropdown ao clicar no clima
     weatherBox.addEventListener('click', (e) => {
         e.stopPropagation();
         modalClima.classList.toggle('ativo');
     });
 
-    // Fechar ao clicar no X
     if (closeModalClima) {
         closeModalClima.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -74,7 +72,6 @@ if (weatherBox && modalClima) {
         });
     }
 
-    // Fechar ao clicar fora
     document.addEventListener('click', (e) => {
         if (!weatherBox.contains(e.target)) {
             modalClima.classList.remove('ativo');
@@ -83,12 +80,11 @@ if (weatherBox && modalClima) {
 }
 
 // ===============================
-// CLIMA - ATUALIZAR DROPDOWN COM API
+// CLIMA
 // ===============================
 async function carregarClima() {
     const iconeClimaImg = document.getElementById("iconeClimaImg");
     const temperatura = document.getElementById("temperatura");
-    const modalClimaBody = document.getElementById("modalClimaBody");
 
     if (!iconeClimaImg || !temperatura) return;
 
@@ -96,20 +92,20 @@ async function carregarClima() {
         const response = await fetch('/api/clima');
         const data = await response.json();
 
-        // Atualiza temperatura header
         temperatura.textContent = `${data.temperatura}°C`;
-
-        // Atualiza ícone dia/noite
         atualizarIconeClimaPorHora();
 
+    } catch (erro) {
+        console.error('Erro ao buscar clima:', erro);
+        temperatura.textContent = '-- °C';
+    }
+}
 
 function atualizarIconeClimaPorHora() {
     const iconeClimaImg = document.getElementById("iconeClimaImg");
     if (!iconeClimaImg) return;
 
     const hora = new Date().getHours();
-    const tema = document.documentElement.getAttribute("data-theme") || "light";
-
     if (hora >= 6 && hora < 18) {
         iconeClimaImg.src = "static/imagens/ico_dia.png";
     } else {
@@ -117,22 +113,18 @@ function atualizarIconeClimaPorHora() {
     }
 }
 
-// Carrega clima ao iniciar
 carregarClima();
-setInterval(carregarClima, 600000); // Atualiza a cada 10 minutos
+setInterval(carregarClima, 600000);
 
 // ===============================
-// PERFIL DINÂMICO: HEADER E MENU
+// PERFIL
 // ===============================
 window.addEventListener('DOMContentLoaded', () => {
     const nome = localStorage.getItem('config_nome');
     const email = localStorage.getItem('config_email');
-    if (nome) {
-        document.querySelectorAll('.user-name').forEach(e => e.textContent = nome);
-    }
-    if (email) {
-        document.querySelectorAll('.user-role').forEach(e => e.textContent = email);
-    }
+    if (nome) document.querySelectorAll('.user-name').forEach(e => e.textContent = nome);
+    if (email) document.querySelectorAll('.user-role').forEach(e => e.textContent = email);
+
     const avatarURL = localStorage.getItem('config_avatar');
     if (avatarURL) {
         document.querySelectorAll('.user-box img, .logo-header').forEach(im => {
