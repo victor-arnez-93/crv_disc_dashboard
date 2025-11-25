@@ -102,22 +102,6 @@ async function carregarClima() {
         // Atualiza ícone dia/noite
         atualizarIconeClimaPorHora();
 
-        // Atualiza previsão no modal
-        if (modalClimaBody && data.previsao) {
-            modalClimaBody.innerHTML = data.previsao.map(dia => `
-                <div class="previsao-dia">
-                    <p class="dia-nome">${dia.dia}.</p>
-                    <p class="temperaturas">${dia.tempMax}° / ${dia.tempMin}°</p>
-                    <p class="emoji-clima">${dia.emoji}</p>
-                </div>
-            `).join('');
-        }
-
-    } catch (erro) {
-        console.error('Erro ao buscar clima:', erro);
-        temperatura.textContent = '-- °C';
-    }
-}
 
 function atualizarIconeClimaPorHora() {
     const iconeClimaImg = document.getElementById("iconeClimaImg");

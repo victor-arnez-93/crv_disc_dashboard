@@ -123,29 +123,48 @@ async function carregarInsights() {
     const ul = document.getElementById("insightsList");
     if (!ul) return;
 
-    try {
-        const res = await fetch("/api/insights");   // ✔ CORRIGIDO
-        const dados = await res.json();
+function obterInsightsDoDia() {
+    const cache = localStorage.getItem("insightsDia");
+    const cacheData = localStorage.getItem("insightsData");
 
-        ul.innerHTML = "";
+    const hoje = new Date().toDateString();
 
-        dados.slice(0, 2).forEach((ins) => {
-            ul.innerHTML += `
-                <li>
-                    <div class="insight-texto">
-                        <i class="fas fa-lightbulb" style="margin-right:6px; color:#F98948;"></i>
-                        ${ins.texto}
-                    </div>
-                    <div class="insight-fonte">
-                        <a href="${ins.link}" target="_blank">${ins.fonte}</a>
-                    </div>
-                </li>`;
-        });
-
-    } catch {
-        ul.innerHTML = `<li style="opacity:.7">Não foi possível carregar insights.</li>`;
+    if (cache && cacheData === hoje) {
+        return JSON.parse(cache);
     }
+
+    const copia = [...dicas];
+    const resultado = [];
+
+    for (let i = 0; i < 2; i++) {
+        const idx = Math.floor(Math.random() * copia.length);
+        resultado.push(copia.splice(idx, 1)[0]);
+    }
+
+    localStorage.setItem("insightsDia", JSON.stringify(resultado));
+    localStorage.setItem("insightsData", hoje);
+
+    return resultado;
 }
+
+async function carregarInsights() {
+    const ul = document.getElementById("insightsList");
+    if (!ul) return;
+
+    const lista = obterInsightsDoDia();
+
+    ul.innerHTML = "";
+
+    lista.forEach((txt) => {
+        ul.innerHTML += `
+            <li>
+                <i class="fas fa-lightbulb" style="margin-right:6px; color:#F98948;"></i>
+                ${txt}
+            </li>
+        `;
+    });
+}
+
 
 // ============================================================================
 // 4) NOTÍCIAS DO DIA (CORRIGIDO)

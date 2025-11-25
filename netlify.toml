@@ -1,7 +1,20 @@
 [build]
   functions = "netlify/functions"
 
+# Alias da rota de notícias (muito importante!)
+[[redirects]]
+  from = "/api/noticias_rh"
+  to = "/.netlify/functions/noticias_full"
+  status = 200
+
+# Wildcard deve ficar POR ÚLTIMO
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+# Foto
+[[redirects]]
+from = "/api/foto"
+to = "/.netlify/functions/foto"
+status = 200
