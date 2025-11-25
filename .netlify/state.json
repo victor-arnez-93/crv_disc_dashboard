@@ -1,0 +1,20 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "Quadra",
+			"country": {
+				"code": "BR",
+				"name": "Brazil"
+			},
+			"subdivision": {
+				"code": "SP",
+				"name": "São Paulo"
+			},
+			"timezone": "America/Sao_Paulo",
+			"latitude": -23.2993,
+			"longitude": -48.0392,
+			"postalCode": "18255"
+		},
+		"timestamp": 1764037839172
+	}
+}

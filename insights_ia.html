@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights & IA | Dashboard</title>
+
+    <!-- FONTES -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- FONTAWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CSS GLOBAL -->
+    <link rel="stylesheet" href="static/css/main.css">
+
+    <!-- CSS DA PÁGINA INSIGHTS & IA -->
+    <link rel="stylesheet" href="static/css/insights_ia.css">
+</head>
+
+<body>
+
+<!-- ================================================================== -->
+<!-- SIDEBAR -->
+<!-- ================================================================== -->
+<aside id="sidebar" class="sidebar">
+
+    <nav class="sidebar-menu">
+
+        <button class="menu-item" onclick="window.location.href='/index.html'">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/teste_disc.html'">
+            <i class="fas fa-user-circle"></i>
+            <span>Teste DISC</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/dinamicas.html'">
+            <i class="fas fa-users"></i>
+            <span>Dinâmicas & Empatia</span>
+        </button>
+
+        <button class="menu-item active" onclick="window.location.href='/insights_ia.html'">
+            <i class="fas fa-lightbulb"></i>
+            <span>Insights & IA</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/noticias_rh.html'">
+            <i class="fas fa-newspaper"></i>
+            <span>Notícias de RH</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/configuracoes.html'">
+            <i class="fas fa-cog"></i>
+            <span>Configurações</span>
+        </button>
+
+    </nav>
+
+    <!-- RODAPÉ DA SIDEBAR -->
+    <div class="sidebar-logo">
+        <span class="dev-label">Desenvolvido por</span>
+        <img src="static/imagens/logo1.png" alt="Logo CRV">
+    </div>
+
+    <!-- BOTÃO RECOLHER / EXPANDIR -->
+    <button id="btnMenu" class="sidebar-toggle">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+</aside>
+
+
+<!-- ================================================================== -->
+<!-- HEADER SUPERIOR                                                    -->
+<!-- ================================================================== -->
+<header class="header">
+
+    <!-- LOGO + TÍTULO -->
+    <div class="header-left">
+        <img src="static/imagens/logo_disc.png" alt="DISC" class="logo-header">
+        <div class="header-titles">
+            <span class="titulo">Dashboard</span>
+            <span class="subtitulo"><strong>Painel de Gestão Comportamental</strong></span>
+        </div>
+    </div>
+
+    <!-- BUSCA -->
+    <div class="search-box">
+        <input type="text" placeholder="Buscar no painel...">
+        <i class="fas fa-search"></i>
+    </div>
+
+    <!-- ÁREA DIREITA -->
+    <div class="header-right">
+
+        <!-- RELÓGIO -->
+        <span id="relogio" class="clock">00:00:00</span>
+
+        <!-- CLIMA CLICÁVEL COM DROPDOWN -->
+        <div class="weather-box" id="weatherBox">
+            <img id="iconeClimaImg" src="static/imagens/ico_dia.png" alt="clima" class="icone-clima-img">
+            <span id="temperatura" class="temperature">19°C</span>
+
+            <!-- DROPDOWN PREVISÃO -->
+            <div id="modalClima" class="modal-clima">
+                <div class="modal-clima-content">
+                    <div class="modal-clima-header">
+                        <h3>São Paulo - BR</h3>
+                        <button class="modal-clima-close" id="closeModalClima">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-clima-body" id="modalClimaBody">
+                        <div class="previsao-dia">
+                            <p class="dia-nome">qui.</p>
+                            <p class="temperaturas">24° / 16°</p>
+                            <p class="emoji-clima">☁️</p>
+                        </div>
+                        <div class="previsao-dia">
+                            <p class="dia-nome">sex.</p>
+                            <p class="temperaturas">33° / 15°</p>
+                            <p class="emoji-clima">☀️</p>
+                        </div>
+                        <div class="previsao-dia">
+                            <p class="dia-nome">sáb.</p>
+                            <p class="temperaturas">32° / 21°</p>
+                            <p class="emoji-clima">☀️</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTÃO TEMA -->
+        <button id="btnTema" class="btn-tema">
+            <i class="fas fa-moon"></i>
+        </button>
+
+        <!-- USUÁRIO -->
+        <div class="user-box">
+            <img src="static/imagens/foto2.jpeg" alt="">
+            <div class="user-info">
+                <span class="user-name">Prof. Paulo Rubens</span>
+                <span class="user-role">Gestão de Pessoas</span>
+            </div>
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ================================================================== -->
+<!-- CONTEÚDO PRINCIPAL                                                 -->
+<!-- ================================================================== -->
+<main class="main-content">
+
+    <div class="insights-container">
+
+        <!-- Card Principal -->
+        <div class="insights-card-principal">
+            <h1 class="insights-titulo-principal">
+                <i class="fas fa-brain"></i>
+                Insights & Inteligência Artificial
+            </h1>
+            <p class="insights-subtitulo">
+                Análises inteligentes e sugestões personalizadas baseadas em perfis comportamentais DISC
+            </p>
+        </div>
+
+        <!-- Grid Principal: Chat IA + Simulador -->
+        <div class="insights-grid-principal">
+
+            <!-- Chat IA -->
+            <div class="insights-chat-container">
+                <div class="insights-chat-header">
+                    <i class="fas fa-robot"></i>
+                    <h2>Assistente DISC IA</h2>
+                    <span class="status-online"></span>
+                </div>
+
+                <div class="insights-chat-messages" id="chatMessages">
+                    <div class="chat-message bot">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <p>Olá! Sou seu assistente especializado em análise DISC. Como posso ajudar hoje?</p>
+                            <span class="message-time">10:24</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insights-chat-sugestoes">
+                    <button class="sugestao-btn" onclick="enviarSugestao('Como motivar um perfil D?')">
+                        <i class="fas fa-bolt"></i> Como motivar perfil D?
+                    </button>
+                    <button class="sugestao-btn" onclick="enviarSugestao('Dicas para comunicação com perfil S')">
+                        <i class="fas fa-comments"></i> Comunicação com S
+                    </button>
+                    <button class="sugestao-btn" onclick="enviarSugestao('Gerenciar conflito I vs C')">
+                        <i class="fas fa-balance-scale"></i> Conflito I vs C
+                    </button>
+                </div>
+
+                <div class="insights-chat-input">
+                    <input type="text" id="chatInput" placeholder="Digite sua pergunta sobre DISC...">
+                    <button onclick="enviarMensagem()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Simulador de Cenários DISC -->
+            <div class="insights-simulador">
+                <h2>
+                    <i class="fas fa-theatre-masks"></i>
+                    Simulador de Cenários de Gestão
+                </h2>
+
+                <p class="simulador-intro">
+                    Pratique situações reais do dia a dia corporativo e receba feedback baseado em DISC
+                </p>
+
+                <div class="cenario-atual" id="cenarioAtual">
+                    <div class="cenario-header">
+                        <span class="cenario-badge">Cenário 1 de 5</span>
+                        <span class="cenario-pontos">
+                            <i class="fas fa-star"></i> <span id="pontuacaoTotal">0</span> pontos
+                        </span>
+                    </div>
+
+                    <div class="cenario-conteudo">
+                        <div class="cenario-icone">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3 id="cenarioTitulo">Feedback Difícil para Colaborador Perfil S</h3>
+                        <p class="cenario-contexto" id="cenarioContexto">
+                            Você precisa dar um feedback sobre baixa performance a um colaborador com perfil S (Estabilidade),
+                            que é muito sensível e evita conflitos. Como você abordaria?
+                        </p>
+                    </div>
+
+                    <div class="cenario-opcoes" id="cenarioOpcoes">
+                        <button class="opcao-btn" onclick="responderCenario('A', 1)">
+                            <span class="opcao-letra">A</span>
+                            <span class="opcao-texto">Ser direto e objetivo, focando nos números e resultados que não foram atingidos.</span>
+                        </button>
+
+                        <button class="opcao-btn" onclick="responderCenario('B', 1)">
+                            <span class="opcao-letra">B</span>
+                            <span class="opcao-texto">Iniciar com reconhecimento dos pontos positivos, criar ambiente seguro e propor melhorias de forma colaborativa.</span>
+                        </button>
+
+                        <button class="opcao-btn" onclick="responderCenario('C', 1)">
+                            <span class="opcao-letra">C</span>
+                            <span class="opcao-texto">Enviar email detalhado com todos os dados e métricas, solicitando plano de ação por escrito.</span>
+                        </button>
+
+                        <button class="opcao-btn" onclick="responderCenario('D', 1)">
+                            <span class="opcao-letra">D</span>
+                            <span class="opcao-texto">Adiar o feedback para evitar constrangimento e observar mais antes de agir.</span>
+                        </button>
+                    </div>
+
+                    <div id="feedbackCenario" class="cenario-feedback">
+                        <!-- Feedback inserido via JS -->
+                    </div>
+                </div>
+
+                <div class="simulador-acoes">
+                    <button class="btn-proximo-cenario" id="btnProximoCenario" onclick="proximoCenario()" style="display: none;">
+                        Próximo Cenário <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn-reiniciar" onclick="reiniciarSimulador()">
+                        <i class="fas fa-redo"></i> Reiniciar
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Biblioteca de Casos de Uso DISC -->
+        <div class="insights-casos-uso">
+            <h2>
+                <i class="fas fa-book-open"></i>
+                Biblioteca de Casos de Uso DISC
+            </h2>
+
+            <div class="casos-filtros">
+                <button class="filtro-caso active" onclick="filtrarCasos('todos')">
+                    <i class="fas fa-th"></i> Todos
+                </button>
+                <button class="filtro-caso" onclick="filtrarCasos('lideranca')">
+                    <i class="fas fa-crown"></i> Liderança
+                </button>
+                <button class="filtro-caso" onclick="filtrarCasos('vendas')">
+                    <i class="fas fa-handshake"></i> Vendas
+                </button>
+                <button class="filtro-caso" onclick="filtrarCasos('rh')">
+                    <i class="fas fa-users-cog"></i> RH
+                </button>
+                <button class="filtro-caso" onclick="filtrarCasos('conflitos')">
+                    <i class="fas fa-balance-scale"></i> Conflitos
+                </button>
+            </div>
+
+            <div class="casos-grid">
+                <!-- Caso 1 -->
+                <div class="caso-card" data-categoria="lideranca">
+                    <div class="caso-badge caso-d">Perfil D</div>
+                    <h3>Liderando Equipe de Alta Performance</h3>
+                    <p class="caso-resumo">
+                        Como um líder com perfil D transformou uma equipe desmotivada em top performer em 6 meses usando estratégias DISC.
+                    </p>
+                    <div class="caso-info">
+                        <span><i class="fas fa-building"></i> Tecnologia</span>
+                        <span><i class="fas fa-clock"></i> 8 min leitura</span>
+                    </div>
+                    <button class="btn-ler-caso" onclick="abrirCaso('caso1')">
+                        <i class="fas fa-book-reader"></i> Ler Caso Completo
+                    </button>
+                </div>
+
+                <!-- Caso 2 -->
+                <div class="caso-card" data-categoria="vendas">
+                    <div class="caso-badge caso-i">Perfil I</div>
+                    <h3>Fechando Vendas com Relacionamento</h3>
+                    <p class="caso-resumo">
+                        Vendedor perfil I aumentou conversão em 45% adaptando abordagem ao perfil DISC dos clientes.
+                    </p>
+                    <div class="caso-info">
+                        <span><i class="fas fa-shopping-cart"></i> Varejo</span>
+                        <span><i class="fas fa-clock"></i> 6 min leitura</span>
+                    </div>
+                    <button class="btn-ler-caso" onclick="abrirCaso('caso2')">
+                        <i class="fas fa-book-reader"></i> Ler Caso Completo
+                    </button>
+                </div>
+
+                <!-- Caso 3 -->
+                <div class="caso-card" data-categoria="rh">
+                    <div class="caso-badge caso-s">Perfil S</div>
+                    <h3>Mediação de Conflitos com Empatia</h3>
+                    <p class="caso-resumo">
+                        Analista de RH perfil S resolveu conflito entre departamentos usando técnicas de escuta ativa DISC.
+                    </p>
+                    <div class="caso-info">
+                        <span><i class="fas fa-hospital"></i> Saúde</span>
+                        <span><i class="fas fa-clock"></i> 7 min leitura</span>
+                    </div>
+                    <button class="btn-ler-caso" onclick="abrirCaso('caso3')">
+                        <i class="fas fa-book-reader"></i> Ler Caso Completo
+                    </button>
+                </div>
+
+                <!-- Caso 4 -->
+                <div class="caso-card" data-categoria="conflitos">
+                    <div class="caso-badge caso-c">Perfil C</div>
+                    <h3>Análise e Resolução de Problemas Complexos</h3>
+                    <p class="caso-resumo">
+                        Gerente de projetos perfil C usou análise DISC para resolver gargalos de comunicação na equipe técnica.
+                    </p>
+                    <div class="caso-info">
+                        <span><i class="fas fa-code"></i> TI</span>
+                        <span><i class="fas fa-clock"></i> 9 min leitura</span>
+                    </div>
+                    <button class="btn-ler-caso" onclick="abrirCaso('caso4')">
+                        <i class="fas fa-book-reader"></i> Ler Caso Completo
+                    </button>
+                </div>
+
+                <!-- Caso 5 -->
+                <div class="caso-card" data-categoria="lideranca">
+                    <div class="caso-badge caso-multi">Multi-Perfil</div>
+                    <h3>Formação de Equipe Balanceada</h3>
+                    <p class="caso-resumo">
+                        Diretor usou análise DISC para montar equipe de inovação com diversidade comportamental estratégica.
+                    </p>
+                    <div class="caso-info">
+                        <span><i class="fas fa-lightbulb"></i> Inovação</span>
+                        <span><i class="fas fa-clock"></i> 10 min leitura</span>
+                    </div>
+                    <button class="btn-ler-caso" onclick="abrirCaso('caso5')">
+                        <i class="fas fa-book-reader"></i> Ler Caso Completo
+                    </button>
+                </div>
+
+                <!-- Caso 6 -->
+                <div class="caso-card" data-categoria="vendas">
+                    <div class="caso-badge caso-d">Perfil D</div>
+                    <h3>Negociação de Alto Impacto</h3>
+                    <p class="caso-resumo">
+                        Executivo perfil D fechou contrato milionário adaptando estratégia ao perfil C do comprador.
+                    </p>
+                    <div class="caso-info">
+                        <span><i class="fas fa-briefcase"></i> Corporativo</span>
+                        <span><i class="fas fa-clock"></i> 8 min leitura</span>
+                    </div>
+                    <button class="btn-ler-caso" onclick="abrirCaso('caso6')">
+                        <i class="fas fa-book-reader"></i> Ler Caso Completo
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards de Dicas Rápidas -->
+        <div class="insights-dicas-section">
+            <h2>
+                <i class="fas fa-stars"></i>
+                Dicas Inteligentes por Perfil
+            </h2>
+
+            <div class="insights-dicas-grid">
+                <!-- Dica D -->
+                <div class="dica-card dica-d">
+                    <div class="dica-perfil">D</div>
+                    <h3>Motivando Perfil D</h3>
+                    <ul>
+                        <li>Desafios e metas ambiciosas</li>
+                        <li>Autonomia na tomada de decisão</li>
+                        <li>Reconhecimento por resultados</li>
+                        <li>Competições saudáveis</li>
+                    </ul>
+                </div>
+
+                <!-- Dica I -->
+                <div class="dica-card dica-i">
+                    <div class="dica-perfil">I</div>
+                    <h3>Engajando Perfil I</h3>
+                    <ul>
+                        <li>Trabalho em equipe e interação</li>
+                        <li>Reconhecimento público</li>
+                        <li>Ambiente descontraído</li>
+                        <li>Oportunidades de networking</li>
+                    </ul>
+                </div>
+
+                <!-- Dica S -->
+                <div class="dica-card dica-s">
+                    <div class="dica-perfil">S</div>
+                    <h3>Apoiando Perfil S</h3>
+                    <ul>
+                        <li>Ambiente estável e previsível</li>
+                        <li>Comunicação gentil e clara</li>
+                        <li>Tempo para adaptação a mudanças</li>
+                        <li>Valorização da cooperação</li>
+                    </ul>
+                </div>
+
+                <!-- Dica C -->
+                <div class="dica-card dica-c">
+                    <div class="dica-perfil">C</div>
+                    <h3>Otimizando Perfil C</h3>
+                    <ul>
+                        <li>Dados e informações precisas</li>
+                        <li>Processos bem definidos</li>
+                        <li>Tempo para análise detalhada</li>
+                        <li>Ambiente organizado</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Simulador de Compatibilidade -->
+        <div class="insights-compatibilidade">
+            <h2>
+                <i class="fas fa-users-cog"></i>
+                Simulador de Compatibilidade de Equipe
+            </h2>
+
+            <div class="compatibilidade-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Perfil 1:</label>
+                        <select id="perfil1">
+                            <option value="D">Dominância (D)</option>
+                            <option value="I">Influência (I)</option>
+                            <option value="S">Estabilidade (S)</option>
+                            <option value="C">Conformidade (C)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Perfil 2:</label>
+                        <select id="perfil2">
+                            <option value="D">Dominância (D)</option>
+                            <option value="I" selected>Influência (I)</option>
+                            <option value="S">Estabilidade (S)</option>
+                            <option value="C">Conformidade (C)</option>
+                        </select>
+                    </div>
+
+                    <button class="btn-analisar" onclick="analisarCompatibilidade()">
+                        <i class="fas fa-search"></i>
+                        Analisar Compatibilidade
+                    </button>
+                </div>
+
+                <div id="resultadoCompatibilidade" class="resultado-compatibilidade">
+                    <!-- Resultado inserido via JS -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+<!-- Modal para Leitura de Caso -->
+<div id="modalCaso" class="modal-caso">
+    <div class="modal-caso-content">
+        <button class="modal-close" onclick="fecharModalCaso()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div id="modalCasoBody">
+            <!-- Conteúdo inserido via JS -->
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="static/js/main.js"></script>
+<script src="static/js/insights_ia.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,622 @@
+/* ============================================
+   TESTE-DISC.CSS — Página de Apresentação DISC
+   Segue padrão do inicio.css + main.css
+   ============================================ */
+
+/* ============================================
+   CONTAINER PRINCIPAL
+   ============================================ */
+
+.disc-container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 25px 20px;
+}
+
+/* ============================================
+   CARD PRINCIPAL (igual card-principal do início)
+   ============================================ */
+
+.disc-card-principal {
+    background: var(--cor-header);
+    border-radius: 22px;
+    padding: 38px 42px;
+    margin-bottom: 38px;
+    text-align: center;
+    border: 1px solid rgba(249,137,72,0.22);
+    box-shadow:
+        0 0 14px rgba(249,137,72,0.25),
+        0 6px 22px rgba(0,0,0,0.30);
+}
+
+.disc-titulo-principal {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--cor-primaria);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* ✅ CENTRALIZADO (IMG 1) */
+    gap: 14px;
+}
+
+.disc-subtitulo {
+    font-size: 16px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    opacity: 0.85;
+    margin-bottom: 0;
+    line-height: 1.6;
+    text-align: center; /* ✅ CENTRALIZADO */
+}
+
+/* ============================================
+   CARD SECUNDÁRIO (O que é DISC)
+   ============================================ */
+
+.disc-card-sobre {
+    background: var(--cor-sidebar);
+    border: 2px solid rgba(249,137,72,0.20);
+    border-radius: 18px;
+    padding: 30px 32px;
+    margin-bottom: 32px;
+    box-shadow:
+        0 0 12px rgba(249,137,72,0.22),
+        0 4px 14px rgba(0,0,0,0.4);
+}
+
+.disc-card-sobre h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* ✅ CENTRALIZADO (IMG 2) */
+    gap: 10px;
+}
+
+.disc-card-sobre p {
+    font-size: 15px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    line-height: 1.7;
+    margin: 0;
+    text-align: center; /* ✅ CENTRALIZADO */
+}
+
+/* ============================================
+   GRID DOS 4 PERFIS DISC - HOVER CORRETO
+   ============================================ */
+
+.disc-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.disc-perfil-card {
+    background: var(--cor-sidebar);
+    border: 2px solid;
+    border-radius: 16px;
+    padding: 22px 18px;
+    box-shadow:
+        0 0 12px rgba(249,137,72,0.22),
+        0 4px 14px rgba(0,0,0,0.4);
+    transition: all 0.4s ease;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+}
+
+/* ✅ HOVER - LEVANTA E BRILHA */
+.disc-perfil-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow:
+        0 0 30px rgba(249,137,72,0.6),
+        0 12px 40px rgba(0,0,0,0.6);
+    z-index: 10;
+}
+
+.disc-perfil-icone {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    margin: 0 auto 12px;
+    transition: all 0.3s ease;
+}
+
+/* ✅ ÍCONE SÓ CRESCE (SEM ROTAÇÃO) */
+.disc-perfil-card:hover .disc-perfil-icone {
+    transform: scale(1.15);
+    box-shadow: 0 0 20px currentColor;
+}
+
+.disc-perfil-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.disc-perfil-card p {
+    font-size: 13px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    opacity: 0.85;
+}
+
+.disc-perfil-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.disc-perfil-card li {
+    font-size: 12px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    margin-bottom: 5px;
+    opacity: 0.75;
+}
+
+/* ============================================
+   CORES DOS PERFIS DISC - POR TEMA
+   ============================================ */
+
+/* PERFIL D - DOMINÂNCIA (VERMELHO) */
+.disc-perfil-d {
+    border-color: rgba(239, 68, 68, 0.3);
+}
+.disc-perfil-d .disc-perfil-icone {
+    background: #ef4444;
+    color: #fff;
+}
+
+/* ✅ TEMA CLARO: TÍTULO AZUL, HOVER VERMELHO */
+[data-theme="light"] .disc-perfil-d h3 {
+    color: #1e3a8a;
+}
+[data-theme="light"] .disc-perfil-d:hover h3 {
+    color: #ef4444;
+}
+
+/* ✅ TEMA ESCURO: TÍTULO LARANJA, HOVER VERMELHO */
+[data-theme="dark"] .disc-perfil-d h3 {
+    color: var(--cor-primaria); /* LARANJA */
+}
+[data-theme="dark"] .disc-perfil-d:hover h3 {
+    color: #ef4444;
+}
+
+.disc-perfil-d:hover {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.08);
+}
+
+
+/* PERFIL I - INFLUÊNCIA (LARANJA) */
+.disc-perfil-i {
+    border-color: rgba(245, 158, 11, 0.3);
+}
+.disc-perfil-i .disc-perfil-icone {
+    background: #f59e0b;
+    color: #fff;
+}
+
+/* ✅ TEMA CLARO: TÍTULO AZUL, HOVER LARANJA */
+[data-theme="light"] .disc-perfil-i h3 {
+    color: #1e3a8a;
+}
+[data-theme="light"] .disc-perfil-i:hover h3 {
+    color: #f59e0b;
+}
+
+/* ✅ TEMA ESCURO: TÍTULO LARANJA, HOVER LARANJA FORTE */
+[data-theme="dark"] .disc-perfil-i h3 {
+    color: var(--cor-primaria);
+}
+[data-theme="dark"] .disc-perfil-i:hover h3 {
+    color: #f59e0b;
+}
+
+.disc-perfil-i:hover {
+    border-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.08);
+}
+
+
+/* PERFIL S - ESTABILIDADE (VERDE) */
+.disc-perfil-s {
+    border-color: rgba(16, 185, 129, 0.3);
+}
+.disc-perfil-s .disc-perfil-icone {
+    background: #10b981;
+    color: #fff;
+}
+
+/* ✅ TEMA CLARO: TÍTULO AZUL, HOVER VERDE */
+[data-theme="light"] .disc-perfil-s h3 {
+    color: #1e3a8a;
+}
+[data-theme="light"] .disc-perfil-s:hover h3 {
+    color: #10b981;
+}
+
+/* ✅ TEMA ESCURO: TÍTULO LARANJA, HOVER VERDE */
+[data-theme="dark"] .disc-perfil-s h3 {
+    color: var(--cor-primaria);
+}
+[data-theme="dark"] .disc-perfil-s:hover h3 {
+    color: #10b981;
+}
+
+.disc-perfil-s:hover {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.08);
+}
+
+
+/* PERFIL C - CONFORMIDADE (AZUL) */
+.disc-perfil-c {
+    border-color: rgba(59, 130, 246, 0.3);
+}
+.disc-perfil-c .disc-perfil-icone {
+    background: #3b82f6;
+    color: #fff;
+}
+
+/* ✅ TEMA CLARO: TÍTULO AZUL ESCURO, HOVER AZUL CLARO */
+[data-theme="light"] .disc-perfil-c h3 {
+    color: #1e3a8a;
+}
+[data-theme="light"] .disc-perfil-c:hover h3 {
+    color: #3b82f6;
+}
+
+/* ✅ TEMA ESCURO: TÍTULO LARANJA, HOVER AZUL */
+[data-theme="dark"] .disc-perfil-c h3 {
+    color: var(--cor-primaria);
+}
+[data-theme="dark"] .disc-perfil-c:hover h3 {
+    color: #3b82f6;
+}
+
+.disc-perfil-c:hover {
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.08);
+}
+
+/* ============================================
+   BOTÃO CENTRALIZADO - FORÇADO
+   ============================================ */
+
+.disc-btn-teste {
+    padding: 18px 44px;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Manrope', sans-serif;
+    background: var(--cor-primaria);
+    border: none;
+    border-radius: 12px;
+    color: #0a0a0a;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(249, 137, 72, 0.4);
+
+    /* ✅ CENTRALIZAÇÃO FORÇADA */
+    display: table !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.disc-btn-teste:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(249, 137, 72, 0.6);
+    filter: brightness(1.1);
+}
+
+.disc-btn-teste i {
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+/* ============================================
+   CARD DE BENEFÍCIOS
+   ============================================ */
+
+.disc-card-beneficios {
+    background: var(--cor-sidebar);
+    border: 2px solid rgba(249,137,72,0.20);
+    border-radius: 18px;
+    padding: 30px 32px;
+    margin-bottom: 32px;
+    box-shadow:
+        0 0 12px rgba(249,137,72,0.22),
+        0 4px 14px rgba(0,0,0,0.4);
+}
+
+.disc-card-beneficios h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+    margin-bottom: 24px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.disc-beneficios-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.disc-beneficio-item {
+    text-align: center;
+    padding: 20px;
+    background: var(--cor-header);
+    border-radius: 12px;
+    transition: 0.25s ease;
+}
+
+.disc-beneficio-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(249, 137, 72, 0.25);
+}
+
+.disc-beneficio-item i {
+    font-size: 32px;
+    color: var(--cor-primaria);
+    margin-bottom: 12px;
+    filter: drop-shadow(0 0 6px rgba(249,137,72,0.4));
+}
+
+.disc-beneficio-item h4 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--cor-texto);
+    margin-bottom: 8px;
+}
+
+.disc-beneficio-item p {
+    font-size: 13px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    line-height: 1.5;
+    margin: 0;
+    opacity: 0.75;
+}
+
+/* ============================================
+   CARD CTA (CALL TO ACTION)
+   ============================================ */
+
+.disc-card-cta {
+    background: var(--cor-sidebar);
+    border: 3px solid var(--cor-primaria);
+    border-radius: 18px;
+    padding: 40px 36px;
+    margin-bottom: 32px;
+    text-align: center;
+    box-shadow: 0 0 24px rgba(249, 137, 72, 0.45);
+}
+
+.disc-card-cta h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+    margin-bottom: 14px;
+}
+
+.disc-card-cta > p {
+    font-size: 16px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.disc-card-cta ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto 32px;
+    max-width: 480px;
+    text-align: left;
+}
+
+.disc-card-cta li {
+    font-size: 15px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.disc-card-cta li i {
+    color: var(--cor-primaria);
+    font-size: 16px;
+}
+
+.disc-btn-teste {
+    padding: 18px 44px;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Manrope', sans-serif;
+    background: var(--cor-primaria);
+    border: none;
+    border-radius: 12px;
+    color: #0a0a0a;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: block; /* ✅ MUDOU DE inline-flex PARA block */
+    width: fit-content; /* ✅ LARGURA APENAS DO CONTEÚDO */
+    margin: 0 auto; !important; /* ✅ CENTRALIZA */
+    box-shadow: 0 6px 20px rgba(249, 137, 72, 0.4);
+}
+
+.disc-btn-teste:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(249, 137, 72, 0.6);
+    filter: brightness(1.1);
+}
+
+.disc-btn-teste i {
+    font-size: 20px;
+    margin-right: 8px; /* ✅ ESPAÇO ENTRE ÍCONE E TEXTO */
+}
+
+.disc-cta-nota {
+    font-size: 12px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    margin-top: 16px;
+    opacity: 0.65;
+}
+
+.disc-cta-nota i {
+    color: var(--cor-primaria);
+    margin-right: 4px;
+}
+
+/* ============================================
+   AVISO IMPORTANTE
+   ============================================ */
+
+.disc-aviso {
+    background: rgba(249, 137, 72, 0.12);
+    border: 1px solid var(--cor-primaria);
+    border-radius: 12px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.disc-aviso i {
+    color: var(--cor-primaria);
+    font-size: 20px;
+    margin-top: 2px;
+}
+
+.disc-aviso p {
+    font-size: 13px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ============================================
+   AJUSTES DE TEMA
+   ============================================ */
+
+/* ✅ TEMA CLARO - TÍTULOS AZUIS (IMG 7) */
+[data-theme="light"] .disc-titulo-principal,
+[data-theme="light"] .disc-card-sobre h2,
+[data-theme="light"] .disc-card-beneficios h2,
+[data-theme="light"] .disc-card-cta h2 {
+    color: #241e4e; /* ✅ AZUL DO SISTEMA NO TEMA CLARO */
+}
+
+[data-theme="light"] .disc-card-principal,
+[data-theme="light"] .disc-card-sobre,
+[data-theme="light"] .disc-perfil-card,
+[data-theme="light"] .disc-card-beneficios,
+[data-theme="light"] .disc-card-cta {
+    background: #FFFFFF;
+    border-color: rgba(0,0,0,0.15);
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.12),
+        0 0 12px rgba(249,137,72,0.18);
+}
+
+[data-theme="light"] .disc-beneficio-item {
+    background: #f8f8f8;
+}
+
+/* Tema escuro */
+[data-theme="dark"] .disc-card-principal,
+[data-theme="dark"] .disc-card-sobre,
+[data-theme="dark"] .disc-perfil-card,
+[data-theme="dark"] .disc-card-beneficios,
+[data-theme="dark"] .disc-card-cta {
+    background: #1c1b1b;
+    border-color: rgba(249,137,72,0.28);
+}
+
+/* ============================================
+   RESPONSIVIDADE
+   ============================================ */
+
+@media (max-width: 1000px) {
+    .disc-grid-4 {
+        grid-template-columns: repeat(2, 1fr); /* 2 colunas em telas médias */
+    }
+}
+
+@media (max-width: 768px) {
+    .disc-grid-4,
+    .disc-beneficios-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .disc-container {
+        padding: 18px 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .disc-titulo-principal {
+        font-size: 26px;
+    }
+
+    .disc-card-principal,
+    .disc-card-sobre,
+    .disc-card-beneficios,
+    .disc-card-cta {
+        padding: 24px 20px;
+    }
+
+    .disc-btn-teste {
+        width: 100%;
+        justify-content: center;
+    }
+}
+/* ✅ WRAPPER PARA CENTRALIZAR BOTÃO COM CLASSE menu-item */
+.btn-center-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 20px 0;
+}
+
+/* ✅ BOTÃO menu-item DENTRO DO WRAPPER */
+.btn-center-wrapper .menu-item {
+    width: auto !important; /* Remove largura 100% */
+    display: inline-flex !important;
+    margin: 0 !important;
+}

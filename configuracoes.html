@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configurações | Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="static/css/main.css" />
+    <link rel="stylesheet" href="static/css/configuracoes.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+<!-- SIDEBAR GLOBAL -->
+<aside id="sidebar" class="sidebar">
+    <nav class="sidebar-menu">
+        <button class="menu-item" onclick="window.location.href='/index.html'"><i class="fas fa-home"></i><span>Início</span></button>
+        <button class="menu-item" onclick="window.location.href='/teste_disc.html'"><i class="fas fa-user-circle"></i><span>Teste DISC</span></button>
+        <button class="menu-item" onclick="window.location.href='/dinamicas.html'"><i class="fas fa-users"></i><span>Dinâmicas & Empatia</span></button>
+        <button class="menu-item" onclick="window.location.href='/insights_ia.html'"><i class="fas fa-lightbulb"></i><span>Insights & IA</span></button>
+        <button class="menu-item" onclick="window.location.href='/noticias_rh.html'"><i class="fas fa-newspaper"></i><span>Notícias de RH</span></button>
+        <button class="menu-item active" onclick="window.location.href='/configuracoes.html'"><i class="fas fa-cog"></i><span>Configurações</span></button>
+    </nav>
+    <div class="sidebar-logo"><span class="dev-label">Desenvolvido por</span><img src="static/imagens/logo1.png" alt="Logo CRV" /></div>
+    <button id="btnMenu" class="sidebar-toggle"><i class="fas fa-chevron-left"></i></button>
+</aside>
+
+<!-- HEADER GLOBAL -->
+<header class="header">
+    <div class="header-left">
+        <img src="static/imagens/logo_disc.png" alt="DISC" class="logo-header">
+        <div class="header-titles">
+            <span class="titulo">Dashboard</span>
+            <span class="subtitulo"><strong>Painel de Gestão Comportamental</strong> <span class="badge-atualizacao"></span></span>
+        </div>
+    </div>
+    <div class="search-box"><input type="text" placeholder="Buscar no painel..." /><i class="fas fa-search"></i></div>
+    <div class="header-right">
+        <span id="relogio" class="clock">00:00:00</span>
+        <div class="weather-box" id="weatherBox">
+            <img id="iconeClimaImg" src="static/imagens/ico_dia.png" alt="clima" class="icone-clima-img">
+            <span id="temperatura" class="temperature">19°C</span>
+
+            <!-- MODAL CLIMA (IGUAL INDEX) -->
+            <div id="modalClima" class="modal-clima">
+                <div class="modal-clima-content">
+
+                    <div class="modal-clima-header">
+                        <h3>São Paulo - BR</h3>
+                        <button class="modal-clima-close" id="closeModalClima">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div class="modal-clima-body" id="modalClimaBody">
+
+                        <div class="previsao-dia">
+                            <p class="dia-nome">qui.</p>
+                            <p class="temperaturas">24° / 16°</p>
+                            <p class="emoji-clima">☁️</p>
+                        </div>
+
+                        <div class="previsao-dia">
+                            <p class="dia-nome">sex.</p>
+                            <p class="temperaturas">33° / 15°</p>
+                            <p class="emoji-clima">☀️</p>
+                        </div>
+
+                        <div class="previsao-dia">
+                            <p class="dia-nome">sáb.</p>
+                            <p class="temperaturas">32° / 21°</p>
+                            <p class="emoji-clima">☀️</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button id="btnTema" class="btn-tema"><i class="fas fa-moon"></i></button>
+        <div class="user-box">
+            <img src="static/imagens/foto2.jpeg" alt="" />
+            <div class="user-info"><span class="user-name">Prof. Paulo Rubens</span><span class="user-role">Gestão de Pessoas</span></div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+  <div class="config-container">
+
+    <div class="config-header">
+      <h1><i class="fas fa-cog"></i> Configurações do Sistema</h1>
+      <p>Gerencie seu perfil, preferências, integrações e contato do dashboard.</p>
+    </div>
+    <form class="config-form" onsubmit="salvarConfiguracoes(); return false;">
+      <!-- PERFIL -->
+      <section class="config-section">
+        <h2><i class="fas fa-user"></i> Perfil</h2>
+        <div class="perfil-row">
+          <div class="foto-perfil-wrapper" style="position:relative;width:fit-content;">
+            <img class="profile-photo" src="static/imagens/foto2.jpeg" alt="Prof. Paulo Rubens" id="fotoPerfil">
+            <label for="uploadFoto" class="foto-upload-btn" title="Alterar foto">
+              <i class="fas fa-camera"></i>
+              <input type="file" id="uploadFoto" accept="image/*" style="display:none;" onchange="trocarFotoPerfil(this)">
+            </label>
+          </div>
+          <div class="perfil-info">
+            <label for="nomeUsuario">Nome</label>
+            <input id="nomeUsuario" type="text" value="Prof. Paulo Rubens" autocomplete="name" />
+            <label for="emailUsuario">Email</label>
+            <input id="emailUsuario" type="email" value="paulo@email.com" autocomplete="email" />
+          </div>
+        </div>
+      </section>
+      <!-- PREFERÊNCIAS compactas -->
+      <section class="config-section">
+        <h2>Sobre o sistema</h2>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:36px;">
+          <div style="flex:1;">
+            <div style="font-size:15px;line-height:1.6;opacity:0.85;color:var(--cor-texto);padding-top:10px;">
+              Este painel foi desenvolvido para gestão comportamental e centralização de notícias, perfis e integrações para profissionais de RH.<br>
+              100% responsivo, integra DISC, com suporte especializado CRV.
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- INTEGRAÇÕES -->
+      <section class="config-section">
+        <h2><i class="fas fa-plug"></i> Integrações</h2>
+        <div class="integracoes-lista" style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center;">
+          <a class="btn-integracao" href="https://www.discprofpaulorocha.com/" target="_blank"><i class="fas fa-globe"></i> Site Oficial DISC</a>
+          <a class="btn-integracao" href="https://www.linkedin.com/in/professorpaulorocha/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn Prof.</a>
+        </div>
+      </section>
+      <!-- SUGESTÕES E CONTATO -->
+      <section class="config-section">
+        <h2><i class="fas fa-comment-dots"></i> Sugestões & Contato</h2>
+        <div style="display:flex;align-items:center;gap:30px;justify-content:center;flex-wrap:wrap;">
+          <a href="https://www.instagram.com/crv_solucoes.ti/" target="_blank" title="Instagram CRV">
+            <img src="static/imagens/logo1.png" style="height:58px;width:auto; border-radius:10px; transition: transform 0.3s;"
+                 onmouseover="this.style.transform='scale(1.1)'"
+                 onmouseout="this.style.transform='scale(1)'">
+          </a>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;">
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i class="fas fa-envelope" style="color:var(--cor-primaria);"></i>
+              <a href="mailto:crv.solucoesti@gmail.com" style="color:var(--cor-texto);text-decoration:none;">crv.solucoesti@gmail.com</a>
+            </span>
+            <span style="display:flex;align-items:center;gap:8px;">
+              <i class="fas fa-envelope" style="color:var(--cor-primaria);"></i>
+              <a href="mailto:crv_solucoes.ti@outlook.com" style="color:var(--cor-texto);text-decoration:none;">crv_solucoes.ti@outlook.com</a>
+            </span>
+          </div>
+        </div>
+      </section>
+      <!-- AÇÕES FINAIS (BOTÕES ESTILO MENU) -->
+      <div class="config-acoes" style="display:flex;gap:20px;justify-content:center;margin-top:38px;flex-wrap:wrap;">
+        <button class="menu-item" type="submit" style="min-width:180px;">
+          <i class="fas fa-check"></i>
+          <span>Salvar Alterações</span>
+        </button>
+        <button class="menu-item" type="reset" style="min-width:180px;">
+          <i class="fas fa-undo"></i>
+          <span>Restaurar Padrão</span>
+        </button>
+      </div>
+    </form>
+    <div id="mensagemFeedback" style="display:none;margin-top:24px;padding:16px;border-radius:12px;text-align:center;"></div>
+  </div>
+</main>
+<script src="static/js/main.js"></script>
+<script src="static/js/configuracoes.js"></script>
+</body>
+</html>

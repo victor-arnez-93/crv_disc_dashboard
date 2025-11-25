@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste DISC | Dashboard</title>
+
+    <!-- FONTES -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- FONTAWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CSS GLOBAL -->
+    <link rel="stylesheet" href="static/css/main.css">
+
+    <!-- CSS DO TESTE DISC -->
+    <link rel="stylesheet" href="static/css/teste_disc.css">
+</head>
+
+<body>
+
+<!-- ================================================================== -->
+<!-- SIDEBAR -->
+<!-- ================================================================== -->
+<aside id="sidebar" class="sidebar">
+
+    <nav class="sidebar-menu">
+
+        <button class="menu-item" onclick="window.location.href='/index.html'">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </button>
+
+        <button class="menu-item active">
+            <i class="fas fa-user-circle"></i>
+            <span>Teste DISC</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/dinamicas.html'">
+            <i class="fas fa-users"></i>
+            <span>Dinâmicas & Empatia</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/insights_ia.html'">
+            <i class="fas fa-lightbulb"></i>
+            <span>Insights & IA</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/noticias_rh.html'">
+            <i class="fas fa-newspaper"></i>
+            <span>Notícias de RH</span>
+        </button>
+
+        <button class="menu-item active" onclick="window.location.href='/configuracoes.html'">
+            <i class="fas fa-cog"></i>
+            <span>Configurações</span>
+        </button>
+
+    </nav>
+
+    <!-- RODAPÉ DA SIDEBAR -->
+    <div class="sidebar-logo">
+        <span class="dev-label">Desenvolvido por</span>
+        <img src="static/imagens/logo1.png" alt="Logo CRV">
+    </div>
+
+    <!-- BOTÃO RECOLHER / EXPANDIR -->
+    <button id="btnMenu" class="sidebar-toggle">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+</aside>
+
+
+<!-- ================================================================== -->
+<!-- HEADER SUPERIOR                                                    -->
+<!-- ================================================================== -->
+<header class="header">
+
+    <!-- LOGO + TÍTULO -->
+    <div class="header-left">
+        <img src="static/imagens/logo_disc.png" alt="DISC" class="logo-header">
+        <div class="header-titles">
+            <span class="titulo">Dashboard</span>
+            <span class="subtitulo"><strong>Painel de Gestão Comportamental</strong></span>
+        </div>
+    </div>
+
+    <!-- BUSCA -->
+    <div class="search-box">
+        <input type="text" placeholder="Buscar no painel...">
+        <i class="fas fa-search"></i>
+    </div>
+
+    <!-- ÁREA DIREITA -->
+    <div class="header-right">
+
+        <!-- RELÓGIO -->
+        <span id="relogio" class="clock">00:00:00</span>
+
+        <!-- CLIMA CLICÁVEL COM DROPDOWN -->
+        <div class="weather-box" id="weatherBox">
+            <img id="iconeClimaImg" src="static/imagens/ico_dia.png" alt="clima" class="icone-clima-img">
+            <span id="temperatura" class="temperature">19°C</span>
+
+            <!-- DROPDOWN PREVISÃO (dentro do weather-box) -->
+            <div id="modalClima" class="modal-clima">
+                <div class="modal-clima-content">
+                    <div class="modal-clima-header">
+                        <h3>São Paulo - BR</h3>
+                        <button class="modal-clima-close" id="closeModalClima">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-clima-body" id="modalClimaBody">
+                        <div class="previsao-dia">
+                            <p class="dia-nome">qui.</p>
+                            <p class="temperaturas">24° / 16°</p>
+                            <p class="emoji-clima">☁️</p>
+                        </div>
+                        <div class="previsao-dia">
+                            <p class="dia-nome">sex.</p>
+                            <p class="temperaturas">33° / 15°</p>
+                            <p class="emoji-clima">☀️</p>
+                        </div>
+                        <div class="previsao-dia">
+                            <p class="dia-nome">sáb.</p>
+                            <p class="temperaturas">32° / 21°</p>
+                            <p class="emoji-clima">☀️</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTÃO TEMA -->
+        <button id="btnTema" class="btn-tema">
+            <i class="fas fa-moon"></i>
+        </button>
+
+        <!-- USUÁRIO -->
+        <div class="user-box">
+            <img src="static/imagens/foto2.jpeg" alt="">
+            <div class="user-info">
+                <span class="user-name">Prof. Paulo Rubens</span>
+                <span class="user-role">Gestão de Pessoas</span>
+            </div>
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ================================================================== -->
+<!-- CONTEÚDO PRINCIPAL                                                 -->
+<!-- ================================================================== -->
+<main class="main-content">
+
+    <div class="disc-container">
+
+        <!-- Card Principal (Título) -->
+        <div class="disc-card-principal">
+            <h1 class="disc-titulo-principal">
+                <i class="fas fa-clipboard-list"></i>
+                Avaliação DISC Comportamental
+            </h1>
+            <p class="disc-subtitulo">
+                Descubra seu perfil comportamental e entenda como você age em diferentes situações profissionais
+            </p>
+        </div>
+
+        <!-- Card Sobre o DISC -->
+        <div class="disc-card-sobre">
+            <h2><i class="fas fa-question-circle"></i> O que é o DISC?</h2>
+            <p>
+                O DISC é um modelo de avaliação comportamental baseado na teoria de William Marston (1928).
+                Ele identifica quatro perfis principais que descrevem <strong>tendências comportamentais</strong>
+                no ambiente de trabalho, comunicação e tomada de decisões.
+            </p>
+        </div>
+
+        <!-- Grid dos 4 Perfis -->
+        <div class="disc-grid-4">
+            <!-- Perfil D - Dominância -->
+            <div class="disc-perfil-card disc-perfil-d">
+                <div class="disc-perfil-icone">D</div>
+                <h3>Dominância</h3>
+                <p>Foco em resultados, ação e desafios. Líderes naturais, competitivos e diretos.</p>
+                <ul>
+                    <li>✓ Decisivo e assertivo</li>
+                    <li>✓ Orientado a metas</li>
+                    <li>✓ Assume riscos</li>
+                </ul>
+            </div>
+
+            <!-- Perfil I - Influência -->
+            <div class="disc-perfil-card disc-perfil-i">
+                <div class="disc-perfil-icone">I</div>
+                <h3>Influência</h3>
+                <p>Comunicação, carisma e trabalho em equipe. Extrovertidos, persuasivos e criativos.</p>
+                <ul>
+                    <li>✓ Sociável e otimista</li>
+                    <li>✓ Comunicador nato</li>
+                    <li>✓ Motivador de pessoas</li>
+                </ul>
+            </div>
+
+            <!-- Perfil S - Estabilidade -->
+            <div class="disc-perfil-card disc-perfil-s">
+                <div class="disc-perfil-icone">S</div>
+                <h3>Estabilidade</h3>
+                <p>Paciência, cooperação e consistência. Empáticos, confiáveis e bons ouvintes.</p>
+                <ul>
+                    <li>✓ Paciente e calmo</li>
+                    <li>✓ Trabalho em equipe</li>
+                    <li>✓ Evita conflitos</li>
+                </ul>
+            </div>
+
+            <!-- Perfil C - Conformidade -->
+            <div class="disc-perfil-card disc-perfil-c">
+                <div class="disc-perfil-icone">C</div>
+                <h3>Conformidade</h3>
+                <p>Análise, precisão e atenção a regras. Detalhistas, organizados e analíticos.</p>
+                <ul>
+                    <li>✓ Metódico e preciso</li>
+                    <li>✓ Busca qualidade</li>
+                    <li>✓ Segue procedimentos</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Card Benefícios -->
+        <div class="disc-card-beneficios">
+            <h2><i class="fas fa-star"></i> Por que fazer o teste?</h2>
+            <div class="disc-beneficios-grid">
+                <div class="disc-beneficio-item">
+                    <i class="fas fa-user-check"></i>
+                    <h4>Autoconhecimento</h4>
+                    <p>Entenda suas motivações e comportamentos naturais</p>
+                </div>
+                <div class="disc-beneficio-item">
+                    <i class="fas fa-users-cog"></i>
+                    <h4>Gestão de Equipes</h4>
+                    <p>Melhore a comunicação e colaboração no trabalho</p>
+                </div>
+                <div class="disc-beneficio-item">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Desenvolvimento</h4>
+                    <p>Identifique áreas de crescimento profissional</p>
+                </div>
+                <div class="disc-beneficio-item">
+                    <i class="fas fa-briefcase"></i>
+                    <h4>Carreira</h4>
+                    <p>Descubra áreas e cargos alinhados ao seu perfil</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card CTA (Call to Action) -->
+        <div class="disc-card-cta">
+            <h2>Pronto para descobrir seu perfil?</h2>
+            <p>O teste leva apenas <strong>5-8 minutos</strong> e você receberá um resultado completo com:</p>
+            <ul>
+                <li><i class="fas fa-check"></i> Análise detalhada dos 4 perfis DISC</li>
+                <li><i class="fas fa-check"></i> Pontos fortes e áreas de desenvolvimento</li>
+                <li><i class="fas fa-check"></i> Sugestões de áreas e cargos recomendados</li>
+                <li><i class="fas fa-check"></i> Relatório em PDF para download</li>
+            </ul>
+
+            <div class="btn-center-wrapper">
+                <button class="menu-item" onclick="window.open('https://www.discprofpaulorocha.com/', '_blank')">
+                    <i class="fas fa-play-circle"></i> Fazer Teste DISC Agora
+                </button>
+            </div>
+
+
+            <p class="disc-cta-nota">
+                <i class="fas fa-info-circle"></i><strong>
+                Você será redirecionado para a plataforma de testes em uma nova aba</strong>
+            </p>
+        </div>
+
+        <!-- Aviso Importante -->
+        <div class="disc-aviso">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>
+                <strong>Importante:</strong> O teste DISC não é avaliação clínica ou psicológica.
+                Ele serve como ferramenta de autoconhecimento e apoio para gestão de pessoas em ambientes corporativos.
+            </p>
+        </div>
+
+    </div>
+
+</main>
+
+<!-- SCRIPTS -->
+<script src="static/js/main.js"></script>
+
+</body>
+</html>

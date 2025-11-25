@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinâmicas & Empatia | Dashboard</title>
+
+    <!-- FONTES -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- FONTAWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CSS GLOBAL -->
+    <link rel="stylesheet" href="static/css/main.css">
+
+    <!-- CSS DA PÁGINA DINÂMICAS -->
+    <link rel="stylesheet" href="static/css/dinamicas.css">
+</head>
+
+<body>
+
+<!-- ================================================================== -->
+<!-- SIDEBAR -->
+<!-- ================================================================== -->
+<aside id="sidebar" class="sidebar">
+
+    <nav class="sidebar-menu">
+
+        <button class="menu-item" onclick="window.location.href='/index.html'">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/teste_disc.html'">
+            <i class="fas fa-user-circle"></i>
+            <span>Teste DISC</span>
+        </button>
+
+        <button class="menu-item active" onclick="window.location.href='/dinamicas.html'">
+            <i class="fas fa-users"></i>
+            <span>Dinâmicas & Empatia</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/insights_ia.html'">
+            <i class="fas fa-lightbulb"></i>
+            <span>Insights & IA</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/noticias_rh.html'">
+            <i class="fas fa-newspaper"></i>
+            <span>Notícias de RH</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/configuracoes.html'">
+            <i class="fas fa-cog"></i>
+            <span>Configurações</span>
+        </button>
+
+    </nav>
+
+    <!-- RODAPÉ DA SIDEBAR -->
+    <div class="sidebar-logo">
+        <span class="dev-label">Desenvolvido por</span>
+        <img src="static/imagens/logo1.png" alt="Logo CRV">
+    </div>
+
+    <!-- BOTÃO RECOLHER / EXPANDIR -->
+    <button id="btnMenu" class="sidebar-toggle">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+</aside>
+
+
+<!-- ================================================================== -->
+<!-- HEADER SUPERIOR                                                    -->
+<!-- ================================================================== -->
+<header class="header">
+
+    <!-- LOGO + TÍTULO -->
+    <div class="header-left">
+        <img src="static/imagens/logo_disc.png" alt="DISC" class="logo-header">
+        <div class="header-titles">
+            <span class="titulo">Dashboard</span>
+            <span class="subtitulo"><strong>Painel de Gestão Comportamental</strong></span>
+        </div>
+    </div>
+
+    <!-- BUSCA -->
+    <div class="search-box">
+        <input type="text" placeholder="Buscar no painel...">
+        <i class="fas fa-search"></i>
+    </div>
+
+    <!-- ÁREA DIREITA -->
+    <div class="header-right">
+
+        <!-- RELÓGIO -->
+        <span id="relogio" class="clock">00:00:00</span>
+
+        <!-- CLIMA CLICÁVEL COM DROPDOWN -->
+        <div class="weather-box" id="weatherBox">
+            <img id="iconeClimaImg" src="static/imagens/ico_dia.png" alt="clima" class="icone-clima-img">
+            <span id="temperatura" class="temperature">19°C</span>
+
+            <!-- DROPDOWN PREVISÃO -->
+            <div id="modalClima" class="modal-clima">
+                <div class="modal-clima-content">
+                    <div class="modal-clima-header">
+                        <h3>São Paulo - BR</h3>
+                        <button class="modal-clima-close" id="closeModalClima">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-clima-body" id="modalClimaBody">
+                        <div class="previsao-dia">
+                            <p class="dia-nome">qui.</p>
+                            <p class="temperaturas">24° / 16°</p>
+                            <p class="emoji-clima">☁️</p>
+                        </div>
+                        <div class="previsao-dia">
+                            <p class="dia-nome">sex.</p>
+                            <p class="temperaturas">33° / 15°</p>
+                            <p class="emoji-clima">☀️</p>
+                        </div>
+                        <div class="previsao-dia">
+                            <p class="dia-nome">sáb.</p>
+                            <p class="temperaturas">32° / 21°</p>
+                            <p class="emoji-clima">☀️</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTÃO TEMA -->
+        <button id="btnTema" class="btn-tema">
+            <i class="fas fa-moon"></i>
+        </button>
+
+        <!-- USUÁRIO -->
+        <div class="user-box">
+            <img src="static/imagens/foto2.jpeg" alt="">
+            <div class="user-info">
+                <span class="user-name">Prof. Paulo Rubens</span>
+                <span class="user-role">Gestão de Pessoas</span>
+            </div>
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ================================================================== -->
+<!-- CONTEÚDO PRINCIPAL                                                 -->
+<!-- ================================================================== -->
+<main class="main-content">
+
+    <div class="dinamicas-container">
+
+        <!-- Card Principal -->
+        <div class="dinamicas-card-principal">
+            <h1 class="dinamicas-titulo-principal">
+                <i class="fas fa-users"></i>
+                Dinâmicas & Empatia
+            </h1>
+            <p class="dinamicas-subtitulo">
+                Atividades práticas para desenvolver trabalho em equipe, comunicação e inteligência emocional em ambientes corporativos
+            </p>
+        </div>
+
+        <!-- Filtros -->
+        <div class="dinamicas-filtros">
+            <button class="filtro-btn active" data-filtro="todos">
+                <i class="fas fa-th"></i> Todas
+            </button>
+            <button class="filtro-btn" data-filtro="quebra-gelo">
+                <i class="fas fa-snowflake"></i> Quebra-gelo
+            </button>
+            <button class="filtro-btn" data-filtro="autoconhecimento">
+                <i class="fas fa-user-check"></i> Autoconhecimento
+            </button>
+            <button class="filtro-btn" data-filtro="empatia">
+                <i class="fas fa-heart"></i> Empatia
+            </button>
+            <button class="filtro-btn" data-filtro="comunicacao">
+                <i class="fas fa-comments"></i> Comunicação
+            </button>
+        </div>
+
+        <!-- Grid de Dinâmicas -->
+        <div class="dinamicas-grid">
+
+            <!-- Dinâmica 1 -->
+            <div class="dinamica-card" data-categoria="quebra-gelo">
+                <div class="dinamica-icone">
+                    <i class="fas fa-snowflake"></i>
+                </div>
+                <h3>Duas Verdades e Uma Mentira</h3>
+                <p>Cada participante conta 3 fatos sobre si, sendo 2 verdadeiros e 1 falso. O grupo tenta descobrir qual é a mentira.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 15-20 min</span>
+                    <span><i class="fas fa-users"></i> 5-30 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirModal('dinamica1')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+            <!-- Dinâmica 2 -->
+            <div class="dinamica-card" data-categoria="autoconhecimento">
+                <div class="dinamica-icone">
+                    <i class="fas fa-mirror"></i>
+                </div>
+                <h3>Dinâmica do Espelho</h3>
+                <p>Exercício de autopercepção onde os participantes refletem sobre suas características e como são vistos pelos outros.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 30-40 min</span>
+                    <span><i class="fas fa-users"></i> 8-20 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirModal('dinamica2')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+            <!-- Dinâmica 3 -->
+            <div class="dinamica-card" data-categoria="empatia">
+                <div class="dinamica-icone">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3>Caminhada na Pele do Outro</h3>
+                <p>Simulação de situações do dia a dia assumindo perspectivas diferentes para desenvolver empatia e compreensão.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 40-50 min</span>
+                    <span><i class="fas fa-users"></i> 10-25 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirModal('dinamica3')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+            <!-- Dinâmica 4 -->
+            <div class="dinamica-card" data-categoria="comunicacao">
+                <div class="dinamica-icone">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h3>Telefone Sem Fio Corporativo</h3>
+                <p>Versão profissional do clássico jogo para demonstrar ruídos de comunicação e importância da clareza.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 20-25 min</span>
+                    <span><i class="fas fa-users"></i> 6-15 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirModal('dinamica4')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+            <!-- Dinâmica 5 -->
+            <div class="dinamica-card" data-categoria="autoconhecimento">
+                <div class="dinamica-icone">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>Mapeamento de Forças e Fraquezas</h3>
+                <p>Atividade individual e em grupo para identificar pontos fortes e áreas de desenvolvimento de cada membro.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 35-45 min</span>
+                    <span><i class="fas fa-users"></i> 5-20 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirModal('dinamica5')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+            <!-- Dinâmica 6 -->
+            <div class="dinamica-card" data-categoria="empatia">
+                <div class="dinamica-icone">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Círculo de Feedback Positivo</h3>
+                <p>Cada pessoa recebe feedbacks construtivos e positivos do grupo, fortalecendo vínculos e autoestima.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 30-40 min</span>
+                    <span><i class="fas fa-users"></i> 8-15 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirModal('dinamica6')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+            <!-- Dinâmica 7 -->
+            <div class="dinamica-card" data-categoria="comunicacao">
+                <div class="dinamica-icone">
+                    <i class="fas fa-puzzle-piece"></i>
+                </div>
+                <h3>Construção Colaborativa</h3>
+                <p>Equipes devem construir algo juntas usando apenas comunicação verbal, sem gestos ou demonstrações físicas.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 25-35 min</span>
+                    <span><i class="fas fa-users"></i> 10-30 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirModal('dinamica7')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+            <!-- Dinâmica 8 -->
+            <div class="dinamica-card" data-categoria="quebra-gelo">
+                <div class="dinamica-icone">
+                    <i class="fas fa-laugh"></i>
+                </div>
+                <h3>Apresentação Criativa</h3>
+                <p>Cada pessoa se apresenta de forma criativa usando objetos, histórias ou performances breves e divertidas.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 20-30 min</span>
+                    <span><i class="fas fa-users"></i> 5-25 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirModal('dinamica8')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<!-- Modal de Detalhes (exemplo básico) -->
+<div id="modalDetalhes" class="modal-dinamica">
+    <div class="modal-dinamica-content">
+        <button class="modal-close" onclick="fecharModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div id="modalBody">
+            <!-- Conteúdo inserido via JS -->
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="static/js/main.js"></script>
+<script src="static/js/dinamicas.js"></script>
+
+</body>
+</html>
