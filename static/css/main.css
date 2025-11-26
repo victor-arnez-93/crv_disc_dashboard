@@ -1227,5 +1227,10 @@ h1, h2, h3, h4, h5, h6,
 [data-theme="light"] .previsao-dia .temperaturas {
   color: #241E4E; /* Azul escuro */
 }
-
+.highlight-busca {
+    background: #f98948;
+    color: #000;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
 

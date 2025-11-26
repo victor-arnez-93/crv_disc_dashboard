@@ -132,3 +132,74 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+// ==========================================================
+// BUSCA GLOBAL EM QUALQUER PÁGINA — CRV DISC DASHBOARD
+// ==========================================================
+
+// Evita erro se o campo não existir na página
+document.addEventListener("DOMContentLoaded", () => {
+    const campo = document.getElementById("campoBusca");
+    if (!campo) return;
+
+    let resultados = [];
+    let indiceAtual = -1;
+
+    // Remove destaques anteriores
+    function limparDestaques() {
+        document.querySelectorAll(".highlight-busca").forEach(el => {
+            el.outerHTML = el.innerText;
+        });
+    }
+
+    // Destaca resultados
+    function destacar(texto) {
+        limparDestaques();
+
+        if (texto.length < 2) return;
+
+        const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+
+        resultados = [];
+        indiceAtual = -1;
+
+        while (walk.nextNode()) {
+            const node = walk.currentNode;
+            const valor = node.nodeValue.toLowerCase();
+
+            if (valor.includes(texto.toLowerCase())) {
+                const span = document.createElement("span");
+                span.className = "highlight-busca";
+
+                const idx = valor.indexOf(texto.toLowerCase());
+                const antes = node.nodeValue.slice(0, idx);
+                const match = node.nodeValue.slice(idx, idx + texto.length);
+                const depois = node.nodeValue.slice(idx + texto.length);
+
+                span.textContent = match;
+
+                const parent = node.parentNode;
+                parent.insertBefore(document.createTextNode(antes), node);
+                parent.insertBefore(span, node);
+                parent.insertBefore(document.createTextNode(depois), node);
+                parent.removeChild(node);
+
+                resultados.push(span);
+            }
+        }
+
+        // Se encontrou, vai para o primeiro
+        if (resultados.length > 0) {
+            indiceAtual = 0;
+            scrollPara(indiceAtual);
+        }
+    }
+
+    function scrollPara(index) {
+        if (!resultados[index]) return;
+        resultados[index].scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    campo.addEventListener("input", () => {
+        destacar(campo.value.trim());
+    });
+});
