@@ -211,35 +211,32 @@ function ajustarMenuMobile() {
 window.addEventListener("resize", ajustarMenuMobile);
 window.addEventListener("DOMContentLoaded", ajustarMenuMobile);
 
-// ==========================================================
-// MENU MOBILE — ABRIR O SIDEBAR
-// ==========================================================
+// ============================================================
+// MENU MOBILE — ABRIR E FECHAR SIDEBAR EM TODAS AS PÁGINAS
+// ============================================================
+
+const sidebar = document.getElementById("sidebar");
+const btnMenuMobile = document.getElementById("btnMenuMobile");
+
+// Cria overlay se não existir
+let overlay = document.getElementById("sidebar-overlay");
+if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "sidebar-overlay";
+    document.body.appendChild(overlay);
+}
+
+// Abrir menu
 if (btnMenuMobile) {
-
-    // cria overlay apenas uma vez
-    let overlayMobile = document.getElementById("sidebar-overlay");
-    if (!overlayMobile) {
-        overlayMobile = document.createElement("div");
-        overlayMobile.id = "sidebar-overlay";
-        overlayMobile.style.position = "fixed";
-        overlayMobile.style.top = "0";
-        overlayMobile.style.left = "0";
-        overlayMobile.style.width = "100%";
-        overlayMobile.style.height = "100%";
-        overlayMobile.style.background = "rgba(0,0,0,0.55)";
-        overlayMobile.style.backdropFilter = "blur(3px)";
-        overlayMobile.style.display = "none";
-        overlayMobile.style.zIndex = "998";
-        document.body.appendChild(overlayMobile);
-    }
-
     btnMenuMobile.addEventListener("click", () => {
-        sidebar.classList.add("sidebar-open");
-        overlayMobile.style.display = "block";
-    });
-
-    overlayMobile.addEventListener("click", () => {
-        sidebar.classList.remove("sidebar-open");
-        overlayMobile.style.display = "none";
+        sidebar.classList.add("aberta");
+        overlay.classList.add("mostrar");
     });
 }
+
+// Fechar ao clicar no overlay
+overlay.addEventListener("click", () => {
+    sidebar.classList.remove("aberta");
+    overlay.classList.remove("mostrar");
+});
+

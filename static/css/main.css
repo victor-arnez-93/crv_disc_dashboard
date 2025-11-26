@@ -1233,4 +1233,154 @@ h1, h2, h3, h4, h5, h6,
     padding: 2px 4px;
     border-radius: 3px;
 }
+/* ============================================================
+   HEADER MOBILE GLOBAL
+   ============================================================ */
+@media (max-width: 768px) {
+
+    /* Header geral */
+    .header {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 0 14px 0;
+        gap: 6px;
+        height: auto !important;
+        text-align: center;
+    }
+
+    /* Linha superior: menu + logo + dashboard */
+    .header-left {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 4px;
+        padding: 0 12px;
+    }
+
+    /* Botão hamburger */
+    #btnMenuMobile {
+        display: flex !important;
+        width: 38px;
+        height: 38px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #222;
+        border: 2px solid #ff7a33;
+        margin-right: auto;
+    }
+
+    /* Logo DISC */
+    .logo-header {
+        width: 75px;
+        height: auto;
+    }
+
+    /* Dashboard title */
+    .header-titles {
+        margin-left: 8px;
+        text-align: left;
+    }
+    .titulo {
+        font-size: 22px;
+    }
+    .subtitulo {
+        font-size: 11px;
+    }
+
+    /* Barra de busca */
+    .search-box {
+        width: 90%;
+        margin: 4px auto 0 auto;
+        height: 42px;
+    }
+
+    /* Linha inferior: relógio + clima + tema + perfil */
+    .header-right {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 6px;
+    }
+
+    .clock {
+        font-size: 18px;
+    }
+
+    .weather-box {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .btn-tema {
+        width: 42px;
+        height: 42px;
+    }
+
+    .user-box img {
+        width: 42px;
+        height: 42px;
+    }
+}
+/* ============================================================
+   SIDEBAR MOBILE
+   ============================================================ */
+@media (max-width: 768px) {
+
+    /* Sidebar fechada por padrão */
+    .sidebar {
+        left: -100%;
+        width: 80%;
+        max-width: 300px;
+        transition: left 0.35s ease-in-out;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        z-index: 9999;
+        border-right: 2px solid #ff7a33;
+    }
+
+    /* Quando abre */
+    .sidebar.aberta {
+        left: 0;
+    }
+
+    /* Overlay */
+    #sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(2px);
+        display: none;
+        z-index: 9998;
+    }
+
+    #sidebar-overlay.mostrar {
+        display: block;
+    }
+
+    /* Botão X */
+    .sidebar-fechar {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        color: #ff7a33;
+        font-size: 26px;
+        cursor: pointer;
+    }
+}
+/* ============================================================
+   AJUSTE GLOBAL DOS PRIMEIROS CARDS DAS PÁGINAS INTERNAS
+   ============================================================ */
+@media (max-width: 768px) {
+
+    .pagina-interna .card-principal-topo {
+        margin-top: 70px !important;
+    }
+}
 
