@@ -533,84 +533,156 @@
    ============================================ */
 
 .setas-frase-wrapper {
-    position: absolute;
-    top: calc(50% + 26px); /* Alinha após o texto de boas vindas */
-    left: 50%;
-    transform: translateX(-50%);
+    margin-top: 16px;
     display: flex;
+    justify-content: center;
     gap: 12px;
-    z-index: 20;
 }
 
 .seta-frase {
-    width: 28px;
-    height: 28px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    background: var(--cor-primaria);
+    background: #F98948;
     color: #FFF;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
-    box-shadow: 0 0 12px rgba(249,137,72,0.55);
+    font-size: 14px;
+    box-shadow: 0 0 10px rgba(249,137,72,0.5);
     transition: 0.25s ease;
 }
 
 .seta-frase:hover {
-    transform: scale(1.18);
-    box-shadow: 0 0 16px rgba(249,137,72,0.85);
+    transform: scale(1.15);
+    box-shadow: 0 0 16px rgba(249,137,72,0.8);
 }
 
-/* ============================================
-   RESPONSIVIDADE — LAPTOP 1200px
-   ============================================ */
 
+/* ================================
+   AJUSTE DO CARD PRINCIPAL NOVO
+   ================================ */
+
+.titulo-pagina {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 30px;
+    letter-spacing: 1px;
+    color: var(--cor-primaria);
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.bemvindo-texto {
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--cor-texto);
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.subtexto-inicial {
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    color: var(--cor-texto);
+    opacity: 0.85;
+    margin-bottom: 22px;
+    text-align: center;
+}
+
+/* Frase principal — cor laranja no tema escuro */
+[data-theme="dark"] #fraseRotativa {
+    color: #F98948;
+}
+
+/* Espaçamento entre textos */
+#fraseRotativa {
+    margin-top: 16px;
+    margin-bottom: 6px;
+}
+
+/* =========================================================
+   LAPTOP — até 1200px
+   ========================================================= */
 @media (max-width: 1200px) {
     .dashboard-container {
         padding: 18px 14px;
     }
 }
 
-/* ============================================
-   RESPONSIVIDADE — TABLETS 900px
-   ============================================ */
-
+/* =========================================================
+   TABLETS — até 900px
+   ========================================================= */
 @media (max-width: 900px) {
-    .cards-3 {
-        grid-template-columns: 1fr;
+
+    /* Garantir que o card principal não encoste no topo */
+    .main-content {
+        padding-top: 70px !important;
+    }
+
+    /* Empilhar cards de 2×2 */
+    .cards-2,
+    .cards-3,
+    .cards-grid-2x2 {
+        grid-template-columns: 1fr !important;
         gap: 22px;
     }
 
+    /* Card principal */
     .card-principal {
         padding: 28px 24px;
     }
 
-    .dashboard-quote {
+    /* Título INÍCIO */
+    .titulo-pagina {
+        font-size: 26px;
+    }
+
+    /* Texto 'Bem-vindo' */
+    .bemvindo-texto {
         font-size: 17px;
     }
 
+    /* Subtexto */
+    .subtexto-inicial {
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+
+    /* Frase rotativa */
+    .dashboard-quote,
+    #fraseRotativa {
+        font-size: 17px;
+    }
+
+    /* Foto do Dia */
     .card-foto-wrapper img {
-        height: 200px;
+        height: 220px;
+    }
+
+    /* Forçar botão hamburguer aparecer */
+    #btnMenu {
+        display: flex !important;
     }
 }
 
-/* ============================================
-   RESPONSIVIDADE — CELULARES 600px
-   ============================================ */
+/* =========================================================
+   CELULARES — até 768px (breakpoint real de celulares)
+   ========================================================= */
+@media (max-width: 768px) {
 
-@media (max-width: 600px) {
+    /* Garantir que TODOS os grids virem 1 coluna */
+    .cards-2,
+    .cards-3,
+    .cards-grid-2x2 {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+
     .dashboard-title {
         font-size: 24px;
-    }
-
-    .dashboard-quote {
-        font-size: 16px;
-    }
-
-    .cards-3 {
-        gap: 18px;
     }
 
     .card {
@@ -622,39 +694,68 @@
     }
 
     .card-foto-wrapper img {
+        height: 200px;
+    }
+}
+
+/* =========================================================
+   CELULARES — até 600px
+   ========================================================= */
+@media (max-width: 600px) {
+
+    /* Descola do header */
+    .main-content {
+        padding-top: 75px !important;
+    }
+
+    /* Ajustes do card inicial */
+    .card-principal {
+        padding: 24px 18px;
+    }
+
+    .titulo-pagina {
+        font-size: 22px;
+    }
+
+    .bemvindo-texto {
+        font-size: 16px;
+    }
+
+    .subtexto-inicial {
+        font-size: 14px;
+    }
+
+    #fraseRotativa {
+        font-size: 16px;
+    }
+
+    /* Setas menores */
+    .seta-frase {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+
+    /* Cards gerais */
+    .cards-3,
+    .cards-grid-2x2 {
+        gap: 18px;
+    }
+
+    .card-foto-wrapper img {
         height: 180px;
     }
 }
 
-
-
-/* ============================================
-   RESPONSIVIDADE — CELULARES MUITO PEQUENOS
-   ============================================ */
-
+/* =========================================================
+   CELULARES MUITO PEQUENOS — até 420px
+   ========================================================= */
 @media (max-width: 420px) {
     .card-principal {
-        padding: 22px 14px;
+        padding: 20px 14px;
     }
 
-    .dashboard-quote {
+    #fraseRotativa {
         font-size: 15px;
-    }
-}
-/* Responsivo — Tablets */
-@media (max-width: 900px) {
-    .cards-2 {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Responsivo — Celulares */
-@media (max-width: 600px) {
-    .card-novo {
-        padding: 18px 16px;
-    }
-
-    .hero-frase {
-        font-size: 16px;
     }
 }

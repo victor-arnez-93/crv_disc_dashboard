@@ -203,3 +203,20 @@ document.addEventListener("DOMContentLoaded", () => {
         destacar(campo.value.trim());
     });
 });
+
+// === MENU MOBILE — FORÇAR BOTÃO APARECER EM TELAS PEQUENAS ===
+function ajustarMenuMobile() {
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.getElementById("btnMenu");
+
+    if (window.innerWidth <= 900) {
+        sidebar.classList.add("fechado");
+        toggle.style.display = "flex";
+    } else {
+        sidebar.classList.remove("fechado");
+        toggle.style.display = "none";
+    }
+}
+
+window.addEventListener("resize", ajustarMenuMobile);
+window.addEventListener("DOMContentLoaded", ajustarMenuMobile);
