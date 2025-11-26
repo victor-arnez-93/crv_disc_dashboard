@@ -61,14 +61,53 @@ function abrirModalNoticia(idx) {
   const n = noticias[idx];
   if (!n) return;
 
-  const img = n.imagem ? `<div class="noticia-imagem-modal" style="background-image:url('${n.imagem}')"></div>` : "";
+  const img = n.imagem
+    ? `<div class="noticia-imagem-modal" style="background-image:url('${n.imagem}')"></div>`
+    : "";
+
   let conteudo = n.conteudo || n.resumo || '';
+
+  // ================================
+  // LIMPEZA DO CONTEÚDO DO MODAL
+  // ================================
   if (conteudo.includes('</p>')) {
-    let parts = conteudo.split(/<\/p>/i).slice(0, 3).join('</p>') + '</p>';
-    conteudo = parts.replace(/<script[\s\S]*?<\/script>/ig, '');
+
+    // Quebra por parágrafos
+    let partes = conteudo.split(/<\/p>/i);
+
+    // Remove "Relacionadas", listas, links, headings e sujeiras do RSS
+    partes = partes.filter(p => {
+        const clean = p.toLowerCase();
+        return !clean.includes("relacionad")   // remove "Relacionadas"
+            && !clean.includes("<ul")          // remove listas
+            && !clean.includes("<li")
+            && !clean.includes("<h1")          // remove headings
+            && !clean.includes("<h2")
+            && !clean.includes("<h3")
+            && !clean.includes("href=")        // remove links embutidos
+            && p.trim() !== "";                // remove parágrafos vazios
+    });
+
+    // Mantém no máximo 3 parágrafos limpos
+    conteudo = partes.slice(0, 3).join("</p>") + "</p>";
+
+    // Remove scripts
+    conteudo = conteudo.replace(/<script[\s\S]*?<\/script>/ig, '');
+
   } else {
-    conteudo = conteudo.substring(0, 850) + '...';
+    conteudo = conteudo.substring(0, 850) + "...";
   }
+
+  // Remove imagens internas duplicadas (caso do item 6,7,8)
+  conteudo = conteudo.replace(/<img[^>]*>/gi, '');
+
+  // Monta o HTML no modal
+  document.getElementById("modalNoticiaTitulo").innerHTML = n.titulo;
+  document.getElementById("modalNoticiaFonte").innerHTML = `${n.categoria} • ${n.tempo}`;
+  document.getElementById("modalNoticiaConteudo").innerHTML = img + conteudo;
+
+  document.getElementById("modalNoticia").classList.add("ativo");
+}
   // Monta o título, data, resumo, conteudo, botão
   document.getElementById('modal-noticia-conteudo').innerHTML = `
     ${img}
