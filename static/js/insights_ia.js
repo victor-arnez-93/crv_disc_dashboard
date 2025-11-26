@@ -784,3 +784,54 @@ function analisarCompatibilidade() {
 
     resultado.classList.add('show');
 }
+// ============================================
+// CHAT IA — ENVIO DE MENSAGENS
+// ============================================
+
+function enviarMensagem() {
+    const input = document.getElementById("chatInput");
+    const chat = document.getElementById("chatMessages");
+
+    if (!input || !chat) return;
+
+    const texto = input.value.trim();
+    if (texto === "") return;
+
+    // mensagem do usuário
+    adicionarMensagemChat("user", texto);
+
+    input.value = "";
+    chat.scrollTop = chat.scrollHeight;
+
+    // resposta IA (simulada)
+    setTimeout(() => {
+        const resposta = gerarRespostaIA(texto);
+        adicionarMensagemChat("bot", resposta);
+        chat.scrollTop = chat.scrollHeight;
+    }, 900);
+}
+
+function adicionarMensagemChat(tipo, texto) {
+    const chat = document.getElementById("chatMessages");
+    const agora = new Date();
+    const hora = agora.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+
+    const div = document.createElement("div");
+    div.className = `chat-message ${tipo}`;
+
+    div.innerHTML = `
+        <div class="message-avatar">
+            <i class="fas fa-${tipo === "bot" ? "robot" : "user"}"></i>
+        </div>
+        <div class="message-content">
+            <p>${texto}</p>
+            <span class="message-time">${hora}</span>
+        </div>
+    `;
+
+    chat.appendChild(div);
+}
+
+document.getElementById("chatInput")?.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") enviarMensagem();
+});
