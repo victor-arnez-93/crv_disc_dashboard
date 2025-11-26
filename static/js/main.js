@@ -23,7 +23,7 @@ iniciarRelogio();
 // ===============================
 // REFERÊNCIAS GLOBAIS
 // ===============================
-let sidebar = document.getElementById("sidebar");      // <== AGORA EXISTE APENAS UMA VEZ
+let sidebar = document.getElementById("sidebar");
 let btnMenuDesktop = document.getElementById("btnMenu");
 let btnMenuMobile = document.getElementById("btnMenuMobile");
 
@@ -201,10 +201,10 @@ document.addEventListener("DOMContentLoaded", () => {
 function ajustarMenuMobile() {
     if (window.innerWidth <= 900) {
         sidebar.classList.add("fechado");
-        btnMenuDesktop.style.display = "flex";
+        if (btnMenuDesktop) btnMenuDesktop.style.display = "flex";
     } else {
         sidebar.classList.remove("fechado");
-        btnMenuDesktop.style.display = "none";
+        if (btnMenuDesktop) btnMenuDesktop.style.display = "none";
     }
 }
 
@@ -212,13 +212,10 @@ window.addEventListener("resize", ajustarMenuMobile);
 window.addEventListener("DOMContentLoaded", ajustarMenuMobile);
 
 // ============================================================
-// MENU MOBILE — ABRIR E FECHAR SIDEBAR EM TODAS AS PÁGINAS
+// MENU MOBILE — ABRIR E FECHAR SIDEBAR
 // ============================================================
 
-const sidebar = document.getElementById("sidebar");
-const btnMenuMobile = document.getElementById("btnMenuMobile");
-
-// Cria overlay se não existir
+// Criar overlay 1 vez
 let overlay = document.getElementById("sidebar-overlay");
 if (!overlay) {
     overlay = document.createElement("div");
@@ -226,7 +223,7 @@ if (!overlay) {
     document.body.appendChild(overlay);
 }
 
-// Abrir menu
+// Abrir
 if (btnMenuMobile) {
     btnMenuMobile.addEventListener("click", () => {
         sidebar.classList.add("aberta");
@@ -234,9 +231,8 @@ if (btnMenuMobile) {
     });
 }
 
-// Fechar ao clicar no overlay
+// Fechar ao clicar fora
 overlay.addEventListener("click", () => {
     sidebar.classList.remove("aberta");
     overlay.classList.remove("mostrar");
 });
-
