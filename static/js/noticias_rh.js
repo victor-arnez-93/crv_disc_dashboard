@@ -108,27 +108,7 @@ function abrirModalNoticia(idx) {
 
   document.getElementById("modalNoticia").classList.add("ativo");
 }
-  // Monta o título, data, resumo, conteudo, botão
-  document.getElementById('modal-noticia-conteudo').innerHTML = `
-    ${img}
-    <h2 class="modal-titulo">${n.titulo}</h2>
-    <div class="modal-subtitulo" style="color:var(--cor-texto-fraca);font-size:14.5px;margin-bottom:10px;">${n.fonte || ""} • ${formatarDataRelativa(n.data)}</div>
-    <div class="modal-materia">${conteudo}</div>
-  `;
-  document.getElementById('modal-noticia-footer').innerHTML = `
-    <a href="${n.link}" target="_blank" class="menu-item" style="min-width:180px;margin-top:18px;">
-      <i class="fas fa-arrow-right"></i> Ver matéria completa
-    </a>
-  `;
-  document.getElementById('modal-noticia-bg').style.display = 'flex';
-}
-// Fechar Modal
-document.getElementById('fechar-modal-noticia').onclick = function() {
-  document.getElementById('modal-noticia-bg').style.display = 'none';
-};
-document.getElementById('modal-noticia-bg').onclick = function(e) {
-  if (e.target === this) this.style.display = 'none';
-};
+
 
 // Criar card de notícia
 function criarCardNoticia(n, idx) {
