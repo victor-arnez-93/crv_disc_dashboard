@@ -72,15 +72,20 @@
 
 </aside>
 
-
 <!-- ================================================================== -->
-<!-- HEADER SUPERIOR                                                    -->
+<!-- HEADER SUPERIOR – VERSÃO CORRIGIDA SEM REMOVER NADA               -->
 <!-- ================================================================== -->
 <header class="header">
+
+    <!-- BOTÃO HAMBÚRGUER (mobile) -->
+    <button id="btnMenu" class="btn-menu">
+        <i class="fas fa-bars"></i>
+    </button>
 
     <!-- LOGO + TÍTULO -->
     <div class="header-left">
         <img src="static/imagens/logo_disc.png" alt="DISC" class="logo-header">
+
         <div class="header-titles">
             <span class="titulo">Dashboard</span>
             <span class="subtitulo"><strong>Painel de Gestão Comportamental</strong></span>
@@ -99,37 +104,46 @@
         <!-- RELÓGIO -->
         <span id="relogio" class="clock">00:00:00</span>
 
-        <!-- CLIMA CLICÁVEL COM DROPDOWN -->
+        <!-- CLIMA + DROPDOWN -->
         <div class="weather-box" id="weatherBox">
+
+            <!-- ÍCONE DO CLIMA -->
             <img id="iconeClimaImg" src="static/imagens/ico_dia.png" alt="clima" class="icone-clima-img">
+
+            <!-- TEMPERATURA -->
             <span id="temperatura" class="temperature">19°C</span>
 
-            <!-- DROPDOWN PREVISÃO (dentro do weather-box) -->
+            <!-- DROPDOWN COMPLETO -->
             <div id="modalClima" class="modal-clima">
                 <div class="modal-clima-content">
+
                     <div class="modal-clima-header">
                         <h3>São Paulo - BR</h3>
                         <button class="modal-clima-close" id="closeModalClima">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
+
                     <div class="modal-clima-body" id="modalClimaBody">
                         <div class="previsao-dia">
                             <p class="dia-nome">qui.</p>
                             <p class="temperaturas">24° / 16°</p>
                             <p class="emoji-clima">☁️</p>
                         </div>
+
                         <div class="previsao-dia">
                             <p class="dia-nome">sex.</p>
                             <p class="temperaturas">33° / 15°</p>
                             <p class="emoji-clima">☀️</p>
                         </div>
+
                         <div class="previsao-dia">
                             <p class="dia-nome">sáb.</p>
                             <p class="temperaturas">32° / 21°</p>
                             <p class="emoji-clima">☀️</p>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -141,7 +155,8 @@
 
         <!-- USUÁRIO -->
         <div class="user-box">
-            <img src="static/imagens/foto2.jpeg" alt="">
+            <img src="static/imagens/foto2.jpeg" alt="Foto">
+
             <div class="user-info">
                 <span class="user-name">Prof. Paulo Rubens</span>
                 <span class="user-role">Gestão de Pessoas</span>
@@ -151,9 +166,6 @@
     </div>
 
 </header>
-
-
-
 
 <!-- ================================================================== -->
 <!-- CONTEÚDO PRINCIPAL                                                 -->

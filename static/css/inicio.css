@@ -759,3 +759,88 @@
         font-size: 15px;
     }
 }
+/* ===============================================================
+   HEADER — MOBILE CORRIGIDO (NADA REMOVIDO)
+   =============================================================== */
+
+@media (max-width: 768px) {
+
+    /* estrutura principal */
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px;
+        gap: 10px;
+    }
+
+    /* botão hamburguer */
+    .btn-menu {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(4px);
+        color: #ff8a3d;
+        font-size: 20px;
+        border: none;
+    }
+
+    /* centralizar logo e título */
+    .header-left {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .logo-header {
+        width: 40px;
+    }
+
+    .header-titles .titulo {
+        font-size: 20px;
+    }
+
+    .header-titles .subtitulo {
+        font-size: 11px;
+        opacity: 0.8;
+    }
+
+    /* esconder busca no mobile */
+    .search-box {
+        display: none !important;
+    }
+
+    /* direita */
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* foto do usuário */
+    .user-box img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #ff8a3d;
+    }
+
+    .user-info {
+        display: none; /* esconder textos no mobile */
+    }
+}
+
+/* DESKTOP — esconder hambúrguer */
+@media (min-width: 769px) {
+    .btn-menu {
+        display: none !important;
+    }
+}
