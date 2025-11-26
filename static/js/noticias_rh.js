@@ -1,12 +1,14 @@
 // ============================================================================
-// CRV DISC – Notícias RH (Curadoria, Modal de Detalhe, Layout Original)
+// CRV DISC – Notícias RH (Curadoria, Modal, Fallbacks e Compatibilidade Total)
 // ============================================================================
 
+// FEEDS
 const RSS_FEEDS = [
-  { nome: "Você RH",   rss: "https://api.rss2json.com/v1/api.json?rss_url=https://vocerh.abril.com.br/feed/", limite: 5, categoria: "vocerh" },
-  { nome: "Startups",  rss: "https://api.rss2json.com/v1/api.json?rss_url=https://startups.com.br/feed/", limite: 3, categoria: "startups" }
+  { nome: "Você RH", rss: "https://api.rss2json.com/v1/api.json?rss_url=https://vocerh.abril.com.br/feed/", limite: 5, categoria: "vocerh" },
+  { nome: "Startups", rss: "https://api.rss2json.com/v1/api.json?rss_url=https://startups.com.br/feed/", limite: 3, categoria: "startups" }
 ];
 
+// IMAGENS PADRÃO
 const IMG_TEMA = [
   "/static/imagens/rh_ia1.jpg",
   "/static/imagens/rh_ia2.jpg",
@@ -15,195 +17,223 @@ const IMG_TEMA = [
 ];
 
 function imagemTematicaAleatoria() {
-  const idx = Math.floor(Math.random() * IMG_TEMA.length);
-  return IMG_TEMA[idx];
+  return IMG_TEMA[Math.floor(Math.random() * IMG_TEMA.length)];
 }
 
 let noticias = [];
-let horaUltimaAtualizacao = null;
 
-// UTC−3 para data
+// FUSO HORÁRIO
 function toBrazilDate(d) {
   const date = new Date(d);
   const utc = date.getTime() + date.getTimezoneOffset() * 60000;
-  const br = new Date(utc - 3 * 3600000);
-  return br;
+  return new Date(utc - 3 * 3600000);
 }
 
-// Data relativa
+// DATA RELATIVA
 function formatarDataRelativa(data) {
   const agora = toBrazilDate(new Date());
   const pub = toBrazilDate(data);
   const diffMs = agora - pub;
-  const diffMin = Math.floor(diffMs / 60000);
-  const diffHoras = Math.floor(diffMin / 60);
-  const diffDias = Math.floor(diffHoras / 24);
+  const min = Math.floor(diffMs / 60000);
+  const hrs = Math.floor(min / 60);
+  const dias = Math.floor(hrs / 24);
 
-  if (diffMin < 60) return `Há ${diffMin} min`;
-  if (diffHoras < 24) return `Há ${diffHoras}h`;
-  if (diffDias === 1) return "Ontem";
-  if (diffDias < 7) return `Há ${diffDias} dias`;
+  if (min < 60) return `Há ${min} min`;
+  if (hrs < 24) return `Há ${hrs}h`;
+  if (dias === 1) return "Ontem";
+  if (dias < 7) return `Há ${dias} dias`;
+
   return pub.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
 }
 
-// Buscar imagem do RSS item (thumbnail, enclosure, img, fallback)
+// OBTER IMAGEM
 function obterImagemNoticia(item) {
   if (item.thumbnail && item.thumbnail.length > 10) return item.thumbnail;
   if (item.enclosure && item.enclosure.link) return item.enclosure.link;
-  let conteudo = item.description || item["content:encoded"] || "";
-  let imgMatch = conteudo.match(/<img.*?src=["'](.*?)["']/i);
-  if (imgMatch && imgMatch[1]) return imgMatch[1];
-  return imagemTematicaAleatoria();
+
+  const conteudo = item.description || item["content:encoded"] || "";
+  const imgMatch = conteudo.match(/<img.*?src=["'](.*?)["']/i);
+
+  return imgMatch ? imgMatch[1] : imagemTematicaAleatoria();
 }
 
-// ==== Modal
+
+// ============================================================================
+// MODAL — FUNÇÃO COM SUPORTE AUTOMÁTICO A QUALQUER ID EXISTENTE
+// ============================================================================
+
 function abrirModalNoticia(idx) {
   const n = noticias[idx];
   if (!n) return;
 
-  const img = n.imagem
+  // Identifica dinamicamente os elementos reais existentes no HTML
+  const modalBG = document.getElementById("modal-noticia-bg") || document.getElementById("modalNoticia");
+  const modalConteudo = document.getElementById("modal-noticia-conteudo") || document.getElementById("modalNoticiaConteudo");
+  const modalTitulo = document.getElementById("modal-noticia-titulo") || document.getElementById("modalNoticiaTitulo");
+  const modalFonte = document.getElementById("modal-noticia-fonte") || document.getElementById("modalNoticiaFonte");
+  const modalFooter = document.getElementById("modal-noticia-footer");
+
+  const imagemHTML = n.imagem
     ? `<div class="noticia-imagem-modal" style="background-image:url('${n.imagem}')"></div>`
     : "";
 
-  let conteudo = n.conteudo || n.resumo || '';
+  // --------------------------------------------------------------------
+  // LIMPEZA DO CONTEÚDO (remove relacionadas, listas, links e imagens)
+  // --------------------------------------------------------------------
+  let conteudo = n.conteudo || n.resumo || "";
 
-  // ================================
-  // LIMPEZA DO CONTEÚDO DO MODAL
-  // ================================
-  if (conteudo.includes('</p>')) {
-
-    // Quebra por parágrafos
+  if (conteudo.includes("</p>")) {
     let partes = conteudo.split(/<\/p>/i);
 
-    // Remove "Relacionadas", listas, links, headings e sujeiras do RSS
     partes = partes.filter(p => {
-        const clean = p.toLowerCase();
-        return !clean.includes("relacionad")   // remove "Relacionadas"
-            && !clean.includes("<ul")          // remove listas
-            && !clean.includes("<li")
-            && !clean.includes("<h1")          // remove headings
-            && !clean.includes("<h2")
-            && !clean.includes("<h3")
-            && !clean.includes("href=")        // remove links embutidos
-            && p.trim() !== "";                // remove parágrafos vazios
+      const clean = p.toLowerCase();
+      return !clean.includes("relacionad")
+          && !clean.includes("<ul")
+          && !clean.includes("<li")
+          && !clean.includes("<h1")
+          && !clean.includes("<h2")
+          && !clean.includes("<h3")
+          && !clean.includes("href=")
+          && p.trim() !== "";
     });
 
-    // Mantém no máximo 3 parágrafos limpos
     conteudo = partes.slice(0, 3).join("</p>") + "</p>";
-
-    // Remove scripts
-    conteudo = conteudo.replace(/<script[\s\S]*?<\/script>/ig, '');
-
   } else {
     conteudo = conteudo.substring(0, 850) + "...";
   }
 
-  // Remove imagens internas duplicadas (caso do item 6,7,8)
-  conteudo = conteudo.replace(/<img[^>]*>/gi, '');
+  conteudo = conteudo.replace(/<img[^>]*>/gi, "");
+  conteudo = conteudo.replace(/<script[\s\S]*?<\/script>/gi, "");
 
-  // Monta o HTML no modal
-  document.getElementById("modalNoticiaTitulo").innerHTML = n.titulo;
-  document.getElementById("modalNoticiaFonte").innerHTML = `${n.categoria} • ${n.tempo}`;
-  document.getElementById("modalNoticiaConteudo").innerHTML = img + conteudo;
+  // --------------------------------------------------------------------
+  // APLICAÇÃO NO MODAL (somente se o elemento existir → sem erros)
+  // --------------------------------------------------------------------
 
-  document.getElementById("modalNoticia").classList.add("ativo");
+  if (modalTitulo) modalTitulo.innerHTML = n.titulo;
+  if (modalFonte) modalFonte.innerHTML = `${n.fonte || n.categoria} • ${formatarDataRelativa(n.data)}`;
+  if (modalConteudo) modalConteudo.innerHTML = imagemHTML + conteudo;
+
+  if (modalFooter) {
+    modalFooter.innerHTML = `
+      <a href="${n.link}" target="_blank" class="menu-item" style="min-width:180px;margin-top:18px;">
+        <i class="fas fa-arrow-right"></i> Ver matéria completa
+      </a>
+    `;
+  }
+
+  if (modalBG) modalBG.style.display = "flex";
 }
 
 
-// Criar card de notícia
+// FECHAR MODAL (compatível com ambas versões)
+document.addEventListener("click", e => {
+  if (e.target.id === "modal-noticia-bg") {
+    e.target.style.display = "none";
+  }
+  if (e.target.id === "fechar-modal-noticia") {
+    const bg = document.getElementById("modal-noticia-bg");
+    if (bg) bg.style.display = "none";
+  }
+});
+
+
+// ============================================================================
+// CARDS
+// ============================================================================
 function criarCardNoticia(n, idx) {
   const card = document.createElement("article");
   card.className = "noticia-card";
-  card.setAttribute("data-categoria", n.categoria);
 
   card.innerHTML = `
-    <div class="noticia-imagem" style="background-image: url('${n.imagem}')"></div>
+    <div class="noticia-imagem" style="background-image:url('${n.imagem}')"></div>
     <span class="noticia-categoria ${n.categoria}">${n.fonte || n.categoria}</span>
+
     <div class="noticia-conteudo">
       <h3>${n.titulo}</h3>
       <p>${n.resumo}</p>
+
       <div class="noticia-meta">
-        <span class="noticia-fonte">
-          <i class="fas fa-globe"></i>
-          ${n.fonte || 'Fonte desconhecida'}
-        </span>
+        <span class="noticia-fonte"><i class="fas fa-globe"></i> ${n.fonte}</span>
         <span class="noticia-separador">•</span>
-        <span class="noticia-data">
-          <i class="far fa-clock"></i>
-          ${formatarDataRelativa(n.data)}
-        </span>
+        <span class="noticia-data"><i class="far fa-clock"></i> ${formatarDataRelativa(n.data)}</span>
       </div>
     </div>
+
     <button class="btn-ler-noticia" onclick="abrirModalNoticia(${idx})">
       Ler mais <i class="fas fa-arrow-right"></i>
     </button>
   `;
+
   return card;
 }
 
-// Renderização
+
+// ============================================================================
+// RENDERIZAÇÃO
+// ============================================================================
 function renderizarNoticias() {
   const container = document.getElementById("noticias-rh-cards");
   if (!container) return;
+
   container.innerHTML = "";
-  if (!noticias.length) {
-    container.innerHTML = `
-      <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
-        <i class="fas fa-inbox" style="font-size: 64px; color: var(--cor-primaria); opacity: 0.3; margin-bottom: 16px;"></i>
-        <p style="font-size: 18px; color: var(--cor-texto); opacity: 0.6;">Nenhuma notícia encontrada</p>
-      </div>
-    `;
-    return;
-  }
+
   noticias.forEach((n, idx) => {
     container.appendChild(criarCardNoticia(n, idx));
   });
 }
 
-// Buscar notícias e garantir 'conteudo'
+
+// ============================================================================
+// BUSCA RSS
+// ============================================================================
 async function buscarNoticiasMultiRSS() {
   let blocoNoticias = [];
+
   for (const feed of RSS_FEEDS) {
     try {
-      const resp = await fetch(feed.rss + "&cachebust=" + Date.now());
+      const resp = await fetch(feed.rss + "&cache=" + Date.now());
       const data = await resp.json();
       if (!data.items) continue;
-      const noticiasTransformadas = data.items.slice(0, feed.limite).map(item => ({
+
+      const convertidas = data.items.slice(0, feed.limite).map(item => ({
         titulo: item.title,
-        resumo: (item.description || '').replace(/<[^>]*>/g, '').substring(0, 200) + '...',
-        conteudo: item.content || item["content:encoded"] || item.description || '',
+        resumo: (item.description || "").replace(/<[^>]*>/g, "").substring(0, 200) + "...",
+        conteudo: item.content || item["content:encoded"] || item.description || "",
         categoria: feed.categoria,
+        fonte: feed.nome,
         data: item.pubDate,
         imagem: obterImagemNoticia(item),
-        link: item.link,
-        fonte: feed.nome
+        link: item.link
       }));
-      blocoNoticias = blocoNoticias.concat(noticiasTransformadas);
-    } catch (err) {
-      console.warn("Erro ao buscar feed:", feed.nome, err);
+
+      blocoNoticias = blocoNoticias.concat(convertidas);
+
+    } catch (e) {
+      console.warn("Erro no feed:", feed.nome, e);
     }
   }
+
   return blocoNoticias;
 }
 
-// Inicialização e controle
+
+// ============================================================================
+// INICIALIZAÇÃO
+// ============================================================================
 async function carregarNoticias() {
   const btn = document.getElementById("btn-carregar-novidades");
   if (btn) {
     btn.disabled = true;
     btn.innerHTML = `<i class="fas fa-sync fa-spin"></i> Carregando...`;
   }
+
   noticias = await buscarNoticiasMultiRSS();
-  horaUltimaAtualizacao = new Date();
   renderizarNoticias();
+
   if (btn) {
     btn.disabled = false;
     btn.innerHTML = `<i class="fas fa-sync-alt"></i> Carregar novidades`;
   }
 }
-if (document.getElementById("btn-carregar-novidades")) {
-  document.getElementById("btn-carregar-novidades").addEventListener("click", carregarNoticias);
-}
 
 document.addEventListener("DOMContentLoaded", carregarNoticias);
-
