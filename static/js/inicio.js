@@ -149,13 +149,13 @@ function carregarInsights() {
 
     lista.forEach((txt) => {
         ul.innerHTML += `
-            <li>
-                <i class="fas fa-lightbulb" style="margin-right:6px; color:#F98948;"></i>
-                ${txt}
+            <li class="insight-item">
+                <span class="insight-texto">${txt}</span>
             </li>
         `;
     });
 }
+
 
 // ============================================================================
 // 4) NOTÍCIAS DO DIA

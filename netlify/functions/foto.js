@@ -1,13 +1,12 @@
 // ============================================================================
 // FOTO DO DIA — NETLIFY FUNCTION (v4 FINAL)
-// Fluxo: Pexels → Unsplash → Pixabay → fallback
+// Fluxo: Pexels → Unsplash → fallback
 // Sempre retorna 1 foto válida e profissional para o dashboard
 // Usa variáveis do Netlify (.env)
 // ============================================================================
 
 const PEXELS_API_KEY = process.env.PEXELS_API_KEY;
 const UNSPLASH_KEY = process.env.UNSPLASH_KEY;
-const PIXABAY_KEY = process.env.PIXABAY_KEY;
 
 // Temas profissionais rotativos
 const temas = [
@@ -96,34 +95,7 @@ async function buscarUnsplash(query) {
   }
 }
 
-// ============================================================================
-// PIXABAY
-// ============================================================================
-async function buscarPixabay(query) {
-  try {
-    if (!PIXABAY_KEY) return null;
 
-    const res = await fetch(
-      `https://pixabay.com/api/?key=${PIXABAY_KEY}&q=${encodeURIComponent(query)}&image_type=photo&orientation=horizontal&per_page=5`
-    );
-
-    if (!res.ok) return null;
-
-    const data = await res.json();
-    if (!data.hits?.length) return null;
-
-    const foto = data.hits[0];
-
-    return {
-      url: foto.largeImageURL,
-      autor: foto.user,
-      fonte: "Pixabay",
-      link: foto.pageURL
-    };
-  } catch {
-    return null;
-  }
-}
 
 // ============================================================================
 // FALLBACK SE TUDO DER ERRADO
@@ -154,7 +126,6 @@ exports.handler = async () => {
     const foto =
       (await buscarPexels(query)) ||
       (await buscarUnsplash(query)) ||
-      (await buscarPixabay(query)) ||
       fallbackFoto();
 
     CACHE_FOTO = foto;
