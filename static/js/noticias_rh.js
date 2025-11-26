@@ -78,32 +78,50 @@ function abrirModalNoticia(idx) {
     : "";
 
   // --------------------------------------------------------------------
-  // LIMPEZA DO CONTEÚDO (remove relacionadas, listas, links e imagens)
+  // LIMPEZA DO CONTEÚDO (VERSÃO ROBUSTA PARA FEED REAL)
   // --------------------------------------------------------------------
   let conteudo = n.conteudo || n.resumo || "";
 
   if (conteudo.includes("</p>")) {
-    let partes = conteudo.split(/<\/p>/i);
 
-    partes = partes.filter(p => {
-      const clean = p.toLowerCase();
-      return !clean.includes("relacionad")
-          && !clean.includes("<ul")
-          && !clean.includes("<li")
-          && !clean.includes("<h1")
-          && !clean.includes("<h2")
-          && !clean.includes("<h3")
-          && !clean.includes("href=")
-          && p.trim() !== "";
-    });
+      let partes = conteudo.split(/<\/p>/i).map(p => p + "</p>");
 
-    conteudo = partes.slice(0, 3).join("</p>") + "</p>";
+      partes = partes.filter(p => {
+          const clean = p.toLowerCase();
+          return !clean.includes("relacionad")
+              && !clean.includes("<ul")
+              && !clean.includes("<li")
+              && !clean.includes("<h1")
+              && !clean.includes("<h2")
+              && !clean.includes("<h3")
+              && !clean.includes("href=")
+              && p.replace(/<[^>]+>/g, "").trim() !== "";
+      });
+
+      partes = partes.map(p => p.replace(/<img[^>]*>/gi, ""));
+
+      if (partes.length === 0) {
+          conteudo = `<p>${n.resumo}</p>`;
+      }
+      else if (partes.length === 1) {
+          let extra = (n.conteudo || "").replace(/<[^>]+>/g, "");
+          extra = extra.substring(0, 500);
+          conteudo = partes[0] + `<p>${extra}</p>`;
+      }
+      else {
+          conteudo = partes.slice(0, 3).join("");
+      }
+
   } else {
-    conteudo = conteudo.substring(0, 850) + "...";
+
+      let textoCru = conteudo.replace(/<[^>]*>/g, "").trim();
+      conteudo = `
+          <p>${n.resumo}</p>
+          <p>${textoCru.substring(0, 500)}...</p>
+      `;
   }
 
   conteudo = conteudo.replace(/<img[^>]*>/gi, "");
-  conteudo = conteudo.replace(/<script[\s\S]*?<\/script>/gi, "");
 
   // --------------------------------------------------------------------
   // APLICAÇÃO NO MODAL (somente se o elemento existir → sem erros)
