@@ -159,7 +159,7 @@ async function carregarNoticias() {
     if (!ul) return;
 
     try {
-        const res = await fetch("/api/noticias_rh");
+        const res = await fetch("/api/noticias");
         const json = await res.json();
         const dados = json.noticias || [];
 
