@@ -218,5 +218,38 @@ function ajustarMenuMobile() {
     }
 }
 
+// ==========================================================
+// MENU MOBILE — ABRE O MESMO SIDEBAR DO DESKTOP
+// ==========================================================
+
+const btnMenuMobile = document.getElementById("btnMenuMobile");
+const sidebar = document.getElementById("sidebar");
+
+// Criar overlay escuro
+let overlayMobile = document.createElement("div");
+overlayMobile.id = "sidebar-overlay";
+overlayMobile.style.position = "fixed";
+overlayMobile.style.top = "0";
+overlayMobile.style.left = "0";
+overlayMobile.style.width = "100%";
+overlayMobile.style.height = "100%";
+overlayMobile.style.background = "rgba(0,0,0,0.55)";
+overlayMobile.style.backdropFilter = "blur(2px)";
+overlayMobile.style.display = "none";
+overlayMobile.style.zIndex = "998";
+document.body.appendChild(overlayMobile);
+
+// Abre o sidebar no mobile
+btnMenuMobile.onclick = () => {
+    sidebar.classList.add("sidebar-open");
+    overlayMobile.style.display = "block";
+};
+
+// Fecha ao clicar no overlay
+overlayMobile.onclick = () => {
+    sidebar.classList.remove("sidebar-open");
+    overlayMobile.style.display = "none";
+};
+
 window.addEventListener("resize", ajustarMenuMobile);
 window.addEventListener("DOMContentLoaded", ajustarMenuMobile);
