@@ -1,87 +1,545 @@
-/* ============================================================
-   DISC Dashboard — Tela Inicial
-   Layout 100% preservado + ajustes solicitados
-   ============================================================ */
+/* ============================================
+   INICIO.CSS — DISC DASHBOARD
+   Dashboard inicial (cards, frase, grids)
+   Compatível com index.html + main.css
+   ============================================ */
 
-:root {
-    --cor-primaria: #F98948;
-    --cor-secundaria: #241E4E;
-    --fundo-claro: #f7f7f7;
-    --fundo-escuro: #0d0d0d;
-    --texto-claro: #ffffff;
-    --texto-escuro: #1a1a1a;
-}
+/* ============================================
+   CONTAINER GERAL
+   ============================================ */
 
-/* ============================================================
-   SEÇÃO GERAl / ESTRUTURA BASE
-   ============================================================ */
-
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Manrope', sans-serif;
-    background: var(--fundo-claro);
-    color: var(--texto-escuro);
-}
-
-[data-theme="dark"] body {
-    background: var(--fundo-escuro);
-    color: var(--texto-claro);
-}
-
-/* ============================================================
-   CARD PRINCIPAL — AJUSTES (mantendo estrutura)
-   ============================================================ */
-
-.card-principal {
-    background: var(--card-bg);
-    border-radius: 24px;
-    padding: 36px 44px !important; /* AUMENTADO A PEDIDO */
-    margin-bottom: 20px;
-    transition: .25s ease;
+.dashboard-container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 20px 0;
+    padding-top: 25px;
     display: flex;
     flex-direction: column;
-    gap: 18px !important; /* MAIS RESPIRO ENTRE OS TEXTOS */
-    position: relative;
+    gap: 32px;
 }
 
-.card-principal .titulo-card-principal {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    font-size: 26px;
-}
+/* ============================================
+   CARD PRINCIPAL — MODELO ERP ADAPTADO DISC
+   ============================================ */
 
-/* Tema escuro — título laranja */
-[data-theme="dark"] .card-principal .titulo-card-principal {
-    color: #F98948 !important;
-}
-
-/* ============================================================
-   FRASE ROTATIVA — ESTILO
-   ============================================================ */
-
-#fraseRotativa {
+.card-principal {
+    background: var(--cor-header);
+    border-radius: 22px;
+    padding: 38px 42px;
+    margin-bottom: 38px;
     text-align: center;
-    font-size: 20px;
+    border: 1px solid rgba(249,137,72,0.22);
+    box-shadow:
+        0 0 14px rgba(249,137,72,0.25),
+        0 6px 22px rgba(0,0,0,0.30);
+}
+
+/* Título principal */
+.dashboard-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--cor-primaria);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+/* Boas-vindas */
+.dashboard-welcome {
+    font-size: 18px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Subtítulo */
+.dashboard-subtitle {
+    font-size: 15px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    opacity: 0.8;
+    margin-bottom: 22px;
+}
+
+/* FRASE ROTATIVA (texto principal) */
+.dashboard-quote {
+    margin-top: 14px;
+    font-size: 19px;
+    color: var(--cor-texto);
     font-family: 'Rajdhani', sans-serif;
     font-weight: 600;
-    margin-top: 6px;
-    transition: opacity .25s ease, transform .25s ease;
-    line-height: 1.32;
+    letter-spacing: 0.3px;
+    opacity: 0;
+    animation: fadeIn 0.5s forwards ease;
 }
 
-#wrapperSetasFrase {
+.dashboard-quote::before {
+    content: '"';
+}
+
+.dashboard-quote::after {
+    content: '"';
+}
+
+/* animação de fade suave */
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+/* ============================================
+   GRID DOS TRÊS CARDS
+   ============================================ */
+
+.cards-3 {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
 }
 
-/* setas — wrapper B */
-.setas-frase-wrapper {
+/* ============================================
+   CARD BASE — (INSIGHTS / NOTÍCIAS / FOTO)
+   ============================================ */
+
+.card {
+    background: var(--cor-sidebar);
+    border: 2px solid rgba(249,137,72,0.20);
+    border-radius: 18px;
+    padding: 20px 22px 24px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    box-shadow:
+        0 0 12px rgba(249,137,72,0.22),
+        0 4px 14px rgba(0,0,0,0.4);
+    transition: 0.25s ease;
+}
+
+.card:hover {
+    border-color: rgba(249,137,72,0.45);
+    box-shadow:
+        0 0 16px rgba(249,137,72,0.55),
+        inset 0 0 10px rgba(249,137,72,0.25);
+    transform: translateY(-3px);
+}
+
+/* TITULO DO CARD */
+.card-titulo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--cor-primaria);
+    font-weight: 700;
+    font-size: 18px;
+    font-family: 'Manrope', sans-serif;
+    margin-bottom: 12px;
+}
+
+/* Ícones FontAwesome nos títulos */
+.card-titulo i {
+    font-size: 20px;
+    filter: drop-shadow(0 0 6px rgba(249,137,72,0.35));
+    transition: 0.25s ease;
+}
+
+.card:hover .card-titulo i {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 10px rgba(249,137,72,0.6));
+}
+
+/* ============================================
+   INSIGHTS — LISTA (PADRONIZADO)
+   ============================================ */
+
+.lista-insights {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.lista-insights li {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Texto principal do insight */
+.lista-insights .insight-texto {
+    font-size: 16px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    line-height: 1.4;
+    /* Limita a 4 linhas */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Tema claro: texto azul negrito */
+[data-theme="light"] .lista-insights .insight-texto {
+    color: #241E4E;
+    font-weight: 700;
+}
+
+/* Tema escuro: texto branco negrito */
+[data-theme="dark"] .lista-insights .insight-texto {
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+/* Fonte clicável (2ª linha) */
+.lista-insights .insight-fonte {
+    font-size: 13px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+.lista-insights .insight-fonte a {
+    text-decoration: none;
+    transition: opacity 0.25s ease;
+}
+
+/* Tema claro: fonte preta sem negrito sem sublinhado */
+[data-theme="light"] .lista-insights .insight-fonte a {
+    color: #000000;
+    font-weight: 400;
+}
+
+/* Tema escuro: fonte LARANJA sem negrito sem sublinhado */
+[data-theme="dark"] .lista-insights .insight-fonte a {
+    color: #F98948;
+    font-weight: 400;
+}
+
+.lista-insights .insight-fonte a:hover {
+    opacity: 0.7;
+}
+
+/* ============================================
+   NOTÍCIAS — LISTA (PADRÃO IGUAL INSIGHTS)
+   ============================================ */
+
+.lista-noticias {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.lista-noticias li {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Texto principal da notícia (NÃO É MAIS LINK) */
+.lista-noticias .noticia-texto {
+    font-size: 16px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    line-height: 1.4;
+    /* Limita a 4 linhas */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Tema claro: texto azul negrito */
+[data-theme="light"] .lista-noticias .noticia-texto {
+    color: #241E4E;
+    font-weight: 700;
+}
+
+/* Tema escuro: texto branco negrito */
+[data-theme="dark"] .lista-noticias .noticia-texto {
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+/* Resumo da notícia (3ª linha) */
+.lista-noticias .noticia-resumo {
+    font-size: 13px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 400;
+    line-height: 1.3;
+    /* Limita a 2 linhas */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Tema claro: resumo cinza escuro */
+[data-theme="light"] .lista-noticias .noticia-resumo {
+    color: #555555;
+}
+
+/* Tema escuro: resumo cinza claro */
+[data-theme="dark"] .lista-noticias .noticia-resumo {
+    color: #AAAAAA;
+}
+
+/* Fonte clicável (2ª linha) */
+.lista-noticias .noticia-fonte {
+    font-size: 13px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+}
+
+.lista-noticias .noticia-fonte a {
+    text-decoration: none;
+    transition: opacity 0.25s ease;
+}
+
+/* Tema claro: fonte preta sem negrito sem sublinhado */
+[data-theme="light"] .lista-noticias .noticia-fonte a {
+    color: #000000;
+    font-weight: 400;
+}
+
+/* Tema escuro: fonte LARANJA sem negrito sem sublinhado */
+[data-theme="dark"] .lista-noticias .noticia-fonte a {
+    color: #F98948;
+    font-weight: 400;
+}
+
+.lista-noticias .noticia-fonte a:hover {
+    opacity: 0.7;
+}
+
+/* ============================================
+   FOTO DO DIA
+   ============================================ */
+
+.card-foto-wrapper {
+    width: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--cor-header);
+    border: 2px solid rgba(249,137,72,0.25);
+    box-shadow:
+        0 0 12px rgba(249,137,72,0.22),
+        0 4px 14px rgba(0,0,0,0.35);
+    transition: 0.35s ease;
+    cursor: pointer;
+}
+
+.card-foto-wrapper:hover {
+    border-color: rgba(249,137,72,0.55);
+    box-shadow:
+        0 0 18px rgba(249,137,72,0.6),
+        inset 0 0 12px rgba(249,137,72,0.25);
+    transform: translateY(-3px);
+}
+
+.card-foto-wrapper img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: 0.35s ease;
+    display: block;
+}
+
+.card-foto-wrapper:hover img {
+    transform: scale(1.05);
+}
+
+.foto-info {
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.foto-tema {
+    font-size: 16px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+}
+
+/* Tema claro: texto azul negrito */
+[data-theme="light"] .foto-tema {
+    color: #241E4E;
+    font-weight: 700;
+}
+
+/* Tema escuro: texto branco negrito */
+[data-theme="dark"] .foto-tema {
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+.foto-link {
+    font-size: 13px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+}
+
+.foto-link a {
+    text-decoration: none;
+    transition: opacity 0.25s ease;
+}
+
+/* Tema claro: fonte preta sem negrito sem sublinhado */
+[data-theme="light"] .foto-link a {
+    color: #000000;
+    font-weight: 400;
+}
+
+/* Tema escuro: fonte LARANJA sem negrito sem sublinhado */
+[data-theme="dark"] .foto-link a {
+    color: #F98948;
+    font-weight: 400;
+}
+
+.foto-link a:hover {
+    opacity: 0.7;
+}
+
+/* ============================================
+   ANIMAÇÕES DE ENTRADA (efeito sutil ERP)
+   ============================================ */
+
+@keyframes fadeSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard-container,
+.card-principal,
+.cards-3 .card {
+    animation: fadeSlideUp 0.45s ease;
+}
+
+/* ============================================
+   AJUSTES DE TEMA
+   ============================================ */
+
+/* tema claro */
+[data-theme="light"] .card-principal,
+[data-theme="light"] .card {
+    background: #FFFFFF;
+    border-color: rgba(0,0,0,0.15);
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.12),
+        0 0 12px rgba(249,137,72,0.18);
+}
+
+/* tema escuro */
+[data-theme="dark"] .card-principal,
+[data-theme="dark"] .card {
+    background: #1c1b1b;
+    border-color: rgba(249,137,72,0.28);
+}
+
+/* ============================================
+   GRID 2×2 DOS NOVOS CARDS (PADRÃO ATUAL)
+   ============================================ */
+.cards-grid-2x2 {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin: 34px 0;
+}
+
+/* BASE DOS CARDS NOVOS + HERO */
+.cards-grid-2x2 .card-novo,
+.cards-grid-2x2 .card-hero {
+    background: var(--cor-sidebar);
+    border: 2px solid rgba(249,137,72,0.22);
+    border-radius: 18px;
+    padding: 26px 28px;
+    box-shadow:
+        0 0 14px rgba(249,137,72,0.28),
+        0 4px 12px rgba(0,0,0,0.45);
+    transition: 0.25s ease;
+    font-family: 'Manrope', sans-serif; /* PADRONIZAÇÃO */
+}
+
+/* Hover */
+.cards-grid-2x2 .card-novo:hover,
+.cards-grid-2x2 .card-hero:hover {
+    border-color: rgba(249,137,72,0.45);
+    box-shadow:
+        0 0 20px rgba(249,137,72,0.55),
+        inset 0 0 12px rgba(249,137,72,0.30);
+    transform: translateY(-3px);
+}
+
+/* TITULOS — COR LARANJA (tema escuro), PADRONIZADOS */
+.novo-titulo,
+.hero-titulo {
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--cor-primaria);
+    margin-bottom: 10px; /* ESPAÇO ENTRE TÍTULO E TEXTO */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Manrope', sans-serif;
+}
+
+/* ICONES DOS TITULOS */
+.novo-titulo i,
+.hero-titulo i {
+    font-size: 20px;
+    filter: drop-shadow(0 0 6px rgba(249,137,72,0.40));
+}
+
+/* TEXTO PADRÃO DOS 4 CARDS */
+.novo-conteudo {
+    font-size: 16px;
+    color: var(--cor-texto);
+    line-height: 1.42;
+    font-family: 'Manrope', sans-serif;
+    margin-bottom: 8px;
+}
+
+/* FONTE */
+.novo-fonte {
+    font-size: 13px;
+    color: var(--cor-primaria);
+    opacity: 0.85;
+    font-family: 'Manrope', sans-serif;
+}
+
+/* HERO */
+.card-hero .hero-frase {
+    font-family: 'Rajdhani', sans-serif; /* MANTÉM O EXTRA */
+    font-size: 18px;
+    color: var(--cor-texto);
+    line-height: 1.45;
+}
+
+
+/* ============================================
+   SETAS — POSIÇÃO ALINHADA, TAMANHO FIXO
+   ============================================ */
+
+.setas-frase-wrapper {
+    position: absolute;
+    top: calc(50% + 26px); /* Alinha após o texto de boas vindas */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
     gap: 12px;
+    z-index: 20;
 }
 
 .seta-frase {
@@ -92,366 +550,111 @@ body {
     color: #FFF;
     border: none;
     cursor: pointer;
-    font-size: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 12px rgba(249,137,72,0.45);
-    transition: .25s ease;
+    font-size: 13px;
+    box-shadow: 0 0 12px rgba(249,137,72,0.55);
+    transition: 0.25s ease;
 }
 
 .seta-frase:hover {
-    transform: scale(1.15);
-    box-shadow: 0 0 14px rgba(249,137,72,0.75);
+    transform: scale(1.18);
+    box-shadow: 0 0 16px rgba(249,137,72,0.85);
 }
 
-/* ============================================================
-   GRID DE CARDS INFERIORES
-   ============================================================ */
+/* ============================================
+   RESPONSIVIDADE — LAPTOP 1200px
+   ============================================ */
 
-.container-cards-inicio {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 28px;
-    margin-top: 28px;
-}
-
-.card-inicio {
-    border-radius: 20px;
-    padding: 22px 26px;
-    background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    box-shadow: 0 0 18px rgba(0, 0, 0, .35);
-    transition: transform .25s ease, opacity .25s ease;
-    overflow: hidden;
-}
-
-.card-inicio:hover {
-    transform: translateY(-3px);
-}
-
-.card-inicio h3 {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--cor-primaria);
-    font-family: 'Manrope', sans-serif;
-    margin-bottom: 12px;
-}
-
-/* ============================================================
-   INSIGHTS — TEXTO INTERNO (SEM GLOW, COM RAJDHANI)
-   ============================================================ */
-
-.lista-insights {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
-/* Insight principal — corrigido */
-.insight-texto {
-    font-family: 'Rajdhani', sans-serif !important;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.4;
-
-    /* Remover glow que você relatou */
-    text-shadow: none !important;
-    filter: none !important;
-
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Tema claro */
-[data-theme="light"] .insight-texto {
-    color: #241E4E !important;
-}
-
-/* Tema escuro */
-[data-theme="dark"] .insight-texto {
-    color: #FFFFFF !important;
-}
-
-.insight-fonte {
-    font-family: 'Manrope', sans-serif !important;
-    font-size: 13px;
-    opacity: .85;
-}
-
-.insight-fonte a {
-    text-decoration: none;
-    color: var(--cor-primaria);
-    opacity: .85;
-    transition: opacity .25s ease;
-}
-
-.insight-fonte a:hover {
-    opacity: .65;
-}
-
-/* ============================================================
-   NOTÍCIAS
-   ============================================================ */
-
-.noticia-texto {
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.28;
-    font-family: 'Manrope', sans-serif;
-}
-
-.noticia-fonte {
-    font-size: 13px;
-    opacity: .8;
-}
-
-.noticia-fonte a {
-    color: var(--cor-primaria);
-    text-decoration: none;
-}
-
-/* ============================================================
-   FOTO DO DIA — AJUSTE LEVE
-   ============================================================ */
-
-#fotoDia {
-    width: 100%;
-    border-radius: 14px;
-    object-fit: cover;
-    box-shadow: 0 0 12px rgba(0,0,0,0.25);
-}
-
-#fotoAutor,
-#fotoFonte {
-    font-size: 13px;
-    opacity: .8;
-    font-family: 'Manrope', sans-serif;
-}
-
-#fotoAutor a {
-    color: var(--cor-primaria);
-    text-decoration: none;
-}
-
-/* ============================================================
-   NAV E HEADER — (SEU ORIGINAL, PRESERVADO)
-   ============================================================ */
-
-.header-inicio {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 28px;
-}
-
-.header-inicio .left {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.header-inicio .left h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 26px;
-    margin: 0;
-}
-
-.header-inicio .left span {
-    font-size: 14px;
-    font-family: 'Manrope', sans-serif;
-    opacity: .7;
-}
-
-.header-inicio .right {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-}
-
-.header-inicio .tema-toggle {
-    cursor: pointer;
-}
-
-.header-inicio .tema-toggle i {
-    font-size: 20px;
-    color: var(--cor-primaria);
-}
-
-/* ============================================================
-   PARTE 1/2 TERMINA AQUI — CONTINUA NA PARTE 2/2
-   ============================================================ */
-/* ============================================================
-   CARDS — ANIMAÇÃO SUAVE
-   ============================================================ */
-
-.card-dicas,
-.card-estatistica,
-.card-indicador,
-.card-insight {
-    background: var(--card-bg);
-    border-radius: 20px;
-    padding: 20px 26px;
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    box-shadow: 0 0 14px rgba(0,0,0,.30);
-    transition: opacity .25s ease, transform .25s ease;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.card-dicas:hover,
-.card-estatistica:hover,
-.card-indicador:hover,
-.card-insight:hover {
-    transform: translateY(-3px);
-}
-
-/* ============================================================
-   HERÓI (CARD ESPECIAL)
-   ============================================================ */
-
-.card-hero {
-    background: var(--card-bg);
-    border-radius: 22px;
-    padding: 26px 30px;
-    box-shadow: 0 0 16px rgba(0,0,0,.30);
-    border: 1px solid rgba(255,255,255,0.03);
-}
-
-.card-hero h3 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 20px;
-    color: var(--cor-primaria);
-    margin-bottom: 10px;
-}
-
-.card-hero p {
-    font-family: 'Manrope', sans-serif;
-    font-size: 15px;
-    line-height: 1.35;
-    opacity: .9;
-}
-
-/* ============================================================
-   SEPARADORES, UTILITÁRIOS, AJUSTES GERAIS
-   ============================================================ */
-
-.separator {
-    width: 100%;
-    height: 1px;
-    background: rgba(255,255,255,0.08);
-    margin: 12px 0;
-}
-
-.center {
-    text-align: center;
-}
-
-.flex {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.opacity-70 {
-    opacity: .7;
-}
-
-/* Remover sombras e filters que apareciam em textos */
-.card-inicio *,
-.card-principal *,
-.card-dicas *,
-.card-estatistica *,
-.card-indicador *,
-.card-insight *,
-.card-hero * {
-    text-shadow: none !important;
-    filter: none !important;
-}
-
-.card-principal h1,
-.card-principal h2,
-.card-inicio h3 {
-    text-shadow: none !important;
-}
-
-/* ============================================================
-   RESPONSIVIDADE
-   ============================================================ */
-
-@media (max-width: 1050px) {
-    .card-principal {
-        padding: 30px 36px !important;
+@media (max-width: 1200px) {
+    .dashboard-container {
+        padding: 18px 14px;
     }
 }
+
+/* ============================================
+   RESPONSIVIDADE — TABLETS 900px
+   ============================================ */
 
 @media (max-width: 900px) {
-    #fraseRotativa {
-        font-size: 19px;
-    }
-
-    .card-inicio h3 {
-        font-size: 17px;
-    }
-}
-
-@media (max-width: 800px) {
-    .header-inicio {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-    }
-}
-
-@media (max-width: 650px) {
-    .card-principal {
-        padding: 24px 26px !important;
-    }
-
-    .container-cards-inicio {
+    .cards-3 {
         grid-template-columns: 1fr;
         gap: 22px;
     }
 
-    #wrapperSetasFrase {
-        margin-top: 10px;
+    .card-principal {
+        padding: 28px 24px;
+    }
+
+    .dashboard-quote {
+        font-size: 17px;
+    }
+
+    .card-foto-wrapper img {
+        height: 200px;
     }
 }
 
-@media (max-width: 480px) {
-    #fraseRotativa {
-        font-size: 18px;
+/* ============================================
+   RESPONSIVIDADE — CELULARES 600px
+   ============================================ */
+
+@media (max-width: 600px) {
+    .dashboard-title {
+        font-size: 24px;
     }
 
-    .card-inicio {
-        padding: 20px 20px;
+    .dashboard-quote {
+        font-size: 16px;
+    }
+
+    .cards-3 {
+        gap: 18px;
+    }
+
+    .card {
+        padding: 18px 16px;
+    }
+
+    .card-titulo {
+        font-size: 16px;
+    }
+
+    .card-foto-wrapper img {
+        height: 180px;
     }
 }
 
-/* ============================================================
-   FOOTER
-   ============================================================ */
 
-.footer-inicio {
-    margin-top: 40px;
-    padding: 20px 0 30px 0;
-    text-align: center;
-    opacity: .6;
-    font-size: 13px;
-    font-family: 'Manrope', sans-serif;
+
+/* ============================================
+   RESPONSIVIDADE — CELULARES MUITO PEQUENOS
+   ============================================ */
+
+@media (max-width: 420px) {
+    .card-principal {
+        padding: 22px 14px;
+    }
+
+    .dashboard-quote {
+        font-size: 15px;
+    }
+}
+/* Responsivo — Tablets */
+@media (max-width: 900px) {
+    .cards-2 {
+        grid-template-columns: 1fr;
+    }
 }
 
-.footer-inicio a {
-    text-decoration: none;
-    color: var(--cor-primaria);
-}
+/* Responsivo — Celulares */
+@media (max-width: 600px) {
+    .card-novo {
+        padding: 18px 16px;
+    }
 
-/* ============================================================
-   FIM DO ARQUIVO ORIGINAL (606+ LINHAS PRESERVADAS)
-   ============================================================ */
+    .hero-frase {
+        font-size: 16px;
+    }
+}
