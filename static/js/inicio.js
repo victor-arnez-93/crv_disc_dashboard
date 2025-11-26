@@ -1,5 +1,5 @@
 // ============================================================================
-// INICIO.JS — CORRIGIDO
+// inicio.js — VERSÃO FINAL CORRIGIDA
 // ============================================================================
 
 import {
@@ -10,25 +10,15 @@ import {
 } from "./banco_interno.js";
 
 // ============================================================================
-// 1) FRASE PRINCIPAL
+// 1) FRASE PRINCIPAL — ROTATIVA
 // ============================================================================
 
 const frasesPrincipais = [
     "Processos eficientes não substituem pessoas competentes — eles potencializam.",
     "Gestores comuns administram tarefas; gestores excepcionais desenvolvem pessoas.",
     "Em gestão, pequenas melhorias diárias constroem grandes resultados anuais.",
-    "Liderar é servir: primeiro o propósito, depois as pessoas, por fim os resultados.",
     "Autoridade se impõe, liderança se conquista.",
-    "Um líder forte não cria seguidores — cria novos líderes.",
-    "O equilíbrio entre perfis diferentes cria equipes extraordinárias.",
-    "Quando o comportamento é compreendido, o conflito vira colaboração.",
-    "Não existe perfil certo — existe o perfil certo para cada situação.",
-    "No RH moderno, dados mostram o caminho e a experiência humana faz a jornada.",
-    "Tecnologia não substitui empatia — apenas amplifica a precisão da gestão.",
-    "A revolução do RH começa ao unir dados, pessoas e propósito.",
-    "Alta performance é constância, não intensidade.",
-    "Produtividade nasce da clareza, não do excesso de esforço.",
-    "Resultados extraordinários vêm de hábitos simples bem aplicados."
+    "Quando o comportamento é compreendido, o conflito vira colaboração."
 ];
 
 let fraseIndex = 0;
@@ -38,17 +28,14 @@ function atualizarFrasePrincipal() {
     if (!elemento) return;
 
     elemento.style.opacity = 0;
-    elemento.style.transform = "translateY(-12px)";
+    elemento.style.transform = "translateY(-10px)";
 
     setTimeout(() => {
         elemento.textContent = frasesPrincipais[fraseIndex];
-        elemento.style.transform = "translateY(12px)";
 
-        setTimeout(() => {
-            elemento.style.opacity = 1;
-            elemento.style.transform = "translateY(0)";
-        }, 80);
-    }, 220);
+        elemento.style.opacity = 1;
+        elemento.style.transform = "translateY(0)";
+    }, 200);
 }
 
 function fraseAnterior() {
@@ -62,8 +49,8 @@ function proximaFrase() {
 }
 
 function criarSetasFrase() {
-    const fraseEl = document.getElementById("fraseRotativa");
-    const card = fraseEl.parentElement;
+    const container = document.getElementById("wrapperSetasFrase");
+    if (!container) return;
 
     const wrapper = document.createElement("div");
     wrapper.className = "setas-frase-wrapper";
@@ -80,11 +67,11 @@ function criarSetasFrase() {
 
     wrapper.appendChild(btnEsq);
     wrapper.appendChild(btnDir);
-    card.appendChild(wrapper);
+    container.appendChild(wrapper);
 }
 
 // ============================================================================
-// 2) ROTATIVOS
+// 2) ROTATIVOS DOS 4 CARDS — A CADA 20s
 // ============================================================================
 
 let rotacaoIndex = 0;
@@ -92,34 +79,41 @@ let rotacaoIndex = 0;
 function animarTroca(element) {
     element.style.opacity = 0;
     element.style.transform = "translateY(-10px)";
+
     setTimeout(() => {
         element.style.opacity = 1;
         element.style.transform = "translateY(0)";
-    }, 180);
+    }, 200);
 }
 
 function atualizarCardsRotativos() {
-    document.getElementById("textoDica").textContent = dicas[rotacaoIndex];
-    document.getElementById("textoEst1").textContent = estatisticas[rotacaoIndex];
-    document.getElementById("textoEst2").textContent = indicadores[rotacaoIndex];
-    document.getElementById("textoHero").textContent = heroFrases[rotacaoIndex];
+    const dica = document.getElementById("textoDica");
+    const est1 = document.getElementById("textoEst1");
+    const est2 = document.getElementById("textoEst2");
+    const hero = document.getElementById("textoHero");
 
-    animarTroca(document.getElementById("textoDica"));
-    animarTroca(document.getElementById("textoEst1"));
-    animarTroca(document.getElementById("textoEst2"));
-    animarTroca(document.getElementById("textoHero"));
+    if (!dica || !est1 || !est2 || !hero) return;
+
+    dica.textContent = dicas[rotacaoIndex];
+    est1.textContent = estatisticas[rotacaoIndex];
+    est2.textContent = indicadores[rotacaoIndex];
+    hero.textContent = heroFrases[rotacaoIndex];
+
+    animarTroca(dica);
+    animarTroca(est1);
+    animarTroca(est2);
+    animarTroca(hero);
 
     rotacaoIndex = (rotacaoIndex + 1) % dicas.length;
 }
 
 // ============================================================================
-// 3) INSIGHTS DO DIA (BANCO INTERNO)
+// 3) INSIGHTS DO DIA (BANCO INTERNO) — 2 POR DIA
 // ============================================================================
 
 function obterInsightsDoDia() {
     const cache = localStorage.getItem("insightsDia");
     const cacheData = localStorage.getItem("insightsData");
-
     const hoje = new Date().toDateString();
 
     if (cache && cacheData === hoje) {
@@ -156,9 +150,8 @@ function carregarInsights() {
     });
 }
 
-
 // ============================================================================
-// 4) NOTÍCIAS DO DIA
+// 4) NOTÍCIAS DO DIA — VIA API
 // ============================================================================
 
 async function carregarNoticias() {
@@ -188,7 +181,7 @@ async function carregarNoticias() {
 }
 
 // ============================================================================
-// 5) FOTO DO DIA
+// 5) FOTO DO DIA — VIA API
 // ============================================================================
 
 async function carregarFoto() {
@@ -206,14 +199,15 @@ async function carregarFoto() {
 
     } catch {
         img.src = "https://images.unsplash.com/photo-1556761175-129418cb2dfe?w=1200";
-        autor.innerHTML = "Autor desconhecido";
-        fonte.textContent = "Fallback";
+        autor.innerHTML = "Autor: Desconhecido";
+        fonte.textContent = "Fonte: Fallback";
     }
 }
 
 // ============================================================================
 // INICIALIZAR
 // ============================================================================
+
 document.addEventListener("DOMContentLoaded", () => {
     atualizarFrasePrincipal();
     criarSetasFrase();
@@ -221,4 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarInsights();
     carregarNoticias();
     carregarFoto();
+
+    // Rotação dos 4 cards a cada 20s
+    setInterval(atualizarCardsRotativos, 20000);
 });

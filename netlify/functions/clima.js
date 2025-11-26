@@ -1,10 +1,6 @@
 // ======================================================================
-// FUNÇÃO SERVERLESS – CLIMA (OPENWEATHER)
-// Mantém exatamente o comportamento antigo (emojis, formato, etc.)
+// CLIMA — NETLIFY FUNCTION (VERSÃO FINAL SEM ERROS)
 // ======================================================================
-
-const fetch = (...args) =>
-  import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 exports.handler = async () => {
   try {
@@ -17,10 +13,11 @@ exports.handler = async () => {
       };
     }
 
-    // Cidade fixa (Tatuí - pode mudar se quiser)
+    // Cidade fixa — pode mudar se quiser
     const city = "Tatuí";
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&lang=pt_br&units=metric`;
 
+    // Netlify suporta fetch nativo — não precisa node-fetch
     const resp = await fetch(url);
 
     if (!resp.ok) {
@@ -32,28 +29,29 @@ exports.handler = async () => {
 
     const data = await resp.json();
 
-    // === MANter EMOJIS EXATAMENTE COMO VOCÊ JÁ USA ===
-    function getWeatherEmoji(weather) {
-      return {
-        Clear: "☀️",
-        Clouds: "☁️",
-        Rain: "🌧️",
-        Drizzle: "🌦️",
-        Thunderstorm: "⛈️",
-        Snow: "❄️",
-        Mist: "🌫️",
-        Fog: "🌫️",
-        Haze: "🌫️"
-      }[weather] || "🌡️";
-    }
+    // Emojis mantidos
+    const getWeatherEmoji = (weather) => ({
+      Clear: "☀️",
+      Clouds: "☁️",
+      Rain: "🌧️",
+      Drizzle: "🌦️",
+      Thunderstorm: "⛈️",
+      Snow: "❄️",
+      Mist: "🌫️",
+      Fog: "🌫️",
+      Haze: "🌫️"
+    }[weather] || "🌡️");
 
     const weather = data.weather?.[0];
     const main = data.main;
 
+    // CORRIGIDO: temperatura agora SEM "|| 0"
+    const temperatura = main?.temp !== undefined ? Math.round(main.temp) : "--";
+
     const payload = {
       emoji: getWeatherEmoji(weather?.main),
       descricao: weather?.description || "",
-      temperatura: Math.round(main?.temp) || 0
+      temperatura
     };
 
     return {
