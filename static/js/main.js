@@ -1,6 +1,6 @@
 // ===================================================================
 // MAIN.JS — DISC DASHBOARD
-// Relógio, Tema Claro/Escuro, Clima (OpenWeather), Sidebar Toggle
+// Relógio, Tema Claro/Escuro, Clima, Sidebar Desktop + Mobile
 // ===================================================================
 
 // ===============================
@@ -21,33 +21,41 @@ function iniciarRelogio() {
 iniciarRelogio();
 
 // ===============================
+// REFERÊNCIAS GLOBAIS
+// ===============================
+let sidebar = document.getElementById("sidebar");      // <== AGORA EXISTE APENAS UMA VEZ
+let btnMenuDesktop = document.getElementById("btnMenu");
+let btnMenuMobile = document.getElementById("btnMenuMobile");
+
+// ===============================
 // TEMA CLARO / ESCURO
 // ===============================
 const botaoTema = document.getElementById("btnTema");
+
 function aplicarTema(tema) {
     document.documentElement.setAttribute("data-theme", tema);
     localStorage.setItem("temaDISC", tema);
+
     const iconeTema = botaoTema?.querySelector("i");
-    if (iconeTema) {
-        iconeTema.className = tema === "dark" ? "fas fa-sun" : "fas fa-moon";
-    }
+    if (iconeTema) iconeTema.className = tema === "dark" ? "fas fa-sun" : "fas fa-moon";
+
     atualizarIconeClimaPorHora();
 }
+
 function alternarTema() {
     const temaAtual = document.documentElement.getAttribute("data-theme") || "light";
-    const novoTema = temaAtual === "light" ? "dark" : "light";
-    aplicarTema(novoTema);
+    aplicarTema(temaAtual === "light" ? "dark" : "light");
 }
+
 if (botaoTema) botaoTema.addEventListener("click", alternarTema);
+
 aplicarTema(localStorage.getItem("temaDISC") || "light");
 
 // ===============================
-// BOTÃO RECOLHER SIDEBAR
+// SIDEBAR — BOTÃO DESKTOP
 // ===============================
-const btnMenu = document.getElementById("btnMenu");
-const sidebar = document.getElementById("sidebar");
-if (btnMenu && sidebar) {
-    btnMenu.addEventListener("click", () => {
+if (btnMenuDesktop && sidebar) {
+    btnMenuDesktop.addEventListener("click", () => {
         sidebar.classList.toggle("closed");
     });
 }
@@ -73,14 +81,12 @@ if (weatherBox && modalClima) {
     }
 
     document.addEventListener('click', (e) => {
-        if (!weatherBox.contains(e.target)) {
-            modalClima.classList.remove('ativo');
-        }
+        if (!weatherBox.contains(e.target)) modalClima.classList.remove('ativo');
     });
 }
 
 // ===============================
-// CLIMA
+// CLIMA + ÍCONE DIA/NOITE
 // ===============================
 async function carregarClima() {
     const iconeClimaImg = document.getElementById("iconeClimaImg");
@@ -94,7 +100,6 @@ async function carregarClima() {
 
         temperatura.textContent = `${data.temperatura}°C`;
         atualizarIconeClimaPorHora();
-
     } catch (erro) {
         console.error('Erro ao buscar clima:', erro);
         temperatura.textContent = '-- °C';
@@ -106,11 +111,9 @@ function atualizarIconeClimaPorHora() {
     if (!iconeClimaImg) return;
 
     const hora = new Date().getHours();
-    if (hora >= 6 && hora < 18) {
-        iconeClimaImg.src = "static/imagens/ico_dia.png";
-    } else {
-        iconeClimaImg.src = "static/imagens/ico_noite.png";
-    }
+    iconeClimaImg.src = hora >= 6 && hora < 18
+        ? "static/imagens/ico_dia.png"
+        : "static/imagens/ico_noite.png";
 }
 
 carregarClima();
@@ -122,21 +125,21 @@ setInterval(carregarClima, 600000);
 window.addEventListener('DOMContentLoaded', () => {
     const nome = localStorage.getItem('config_nome');
     const email = localStorage.getItem('config_email');
+    const avatarURL = localStorage.getItem('config_avatar');
+
     if (nome) document.querySelectorAll('.user-name').forEach(e => e.textContent = nome);
     if (email) document.querySelectorAll('.user-role').forEach(e => e.textContent = email);
 
-    const avatarURL = localStorage.getItem('config_avatar');
     if (avatarURL) {
         document.querySelectorAll('.user-box img, .logo-header').forEach(im => {
             im.src = avatarURL;
         });
     }
 });
-// ==========================================================
-// BUSCA GLOBAL EM QUALQUER PÁGINA — CRV DISC DASHBOARD
-// ==========================================================
 
-// Evita erro se o campo não existir na página
+// ==========================================================
+// BUSCA GLOBAL
+// ==========================================================
 document.addEventListener("DOMContentLoaded", () => {
     const campo = document.getElementById("campoBusca");
     if (!campo) return;
@@ -144,24 +147,20 @@ document.addEventListener("DOMContentLoaded", () => {
     let resultados = [];
     let indiceAtual = -1;
 
-    // Remove destaques anteriores
     function limparDestaques() {
         document.querySelectorAll(".highlight-busca").forEach(el => {
             el.outerHTML = el.innerText;
         });
     }
 
-    // Destaca resultados
     function destacar(texto) {
         limparDestaques();
-
         if (texto.length < 2) return;
-
-        const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
 
         resultados = [];
         indiceAtual = -1;
 
+        const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
         while (walk.nextNode()) {
             const node = walk.currentNode;
             const valor = node.nodeValue.toLowerCase();
@@ -187,69 +186,60 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        // Se encontrou, vai para o primeiro
         if (resultados.length > 0) {
             indiceAtual = 0;
-            scrollPara(indiceAtual);
+            resultados[indiceAtual].scrollIntoView({ behavior: "smooth", block: "center" });
         }
     }
 
-    function scrollPara(index) {
-        if (!resultados[index]) return;
-        resultados[index].scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-
-    campo.addEventListener("input", () => {
-        destacar(campo.value.trim());
-    });
+    campo.addEventListener("input", () => destacar(campo.value.trim()));
 });
 
-// === MENU MOBILE — FORÇAR BOTÃO APARECER EM TELAS PEQUENAS ===
+// ==========================================================
+// AJUSTE AUTOMÁTICO DO MENU EM TELAS PEQUENAS
+// ==========================================================
 function ajustarMenuMobile() {
-    const sidebar = document.getElementById("sidebar");
-    const toggle = document.getElementById("btnMenu");
-
     if (window.innerWidth <= 900) {
         sidebar.classList.add("fechado");
-        toggle.style.display = "flex";
+        btnMenuDesktop.style.display = "flex";
     } else {
         sidebar.classList.remove("fechado");
-        toggle.style.display = "none";
+        btnMenuDesktop.style.display = "none";
     }
 }
 
-// ==========================================================
-// MENU MOBILE — ABRE O MESMO SIDEBAR DO DESKTOP
-// ==========================================================
-
-const btnMenuMobile = document.getElementById("btnMenuMobile");
-const sidebar = document.getElementById("sidebar");
-
-// Criar overlay escuro
-let overlayMobile = document.createElement("div");
-overlayMobile.id = "sidebar-overlay";
-overlayMobile.style.position = "fixed";
-overlayMobile.style.top = "0";
-overlayMobile.style.left = "0";
-overlayMobile.style.width = "100%";
-overlayMobile.style.height = "100%";
-overlayMobile.style.background = "rgba(0,0,0,0.55)";
-overlayMobile.style.backdropFilter = "blur(2px)";
-overlayMobile.style.display = "none";
-overlayMobile.style.zIndex = "998";
-document.body.appendChild(overlayMobile);
-
-// Abre o sidebar no mobile
-btnMenuMobile.onclick = () => {
-    sidebar.classList.add("sidebar-open");
-    overlayMobile.style.display = "block";
-};
-
-// Fecha ao clicar no overlay
-overlayMobile.onclick = () => {
-    sidebar.classList.remove("sidebar-open");
-    overlayMobile.style.display = "none";
-};
-
 window.addEventListener("resize", ajustarMenuMobile);
 window.addEventListener("DOMContentLoaded", ajustarMenuMobile);
+
+// ==========================================================
+// MENU MOBILE — ABRIR O SIDEBAR
+// ==========================================================
+if (btnMenuMobile) {
+
+    // cria overlay apenas uma vez
+    let overlayMobile = document.getElementById("sidebar-overlay");
+    if (!overlayMobile) {
+        overlayMobile = document.createElement("div");
+        overlayMobile.id = "sidebar-overlay";
+        overlayMobile.style.position = "fixed";
+        overlayMobile.style.top = "0";
+        overlayMobile.style.left = "0";
+        overlayMobile.style.width = "100%";
+        overlayMobile.style.height = "100%";
+        overlayMobile.style.background = "rgba(0,0,0,0.55)";
+        overlayMobile.style.backdropFilter = "blur(3px)";
+        overlayMobile.style.display = "none";
+        overlayMobile.style.zIndex = "998";
+        document.body.appendChild(overlayMobile);
+    }
+
+    btnMenuMobile.addEventListener("click", () => {
+        sidebar.classList.add("sidebar-open");
+        overlayMobile.style.display = "block";
+    });
+
+    overlayMobile.addEventListener("click", () => {
+        sidebar.classList.remove("sidebar-open");
+        overlayMobile.style.display = "none";
+    });
+}
