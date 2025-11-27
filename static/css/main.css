@@ -1328,33 +1328,47 @@ h1, h2, h3, h4, h5, h6,
     }
 }
 /* ============================================================
-   SIDEBAR MOBILE
+   SIDEBAR MOBILE — NOVA VERSÃO (OPÇÃO C COMPLETA)
    ============================================================ */
 @media (max-width: 768px) {
 
-    /* Sidebar fechada por padrão */
+    /* Sidebar vira painel lateral */
     .sidebar {
-        left: -100%;
-        width: 80%;
-        max-width: 300px;
-        transition: left 0.35s ease-in-out;
         position: fixed;
         top: 0;
-        bottom: 0;
+        left: -100%;
+        width: 70%;
+        max-width: 300px;
+        height: 100vh;
+        background: var(--cor-sidebar);
+        padding-top: 60px; /* espaço para botão X */
+        overflow-y: auto;
+        transition: left 0.35s ease-in-out;
         z-index: 9999;
-        border-right: 2px solid #ff7a33;
+        border-right: 2px solid var(--cor-primaria);
     }
 
-    /* Quando abre */
+    /* Sidebar aberta */
     .sidebar.aberta {
         left: 0;
     }
 
-    /* Overlay */
+    /* Botão X interno */
+    .sidebar-fechar {
+        position: absolute;
+        top: 14px;
+        right: 16px;
+        font-size: 26px;
+        color: var(--cor-primaria);
+        cursor: pointer;
+        z-index: 10000;
+    }
+
+    /* Overlay escurecido */
     #sidebar-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.5);
+        background: rgba(0,0,0,0.55);
         backdrop-filter: blur(2px);
         display: none;
         z-index: 9998;
@@ -1364,16 +1378,22 @@ h1, h2, h3, h4, h5, h6,
         display: block;
     }
 
-    /* Botão X */
-    .sidebar-fechar {
-        position: absolute;
-        right: 12px;
-        top: 12px;
-        color: #ff7a33;
-        font-size: 26px;
-        cursor: pointer;
+    /* Congela o scroll do body quando menu abre */
+    body.menu-aberto {
+        overflow: hidden;
+    }
+
+    /* Ajustes adicionais de header + conteúdo */
+    .main-content {
+        margin-left: 0 !important;
+        padding: 22px;
+    }
+
+    .sidebar-toggle {
+        display: none !important; /* botão desktop some no mobile */
     }
 }
+
 /* ============================================================
    AJUSTE GLOBAL DOS PRIMEIROS CARDS DAS PÁGINAS INTERNAS
    ============================================================ */

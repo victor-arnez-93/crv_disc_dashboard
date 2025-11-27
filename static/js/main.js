@@ -228,6 +228,16 @@ if (btnMenuMobile) {
     btnMenuMobile.addEventListener("click", () => {
         sidebar.classList.add("aberta");
         overlay.classList.add("mostrar");
+        document.body.classList.add("menu-aberto");
+    });
+}
+
+const btnFechar = document.querySelector(".sidebar-fechar");
+if (btnFechar) {
+    btnFechar.addEventListener("click", () => {
+        sidebar.classList.remove("aberta");
+        overlay.classList.remove("mostrar");
+        document.body.classList.remove("menu-aberto");
     });
 }
 
@@ -235,4 +245,6 @@ if (btnMenuMobile) {
 overlay.addEventListener("click", () => {
     sidebar.classList.remove("aberta");
     overlay.classList.remove("mostrar");
+    document.body.classList.remove("menu-aberto");
 });
+
