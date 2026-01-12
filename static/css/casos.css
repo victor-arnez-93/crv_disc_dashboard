@@ -1,0 +1,709 @@
+/* ============================================
+   CASOS.CSS — DISC DASHBOARD
+   Biblioteca de Casos de Liderança
+   Compatível com main.css + padrão visual
+============================================ */
+
+/* ============================================
+   CARD PRINCIPAL
+============================================ */
+.card-principal {
+    background: var(--cor-header);
+    border-radius: 22px;
+    padding: 38px 42px;
+    margin-bottom: 38px;
+    text-align: center;
+    border: 1px solid rgba(249,137,72,0.22);
+    box-shadow:
+        0 0 14px rgba(249,137,72,0.25),
+        0 6px 22px rgba(0,0,0,0.30);
+}
+
+/* ============================================
+   CONTROLES DE FILTROS
+============================================ */
+.controles-casos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+    padding: 24px;
+    background: var(--cor-sidebar);
+    border-radius: 18px;
+    border: 2px solid rgba(249,137,72,0.20);
+    box-shadow:
+        0 0 12px rgba(249,137,72,0.22),
+        0 4px 14px rgba(0,0,0,0.4);
+}
+
+.filtro-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filtro-grupo label {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-primaria);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filtro-grupo label i {
+    font-size: 16px;
+    filter: drop-shadow(0 0 6px rgba(249,137,72,0.35));
+}
+
+.filtro-select,
+.filtro-input {
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 2px solid rgba(249,137,72,0.25);
+    background: var(--cor-header);
+    color: var(--cor-texto);
+    font-size: 15px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    transition: all 0.25s ease;
+    outline: none;
+}
+
+.filtro-select {
+    cursor: pointer;
+}
+
+.filtro-input::placeholder {
+    color: var(--cor-texto);
+    opacity: 0.5;
+}
+
+.filtro-select:hover,
+.filtro-input:hover {
+    border-color: rgba(249,137,72,0.5);
+    box-shadow: 0 0 10px rgba(249,137,72,0.3);
+}
+
+.filtro-select:focus,
+.filtro-input:focus {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 14px rgba(249,137,72,0.5);
+}
+
+/* Tema claro */
+[data-theme="light"] .filtro-select,
+[data-theme="light"] .filtro-input {
+    background: #FFFFFF;
+    border-color: #241E4E;
+    color: #241E4E;
+}
+
+[data-theme="light"] .filtro-select:hover,
+[data-theme="light"] .filtro-input:hover {
+    border-color: #F98948;
+}
+
+/* ============================================
+   ESTATÍSTICAS
+============================================ */
+.casos-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background: var(--cor-sidebar);
+    border-radius: 14px;
+    padding: 20px;
+    border: 2px solid rgba(249,137,72,0.18);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    border-color: rgba(249,137,72,0.4);
+    box-shadow: 0 0 12px rgba(249,137,72,0.25);
+    transform: translateY(-3px);
+}
+
+.stat-card i {
+    font-size: 32px;
+    color: var(--cor-primaria);
+    filter: drop-shadow(0 0 8px rgba(249,137,72,0.4));
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-numero {
+    font-size: 28px;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--cor-primaria);
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    opacity: 0.8;
+    margin-top: 4px;
+}
+
+/* ============================================
+   GRID DE CASOS
+============================================ */
+.grid-casos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+/* ============================================
+   CARD DE CASO
+============================================ */
+.caso-card {
+    background: var(--cor-sidebar);
+    border-radius: 16px;
+    border: 2px solid rgba(249,137,72,0.18);
+    padding: 22px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
+}
+
+.caso-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--cor-primaria);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.caso-card:hover {
+    border-color: rgba(249,137,72,0.45);
+    box-shadow: 0 0 16px rgba(249,137,72,0.3);
+    transform: translateY(-5px);
+}
+
+.caso-card:hover::before {
+    transform: scaleY(1);
+}
+
+/* Header do Card */
+.caso-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.caso-badge {
+    min-width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    color: #FFFFFF;
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+/* Badges por perfil */
+.caso-badge.perfil-D {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.caso-badge.perfil-I {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.caso-badge.perfil-S {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.caso-badge.perfil-C {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.caso-badge.perfil-misto {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.caso-numero {
+    background: rgba(249,137,72,0.15);
+    color: var(--cor-primaria);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+/* Título do Caso */
+.caso-titulo {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    line-height: 1.4;
+    margin-bottom: 8px;
+}
+
+[data-theme="light"] .caso-titulo {
+    color: #241E4E;
+}
+
+/* Descrição do Caso */
+.caso-descricao {
+    font-size: 14px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    opacity: 0.85;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+[data-theme="light"] .caso-descricao {
+    color: #555555;
+}
+
+/* Tags do Caso */
+.caso-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Rajdhani', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.tag-tema {
+    background: rgba(59,130,246,0.15);
+    color: #3b82f6;
+    border: 1px solid rgba(59,130,246,0.3);
+}
+
+.tag-complexidade {
+    background: rgba(249,137,72,0.15);
+    color: var(--cor-primaria);
+    border: 1px solid rgba(249,137,72,0.3);
+}
+
+.tag i {
+    font-size: 11px;
+}
+
+/* Footer do Card */
+.caso-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid rgba(249,137,72,0.15);
+}
+
+.caso-btn {
+    color: var(--cor-primaria);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Manrope', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.25s ease;
+}
+
+.caso-btn:hover {
+    gap: 10px;
+    filter: brightness(1.2);
+}
+
+/* ============================================
+   MENSAGEM SEM RESULTADOS
+============================================ */
+.sem-resultados {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--cor-sidebar);
+    border-radius: 18px;
+    border: 2px dashed rgba(249,137,72,0.3);
+}
+
+.sem-resultados i {
+    font-size: 56px;
+    color: var(--cor-primaria);
+    opacity: 0.6;
+    margin-bottom: 16px;
+}
+
+.sem-resultados h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    color: var(--cor-primaria);
+    margin-bottom: 8px;
+}
+
+.sem-resultados p {
+    font-size: 15px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    opacity: 0.7;
+}
+
+/* ============================================
+   MODAL CASO COMPLETO
+============================================ */
+.modal-caso {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    animation: fadeInModal 0.3s ease;
+}
+
+.modal-caso.ativo {
+    display: flex;
+}
+
+@keyframes fadeInModal {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-caso-content {
+    background: var(--cor-header);
+    border-radius: 20px;
+    border: 2px solid var(--cor-primaria);
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow:
+        0 0 30px rgba(249,137,72,0.4),
+        0 10px 50px rgba(0,0,0,0.6);
+    animation: slideInModal 0.4s ease;
+}
+
+@keyframes slideInModal {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Scrollbar do modal */
+.modal-caso-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-caso-content::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.2);
+}
+
+.modal-caso-content::-webkit-scrollbar-thumb {
+    background: var(--cor-primaria);
+    border-radius: 10px;
+}
+
+/* Botão Fechar */
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--cor-primaria);
+    background: var(--cor-header);
+    color: var(--cor-primaria);
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.modal-close:hover {
+    background: var(--cor-primaria);
+    color: #FFFFFF;
+    transform: rotate(90deg);
+    box-shadow: 0 0 15px rgba(249,137,72,0.6);
+}
+
+/* Modal Header */
+.modal-header {
+    padding: 32px 32px 24px;
+    border-bottom: 2px solid rgba(249,137,72,0.2);
+}
+
+.modal-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    color: #FFFFFF;
+    margin-bottom: 12px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+}
+
+.modal-badge.perfil-D {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.modal-badge.perfil-I {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.modal-badge.perfil-S {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.modal-badge.perfil-C {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.modal-badge.perfil-misto {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.modal-header h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.modal-tags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.modal-secao h3 {
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-secao h3 i {
+    font-size: 20px;
+    filter: drop-shadow(0 0 6px rgba(249,137,72,0.4));
+}
+
+.modal-secao p {
+    font-size: 16px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    line-height: 1.7;
+}
+
+[data-theme="light"] .modal-secao p {
+    color: #241E4E;
+}
+
+.modal-secao ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-secao ul li {
+    font-size: 15px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    line-height: 1.6;
+    padding-left: 28px;
+    position: relative;
+}
+
+.modal-secao ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--cor-primaria);
+    font-size: 18px;
+}
+
+/* Modal Footer */
+.modal-footer {
+    padding: 20px 32px 28px;
+    border-top: 2px solid rgba(249,137,72,0.2);
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-modal {
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: 2px solid;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Manrope', sans-serif;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-imprimir {
+    background: rgba(139,92,246,0.1);
+    border-color: #8b5cf6;
+    color: #8b5cf6;
+}
+
+.btn-imprimir:hover {
+    background: #8b5cf6;
+    color: #FFFFFF;
+    box-shadow: 0 0 15px rgba(139,92,246,0.5);
+    transform: translateY(-2px);
+}
+
+.btn-compartilhar {
+    background: rgba(59,130,246,0.1);
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.btn-compartilhar:hover {
+    background: #3b82f6;
+    color: #FFFFFF;
+    box-shadow: 0 0 15px rgba(59,130,246,0.5);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   RESPONSIVIDADE
+============================================ */
+@media (max-width: 768px) {
+    .controles-casos {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+
+    .casos-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-casos {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .modal-caso-content {
+        max-width: 95%;
+        max-height: 95vh;
+    }
+
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .modal-header h2 {
+        font-size: 20px;
+    }
+
+    .modal-footer {
+        flex-direction: column;
+    }
+
+    .btn-modal {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-principal {
+        padding: 24px 18px;
+    }
+
+    .dashboard-title {
+        font-size: 20px;
+    }
+
+    .caso-card {
+        padding: 18px;
+    }
+
+    .caso-titulo {
+        font-size: 16px;
+    }
+}
