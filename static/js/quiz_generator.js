@@ -905,69 +905,13 @@ function copiarTexto(texto) {
     });
 }
 
-// ============================================================================
-// FUNÇÃO: IMPRIMIR QUIZ
-// ============================================================================
 
 // ============================================================================
-// FUNÇÃO: IMPRIMIR QUIZ (VERSÃO LIMPA)
+// FUNÇÃO: IMPRIMIR QUIZ (USA O CSS @media print)
 // ============================================================================
 function imprimirQuiz() {
-    // Criar janela de impressão limpa
-    const conteudoOriginal = document.body.innerHTML;
-    const areaQuizHTML = document.getElementById('areaQuiz').outerHTML;
-
-    // Template limpo para impressão
-    const impressaoHTML = `
-        <!DOCTYPE html>
-        <html lang="pt-br">
-        <head>
-            <meta charset="UTF-8">
-            <title>Quiz para Aulas | DISC Dashboard</title>
-            <style>
-                * { margin: 0; padding: 0; box-sizing: border-box; }
-                body { font-family: Arial, sans-serif; padding: 30px; background: white; color: black; }
-                .cabecalho-impressao { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #F98948; }
-                .cabecalho-impressao img { width: 80px; margin-bottom: 10px; }
-                .cabecalho-impressao h1 { font-size: 24px; color: #F98948; margin-bottom: 8px; }
-                .cabecalho-impressao p { font-size: 14px; color: #666; }
-                .pergunta-card { margin-bottom: 30px; page-break-inside: avoid; padding: 20px; border: 2px solid #ddd; border-radius: 10px; }
-                .pergunta-numero { background: #F98948; color: white; padding: 5px 12px; border-radius: 5px; font-weight: bold; font-size: 12px; }
-                .pergunta-texto { font-size: 16px; font-weight: 600; margin: 15px 0; line-height: 1.5; }
-                .alternativas { margin-top: 12px; }
-                .alternativa { padding: 12px; margin-bottom: 8px; border: 1px solid #ddd; border-radius: 8px; }
-                .rodape-impressao { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 12px; color: #666; }
-                @media print { .cabecalho-impressao { page-break-after: avoid; } .pergunta-card { page-break-inside: avoid; } }
-            </style>
-        </head>
-        <body>
-            <div class="cabecalho-impressao">
-                <h1>📋 DISC Dashboard - Quiz para Aulas</h1>
-                <p><strong>Prof. Paulo Rubens</strong> | Gestão de Pessoas</p>
-                <p>Data: ${new Date().toLocaleDateString('pt-BR')} | Total de Questões: ${quizAtual.length}</p>
-            </div>
-
-            ${document.getElementById('corpoQuiz').innerHTML}
-
-            <div class="rodape-impressao">
-                <p>DISC Dashboard © ${new Date().getFullYear()} | Desenvolvido por CRV Soluções em TI</p>
-            </div>
-        </body>
-        </html>
-    `;
-
-    // Abrir janela de impressão
-    const janelaImpressao = window.open('', '_blank', 'width=800,height=600');
-    janelaImpressao.document.write(impressaoHTML);
-    janelaImpressao.document.close();
-    janelaImpressao.focus();
-
-    // Aguardar carregamento e imprimir
-    setTimeout(() => {
-        janelaImpressao.print();
-    }, 250);
+    window.print();
 }
-
 
 // ============================================================================
 // FUNÇÃO: EMBARALHAR ARRAY
