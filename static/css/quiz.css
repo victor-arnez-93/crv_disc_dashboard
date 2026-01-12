@@ -546,6 +546,37 @@
     font-size: 18px;
 }
 
+.inicial-destaque {
+    background: rgba(249,137,72,0.15);
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.inicial-destaque i {
+    font-size: 28px;
+    color: var(--cor-primaria);
+    flex-shrink: 0;
+}
+
+.inicial-destaque p {
+    font-size: 15px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    margin: 0;
+}
+
+.inicial-destaque strong {
+    color: var(--cor-primaria);
+    font-weight: 700;
+}
+
 /* ============================================
    IMPRESSÃO LIMPA (SEM LAYOUT)
 ============================================ */
