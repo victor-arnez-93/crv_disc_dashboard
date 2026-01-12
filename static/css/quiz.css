@@ -1,11 +1,10 @@
 /* ============================================
    QUIZ.CSS — DISC DASHBOARD
    Gerador de Quiz para Aulas
-   Compatível com main.css + padrão visual
 ============================================ */
 
 /* ============================================
-   CARD PRINCIPAL (já existe no padrão)
+   CARD PRINCIPAL
 ============================================ */
 .card-principal {
     background: var(--cor-header);
@@ -17,6 +16,28 @@
     box-shadow:
         0 0 14px rgba(249,137,72,0.25),
         0 6px 22px rgba(0,0,0,0.30);
+}
+
+.dashboard-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--cor-primaria); /* LARANJA EM AMBOS OS TEMAS */
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.dashboard-subtitle {
+    font-size: 16px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    color: var(--cor-texto);
+    line-height: 1.6;
 }
 
 /* ============================================
@@ -81,7 +102,6 @@
     box-shadow: 0 0 14px rgba(249,137,72,0.5);
 }
 
-/* Tema claro - select */
 [data-theme="light"] .filtro-select {
     background: #FFFFFF;
     border-color: #241E4E;
@@ -94,7 +114,7 @@
 }
 
 /* ============================================
-   BOTÃO GERAR QUIZ
+   BOTÃO GERAR QUIZ (PADRÃO BTN-PRIMARY)
 ============================================ */
 .btn-gerar-quiz {
     grid-column: 1 / -1;
@@ -115,6 +135,8 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .btn-gerar-quiz:hover {
@@ -131,16 +153,6 @@
 
 .btn-gerar-quiz i {
     font-size: 18px;
-    animation: rotateIcon 2s linear infinite;
-}
-
-@keyframes rotateIcon {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.btn-gerar-quiz:hover i {
-    animation-duration: 0.5s;
 }
 
 /* ============================================
@@ -184,7 +196,7 @@
     font-family: 'Orbitron', sans-serif;
     font-size: 24px;
     font-weight: 700;
-    color: var(--cor-primaria);
+    color: var(--cor-primaria); /* LARANJA */
     margin: 0;
     letter-spacing: 0.5px;
 }
@@ -213,7 +225,7 @@
 }
 
 /* ============================================
-   CORPO DO QUIZ (PERGUNTAS)
+   PERGUNTAS
 ============================================ */
 .quiz-corpo {
     display: flex;
@@ -256,7 +268,6 @@
     margin-bottom: 16px;
 }
 
-/* Tema claro */
 [data-theme="light"] .pergunta-texto {
     color: #241E4E;
     font-weight: 700;
@@ -300,14 +311,12 @@
     accent-color: var(--cor-primaria);
 }
 
-/* Alternativa selecionada */
 .alternativa.selecionada {
     border-color: var(--cor-primaria);
     background: rgba(249,137,72,0.15);
     box-shadow: 0 0 10px rgba(249,137,72,0.3);
 }
 
-/* Resposta correta (após finalizar) */
 .alternativa.correta {
     border-color: #4ade80;
     background: rgba(74,222,128,0.15);
@@ -321,7 +330,6 @@
     font-weight: 700;
 }
 
-/* Resposta errada (após finalizar) */
 .alternativa.errada {
     border-color: #f87171;
     background: rgba(248,113,113,0.15);
@@ -335,7 +343,6 @@
     font-weight: 700;
 }
 
-/* Tema claro - alternativas */
 [data-theme="light"] .alternativa {
     background: #F5F5F5;
     border-color: #241E4E;
@@ -348,7 +355,7 @@
 }
 
 /* ============================================
-   BOTÕES DE AÇÃO
+   BOTÕES DE AÇÃO (PADRÃO BTN-PRIMARY)
 ============================================ */
 .quiz-acoes {
     display: flex;
@@ -361,7 +368,7 @@
 .btn-acao {
     padding: 12px 24px;
     border-radius: 10px;
-    border: 2px solid;
+    border: none;
     font-size: 15px;
     font-weight: 600;
     font-family: 'Manrope', sans-serif;
@@ -370,45 +377,40 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .btn-reiniciar {
-    background: rgba(249,137,72,0.1);
-    border-color: var(--cor-primaria);
-    color: var(--cor-primaria);
+    background: linear-gradient(135deg, #F98948 0%, #ff9f5e 100%);
+    color: #FFFFFF;
 }
 
 .btn-reiniciar:hover {
-    background: var(--cor-primaria);
-    color: #FFFFFF;
-    box-shadow: 0 0 15px rgba(249,137,72,0.5);
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(249,137,72,0.5);
+    filter: brightness(1.1);
 }
 
 .btn-compartilhar {
-    background: rgba(59,130,246,0.1);
-    border-color: #3b82f6;
-    color: #3b82f6;
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+    color: #FFFFFF;
 }
 
 .btn-compartilhar:hover {
-    background: #3b82f6;
-    color: #FFFFFF;
-    box-shadow: 0 0 15px rgba(59,130,246,0.5);
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59,130,246,0.5);
+    filter: brightness(1.1);
 }
 
 .btn-imprimir {
-    background: rgba(139,92,246,0.1);
-    border-color: #8b5cf6;
-    color: #8b5cf6;
+    background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+    color: #FFFFFF;
 }
 
 .btn-imprimir:hover {
-    background: #8b5cf6;
-    color: #FFFFFF;
-    box-shadow: 0 0 15px rgba(139,92,246,0.5);
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139,92,246,0.5);
+    filter: brightness(1.1);
 }
 
 /* ============================================
@@ -446,12 +448,6 @@
     color: var(--cor-primaria);
     margin-bottom: 16px;
     filter: drop-shadow(0 0 12px rgba(249,137,72,0.6));
-    animation: bounce 1s ease infinite;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
 }
 
 .resultado-card h3 {
@@ -481,14 +477,6 @@
     color: var(--cor-primaria);
     margin: 16px 0;
     text-shadow: 0 0 12px rgba(249,137,72,0.5);
-}
-
-.resultado-feedback {
-    font-size: 16px;
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 600;
-    color: var(--cor-texto);
-    margin-top: 12px;
 }
 
 /* ============================================
@@ -530,6 +518,7 @@
 
 .inicial-lista {
     list-style: none;
+    padding: 0;
     text-align: left;
     margin-bottom: 28px;
     display: flex;
@@ -552,32 +541,59 @@
     font-size: 18px;
 }
 
-.inicial-destaque {
-    background: rgba(249,137,72,0.15);
-    border-radius: 12px;
-    padding: 18px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-align: left;
-}
+/* ============================================
+   IMPRESSÃO LIMPA (SEM LAYOUT)
+============================================ */
+@media print {
+    /* Ocultar tudo exceto o quiz */
+    body * {
+        visibility: hidden;
+    }
 
-.inicial-destaque i {
-    font-size: 28px;
-    color: var(--cor-primaria);
-    flex-shrink: 0;
-}
+    .area-quiz, .area-quiz * {
+        visibility: visible;
+    }
 
-.inicial-destaque p {
-    font-size: 15px;
-    font-family: 'Manrope', sans-serif;
-    color: var(--cor-texto);
-    margin: 0;
-}
+    .area-quiz {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: white !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
 
-.inicial-destaque strong {
-    color: var(--cor-primaria);
-    font-weight: 700;
+    /* Ocultar sidebar e header */
+    .sidebar, .header, .btn-acao, .controles-quiz {
+        display: none !important;
+    }
+
+    /* Cabeçalho de impressão */
+    .quiz-header::before {
+        content: "DISC Dashboard - Prof. Paulo Rubens";
+        display: block;
+        text-align: center;
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Ajustes para impressão */
+    .pergunta-card {
+        page-break-inside: avoid;
+        background: white !important;
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+    }
+
+    .alternativa {
+        background: white !important;
+        border-color: #ddd !important;
+        color: black !important;
+    }
 }
 
 /* ============================================
@@ -595,10 +611,6 @@
         gap: 12px;
     }
 
-    .quiz-header h2 {
-        font-size: 20px;
-    }
-
     .quiz-acoes {
         flex-direction: column;
     }
@@ -606,36 +618,5 @@
     .btn-acao {
         width: 100%;
         justify-content: center;
-    }
-
-    .resultado-card {
-        padding: 24px;
-    }
-
-    .resultado-percentual {
-        font-size: 36px;
-    }
-
-    .inicial-card {
-        padding: 28px 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .card-principal {
-        padding: 24px 18px;
-    }
-
-    .dashboard-title {
-        font-size: 20px;
-    }
-
-    .pergunta-texto {
-        font-size: 15px;
-    }
-
-    .alternativa {
-        font-size: 14px;
-        padding: 12px 14px;
     }
 }
