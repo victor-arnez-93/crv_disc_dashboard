@@ -11,23 +11,127 @@
 </head>
 <body>
 
-<!-- HEADER GLOBAL -->
+<!-- ================================================================== -->
+<!-- SIDEBAR -->
+<!-- ================================================================== -->
+<aside id="sidebar" class="sidebar">
+    <span class="sidebar-fechar"><i class="fas fa-times"></i></span>
+
+    <nav class="sidebar-menu">
+
+        <button class="menu-item active">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/teste_disc.html'">
+            <i class="fas fa-user-circle"></i>
+            <span>Teste DISC</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/dinamicas.html'">
+            <i class="fas fa-users"></i>
+            <span>Dinâmicas & Empatia</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/insights_ia.html'">
+            <i class="fas fa-lightbulb"></i>
+            <span>Insights & IA</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/noticias_rh.html'">
+            <i class="fas fa-newspaper"></i>
+            <span>Notícias de RH</span>
+        </button>
+
+        <!-- NOVOS ITENS ADICIONADOS -->
+
+        <button class="menu-item" onclick="window.location.href='/quiz.html'">
+            <i class="fas fa-question-circle"></i>
+            <span>Quiz para Aulas</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/casos.html'">
+            <i class="fas fa-book-open"></i>
+            <span>Casos de Liderança</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/feedback.html'">
+            <i class="fas fa-comments"></i>
+            <span>Simulador Feedback</span>
+        </button>
+
+
+        <button class="menu-item" onclick="window.location.href='/configuracoes.html'">
+            <i class="fas fa-cog"></i>
+            <span>Configurações</span>
+        </button>
+
+    </nav>
+
+    <!-- Botão recolher/expandir sidebar -->
+    <button class="sidebar-toggle" id="btnMenuDesktop">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+</aside>
+
+
+    <!-- RODAPÉ DA SIDEBAR -->
+    <div class="sidebar-logo">
+        <span class="dev-label">Desenvolvido por</span>
+        <img src="static/imagens/logo1.png" alt="Logo CRV">
+    </div>
+
+    <!-- BOTÃO RECOLHER / EXPANDIR -->
+    <button id="btnMenu" class="sidebar-toggle">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+</aside>
+
+<!-- ================================================================== -->
+<!-- HEADER SUPERIOR – VERSÃO CORRIGIDA SEM REMOVER NADA               -->
+<!-- ================================================================== -->
 <header class="header">
+
+    <!-- BOTÃO HAMBÚRGUER (mobile) -->
+    <button id="btnMenuMobile" class="btn-menu">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- LOGO + TÍTULO -->
     <div class="header-left">
         <img src="static/imagens/logo_disc.png" alt="DISC" class="logo-header">
+
         <div class="header-titles">
             <span class="titulo">Dashboard</span>
-            <span class="subtitulo"><strong>Painel de Gestão Comportamental</strong> <span class="badge-atualizacao"></span></span>
+            <span class="subtitulo"><strong>Painel de Gestão Comportamental</strong></span>
         </div>
     </div>
-    <div class="search-box"><input type="text" placeholder="Buscar no painel..." /><i class="fas fa-search"></i></div>
+
+    <!-- BUSCA -->
+    <div class="search-box">
+        <input type="text" placeholder="Buscar no painel...">
+        <i class="fas fa-search"></i>
+    </div>
+
+    <!-- ÁREA DIREITA -->
     <div class="header-right">
+
+        <!-- RELÓGIO -->
         <span id="relogio" class="clock">00:00:00</span>
+
+        <!-- CLIMA + DROPDOWN -->
         <div class="weather-box" id="weatherBox">
+
+            <!-- ÍCONE DO CLIMA -->
             <img id="iconeClimaImg" src="static/imagens/ico_dia.png" alt="clima" class="icone-clima-img">
+
+            <!-- TEMPERATURA -->
             <span id="temperatura" class="temperature">19°C</span>
 
-            <!-- MODAL CLIMA (IGUAL INDEX) -->
+            <!-- DROPDOWN COMPLETO -->
             <div id="modalClima" class="modal-clima">
                 <div class="modal-clima-content">
 
@@ -39,7 +143,6 @@
                     </div>
 
                     <div class="modal-clima-body" id="modalClimaBody">
-
                         <div class="previsao-dia">
                             <p class="dia-nome">qui.</p>
                             <p class="temperaturas">24° / 16°</p>
@@ -57,77 +160,30 @@
                             <p class="temperaturas">32° / 21°</p>
                             <p class="emoji-clima">☀️</p>
                         </div>
-
                     </div>
+
                 </div>
             </div>
         </div>
 
-        <button id="btnTema" class="btn-tema"><i class="fas fa-moon"></i></button>
+        <!-- BOTÃO TEMA -->
+        <button id="btnTema" class="btn-tema">
+            <i class="fas fa-moon"></i>
+        </button>
+
+        <!-- USUÁRIO -->
         <div class="user-box">
-            <img src="static/imagens/foto2.jpeg" alt="" />
-            <div class="user-info"><span class="user-name">Prof. Paulo Rubens</span><span class="user-role">Gestão de Pessoas</span></div>
+            <img src="static/imagens/foto2.jpeg" alt="Foto">
+
+            <div class="user-info">
+                <span class="user-name">Prof. Paulo Rubens</span>
+                <span class="user-role">Gestão de Pessoas</span>
+            </div>
         </div>
+
     </div>
+
 </header>
-
-<!-- ================================================================== -->
-<!-- SIDEBAR -->
-<!-- ================================================================== -->
-<aside id="sidebar" class="sidebar">
-    <!-- Botão Fechar (apenas mobile) -->
-    <span class="sidebar-fechar" id="btnFecharSidebar">
-        <i class="fas fa-times"></i>
-    </span>
-
-    <nav class="sidebar-menu">
-
-        <button class="menu-item" data-page="index" onclick="window.location.href='/index.html'">
-            <i class="fas fa-home"></i>
-            <span>Início</span>
-        </button>
-
-        <button class="menu-item" data-page="teste_disc" onclick="window.location.href='/teste_disc.html'">
-            <i class="fas fa-user-circle"></i>
-            <span>Teste DISC</span>
-        </button>
-
-        <button class="menu-item" data-page="dinamicas" onclick="window.location.href='/dinamicas.html'">
-            <i class="fas fa-users"></i>
-            <span>Dinâmicas & Empatia</span>
-        </button>
-
-        <button class="menu-item" data-page="insights_ia" onclick="window.location.href='/insights_ia.html'">
-            <i class="fas fa-lightbulb"></i>
-            <span>Insights & IA</span>
-        </button>
-
-        <button class="menu-item" data-page="noticias_rh" onclick="window.location.href='/noticias_rh.html'">
-            <i class="fas fa-newspaper"></i>
-            <span>Notícias de RH</span>
-        </button>
-
-        <button class="menu-item" data-page="quiz" onclick="window.location.href='/quiz.html'">
-            <i class="fas fa-question-circle"></i>
-            <span>Quiz para Aulas</span>
-        </button>
-
-        <button class="menu-item" data-page="casos" onclick="window.location.href='/casos.html'">
-            <i class="fas fa-book-open"></i>
-            <span>Casos de Liderança</span>
-        </button>
-
-        <button class="menu-item" data-page="feedback" onclick="window.location.href='/feedback.html'">
-            <i class="fas fa-comments"></i>
-            <span>Simulador Feedback</span>
-        </button>
-
-        <button class="menu-item" data-page="configuracoes" onclick="window.location.href='/configuracoes.html'">
-            <i class="fas fa-cog"></i>
-            <span>Configurações</span>
-        </button>
-
-    </nav>
 
 <main class="main-content">
   <div class="noticias-container">
