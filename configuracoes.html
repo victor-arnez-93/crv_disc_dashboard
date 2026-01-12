@@ -19,63 +19,63 @@
 
     <nav class="sidebar-menu">
 
-        <button class="menu-item active">
+        <button class="menu-item" data-page="index" onclick="window.location.href='/index.html'">
             <i class="fas fa-home"></i>
             <span>Início</span>
         </button>
 
-        <button class="menu-item" onclick="window.location.href='/teste_disc.html'">
+        <button class="menu-item" data-page="teste_disc" onclick="window.location.href='/teste_disc.html'">
             <i class="fas fa-user-circle"></i>
             <span>Teste DISC</span>
         </button>
 
-        <button class="menu-item" onclick="window.location.href='/dinamicas.html'">
+        <button class="menu-item" data-page="dinamicas" onclick="window.location.href='/dinamicas.html'">
             <i class="fas fa-users"></i>
             <span>Dinâmicas & Empatia</span>
         </button>
 
-        <button class="menu-item" onclick="window.location.href='/insights_ia.html'">
+        <button class="menu-item" data-page="insights_ia" onclick="window.location.href='/insights_ia.html'">
             <i class="fas fa-lightbulb"></i>
             <span>Insights & IA</span>
         </button>
 
-        <button class="menu-item" onclick="window.location.href='/noticias_rh.html'">
+        <button class="menu-item" data-page="noticias_rh" onclick="window.location.href='/noticias_rh.html'">
             <i class="fas fa-newspaper"></i>
             <span>Notícias de RH</span>
         </button>
 
-        <!-- NOVOS ITENS ADICIONADOS -->
-
-        <button class="menu-item" onclick="window.location.href='/quiz.html'">
+        <button class="menu-item" data-page="quiz" onclick="window.location.href='/quiz.html'">
             <i class="fas fa-question-circle"></i>
             <span>Quiz para Aulas</span>
         </button>
 
-        <button class="menu-item" onclick="window.location.href='/casos.html'">
+        <button class="menu-item" data-page="casos" onclick="window.location.href='/casos.html'">
             <i class="fas fa-book-open"></i>
             <span>Casos de Liderança</span>
         </button>
 
-        <button class="menu-item" onclick="window.location.href='/feedback.html'">
+        <button class="menu-item" data-page="feedback" onclick="window.location.href='/feedback.html'">
             <i class="fas fa-comments"></i>
             <span>Simulador Feedback</span>
         </button>
 
-
-        <button class="menu-item" onclick="window.location.href='/configuracoes.html'">
+        <button class="menu-item" data-page="configuracoes" onclick="window.location.href='/configuracoes.html'">
             <i class="fas fa-cog"></i>
             <span>Configurações</span>
         </button>
 
     </nav>
 
-    <!-- Botão recolher/expandir sidebar -->
-    <button class="sidebar-toggle" id="btnMenuDesktop">
+    <div class="sidebar-logo">
+        <span class="dev-label">Desenvolvido por</span>
+        <img src="static/imagens/logo1.png" alt="Logo CRV">
+    </div>
+
+    <button id="btnMenu" class="sidebar-toggle">
         <i class="fas fa-chevron-left"></i>
     </button>
 
 </aside>
-
 
     <!-- RODAPÉ DA SIDEBAR -->
     <div class="sidebar-logo">
