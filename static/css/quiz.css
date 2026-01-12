@@ -578,7 +578,7 @@
 }
 
 /* ============================================
-   IMPRESSÃO LIMPA (SEM LAYOUT)
+   IMPRESSÃO LIMPA (ESTILO PROVA CONVENCIONAL)
 ============================================ */
 @media print {
     /* Ocultar tudo exceto o quiz */
@@ -598,10 +598,11 @@
         background: white !important;
         box-shadow: none !important;
         border: none !important;
+        padding: 20px;
     }
 
-    /* Ocultar sidebar e header */
-    .sidebar, .header, .btn-acao, .controles-quiz {
+    /* Ocultar sidebar, header e botões */
+    .sidebar, .header, .btn-acao, .controles-quiz, .quiz-info {
         display: none !important;
     }
 
@@ -617,19 +618,118 @@
         border-bottom: 1px solid #ddd;
     }
 
-    /* Ajustes para impressão */
+    .quiz-header h2 {
+        color: #000 !important;
+        text-align: center;
+    }
+
+    /* Cards de pergunta */
     .pergunta-card {
         page-break-inside: avoid;
         background: white !important;
-        border: 1px solid #ddd !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin-bottom: 30px;
+        padding: 0 !important;
+    }
+
+    /* Número da questão */
+    .pergunta-numero {
+        background: white !important;
+        color: black !important;
+        border: none !important;
+        padding: 0 !important;
+        margin-bottom: 10px !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+    }
+
+    /* Texto da pergunta */
+    .pergunta-texto {
+        color: black !important;
+        font-size: 15px !important;
+        font-weight: normal !important;
+        margin-bottom: 15px !important;
+        line-height: 1.6 !important;
+    }
+
+    /* Container de alternativas */
+    .alternativas {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+
+    /* ALTERNATIVAS ESTILO PROVA */
+    .alternativa {
+        background: white !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 5px 0 !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+        color: black !important;
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+    }
+
+    /* Ocultar input radio */
+    .alternativa input[type="radio"] {
+        display: none !important;
+    }
+
+    /* Adicionar (  ) antes do texto */
+    .alternativa::before {
+        content: "(   )";
+        font-size: 14px;
+        color: black;
+        font-weight: normal;
+        flex-shrink: 0;
+        margin-right: 5px;
+    }
+
+    /* Remover todos os efeitos visuais */
+    .alternativa:hover {
+        transform: none !important;
+        background: white !important;
+        border: none !important;
+    }
+
+    .alternativa.selecionada,
+    .alternativa.correta,
+    .alternativa.errada {
+        background: white !important;
+        border: none !important;
         box-shadow: none !important;
     }
 
-    .alternativa {
-        background: white !important;
-        border-color: #ddd !important;
-        color: black !important;
+    /* Remover checks/x */
+    .alternativa.correta::after,
+    .alternativa.errada::after {
+        display: none !important;
     }
+
+    /* Rodapé */
+    .quiz-corpo::after {
+        content: "_______________________________________________";
+        display: block;
+        text-align: center;
+        margin-top: 30px;
+        color: #999;
+        font-size: 12px;
+    }
+}
+
+/* ============================================
+   TEMA CLARO - TÍTULOS AZUIS
+============================================ */
+[data-theme="light"] .dashboard-title {
+    color: #241E4E !important;
+}
+
+[data-theme="light"] .quiz-header h2 {
+    color: #241E4E !important;
 }
 
 /* ============================================
