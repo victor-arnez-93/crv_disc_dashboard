@@ -667,6 +667,135 @@
     color: #241E4E !important; /* AZUL NO TEMA CLARO */
 }
 
+/* ============================================ */
+/* ESTILOS DE IMPRESSÃO */
+/* ============================================ */
+@media print {
+    /* Resetar página */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    body {
+        background: white !important;
+        margin: 0;
+        padding: 20mm;
+    }
+
+    /* Ocultar elementos da interface */
+    aside, header, .sidebar, .header,
+    .btn-modal, .modal-close, .modal-footer,
+    .controles-casos, .casos-stats, .grid-casos,
+    .card-principal, .sem-resultados {
+        display: none !important;
+    }
+
+    /* Mostrar apenas o conteúdo do modal */
+    .modal-caso {
+        position: static !important;
+        display: block !important;
+        background: white !important;
+        backdrop-filter: none !important;
+        padding: 0 !important;
+    }
+
+    .modal-caso-content {
+        max-width: 100% !important;
+        max-height: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        background: white !important;
+        overflow: visible !important;
+    }
+
+    /* Cabeçalho da impressão */
+    .modal-header {
+        padding: 0 0 15mm 0 !important;
+        border-bottom: 2px solid #241E4E !important;
+        page-break-after: avoid;
+    }
+
+    .modal-badge {
+        background: #241E4E !important;
+        color: white !important;
+        box-shadow: none !important;
+    }
+
+    .modal-header h2 {
+        color: #241E4E !important;
+        font-size: 22pt !important;
+        margin-bottom: 5mm !important;
+    }
+
+    .modal-tags .tag {
+        border: 1px solid #241E4E !important;
+        color: #241E4E !important;
+        background: white !important;
+    }
+
+    /* Corpo do texto */
+    .modal-body {
+        padding: 5mm 0 !important;
+        color: #000 !important;
+    }
+
+    .modal-secao {
+        page-break-inside: avoid;
+        margin-bottom: 8mm;
+    }
+
+    .modal-secao h3 {
+        color: #241E4E !important;
+        font-size: 16pt !important;
+        margin-bottom: 4mm !important;
+        page-break-after: avoid;
+    }
+
+    .modal-secao p,
+    .modal-secao ul li {
+        color: #000 !important;
+        font-size: 11pt !important;
+        line-height: 1.6 !important;
+        text-align: justify !important;
+    }
+
+    .modal-secao ul {
+        margin: 0;
+        padding-left: 8mm;
+    }
+
+    .modal-secao ul li {
+        padding-left: 5mm;
+        margin-bottom: 3mm;
+    }
+
+    .modal-secao ul li::before {
+        color: #241E4E !important;
+        left: 0;
+    }
+
+    /* Quebra de página */
+    h2, h3 {
+        page-break-after: avoid;
+    }
+
+    p, li {
+        page-break-inside: avoid;
+    }
+
+    /* Rodapé de cada página */
+    @page {
+        margin: 15mm;
+        @bottom-center {
+            content: "Casos de Liderança | DISC Dashboard | Página " counter(page);
+            font-size: 9pt;
+            color: #666;
+        }
+    }
+}
+
 /* ============================================
    RESPONSIVIDADE
 ============================================ */
