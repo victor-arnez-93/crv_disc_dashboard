@@ -24,10 +24,7 @@
 <!-- SIDEBAR -->
 <!-- ================================================================== -->
 <aside id="sidebar" class="sidebar">
-    <!-- Botão Fechar (apenas mobile) -->
-    <span class="sidebar-fechar" id="btnFecharSidebar">
-        <i class="fas fa-times"></i>
-    </span>
+    <span class="sidebar-fechar"><i class="fas fa-times"></i></span>
 
     <nav class="sidebar-menu">
 
@@ -41,19 +38,9 @@
             <span>Teste DISC</span>
         </button>
 
-        <button class="menu-item" data-page="dinamicas" onclick="window.location.href='/dinamicas.html'">
-            <i class="fas fa-users"></i>
-            <span>Dinâmicas & Empatia</span>
-        </button>
-
         <button class="menu-item" data-page="insights_ia" onclick="window.location.href='/insights_ia.html'">
             <i class="fas fa-lightbulb"></i>
             <span>Insights & IA</span>
-        </button>
-
-        <button class="menu-item" data-page="noticias_rh" onclick="window.location.href='/noticias_rh.html'">
-            <i class="fas fa-newspaper"></i>
-            <span>Notícias de RH</span>
         </button>
 
         <button class="menu-item" data-page="quiz" onclick="window.location.href='/quiz.html'">
@@ -71,6 +58,16 @@
             <span>Simulador Feedback</span>
         </button>
 
+        <button class="menu-item" data-page="dinamicas" onclick="window.location.href='/dinamicas.html'">
+            <i class="fas fa-users"></i>
+            <span>Dinâmicas & Empatia</span>
+        </button>
+
+        <button class="menu-item" data-page="noticias_rh" onclick="window.location.href='/noticias_rh.html'">
+            <i class="fas fa-newspaper"></i>
+            <span>Notícias de RH</span>
+        </button>
+
         <button class="menu-item" data-page="configuracoes" onclick="window.location.href='/configuracoes.html'">
             <i class="fas fa-cog"></i>
             <span>Configurações</span>
@@ -78,19 +75,16 @@
 
     </nav>
 
-    <!-- RODAPÉ DA SIDEBAR -->
     <div class="sidebar-logo">
         <span class="dev-label">Desenvolvido por</span>
         <img src="static/imagens/logo1.png" alt="Logo CRV">
     </div>
 
-    <!-- BOTÃO RECOLHER / EXPANDIR -->
     <button id="btnMenu" class="sidebar-toggle">
         <i class="fas fa-chevron-left"></i>
     </button>
 
 </aside>
-
 
 <!-- ================================================================== -->
 <!-- HEADER SUPERIOR                                                    -->
