@@ -1,10 +1,257 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz para Aulas | DISC Dashboard</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="static/css/main.css">
+    <link rel="stylesheet" href="static/css/quiz.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Fontes -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<!-- ================================================================== -->
+<!-- HEADER -->
+<!-- ================================================================== -->
+<header class="header">
+    <div class="header-left">
+        <img src="static/imagens/logo_disc.png" alt="DISC" class="logo-header">
+        <div class="header-titles">
+            <div class="titulo">DISC DASHBOARD</div>
+            <div class="subtitulo">Painel de Gestão Comportamental</div>
+        </div>
+    </div>
+
+    <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="campoBusca" placeholder="Buscar no painel...">
+    </div>
+
+    <div class="header-right">
+        <div class="clock" id="relogio">00:00:00</div>
+
+        <div class="weather-box" id="weatherBox">
+            <img src="static/imagens/ico_dia.png" alt="Clima" class="weather-icon" id="iconeClimaImg">
+            <span class="temperature" id="temperatura">--°C</span>
+        </div>
+
+        <button class="btn-tema" id="btnTema">
+            <i class="fas fa-moon"></i>
+        </button>
+
+        <div class="user-box">
+            <img src="static/imagens/avatar_default.png" alt="Usuário">
+            <div class="user-info">
+                <div class="user-name">Prof. Paulo Rubens</div>
+                <div class="user-role">Gestão de Pessoas</div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ================================================================== -->
+<!-- SIDEBAR -->
+<!-- ================================================================== -->
+<aside id="sidebar" class="sidebar">
+    <span class="sidebar-fechar"><i class="fas fa-times"></i></span>
+
+    <nav class="sidebar-menu">
+
+        <button class="menu-item" onclick="window.location.href='/index.html'">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/teste_disc.html'">
+            <i class="fas fa-user-circle"></i>
+            <span>Teste DISC</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/dinamicas.html'">
+            <i class="fas fa-users"></i>
+            <span>Dinâmicas & Empatia</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/insights_ia.html'">
+            <i class="fas fa-lightbulb"></i>
+            <span>Insights & IA</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/noticias_rh.html'">
+            <i class="fas fa-newspaper"></i>
+            <span>Notícias de RH</span>
+        </button>
+
+        <button class="menu-item active">
+            <i class="fas fa-question-circle"></i>
+            <span>Quiz para Aulas</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/casos.html'">
+            <i class="fas fa-book-open"></i>
+            <span>Casos de Liderança</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/feedback.html'">
+            <i class="fas fa-comments"></i>
+            <span>Simulador Feedback</span>
+        </button>
+
+        <button class="menu-item" onclick="window.location.href='/configuracoes.html'">
+            <i class="fas fa-cog"></i>
+            <span>Configurações</span>
+        </button>
+
+    </nav>
+
+    <button class="sidebar-toggle" id="btnMenuDesktop">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+</aside>
+
+<!-- ================================================================== -->
+<!-- CONTEÚDO PRINCIPAL -->
+<!-- ================================================================== -->
+<main class="main-content">
+
+    <!-- Card Principal -->
+    <div class="card-principal">
+        <h1 class="dashboard-title">📋 GERADOR DE QUIZ PARA AULAS</h1>
+        <p class="dashboard-subtitle">
+            Crie quizzes interativos sobre DISC, liderança e comportamento organizacional para usar em sala de aula
+        </p>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- CONTROLES DE FILTROS -->
+    <!-- ============================================ -->
+    <div class="controles-quiz">
+
+        <div class="filtro-grupo">
+            <label for="filtroTema">
+                <i class="fas fa-tag"></i> Tema do Quiz
+            </label>
+            <select id="filtroTema" class="filtro-select">
+                <option value="todos">Todos os Temas</option>
+                <option value="disc">Perfis DISC</option>
+                <option value="lideranca">Liderança</option>
+                <option value="comunicacao">Comunicação</option>
+                <option value="conflitos">Gestão de Conflitos</option>
+                <option value="motivacao">Motivação</option>
+            </select>
+        </div>
+
+        <div class="filtro-grupo">
+            <label for="filtroDificuldade">
+                <i class="fas fa-signal"></i> Dificuldade
+            </label>
+            <select id="filtroDificuldade" class="filtro-select">
+                <option value="todas">Todas</option>
+                <option value="basico">Básico</option>
+                <option value="intermediario">Intermediário</option>
+                <option value="avancado">Avançado</option>
+            </select>
+        </div>
+
+        <div class="filtro-grupo">
+            <label for="numPerguntas">
+                <i class="fas fa-list-ol"></i> Número de Perguntas
+            </label>
+            <select id="numPerguntas" class="filtro-select">
+                <option value="5">5 perguntas</option>
+                <option value="10" selected>10 perguntas</option>
+                <option value="15">15 perguntas</option>
+                <option value="20">20 perguntas</option>
+            </select>
+        </div>
+
+        <button class="btn-gerar-quiz" id="btnGerarQuiz">
+            <i class="fas fa-random"></i> Gerar Quiz Aleatório
+        </button>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- ÁREA DO QUIZ GERADO -->
+    <!-- ============================================ -->
+    <div id="areaQuiz" class="area-quiz" style="display: none;">
+
+        <!-- Header do Quiz -->
+        <div class="quiz-header">
+            <h2 id="tituloQuiz">Quiz de Perfis DISC</h2>
+            <div class="quiz-info">
+                <span class="info-tag"><i class="fas fa-clock"></i> <span id="cronometro">00:00</span></span>
+                <span class="info-tag"><i class="fas fa-check-circle"></i> <span id="progressoQuiz">0/10</span></span>
+            </div>
+        </div>
+
+        <!-- Corpo do Quiz -->
+        <div id="corpoQuiz" class="quiz-corpo">
+            <!-- Perguntas serão inseridas aqui via JS -->
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="quiz-acoes">
+            <button class="btn-acao btn-reiniciar" id="btnReiniciar">
+                <i class="fas fa-redo"></i> Refazer Quiz
+            </button>
+            <button class="btn-acao btn-compartilhar" id="btnCompartilhar">
+                <i class="fas fa-share-alt"></i> Compartilhar
+            </button>
+            <button class="btn-acao btn-imprimir" id="btnImprimir">
+                <i class="fas fa-print"></i> Imprimir
+            </button>
+        </div>
+
+        <!-- Resultado Final -->
+        <div id="resultadoFinal" class="resultado-final" style="display: none;">
+            <div class="resultado-card">
+                <i class="fas fa-trophy resultado-icone"></i>
+                <h3>Quiz Finalizado!</h3>
+                <p class="resultado-pontuacao">
+                    Você acertou <strong id="acertosTotal">0</strong> de <strong id="totalPerguntas">10</strong> questões
+                </p>
+                <div class="resultado-percentual" id="percentualAcertos">0%</div>
+                <p class="resultado-feedback" id="feedbackDesempenho">Excelente trabalho!</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MENSAGEM INICIAL (antes de gerar quiz) -->
+    <!-- ============================================ -->
+    <div id="mensagemInicial" class="mensagem-inicial">
+        <div class="inicial-card">
+            <i class="fas fa-graduation-cap inicial-icone"></i>
+            <h3>Como Funciona?</h3>
+            <ul class="inicial-lista">
+                <li><i class="fas fa-check"></i> Selecione o tema e dificuldade desejados</li>
+                <li><i class="fas fa-check"></i> Escolha quantas perguntas quer no quiz</li>
+                <li><i class="fas fa-check"></i> Clique em "Gerar Quiz Aleatório"</li>
+                <li><i class="fas fa-check"></i> Use em sala ou compartilhe com alunos</li>
+            </ul>
+            <div class="inicial-destaque">
+                <i class="fas fa-lightbulb"></i>
+                <p>Banco com <strong>50 questões exclusivas</strong> sobre DISC e liderança!</p>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!-- ================================================================== -->
+<!-- SCRIPTS -->
+<!-- ================================================================== -->
+<script src="static/js/main.js"></script>
+<script src="static/js/quiz_generator.js" type="module"></script>
 
 </body>
 </html>
