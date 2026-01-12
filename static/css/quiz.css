@@ -55,6 +55,7 @@
     box-shadow:
         0 0 12px rgba(249,137,72,0.22),
         0 4px 14px rgba(0,0,0,0.4);
+    text-align: center;
 }
 
 .filtro-grupo {
@@ -70,6 +71,7 @@
     color: var(--cor-primaria);
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
 }
 
@@ -519,21 +521,24 @@
 .inicial-lista {
     list-style: none;
     padding: 0;
-    text-align: left;
+    text-align: center;
     margin-bottom: 28px;
     display: flex;
     flex-direction: column;
     gap: 14px;
+    align-items: center;
 }
 
 .inicial-lista li {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 12px;
     font-size: 16px;
     font-family: 'Manrope', sans-serif;
     font-weight: 500;
     color: var(--cor-texto);
+    max-width: 400px;
 }
 
 .inicial-lista i {
