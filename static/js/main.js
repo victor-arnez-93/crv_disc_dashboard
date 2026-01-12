@@ -195,46 +195,6 @@ document.addEventListener("DOMContentLoaded", () => {
     campo.addEventListener("input", () => destacar(campo.value.trim()));
 });
 
-// ============================================================================
-// CONTROLE DE SIDEBAR
-// ============================================================================
-
-const sidebar = document.getElementById('sidebar');
-const btnMenuDesktop = document.getElementById('btnMenuDesktop');
-const btnFecharSidebar = document.getElementById('btnFecharSidebar');
-
-// Toggle Desktop (Expandir/Recolher com seta laranja)
-if (btnMenuDesktop) {
-    btnMenuDesktop.addEventListener('click', () => {
-        sidebar.classList.toggle('collapsed');
-        localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
-    });
-}
-
-// Restaurar estado da sidebar
-document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('sidebarCollapsed') === 'true') {
-        sidebar.classList.add('collapsed');
-    }
-    marcarPaginaAtiva();
-});
-
-// Fechar Sidebar Mobile (botão X)
-if (btnFecharSidebar) {
-    btnFecharSidebar.addEventListener('click', () => {
-        sidebar.classList.remove('active');
-    });
-}
-
-// Marcar página ativa
-function marcarPaginaAtiva() {
-    const paginaAtual = window.location.pathname.split('/').pop().replace('.html', '') || 'index';
-    document.querySelectorAll('.menu-item').forEach(item => {
-        if (item.getAttribute('data-page') === paginaAtual) {
-            item.classList.add('active');
-        }
-    });
-}
 
 // ==========================================================
 // AJUSTE AUTOMÁTICO DO MENU EM TELAS PEQUENAS
