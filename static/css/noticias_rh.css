@@ -611,6 +611,9 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
   .noticias-card-principal {
     padding: 28px 20px;
     border-radius: 16px;
+    margin-bottom: 20px;
+    margin-left: 16px;
+    margin-right: 16px;
   }
 
   .noticias-titulo-principal {

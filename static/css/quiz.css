@@ -741,6 +741,7 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
   .card-principal {
     padding: 28px 20px;
     border-radius: 16px;
+    margin: 0 16px 28px;
   }
 
   .dashboard-title {

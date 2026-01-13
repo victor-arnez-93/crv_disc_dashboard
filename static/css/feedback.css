@@ -679,6 +679,7 @@
 @media (max-width: 768px) {
     .config-feedback {
         padding: 24px 18px;
+        margin: 0 16px 28px;
     }
 
     .perfis-grid,
