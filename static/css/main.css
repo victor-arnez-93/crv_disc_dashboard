@@ -1440,6 +1440,66 @@ SIDEBAR MOBILE — VERSÃO FINAL GLOBAL
   }
 }
 
+/* ============================================
+ESTADOS DA SIDEBAR (JS CONTROL)
+============================================ */
+
+/* DESKTOP: Sidebar fechada (.closed) */
+.sidebar.closed {
+  width: 80px;
+}
+
+.sidebar.closed .sidebar-logo-text,
+.sidebar.closed .user-name,
+.sidebar.closed .user-role,
+.sidebar.closed .menu-text {
+  display: none;
+}
+
+.sidebar.closed .sidebar-logo {
+  padding: 16px 10px;
+  justify-content: center;
+}
+
+.sidebar.closed .user-box {
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 8px;
+}
+
+.sidebar.closed .user-avatar {
+  width: 40px;
+  height: 40px;
+}
+
+.sidebar.closed .menu-item {
+  justify-content: center;
+  padding: 12px;
+}
+
+.sidebar.closed .menu-icon {
+  margin-right: 0;
+}
+
+/* MOBILE: Sidebar aberta (.aberta) */
+.sidebar.aberta {
+  transform: translateX(0) !important;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+/* Overlay ativo (.mostrar) */
+#sidebar-overlay.mostrar {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Body com menu aberto */
+body.menu-aberto {
+  overflow: hidden;
+}
+
 /* ============================================================
 AJUSTE MARGEM TOP NAS PÁGINAS INTERNAS (MOBILE)
 ============================================================ */
