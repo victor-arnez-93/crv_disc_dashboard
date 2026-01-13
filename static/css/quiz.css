@@ -733,26 +733,324 @@
 }
 
 /* ============================================
-   RESPONSIVIDADE
+RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
 ============================================ */
+
 @media (max-width: 768px) {
-    .controles-quiz {
-        grid-template-columns: 1fr;
-        padding: 18px;
-    }
+  /* Card principal */
+  .card-principal {
+    padding: 28px 20px;
+    border-radius: 16px;
+  }
 
-    .quiz-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-    }
+  .dashboard-title {
+    font-size: 24px;
+    flex-direction: column;
+    gap: 8px;
+  }
 
-    .quiz-acoes {
-        flex-direction: column;
-    }
+  .dashboard-title i {
+    font-size: 26px;
+  }
 
-    .btn-acao {
-        width: 100%;
-        justify-content: center;
-    }
+  .dashboard-subtitle {
+    font-size: 15px;
+  }
+
+  /* Controles de filtros */
+  .controles-quiz {
+    grid-template-columns: 1fr;
+    padding: 18px;
+    gap: 16px;
+  }
+
+  .filtro-grupo label {
+    font-size: 13px;
+  }
+
+  .filtro-select {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  /* Botão gerar quiz */
+  .btn-gerar-quiz {
+    padding: 14px 24px;
+    font-size: 15px;
+  }
+
+  .btn-gerar-quiz i {
+    font-size: 16px;
+  }
+
+  /* Área do quiz */
+  .area-quiz {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  /* Header do quiz */
+  .quiz-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .quiz-header h2 {
+    font-size: 20px;
+  }
+
+  .quiz-info {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .info-tag {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
+  .info-tag i {
+    font-size: 14px;
+  }
+
+  /* Corpo do quiz */
+  .quiz-corpo {
+    gap: 20px;
+  }
+
+  /* Cards de perguntas */
+  .pergunta-card {
+    padding: 18px 16px;
+    border-radius: 12px;
+  }
+
+  .pergunta-numero {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .pergunta-texto {
+    font-size: 16px;
+  }
+
+  /* Alternativas */
+  .alternativas {
+    gap: 8px;
+  }
+
+  .alternativa {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+
+  .alternativa input[type="radio"] {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Botões de ação */
+  .quiz-acoes {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-acao {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  /* Resultado final */
+  .resultado-card {
+    padding: 28px 20px;
+  }
+
+  .resultado-icone {
+    font-size: 48px;
+  }
+
+  .resultado-card h3 {
+    font-size: 24px;
+  }
+
+  .resultado-pontuacao {
+    font-size: 16px;
+  }
+
+  .resultado-pontuacao strong {
+    font-size: 20px;
+  }
+
+  .resultado-percentual {
+    font-size: 40px;
+  }
+
+  /* Mensagem inicial */
+  .mensagem-inicial {
+    min-height: 300px;
+  }
+
+  .inicial-card {
+    padding: 30px 20px;
+    max-width: 100%;
+  }
+
+  .inicial-icone {
+    font-size: 52px;
+  }
+
+  .inicial-card h3 {
+    font-size: 22px;
+  }
+
+  .inicial-lista li {
+    font-size: 15px;
+  }
+
+  .inicial-lista i {
+    font-size: 16px;
+  }
+
+  .inicial-destaque {
+    padding: 16px;
+    flex-direction: column;
+  }
+
+  .inicial-destaque i {
+    font-size: 24px;
+  }
+
+  .inicial-destaque p {
+    font-size: 14px;
+  }
 }
+
+/* MOBILE PEQUENO — até 480px */
+@media (max-width: 480px) {
+  /* Card principal */
+  .card-principal {
+    padding: 24px 16px;
+  }
+
+  .dashboard-title {
+    font-size: 22px;
+  }
+
+  .dashboard-subtitle {
+    font-size: 14px;
+  }
+
+  /* Controles */
+  .controles-quiz {
+    padding: 16px;
+  }
+
+  .btn-gerar-quiz {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  /* Quiz */
+  .area-quiz {
+    padding: 18px 14px;
+  }
+
+  .quiz-header h2 {
+    font-size: 18px;
+  }
+
+  /* Perguntas */
+  .pergunta-card {
+    padding: 16px 14px;
+  }
+
+  .pergunta-texto {
+    font-size: 15px;
+  }
+
+  .alternativa {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  /* Resultado */
+  .resultado-card {
+    padding: 24px 18px;
+  }
+
+  .resultado-icone {
+    font-size: 42px;
+  }
+
+  .resultado-card h3 {
+    font-size: 22px;
+  }
+
+  .resultado-percentual {
+    font-size: 36px;
+  }
+
+  /* Inicial */
+  .inicial-card {
+    padding: 24px 16px;
+  }
+
+  .inicial-icone {
+    font-size: 48px;
+  }
+
+  .inicial-card h3 {
+    font-size: 20px;
+  }
+
+  .inicial-lista li {
+    font-size: 14px;
+  }
+
+  .inicial-destaque p {
+    font-size: 13px;
+  }
+}
+
+/* MOBILE MUITO PEQUENO — até 360px */
+@media (max-width: 360px) {
+  .card-principal {
+    padding: 20px 14px;
+  }
+
+  .dashboard-title {
+    font-size: 20px;
+  }
+
+  .controles-quiz {
+    padding: 14px;
+  }
+
+  .area-quiz {
+    padding: 16px 12px;
+  }
+
+  .pergunta-card {
+    padding: 14px 12px;
+  }
+
+  .pergunta-texto {
+    font-size: 14px;
+  }
+
+  .alternativa {
+    font-size: 12px;
+  }
+
+  .resultado-card {
+    padding: 20px 16px;
+  }
+
+  .inicial-card {
+    padding: 20px 14px;
+  }
+}
+

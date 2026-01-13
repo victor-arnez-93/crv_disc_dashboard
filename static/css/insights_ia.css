@@ -1064,48 +1064,405 @@
 }
 
 /* ============================================
-   RESPONSIVIDADE
-   ============================================ */
+RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
+============================================ */
 
+/* TABLET — até 1200px */
 @media (max-width: 1200px) {
-    .insights-grid-principal {
-        grid-template-columns: 1fr;
-    }
+  /* Grid principal vira 1 coluna */
+  .insights-grid-principal {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 
-    .insights-dicas-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+  /* Dicas vira 2 colunas */
+  .insights-dicas-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-    .casos-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+  /* Casos vira 2 colunas */
+  .casos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .insights-container {
+    padding: 20px 16px;
+  }
 }
 
+/* MOBILE — até 768px */
 @media (max-width: 768px) {
-    .insights-dicas-grid {
-        grid-template-columns: 1fr;
-    }
+  /* Container */
+  .insights-container {
+    padding: 16px 12px;
+  }
 
-    .casos-grid {
-        grid-template-columns: 1fr;
-    }
+  /* Card principal */
+  .insights-card-principal {
+    padding: 28px 20px;
+    border-radius: 16px;
+  }
 
-    .form-row {
-        flex-direction: column;
-        align-items: stretch;
-    }
+  .insights-titulo-principal {
+    font-size: 26px;
+    flex-direction: column;
+    gap: 10px;
+  }
 
-    .btn-analisar {
-        width: 100%;
-        justify-content: center;
-    }
+  .insights-titulo-principal i {
+    font-size: 28px;
+  }
 
-    .casos-filtros {
-        gap: 8px;
-    }
+  .insights-subtitulo {
+    font-size: 15px;
+  }
 
-    .filtro-caso {
-        font-size: 13px;
-        padding: 8px 14px;
-    }
+  /* Grid principal 1 coluna */
+  .insights-grid-principal {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  /* Chat IA */
+  .insights-chat-container {
+    min-height: 500px;
+    border-radius: 16px;
+  }
+
+  .insights-chat-header {
+    padding: 16px 18px;
+  }
+
+  .insights-chat-header h2 {
+    font-size: 18px;
+  }
+
+  .insights-chat-messages {
+    padding: 16px;
+  }
+
+  .message-content {
+    max-width: 85%;
+  }
+
+  .message-content p {
+    font-size: 13px;
+  }
+
+  .insights-chat-sugestoes {
+    padding: 10px 16px;
+    gap: 6px;
+  }
+
+  .sugestao-btn {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+
+  .insights-chat-input {
+    padding: 14px 16px;
+  }
+
+  .insights-chat-input input {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+
+  .insights-chat-input button {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Simulador */
+  .insights-simulador {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+
+  .insights-simulador h2 {
+    font-size: 18px;
+  }
+
+  .simulador-intro {
+    font-size: 12px;
+  }
+
+  .cenario-atual {
+    padding: 16px;
+  }
+
+  .cenario-icone {
+    width: 50px;
+    height: 50px;
+  }
+
+  .cenario-icone i {
+    font-size: 24px;
+  }
+
+  .cenario-conteudo h3 {
+    font-size: 16px;
+  }
+
+  .cenario-contexto {
+    font-size: 13px;
+  }
+
+  .opcao-btn {
+    padding: 12px 14px;
+  }
+
+  .opcao-letra {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .opcao-texto {
+    font-size: 12px;
+  }
+
+  .simulador-acoes {
+    flex-direction: column;
+  }
+
+  .btn-proximo-cenario,
+  .btn-reiniciar {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Casos de uso */
+  .insights-casos-uso h2 {
+    font-size: 20px;
+  }
+
+  .casos-filtros {
+    padding: 16px;
+    gap: 8px;
+  }
+
+  .filtro-caso {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
+  .casos-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .caso-card {
+    padding: 20px;
+  }
+
+  .caso-card h3 {
+    font-size: 16px;
+    padding-right: 70px;
+  }
+
+  .caso-resumo {
+    font-size: 12px;
+  }
+
+  .caso-info {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-ler-caso {
+    font-size: 13px;
+  }
+
+  /* Dicas por perfil */
+  .insights-dicas-section h2 {
+    font-size: 20px;
+  }
+
+  .insights-dicas-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .dica-card {
+    padding: 20px 18px;
+  }
+
+  .dica-perfil {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+
+  .dica-card h3 {
+    font-size: 16px;
+  }
+
+  .dica-card li {
+    font-size: 12px;
+  }
+
+  /* Compatibilidade */
+  .insights-compatibilidade {
+    padding: 24px 18px;
+  }
+
+  .insights-compatibilidade h2 {
+    font-size: 20px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-analisar {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .resultado-compatibilidade {
+    padding: 16px;
+  }
+
+  .resultado-compatibilidade h3 {
+    font-size: 16px;
+  }
+
+  .resultado-compatibilidade p {
+    font-size: 13px;
+  }
+
+  /* Modal */
+  .modal-caso-content {
+    padding: 30px 24px;
+    width: 95%;
+  }
+
+  #modalCasoBody h2 {
+    font-size: 22px;
+  }
+
+  #modalCasoBody h3 {
+    font-size: 18px;
+  }
+
+  #modalCasoBody p {
+    font-size: 14px;
+  }
+
+  #modalCasoBody li {
+    font-size: 13px;
+  }
+}
+
+/* MOBILE PEQUENO — até 480px */
+@media (max-width: 480px) {
+  /* Container */
+  .insights-container {
+    padding: 14px 10px;
+  }
+
+  /* Card principal */
+  .insights-card-principal {
+    padding: 24px 16px;
+  }
+
+  .insights-titulo-principal {
+    font-size: 24px;
+  }
+
+  .insights-subtitulo {
+    font-size: 14px;
+  }
+
+  /* Chat */
+  .insights-chat-container {
+    min-height: 450px;
+  }
+
+  .insights-chat-header {
+    padding: 14px 16px;
+  }
+
+  .insights-chat-header h2 {
+    font-size: 16px;
+  }
+
+  .insights-chat-messages {
+    padding: 14px;
+  }
+
+  .message-avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .message-avatar i {
+    font-size: 18px;
+  }
+
+  /* Simulador */
+  .insights-simulador {
+    padding: 20px 16px;
+  }
+
+  .cenario-atual {
+    padding: 14px;
+  }
+
+  /* Casos */
+  .caso-card {
+    padding: 18px 16px;
+  }
+
+  .caso-card h3 {
+    font-size: 15px;
+  }
+
+  /* Dicas */
+  .dica-card {
+    padding: 18px 16px;
+  }
+
+  /* Modal */
+  .modal-caso-content {
+    padding: 24px 18px;
+  }
+
+  #modalCasoBody h2 {
+    font-size: 20px;
+  }
+
+  #modalCasoBody h3 {
+    font-size: 16px;
+  }
+}
+
+/* MOBILE MUITO PEQUENO — até 360px */
+@media (max-width: 360px) {
+  .insights-container {
+    padding: 12px 8px;
+  }
+
+  .insights-card-principal {
+    padding: 20px 14px;
+  }
+
+  .insights-titulo-principal {
+    font-size: 22px;
+  }
+
+  .insights-chat-container {
+    min-height: 400px;
+  }
+
+  .insights-simulador {
+    padding: 18px 14px;
+  }
+
+  .caso-card,
+  .dica-card {
+    padding: 16px 14px;
+  }
 }

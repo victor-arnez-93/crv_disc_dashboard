@@ -195,57 +195,79 @@ document.addEventListener("DOMContentLoaded", () => {
     campo.addEventListener("input", () => destacar(campo.value.trim()));
 });
 
-
-// ==========================================================
-// AJUSTE AUTOMÁTICO DO MENU EM TELAS PEQUENAS
-// ==========================================================
-function ajustarMenuMobile() {
-    if (window.innerWidth <= 900) {
-        sidebar.classList.add("fechado");
-        if (btnMenuDesktop) btnMenuDesktop.style.display = "flex";
-    } else {
-        sidebar.classList.remove("fechado");
-        if (btnMenuDesktop) btnMenuDesktop.style.display = "none";
-    }
-}
-
-window.addEventListener("resize", ajustarMenuMobile);
-window.addEventListener("DOMContentLoaded", ajustarMenuMobile);
-
 // ============================================================
-// MENU MOBILE — ABRIR E FECHAR SIDEBAR
+// MENU MOBILE — CONTROLE COMPLETO (GLOBAL)
 // ============================================================
 
-// Criar overlay 1 vez
+// Criar overlay uma vez no carregamento
 let overlay = document.getElementById("sidebar-overlay");
 if (!overlay) {
-    overlay = document.createElement("div");
-    overlay.id = "sidebar-overlay";
-    document.body.appendChild(overlay);
+  overlay = document.createElement("div");
+  overlay.id = "sidebar-overlay";
+  document.body.appendChild(overlay);
 }
 
-// Abrir
-if (btnMenuMobile) {
-    btnMenuMobile.addEventListener("click", () => {
-        sidebar.classList.add("aberta");
-        overlay.classList.add("mostrar");
-        document.body.classList.add("menu-aberto");
-    });
-}
-
+// Referências
+const sidebar = document.getElementById("sidebar");
+const btnMenuMobile = document.getElementById("btnMenuMobile");
 const btnFechar = document.querySelector(".sidebar-fechar");
-if (btnFechar) {
-    btnFechar.addEventListener("click", () => {
-        sidebar.classList.remove("aberta");
-        overlay.classList.remove("mostrar");
-        document.body.classList.remove("menu-aberto");
-    });
+
+// ABRIR menu mobile (botão hambúrguer)
+if (btnMenuMobile && sidebar) {
+  btnMenuMobile.addEventListener("click", (e) => {
+    e.stopPropagation();
+    sidebar.classList.add("aberta");
+    overlay.classList.add("mostrar");
+    document.body.classList.add("menu-aberto");
+  });
 }
 
-// Fechar ao clicar fora
-overlay.addEventListener("click", () => {
+// FECHAR menu (botão X)
+if (btnFechar && sidebar) {
+  btnFechar.addEventListener("click", (e) => {
+    e.stopPropagation();
     sidebar.classList.remove("aberta");
     overlay.classList.remove("mostrar");
     document.body.classList.remove("menu-aberto");
+  });
+}
+
+// FECHAR ao clicar no overlay
+if (overlay && sidebar) {
+  overlay.addEventListener("click", () => {
+    sidebar.classList.remove("aberta");
+    overlay.classList.remove("mostrar");
+    document.body.classList.remove("menu-aberto");
+  });
+}
+
+// FECHAR ao clicar em qualquer link do menu
+document.querySelectorAll('.sidebar .menu-item').forEach(item => {
+  item.addEventListener('click', () => {
+    if (window.innerWidth <= 768) {
+      sidebar.classList.remove("aberta");
+      overlay.classList.remove("mostrar");
+      document.body.classList.remove("menu-aberto");
+    }
+  });
 });
 
+// ============================================================
+// AJUSTE AUTOMÁTICO DESKTOP/MOBILE
+// ============================================================
+
+function ajustarMenuResponsivo() {
+  if (window.innerWidth <= 768) {
+    // Mobile: sidebar começa fechada (fora da tela)
+    sidebar.classList.remove("aberta");
+    overlay.classList.remove("mostrar");
+    document.body.classList.remove("menu-aberto");
+  } else {
+    // Desktop: remove classes mobile
+    sidebar.classList.remove("aberta");
+    document.body.classList.remove("menu-aberto");
+  }
+}
+
+window.addEventListener("resize", ajustarMenuResponsivo);
+window.addEventListener("DOMContentLoaded", ajustarMenuResponsivo);

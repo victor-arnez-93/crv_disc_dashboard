@@ -567,56 +567,241 @@
 }
 
 /* ============================================
-   RESPONSIVIDADE
-   ============================================ */
+RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
+============================================ */
 
+/* TABLET — até 1000px */
 @media (max-width: 1000px) {
-    .disc-grid-4 {
-        grid-template-columns: repeat(2, 1fr); /* 2 colunas em telas médias */
-    }
+  .disc-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+
+  .disc-container {
+    padding: 20px 16px;
+  }
 }
 
+/* MOBILE — até 768px */
 @media (max-width: 768px) {
-    .disc-grid-4,
-    .disc-beneficios-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
+  /* Container principal */
+  .disc-container {
+    padding: 16px 12px;
+  }
 
-    .disc-container {
-        padding: 18px 16px;
-    }
-}
+  /* Card principal */
+  .disc-card-principal {
+    padding: 28px 20px;
+    border-radius: 16px;
+  }
 
-@media (max-width: 600px) {
-    .disc-titulo-principal {
-        font-size: 26px;
-    }
+  .disc-titulo-principal {
+    font-size: 26px;
+    flex-direction: column;
+    gap: 8px;
+  }
 
-    .disc-card-principal,
-    .disc-card-sobre,
-    .disc-card-beneficios,
-    .disc-card-cta {
-        padding: 24px 20px;
-    }
+  .disc-titulo-principal i {
+    font-size: 28px;
+  }
 
-    .disc-btn-teste {
-        width: 100%;
-        justify-content: center;
-    }
-}
-/* ✅ WRAPPER PARA CENTRALIZAR BOTÃO COM CLASSE menu-item */
-.btn-center-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .disc-subtitulo {
+    font-size: 15px;
+  }
+
+  /* Card sobre DISC */
+  .disc-card-sobre {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+
+  .disc-card-sobre h2 {
+    font-size: 20px;
+    flex-direction: column;
+  }
+
+  .disc-card-sobre p {
+    font-size: 14px;
+  }
+
+  /* Grid perfis vira 1 coluna */
+  .disc-grid-4 {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .disc-perfil-card {
+    padding: 20px 16px;
+  }
+
+  .disc-perfil-card h3 {
+    font-size: 16px;
+  }
+
+  .disc-perfil-icone {
+    width: 46px;
+    height: 46px;
+    font-size: 22px;
+  }
+
+  /* Card benefícios */
+  .disc-card-beneficios {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+
+  .disc-card-beneficios h2 {
+    font-size: 20px;
+    flex-direction: column;
+  }
+
+  .disc-beneficios-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .disc-beneficio-item {
+    padding: 18px 16px;
+  }
+
+  .disc-beneficio-item i {
+    font-size: 28px;
+  }
+
+  .disc-beneficio-item h4 {
+    font-size: 15px;
+  }
+
+  .disc-beneficio-item p {
+    font-size: 12px;
+  }
+
+  /* Card CTA */
+  .disc-card-cta {
+    padding: 28px 20px;
+    border-radius: 16px;
+  }
+
+  .disc-card-cta h2 {
+    font-size: 24px;
+  }
+
+  .disc-card-cta > p {
+    font-size: 15px;
+  }
+
+  .disc-card-cta ul {
+    text-align: left;
+    padding-left: 0;
+  }
+
+  .disc-card-cta li {
+    font-size: 14px;
+  }
+
+  /* Botão teste */
+  .disc-btn-teste {
     width: 100%;
-    margin: 20px 0;
+    padding: 16px 32px;
+    font-size: 16px;
+    justify-content: center;
+  }
+
+  .disc-btn-teste i {
+    font-size: 18px;
+  }
+
+  /* Aviso */
+  .disc-aviso {
+    padding: 16px 18px;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .disc-aviso i {
+    font-size: 24px;
+  }
+
+  .disc-aviso p {
+    font-size: 12px;
+  }
+
+  .disc-cta-nota {
+    font-size: 11px;
+  }
 }
 
-/* ✅ BOTÃO menu-item DENTRO DO WRAPPER */
-.btn-center-wrapper .menu-item {
-    width: auto !important; /* Remove largura 100% */
-    display: inline-flex !important;
-    margin: 0 !important;
+/* MOBILE PEQUENO — até 480px */
+@media (max-width: 480px) {
+  /* Container */
+  .disc-container {
+    padding: 14px 10px;
+  }
+
+  /* Card principal */
+  .disc-card-principal {
+    padding: 24px 16px;
+  }
+
+  .disc-titulo-principal {
+    font-size: 24px;
+  }
+
+  .disc-subtitulo {
+    font-size: 14px;
+  }
+
+  /* Cards gerais */
+  .disc-card-sobre,
+  .disc-card-beneficios,
+  .disc-card-cta {
+    padding: 20px 16px;
+  }
+
+  .disc-card-sobre h2,
+  .disc-card-beneficios h2 {
+    font-size: 18px;
+  }
+
+  .disc-card-cta h2 {
+    font-size: 22px;
+  }
+
+  /* Perfis */
+  .disc-perfil-card {
+    padding: 18px 14px;
+  }
+
+  .disc-perfil-icone {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+
+  /* Botão */
+  .disc-btn-teste {
+    padding: 14px 24px;
+    font-size: 15px;
+  }
+
+  /* Grid */
+  .disc-grid-4 {
+    gap: 16px;
+  }
 }
+
+/* MOBILE MUITO PEQUENO — até 360px */
+@media (max-width: 360px) {
+  .disc-container {
+    padding: 12px 8px;
+  }
+
+  .disc-titulo-principal {
+    font-size: 22px;
+  }
+
+  .disc-card-principal,
+  .disc-card-sobre,
+  .disc-card-beneficios,
+  .disc-card-c

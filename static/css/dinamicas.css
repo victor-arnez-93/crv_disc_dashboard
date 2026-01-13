@@ -425,34 +425,383 @@
 }
 
 /* ============================================
-   RESPONSIVIDADE
-   ============================================ */
+RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
+============================================ */
 
 @media (max-width: 768px) {
-    .dinamicas-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
+  /* Card principal */
+  .card-principal {
+    padding: 28px 20px;
+    border-radius: 16px;
+  }
 
-    .dinamicas-filtros {
-        gap: 8px;
-    }
+  .dashboard-title {
+    font-size: 24px;
+    flex-direction: column;
+    gap: 8px;
+  }
 
-    .filtro-btn {
-        font-size: 13px;
-        padding: 10px 16px;
-    }
+  /* Configuração de feedback */
+  .config-feedback {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
 
-    .dinamicas-card-principal {
-        padding: 28px 24px;
-    }
+  .config-secao {
+    margin-bottom: 24px;
+  }
 
-    .dinamicas-titulo-principal {
-        font-size: 26px;
-    }
+  .config-secao h3 {
+    font-size: 17px;
+  }
 
-    .modal-dinamica-content {
-        padding: 30px 20px;
-        width: 95%;
-    }
+  .config-secao h3 i {
+    font-size: 18px;
+  }
+
+  /* Grid de perfis */
+  .perfis-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .perfil-card {
+    padding: 16px;
+  }
+
+  .perfil-letra {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+
+  .perfil-nome {
+    font-size: 15px;
+  }
+
+  .perfil-desc {
+    font-size: 11px;
+  }
+
+  /* Grid de tipos */
+  .tipo-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .tipo-card {
+    padding: 14px 16px;
+  }
+
+  .tipo-card i {
+    font-size: 20px;
+  }
+
+  .tipo-card span {
+    font-size: 14px;
+  }
+
+  /* Select de contexto */
+  .contexto-select {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  /* Botão gerar */
+  .btn-gerar-feedback {
+    padding: 14px 24px;
+    font-size: 16px;
+  }
+
+  .btn-gerar-feedback i {
+    font-size: 18px;
+  }
+
+  /* Resultado */
+  .resultado-feedback {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+
+  .resultado-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+
+  .resultado-badge {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+  }
+
+  .resultado-info h2 {
+    font-size: 20px;
+  }
+
+  .resultado-info p {
+    font-size: 14px;
+  }
+
+  /* Seções do feedback */
+  .feedback-secao {
+    margin-bottom: 24px;
+  }
+
+  .feedback-secao h3 {
+    font-size: 17px;
+  }
+
+  .feedback-secao h3 i {
+    font-size: 18px;
+  }
+
+  .feedback-script {
+    padding: 16px;
+    font-size: 15px;
+  }
+
+  .feedback-dica {
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+
+  .feedback-lista {
+    gap: 10px;
+  }
+
+  .feedback-lista li {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+
+  .feedback-lista li::before {
+    font-size: 18px;
+  }
+
+  .feedback-dialogo {
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .dialogo-label {
+    font-size: 12px;
+  }
+
+  .dialogo-texto {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  /* Botões de ação */
+  .feedback-acoes {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .btn-acao {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  /* Dicas gerais */
+  .dicas-gerais {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+
+  .dicas-gerais h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .dicas-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .dica-card {
+    padding: 18px;
+  }
+
+  .dica-card i {
+    font-size: 28px;
+  }
+
+  .dica-card h4 {
+    font-size: 15px;
+  }
+
+  .dica-card p {
+    font-size: 13px;
+  }
+}
+
+/* MOBILE PEQUENO — até 480px */
+@media (max-width: 480px) {
+  /* Card principal */
+  .card-principal {
+    padding: 24px 18px;
+  }
+
+  .dashboard-title {
+    font-size: 22px;
+  }
+
+  /* Configuração */
+  .config-feedback {
+    padding: 20px 16px;
+  }
+
+  .config-secao h3 {
+    font-size: 16px;
+  }
+
+  /* Perfis em 1 coluna no mobile pequeno */
+  .perfis-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .perfil-card {
+    padding: 14px;
+  }
+
+  .perfil-letra {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+
+  /* Tipos */
+  .tipo-card {
+    padding: 12px 14px;
+  }
+
+  .tipo-card i {
+    font-size: 18px;
+  }
+
+  .tipo-card span {
+    font-size: 13px;
+  }
+
+  /* Contexto */
+  .contexto-select {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  /* Botão */
+  .btn-gerar-feedback {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+
+  /* Resultado */
+  .resultado-feedback {
+    padding: 20px 16px;
+  }
+
+  .resultado-badge {
+    width: 56px;
+    height: 56px;
+    font-size: 26px;
+  }
+
+  .resultado-info h2 {
+    font-size: 18px;
+  }
+
+  .resultado-info p {
+    font-size: 13px;
+  }
+
+  .feedback-secao h3 {
+    font-size: 16px;
+  }
+
+  .feedback-script {
+    padding: 14px;
+    font-size: 14px;
+  }
+
+  .feedback-dica {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+
+  .feedback-lista li {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .feedback-dialogo {
+    padding: 14px;
+  }
+
+  .dialogo-texto {
+    font-size: 13px;
+  }
+
+  /* Dicas */
+  .dicas-gerais {
+    padding: 20px 16px;
+  }
+
+  .dicas-gerais h3 {
+    font-size: 17px;
+  }
+
+  .dica-card {
+    padding: 16px;
+  }
+
+  .dica-card i {
+    font-size: 26px;
+  }
+
+  .dica-card h4 {
+    font-size: 14px;
+  }
+
+  .dica-card p {
+    font-size: 12px;
+  }
+}
+
+/* MOBILE MUITO PEQUENO — até 360px */
+@media (max-width: 360px) {
+  .card-principal {
+    padding: 20px 16px;
+  }
+
+  .dashboard-title {
+    font-size: 20px;
+  }
+
+  .config-feedback {
+    padding: 18px 14px;
+  }
+
+  .resultado-feedback {
+    padding: 18px 14px;
+  }
+
+  .dicas-gerais {
+    padding: 18px 14px;
+  }
+
+  .perfil-card {
+    padding: 12px;
+  }
+
+  .tipo-card {
+    padding: 10px 12px;
+  }
 }

@@ -1330,81 +1330,129 @@ h1, h2, h3, h4, h5, h6,
         height: 42px;
     }
 }
+
 /* ============================================================
-   SIDEBAR MOBILE — NOVA VERSÃO (OPÇÃO C COMPLETA)
-   ============================================================ */
+SIDEBAR MOBILE — VERSÃO FINAL GLOBAL
+============================================================ */
+
 @media (max-width: 768px) {
+  /* Sidebar vira painel lateral */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 70%;
+    max-width: 300px;
+    height: 100vh;
+    background: var(--cor-sidebar);
+    padding-top: 60px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: left 0.35s ease-in-out;
+    z-index: 9999;
+    border-right: 2px solid var(--cor-primaria);
+  }
 
-    /* Sidebar vira painel lateral */
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        width: 70%;
-        max-width: 300px;
-        height: 100vh;
-        background: var(--cor-sidebar);
-        padding-top: 60px; /* espaço para botão X */
-        overflow-y: auto;
-        transition: left 0.35s ease-in-out;
-        z-index: 9999;
-        border-right: 2px solid var(--cor-primaria);
-    }
+  /* Sidebar aberta */
+  .sidebar.aberta {
+    left: 0;
+  }
 
-    /* Sidebar aberta */
-    .sidebar.aberta {
-        left: 0;
-    }
+  /* Botão X DENTRO da sidebar */
+  .sidebar-fechar {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 28px;
+    color: var(--cor-primaria);
+    cursor: pointer;
+    z-index: 10000;
+    transition: all 0.2s ease;
+  }
 
-    /* Botão X interno */
-    .sidebar-fechar {
-        position: absolute;
-        top: 14px;
-        right: 16px;
-        font-size: 26px;
-        color: var(--cor-primaria);
-        cursor: pointer;
-        z-index: 10000;
-    }
+  .sidebar-fechar:hover {
+    transform: rotate(90deg);
+    filter: drop-shadow(0 0 8px var(--cor-primaria));
+  }
 
-    /* Overlay escurecido */
-    #sidebar-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.55);
-        backdrop-filter: blur(2px);
-        display: none;
-        z-index: 9998;
-    }
+  /* Overlay escurecido */
+  #sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(3px);
+    display: none;
+    z-index: 9998;
+    transition: opacity 0.3s ease;
+  }
 
-    #sidebar-overlay.mostrar {
-        display: block;
-    }
+  #sidebar-overlay.mostrar {
+    display: block;
+    opacity: 1;
+  }
 
-    /* Congela o scroll do body quando menu abre */
-    body.menu-aberto {
-        overflow: hidden;
-    }
+  /* Congela scroll do body quando menu abre */
+  body.menu-aberto {
+    overflow: hidden;
+  }
 
-    /* Ajustes adicionais de header + conteúdo */
-    .main-content {
-        margin-left: 0 !important;
-        padding: 22px;
-    }
+  /* Esconde botão desktop de recolher */
+  .sidebar-toggle {
+    display: none !important;
+  }
 
-    .sidebar-toggle {
-        display: none !important; /* botão desktop some no mobile */
-    }
+  /* Main content sem margem lateral */
+  .main-content {
+    margin-left: 0 !important;
+    margin-top: 160px; /* Ajuste conforme altura do header mobile */
+    padding: 20px;
+    width: 100%;
+  }
+
+  /* Botão hamburguer no header */
+  #btnMenuMobile {
+    display: flex !important;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(249,137,72,0.15);
+    border: 2px solid var(--cor-primaria);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  #btnMenuMobile:hover {
+    background: rgba(249,137,72,0.25);
+    transform: scale(1.05);
+  }
+
+  #btnMenuMobile i {
+    font-size: 20px;
+    color: var(--cor-primaria);
+  }
+
+  /* Esconde botão desktop */
+  #btnMenu {
+    display: none !important;
+  }
 }
 
 /* ============================================================
-   AJUSTE GLOBAL DOS PRIMEIROS CARDS DAS PÁGINAS INTERNAS
-   ============================================================ */
-@media (max-width: 768px) {
+AJUSTE MARGEM TOP NAS PÁGINAS INTERNAS (MOBILE)
+============================================================ */
 
-    .pagina-interna .card-principal-topo {
-        margin-top: 70px !important;
-    }
+@media (max-width: 768px) {
+  /* Todas as páginas começam após header mobile */
+  body {
+    padding-top: 0;
+  }
+
+  .main-content > *:first-child {
+    margin-top: 0 !important;
+  }
 }
 
 

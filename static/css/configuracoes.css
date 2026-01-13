@@ -255,12 +255,261 @@
   to   { opacity: 1; transform: translateY(0);}
 }
 
-/* Responsividade */
+/* ============================================
+RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
+============================================ */
+
 @media (max-width: 768px) {
-  .config-container { padding: 28px 12px; }
-  .perfil-row { flex-direction: column; text-align: center; }
-  .config-acoes { flex-direction: column; }
-  .config-acoes .menu-item { width: 100%; }
-  .integracoes-lista { flex-direction: column; }
-  .btn-integracao { min-width: 98%; }
+  /* Container principal */
+  .config-container {
+    padding: 28px 20px;
+    margin: 20px auto 0;
+    border-radius: 18px;
+  }
+
+  /* Header */
+  .config-header {
+    margin-bottom: 28px;
+  }
+
+  .config-header h1 {
+    font-size: 26px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .config-header h1 i {
+    font-size: 28px;
+  }
+
+  .config-header p {
+    font-size: 14px;
+  }
+
+  /* Formulário */
+  .config-form {
+    gap: 28px;
+  }
+
+  /* Seções */
+  .config-section {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  .config-section h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  /* Perfil e foto */
+  .perfil-row {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .foto-perfil-wrapper {
+    margin: 0 auto;
+  }
+
+  .profile-photo {
+    width: 100px;
+    height: 100px;
+    border-width: 3px;
+  }
+
+  .foto-upload-btn {
+    width: 48px;
+    height: 48px;
+    right: -20px;
+    bottom: -12px;
+    border-width: 3px;
+  }
+
+  .foto-upload-btn i {
+    font-size: 1.9em;
+    transform: translateY(9px);
+  }
+
+  /* Perfil info */
+  .perfil-info {
+    width: 100%;
+  }
+
+  .perfil-info label {
+    font-size: 12px;
+  }
+
+  .perfil-info input {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  /* Select e inputs */
+  .config-section select {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .config-section label {
+    font-size: 12px;
+  }
+
+  .config-section .preferencia-descricao {
+    font-size: 14px;
+  }
+
+  /* Integrações */
+  .integracoes-lista {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-integracao {
+    min-width: 100%;
+    width: 100%;
+    padding: 12px 18px;
+    font-size: 15px;
+  }
+
+  .btn-integracao i {
+    font-size: 16px;
+  }
+
+  /* Botões de ação */
+  .config-acoes {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .config-acoes .menu-item {
+    width: 100%;
+    min-width: 100%;
+    padding: 12px 20px;
+  }
+
+  /* Mensagem de feedback */
+  #mensagemFeedback {
+    padding: 14px;
+    font-size: 14px;
+  }
+}
+
+/* MOBILE PEQUENO — até 480px */
+@media (max-width: 480px) {
+  /* Container */
+  .config-container {
+    padding: 24px 16px;
+    margin: 16px auto 0;
+  }
+
+  /* Header */
+  .config-header {
+    margin-bottom: 24px;
+  }
+
+  .config-header h1 {
+    font-size: 24px;
+  }
+
+  .config-header p {
+    font-size: 13px;
+  }
+
+  /* Formulário */
+  .config-form {
+    gap: 24px;
+  }
+
+  /* Seções */
+  .config-section {
+    padding: 18px;
+  }
+
+  .config-section h2 {
+    font-size: 18px;
+  }
+
+  /* Foto perfil */
+  .profile-photo {
+    width: 90px;
+    height: 90px;
+  }
+
+  .foto-upload-btn {
+    width: 44px;
+    height: 44px;
+    right: -18px;
+    bottom: -10px;
+  }
+
+  .foto-upload-btn i {
+    font-size: 1.7em;
+    transform: translateY(8px);
+  }
+
+  /* Inputs */
+  .perfil-info input {
+    padding: 9px 12px;
+    font-size: 13px;
+  }
+
+  .config-section select {
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+
+  .config-section .preferencia-descricao {
+    font-size: 13px;
+  }
+
+  /* Integrações */
+  .btn-integracao {
+    padding: 11px 16px;
+    font-size: 14px;
+  }
+
+  /* Mensagem */
+  #mensagemFeedback {
+    padding: 12px;
+    font-size: 13px;
+  }
+}
+
+/* MOBILE MUITO PEQUENO — até 360px */
+@media (max-width: 360px) {
+  .config-container {
+    padding: 20px 14px;
+    margin: 12px auto 0;
+  }
+
+  .config-header h1 {
+    font-size: 22px;
+  }
+
+  .config-section {
+    padding: 16px;
+  }
+
+  .config-section h2 {
+    font-size: 17px;
+  }
+
+  .profile-photo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .foto-upload-btn {
+    width: 40px;
+    height: 40px;
+    right: -16px;
+    bottom: -8px;
+  }
+
+  .foto-upload-btn i {
+    font-size: 1.5em;
+    transform: translateY(7px);
+  }
 }

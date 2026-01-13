@@ -797,63 +797,296 @@
 }
 
 /* ============================================
-   RESPONSIVIDADE
+RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
 ============================================ */
+
 @media (max-width: 768px) {
-    .controles-casos {
-        grid-template-columns: 1fr;
-        padding: 18px;
-    }
+  /* Card principal */
+  .card-principal {
+    padding: 28px 20px;
+    border-radius: 16px;
+  }
 
-    .casos-stats {
-        grid-template-columns: 1fr;
-    }
+  .dashboard-title {
+    font-size: 24px;
+    flex-direction: column;
+    gap: 8px;
+  }
 
-    .grid-casos {
-        grid-template-columns: 1fr;
-        gap: 18px;
-    }
+  /* Controles de filtros */
+  .controles-casos {
+    grid-template-columns: 1fr;
+    padding: 18px;
+    gap: 16px;
+  }
 
-    .modal-caso-content {
-        max-width: 95%;
-        max-height: 95vh;
-    }
+  .filtro-grupo label {
+    font-size: 13px;
+  }
 
-    .modal-header,
-    .modal-body,
-    .modal-footer {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
+  .filtro-select,
+  .filtro-input {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
 
-    .modal-header h2 {
-        font-size: 20px;
-    }
+  /* Estatísticas */
+  .casos-stats {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 
-    .modal-footer {
-        flex-direction: column;
-    }
+  .stat-card {
+    padding: 16px;
+  }
 
-    .btn-modal {
-        width: 100%;
-        justify-content: center;
-    }
+  .stat-card i {
+    font-size: 28px;
+  }
+
+  .stat-numero {
+    font-size: 24px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+  }
+
+  /* Grid de casos */
+  .grid-casos {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  /* Cards de casos */
+  .caso-card {
+    padding: 18px;
+  }
+
+  .caso-badge {
+    min-width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .caso-numero {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .caso-titulo {
+    font-size: 17px;
+  }
+
+  .caso-descricao {
+    font-size: 13px;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  .caso-btn {
+    font-size: 13px;
+  }
+
+  /* Sem resultados */
+  .sem-resultados {
+    padding: 40px 20px;
+  }
+
+  .sem-resultados i {
+    font-size: 48px;
+  }
+
+  .sem-resultados h3 {
+    font-size: 20px;
+  }
+
+  .sem-resultados p {
+    font-size: 14px;
+  }
+
+  /* Modal */
+  .modal-caso-content {
+    max-width: 95%;
+    max-height: 95vh;
+    border-radius: 16px;
+  }
+
+  .modal-close {
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .modal-header {
+    padding: 28px 20px 20px;
+  }
+
+  .modal-badge {
+    font-size: 14px;
+    padding: 6px 14px;
+  }
+
+  .modal-header h2 {
+    font-size: 20px;
+  }
+
+  .modal-body {
+    padding: 24px 20px;
+    gap: 20px;
+  }
+
+  .modal-secao h3 {
+    font-size: 17px;
+  }
+
+  .modal-secao h3 i {
+    font-size: 18px;
+  }
+
+  .modal-secao p {
+    font-size: 15px;
+  }
+
+  .modal-secao ul li {
+    font-size: 14px;
+    padding-left: 24px;
+  }
+
+  .modal-secao ul li::before {
+    font-size: 16px;
+  }
+
+  .modal-footer {
+    padding: 18px 20px 24px;
+    flex-direction: column;
+  }
+
+  .btn-modal {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
 }
 
+/* MOBILE PEQUENO — até 480px */
 @media (max-width: 480px) {
-    .card-principal {
-        padding: 24px 18px;
-    }
+  /* Card principal */
+  .card-principal {
+    padding: 24px 18px;
+  }
 
-    .dashboard-title {
-        font-size: 20px;
-    }
+  .dashboard-title {
+    font-size: 22px;
+  }
 
-    .caso-card {
-        padding: 18px;
-    }
+  /* Controles */
+  .controles-casos {
+    padding: 16px;
+  }
 
-    .caso-titulo {
-        font-size: 16px;
-    }
+  /* Estatísticas */
+  .stat-card {
+    padding: 14px;
+  }
+
+  .stat-card i {
+    font-size: 24px;
+  }
+
+  .stat-numero {
+    font-size: 22px;
+  }
+
+  /* Cards de casos */
+  .caso-card {
+    padding: 16px;
+  }
+
+  .caso-titulo {
+    font-size: 16px;
+  }
+
+  .caso-descricao {
+    font-size: 12px;
+  }
+
+  /* Modal */
+  .modal-caso-content {
+    max-width: 98%;
+  }
+
+  .modal-header {
+    padding: 24px 16px 18px;
+  }
+
+  .modal-header h2 {
+    font-size: 18px;
+  }
+
+  .modal-body {
+    padding: 20px 16px;
+  }
+
+  .modal-secao h3 {
+    font-size: 16px;
+  }
+
+  .modal-secao p {
+    font-size: 14px;
+  }
+
+  .modal-secao ul li {
+    font-size: 13px;
+  }
+
+  .modal-footer {
+    padding: 16px 16px 20px;
+  }
+
+  .btn-modal {
+    font-size: 13px;
+    padding: 9px 18px;
+  }
+}
+
+/* MOBILE MUITO PEQUENO — até 360px */
+@media (max-width: 360px) {
+  .card-principal {
+    padding: 20px 16px;
+  }
+
+  .dashboard-title {
+    font-size: 20px;
+  }
+
+  .controles-casos {
+    padding: 14px;
+  }
+
+  .caso-card {
+    padding: 14px;
+  }
+
+  .caso-titulo {
+    font-size: 15px;
+  }
+
+  .modal-header {
+    padding: 20px 14px 16px;
+  }
+
+  .modal-body {
+    padding: 18px 14px;
+  }
+
+  .modal-footer {
+    padding: 14px 14px 18px;
+  }
 }
