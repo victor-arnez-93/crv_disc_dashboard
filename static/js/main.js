@@ -79,30 +79,124 @@ if (weatherBox && modalClima) {
 // ===============================
 // CLIMA + ÍCONE DIA/NOITE
 // ===============================
+// Função para mapear clima para emoji
+const getWeatherEmoji = (weather) => ({
+    Clear: "☀️",
+    Clouds: "☁️",
+    Rain: "🌧️",
+    Drizzle: "🌦️",
+    Thunderstorm: "⛈️",
+    Snow: "❄️",
+    Mist: "🌫️",
+    Fog: "🌫️",
+    Haze: "🌫️"
+}[weather] || "🌡️");
+
 async function carregarClima() {
-  const iconeClimaImg = document.getElementById("iconeClimaImg");
-  const temperatura = document.getElementById("temperatura");
-  if (!iconeClimaImg || !temperatura) return;
-  try {
-    const response = await fetch('/api/clima');
-    const data = await response.json();
-    temperatura.textContent = `${data.temperatura}°C`;
-    atualizarIconeClimaPorHora();
-  } catch (erro) {
-    console.error('Erro ao buscar clima:', erro);
-    temperatura.textContent = '-- °C';
-  }
+    const temperatura = document.getElementById("temperatura");
+    if (!temperatura) return;
+
+    try {
+        const diasSemana = ["dom.", "seg.", "ter.", "qua.", "qui.", "sex.", "sáb."];
+
+        // Calcula os 3 próximos dias (incluindo hoje)
+        const hoje = new Date();
+        const amanha = new Date(hoje);
+        amanha.setDate(amanha.getDate() + 1);
+        const depois = new Date(hoje);
+        depois.setDate(depois.getDate() + 2);
+
+        // Mock com 3 dias calculados dinamicamente
+        const previsoes = [
+            {
+                dia: diasSemana[hoje.getDay()],
+                temperatura: 24,
+                min: 16,
+                emoji: getWeatherEmoji('Clouds')
+            },
+            {
+                dia: diasSemana[amanha.getDay()],
+                temperatura: 33,
+                min: 15,
+                emoji: getWeatherEmoji('Clear')
+            },
+            {
+                dia: diasSemana[depois.getDay()],
+                temperatura: 32,
+                min: 21,
+                emoji: getWeatherEmoji('Clear')
+            }
+        ];
+
+        // Atualiza temperatura principal
+        temperatura.textContent = `${previsoes[0].temperatura}°C`;
+        atualizarIconeClimaPorHora();
+
+        // Atualiza modal se existir
+        const modalClima = document.getElementById('modalClima');
+        if (modalClima) {
+            atualizarModalClima(previsoes);
+        }
+
+        console.log('Previsões calculadas:', previsoes.map(p => p.dia));
+
+    } catch (erro) {
+        console.error('Erro ao buscar clima:', erro);
+        temperatura.textContent = '--°C';
+    }
 }
+
+function atualizarModalClima(previsoes) {
+    const modalClima = document.getElementById('modalClima');
+    if (!modalClima) return;
+
+    // Procura os elementos que já existem no HTML
+    const diasElementos = modalClima.querySelectorAll('.clima-dia, .previsao-dia, [class*="dia"]');
+
+    console.log(`Encontrados ${diasElementos.length} elementos de dia no modal`);
+
+    if (diasElementos.length >= 3) {
+        // Atualiza cada dia existente
+        previsoes.forEach((prev, index) => {
+            if (diasElementos[index]) {
+                const diaEl = diasElementos[index];
+
+                console.log(`Atualizando dia ${index}: ${prev.dia}`);
+
+                // Atualiza o nome do dia (qui. sex. sáb.)
+                const diaTexto = diaEl.querySelector('.dia-nome, .dia-semana, .nome-dia');
+                if (diaTexto) diaTexto.textContent = prev.dia;
+
+                // Atualiza temperatura
+                const tempTexto = diaEl.querySelector('.temperatura, .temp');
+                if (tempTexto) tempTexto.textContent = `${prev.temperatura}°/${prev.min}°`;
+
+                // Atualiza emoji
+                const emoji = diaEl.querySelector('.emoji, .icone, img');
+                if (emoji) {
+                    if (emoji.tagName === 'IMG') {
+                        emoji.alt = prev.emoji;
+                    } else {
+                        emoji.textContent = prev.emoji;
+                    }
+                }
+            }
+        });
+    }
+}
+
 function atualizarIconeClimaPorHora() {
-  const iconeClimaImg = document.getElementById("iconeClimaImg");
-  if (!iconeClimaImg) return;
-  const hora = new Date().getHours();
-  iconeClimaImg.src = hora >= 6 && hora < 18
-    ? "static/imagens/ico_dia.png"
-    : "static/imagens/ico_noite.png";
+    const iconeClimaImg = document.getElementById("iconeClimaImg");
+    if (!iconeClimaImg) return;
+    const hora = new Date().getHours();
+    iconeClimaImg.src = hora >= 6 && hora < 18
+        ? "static/imagens/ico_dia.png"
+        : "static/imagens/ico_noite.png";
 }
+
 carregarClima();
 setInterval(carregarClima, 600000);
+
 
 // ===============================
 // PERFIL
