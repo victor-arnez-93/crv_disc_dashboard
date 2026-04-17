@@ -447,7 +447,7 @@ function mostrarResultado() {
             <button class="button primary" onclick="location.reload()">
                 <i class="fas fa-redo"></i> Novo Teste
             </button>
-            <button class="button" onclick="window.location.href='/index.html'">
+            <button class="button" onclick="window.location.href='index.html'">
                 <i class="fas fa-home"></i> Voltar ao Dashboard
             </button>
         </div>
