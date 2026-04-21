@@ -32,7 +32,6 @@ function atualizarFrasePrincipal() {
 
     setTimeout(() => {
         elemento.textContent = frasesPrincipais[fraseIndex];
-
         elemento.style.opacity = 1;
         elemento.style.transform = "translateY(0)";
     }, 200);
@@ -112,15 +111,13 @@ function atualizarCardsRotativos() {
 // ============================================================================
 
 function obterInsightsDoDia() {
-    const cache = localStorage.getItem("insightsDia");
+    const cache     = localStorage.getItem("insightsDia");
     const cacheData = localStorage.getItem("insightsData");
-    const hoje = new Date().toDateString();
+    const hoje      = new Date().toDateString();
 
-    if (cache && cacheData === hoje) {
-        return JSON.parse(cache);
-    }
+    if (cache && cacheData === hoje) return JSON.parse(cache);
 
-    const copia = [...dicas];
+    const copia     = [...dicas];
     const resultado = [];
 
     for (let i = 0; i < 2; i++) {
@@ -128,7 +125,7 @@ function obterInsightsDoDia() {
         resultado.push(copia.splice(idx, 1)[0]);
     }
 
-    localStorage.setItem("insightsDia", JSON.stringify(resultado));
+    localStorage.setItem("insightsDia",  JSON.stringify(resultado));
     localStorage.setItem("insightsData", hoje);
 
     return resultado;
@@ -145,63 +142,91 @@ function carregarInsights() {
         ul.innerHTML += `
             <li class="insight-item">
                 <span class="insight-texto">${txt}</span>
-            </li>
-        `;
+            </li>`;
     });
 }
 
 // ============================================================================
-// 4) NOTÍCIAS DO DIA — VIA API
+// 4) NOTÍCIAS DO DIA — sessionStorage (alimentado pela página Notícias de RH)
 // ============================================================================
 
-async function carregarNoticias() {
+function carregarNoticias() {
     const ul = document.getElementById("noticiasList");
     if (!ul) return;
 
-    try {
-        const res = await fetch("/api/noticias");
-        const json = await res.json();
-        const dados = json.noticias || [];
+    // Tenta ler o que a página de notícias já carregou nesta sessão
+    const cache = sessionStorage.getItem("destaquesInicio");
 
-        ul.innerHTML = "";
-
-        dados.slice(0, 2).forEach((n) => {
-            ul.innerHTML += `
-                <li>
-                    <div class="noticia-texto">${n.titulo}</div>
-                    <div class="noticia-fonte">
-                        <a href="${n.link}" target="_blank">${n.fonte}</a>
-                    </div>
-                </li>`;
-        });
-
-    } catch {
-        ul.innerHTML = `<li style="opacity:.7">Não foi possível carregar notícias.</li>`;
+    if (cache) {
+        try {
+            const itens = JSON.parse(cache);
+            ul.innerHTML = "";
+            itens.forEach(n => {
+                ul.innerHTML += `
+                    <li>
+                        <div class="noticia-texto">${n.titulo}</div>
+                        <div class="noticia-fonte">
+                            <a href="${n.link}" target="_blank">${n.fonte}</a>
+                        </div>
+                    </li>`;
+            });
+            return;
+        } catch { /* segue para fallback */ }
     }
+
+    // Fallback — banco interno enquanto usuário não visitar aba Notícias
+    const seed = new Date().getDate() + new Date().getMonth() * 31;
+    const fallback = [
+        { texto: dicas[seed % dicas.length],             fonte: "Dica Comportamental" },
+        { texto: estatisticas[seed % estatisticas.length], fonte: "Estatística RH"      }
+    ];
+
+    ul.innerHTML = "";
+    fallback.forEach(n => {
+        ul.innerHTML += `
+            <li>
+                <div class="noticia-texto">${n.texto}</div>
+                <div class="noticia-fonte"><a href="noticias_rh.html">Ver notícias completas →</a></div>
+            </li>`;
+    });
 }
 
 // ============================================================================
-// 5) FOTO DO DIA — VIA API
+// 5) FOTO DO DIA — UNSPLASH SOURCE (sem key, tema RH/gestão, GitHub Pages ✅)
 // ============================================================================
 
-async function carregarFoto() {
-    const img = document.getElementById("fotoDia");
+function carregarFoto() {
+    const img   = document.getElementById("fotoDia");
     const autor = document.getElementById("fotoAutor");
     const fonte = document.getElementById("fotoFonte");
+    if (!img) return;
 
-    try {
-        const res = await fetch("/api/foto");
-        const foto = await res.json();
+    // Um tema por dia da semana — todos relacionados a gestão/RH/liderança
+    const TEMAS = [
+        "business,leadership",   // domingo
+        "teamwork,office",       // segunda
+        "corporate,meeting",     // terça
+        "management,people",     // quarta
+        "leadership,strategy",   // quinta
+        "human-resources,work",  // sexta
+        "diversity,workplace"    // sábado
+    ];
 
-        img.src = foto.url;
-        autor.innerHTML = `Foto: <a href="${foto.link}" target="_blank">${foto.autor}</a>`;
-        fonte.textContent = `Fonte: ${foto.fonte}`;
+    const tema = TEMAS[new Date().getDay()];
 
-    } catch {
-        img.src = "https://images.unsplash.com/photo-1556761175-129418cb2dfe?w=1200";
-        autor.innerHTML = "Autor: Desconhecido";
-        fonte.textContent = "Fonte: Fallback";
-    }
+    // source.unsplash.com — URL direta, sem fetch, sem CORS, funciona no GitHub ✅
+    img.src = `https://source.unsplash.com/featured/800x450/?${tema}`;
+    img.alt = `Foto do dia — ${tema.replace(",", " ")}`;
+
+    // Fallback se Unsplash Source falhar
+    img.onerror = () => {
+        const seed = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+        img.src    = `https://picsum.photos/seed/${seed}/800/450`;
+        img.onerror = null;
+    };
+
+    if (autor) autor.innerHTML = `Foto: <a href="https://unsplash.com/s/photos/${tema.split(',')[0]}" target="_blank">Unsplash</a>`;
+    if (fonte) fonte.textContent = "Fonte: Unsplash";
 }
 
 // ============================================================================

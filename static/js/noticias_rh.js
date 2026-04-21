@@ -200,6 +200,16 @@ function renderizarNoticias() {
   });
 }
 
+// Salva para a tela inicial usar
+if (noticias.length > 0) {
+    sessionStorage.setItem("destaquesInicio", JSON.stringify(
+        noticias.slice(0, 2).map(n => ({
+            titulo: n.titulo,
+            fonte:  n.fonte,
+            link:   n.link
+        }))
+    ));
+}
 
 // ============================================================================
 // BUSCA RSS

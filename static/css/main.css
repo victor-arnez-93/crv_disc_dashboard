@@ -19,12 +19,15 @@
     --cor-sidebar-claro: #F5F5F5;
     --cor-header: #000000;
     --cor-header-claro: #FFFFFF;
-    --cor-primaria: #F98948; /* laranja */
-    --cor-secundaria: #241E4E; /* azul */
+    --cor-primaria: #F98948;
+    --cor-secundaria: #241E4E;
     --cor-hover: #B5CBB7;
     --cor-neon: #F98948;
     --borda-neon: 0 0 10px rgba(249,137,72,0.7);
     --trans: 0.25s ease;
+
+    /* ✅ NOVO — Imagem de fundo tema escuro */
+    --bg-imagem: url('../imagens/imgtemaescuro.png');
 }
 
 /* TEMA CLARO */
@@ -33,6 +36,9 @@
     --cor-texto: #241E4E;
     --cor-sidebar: #EEE;
     --cor-header: #FFFFFF;
+
+    /* ✅ NOVO — Imagem de fundo tema claro */
+    --bg-imagem: url('../imagens/imgtemaclaro.png');
 }
 
 /* Reset */
@@ -44,9 +50,38 @@
 
 body {
     font-family: 'Manrope', sans-serif;
-    background: var(--cor-fundo);
+    background-color: var(--cor-fundo);
     color: var(--cor-texto);
     overflow-x: hidden;
+
+    /* ✅ NOVO — Fundo com imagem + blur */
+    position: relative;
+}
+
+/* Pseudo-elemento para o fundo com blur */
+/* COLE */
+body::before {
+    content: '';
+    position: fixed;
+    top: -10%;
+    left: -10%;
+    width: 120%;      /* maior que a tela para esconder borda branca do blur */
+    height: 120%;
+    z-index: -1;
+    background-image: var(--bg-imagem);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    filter: blur(2px);
+    opacity: 0.50;
+    transition: opacity 0.5s ease, filter 0.5s ease;
+    will-change: opacity;
+}
+
+/* Tema claro — um pouco mais visível */
+[data-theme="light"] body::before {
+    opacity: 0.90;
+    filter: blur(2px);
 }
 
 /* Títulos usam Orbitron */
@@ -478,26 +513,88 @@ h1, h2, h3, h4, h5, h6,
     transform: scale(1.15);
 }
 
-/* ITEM ATIVO TEMA ESCURO */
+/* ITEM ATIVO TEMA ESCURO — BORDA ANIMADA CONIC */
+
+/* Propriedade animada */
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes rotateBorder {
+    to { --angle: 360deg; }
+}
+
 [data-theme="dark"] .menu-item.active,
 :root .menu-item.active {
-    background: rgba(249,137,72,0.25);
-    border: 2px solid var(--cor-primaria);
-    box-shadow:
-        0 0 20px rgba(249,137,72,0.7),
-        inset 0 0 15px rgba(249,137,72,0.3);
+    background: rgba(249,137,72,0.18);
+    border: none;
+    position: relative;
+    overflow: visible;
+    box-shadow: none;
+}
+
+/* Borda animada */
+[data-theme="dark"] .menu-item.active::after,
+:root .menu-item.active::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 25px;
+    padding: 2px;
+
+    background: conic-gradient(
+        from var(--angle),
+        transparent 0deg,
+        transparent 200deg,
+        #F98948,
+        transparent 360deg
+    );
+
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    animation: rotateBorder 3s linear infinite;
+    z-index: 0;
+}
+
+/* Glow externo */
+[data-theme="dark"] .menu-item.active::before,
+:root .menu-item.active::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 25px;
+    background: conic-gradient(
+        from var(--angle),
+        transparent 0deg,
+        transparent 200deg,
+        #F98948,
+        transparent 360deg
+    );
+    filter: blur(12px);
+    opacity: 0.5;
+    animation: rotateBorder 3s linear infinite;
+    z-index: 0;
 }
 
 [data-theme="dark"] .menu-item.active i,
 :root .menu-item.active i {
     color: #FFFFFF !important;
-    filter: drop-shadow(0 0 10px var(--cor-primaria));
-    animation: pulseIcon 2s infinite;
+    filter: drop-shadow(0 0 8px var(--cor-primaria));
+    position: relative;
+    z-index: 1;
 }
 
 [data-theme="dark"] .menu-item.active span,
 :root .menu-item.active span {
     color: #FFFFFF !important;
+    position: relative;
+    z-index: 1;
 }
 
 /* ============================================
@@ -547,24 +644,72 @@ h1, h2, h3, h4, h5, h6,
     );
 }
 
-/* ITEM ATIVO TEMA CLARO */
+/* ITEM ATIVO TEMA CLARO — BORDA ANIMADA CONIC */
 [data-theme="light"] .menu-item.active {
-    background: rgba(36, 30, 78, 0.15);
-    border: 2px solid var(--cor-secundaria);
-    box-shadow:
-        0 0 20px rgba(36, 30, 78, 0.4),
-        inset 0 0 15px rgba(36, 30, 78, 0.15);
+    background: rgba(36, 30, 78, 0.10);
+    border: none;
+    position: relative;
+    overflow: visible;
+    box-shadow: none;
+}
+
+/* Borda animada roxo/azul no tema claro */
+[data-theme="light"] .menu-item.active::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 25px;
+    padding: 2px;
+
+    background: conic-gradient(
+        from var(--angle),
+        transparent 0deg,
+        transparent 200deg,
+        #241E4E,
+        transparent 360deg
+    );
+
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    animation: rotateBorder 3s linear infinite;
+    z-index: 0;
+}
+
+/* Glow azul no tema claro */
+[data-theme="light"] .menu-item.active::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 25px;
+    background: conic-gradient(
+        from var(--angle),
+        transparent 0deg,
+        transparent 200deg,
+        #241E4E,
+        transparent 360deg
+    );
+    filter: blur(12px);
+    opacity: 0.35;
+    animation: rotateBorder 3s linear infinite;
+    z-index: 0;
 }
 
 [data-theme="light"] .menu-item.active i {
-    color: var(--cor-secundaria) !important;
-    filter: drop-shadow(0 0 10px var(--cor-secundaria));
-    animation: pulseIcon 2s infinite;
+    color: #241E4E !important;
+    filter: drop-shadow(0 0 6px #241E4E);
+    position: relative;
+    z-index: 1;
 }
 
 [data-theme="light"] .menu-item.active span {
-    color: var(--cor-secundaria) !important;
-    font-weight: 600;
+    color: #241E4E !important;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
 }
 
 /* Animação de pulso no ícone ativo */
@@ -829,8 +974,9 @@ h1, h2, h3, h4, h5, h6,
     100% { transform: scale(1); }
 }
 
+/* pulseNeon substituído pela borda animada — sem animation aqui */
 .menu-item.active {
-    animation: pulseNeon 2.5s infinite;
+    animation: none;
 }
 
 /* ============================================

@@ -332,3 +332,18 @@ function ajustarMenuResponsivo() {
 }
 window.addEventListener("resize", ajustarMenuResponsivo);
 window.addEventListener("DOMContentLoaded", ajustarMenuResponsivo);
+
+// ============================================================
+// MENU ATIVO — MARCA BOTÃO DA PÁGINA ATUAL AUTOMATICAMENTE
+// ============================================================
+(function marcarMenuAtivo() {
+    const pagina = window.location.pathname.split('/').pop().replace('.html', '') || 'index';
+
+    document.querySelectorAll('.menu-item').forEach(btn => {
+        btn.classList.remove('active');
+        const dp = (btn.dataset.page || '').toLowerCase().trim();
+        if (dp && dp === pagina.toLowerCase().trim()) {
+            btn.classList.add('active');
+        }
+    });
+})();
