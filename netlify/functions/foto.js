@@ -1,29 +1,6 @@
 // ============================================================================
-// FOTO DO DIA — NETLIFY FUNCTION (v4 FINAL)
-// Fluxo: Pexels → Unsplash → fallback
-// Sempre retorna 1 foto válida e profissional para o dashboard
-// Usa variáveis do Netlify (.env)
+// FOTO DO DIA — VERSÃO FINAL (IMAGENS FIXAS + LEGENDA PROFISSIONAL)
 // ============================================================================
-
-const PEXELS_API_KEY = process.env.PEXELS_API_KEY;
-const UNSPLASH_KEY = process.env.UNSPLASH_KEY;
-
-// Temas profissionais rotativos
-const temas = [
-  "human resources team meeting corporate",
-  "leadership coaching business people discussion",
-  "corporate training team collaboration office",
-  "diversity inclusion workplace team",
-  "employee engagement meeting HR",
-  "organizational behavior teamwork office",
-  "professional business team strategy meeting"
-];
-
-// Tema do dia (variação estável)
-function temaDoDia() {
-  const index = Math.floor(new Date().getTime() / 86400000);
-  return temas[index % temas.length];
-}
 
 // ============================================================================
 // CACHE – Reinicia diariamente
@@ -36,77 +13,53 @@ function cacheValido() {
 }
 
 // ============================================================================
-// PEXELS
+// IMAGENS + LEGENDAS (FIXAS)
 // ============================================================================
-async function buscarPexels(query) {
-  try {
-    if (!PEXELS_API_KEY) return null;
-
-    const res = await fetch(
-      `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=15&orientation=landscape`,
-      { headers: { Authorization: PEXELS_API_KEY } }
-    );
-
-    if (!res.ok) return null;
-    const data = await res.json();
-    if (!data.photos?.length) return null;
-
-    const foto = data.photos[Math.floor(Math.random() * data.photos.length)];
-
-    return {
-      url: foto.src.large2x || foto.src.large,
-      titulo: foto.alt || query,
-      autor: foto.photographer,
-      fonte: "Pexels",
-      link: foto.url
-    };
-  } catch {
-    return null;
+const imagens = [
+  {
+    url: "/static/imagens/img1.png",
+    titulo: "Conexões organizacionais",
+    legenda: "Estruturas organizacionais eficazes dependem da qualidade das conexões, não apenas da hierarquia formal."
+  },
+  {
+    url: "/static/imagens/img2.png",
+    titulo: "Ambiente corporativo",
+    legenda: "O ambiente organizacional influencia diretamente cultura, desempenho e tomada de decisão."
+  },
+  {
+    url: "/static/imagens/img3.png",
+    titulo: "Confiança e negociação",
+    legenda: "Relações profissionais sustentáveis são construídas com confiança, clareza e alinhamento de expectativas."
+  },
+  {
+    url: "/static/imagens/img4.png",
+    titulo: "Governança e decisão",
+    legenda: "Decisões estratégicas consistentes exigem estrutura, dados e alinhamento entre liderança."
+  },
+  {
+    url: "/static/imagens/img5.png",
+    titulo: "Ambiente de trabalho",
+    legenda: "Espaços organizados e funcionais contribuem para foco, produtividade e colaboração."
+  },
+  {
+    url: "/static/imagens/img6.png",
+    titulo: "Análise e gestão",
+    legenda: "A gestão moderna combina análise de dados com leitura comportamental para decisões mais eficazes."
+  },
+  {
+    url: "/static/imagens/img7.png",
+    titulo: "Performance e resultados",
+    legenda: "Resultados consistentes vêm da capacidade de transformar informação em ação estratégica."
+  },
+  {
+    url: "/static/imagens/img8.png",
+    titulo: "Perfil comportamental (DISC)",
+    legenda: "Compreender perfis comportamentais melhora comunicação, liderança e desempenho em equipe."
   }
-}
+];
 
 // ============================================================================
-// UNSPLASH
-// ============================================================================
-async function buscarUnsplash(query) {
-  try {
-    if (!UNSPLASH_KEY) return null;
-
-    const res = await fetch(
-      `https://api.unsplash.com/photos/random?query=${encodeURIComponent(query)}&orientation=landscape&client_id=${UNSPLASH_KEY}`
-    );
-
-    if (!res.ok) return null;
-    const foto = await res.json();
-
-    if (!foto?.urls) return null;
-
-    return {
-      url: foto.urls.regular + "&w=1200&q=80",
-      titulo: foto.description || foto.alt_description || query,
-      autor: foto.user?.name || "Autor desconhecido",
-      fonte: "Unsplash",
-      link: foto.links?.html || "#"
-    };
-  } catch {
-    return null;
-  }
-}
-
-// ============================================================================
-// FALLBACK SE TUDO DER ERRADO
-// ============================================================================
-function fallbackFoto() {
-  return {
-    url: "https://images.unsplash.com/photo-1556761175-129418cb2dfe?w=1200",
-    autor: "Banco de Imagens",
-    fonte: "Fallback",
-    link: "https://unsplash.com"
-  };
-}
-
-// ============================================================================
-// HANDLER — Netlify padrão
+// HANDLER — Netlify
 // ============================================================================
 exports.handler = async () => {
   try {
@@ -117,50 +70,9 @@ exports.handler = async () => {
       };
     }
 
-    const query = temaDoDia();
+    const index = Math.floor(Date.now() / 86400000) % imagens.length;
+    const foto = imagens[index];
 
-    // tenta Pexels primeiro
-    let foto = await buscarPexels(query);
-
-    // filtro de relevância
-    function fotoValida(f) {
-      if (!f?.url) return false;
-
-      const texto = (f.link || "").toLowerCase();
-
-      const bloqueios = [
-        "nature",
-        "mountain",
-        "landscape",
-        "sunset",
-        "beach",
-        "sky",
-        "forest"
-      ];
-
-      return !bloqueios.some(b => texto.includes(b));
-    }
-
-    // se Pexels não for válido → tenta Unsplash
-    if (!fotoValida(foto)) {
-      const tentativa = await buscarUnsplash(query);
-
-      if (fotoValida(tentativa)) {
-        foto = tentativa;
-      }
-    }
-
-    // fallback só se não veio nada mesmo
-if (!foto) {
-  foto = {
-    url: `https://picsum.photos/800/450?random=${Date.now()}`,
-    autor: "Banco de Imagens",
-    fonte: "Imagem dinâmica",
-    link: "#"
-  };
-}
-
-    // salva no cache
     CACHE_FOTO = foto;
     CACHE_DATA = new Date().toDateString();
 
@@ -172,7 +84,7 @@ if (!foto) {
   } catch (e) {
     return {
       statusCode: 500,
-      body: JSON.stringify(fallbackFoto())
+      body: JSON.stringify(imagens[0])
     };
   }
 };

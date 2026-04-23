@@ -195,11 +195,11 @@ function carregarFoto() {
             img.alt = data.titulo || "Foto corporativa";
 
             if (autor) {
-                autor.innerHTML = `Tema: <strong>${data.titulo || "Ambiente Corporativo"}</strong>`;
-            }
+    autor.innerHTML = `Tema: <strong>${data.titulo}</strong>`;
+}
 
             if (fonte) {
-                fonte.innerHTML = `Fonte: <a href="${data.link}" target="_blank">${data.fonte}</a>`;
+                fonte.textContent = data.legenda;
             }
 
         })
