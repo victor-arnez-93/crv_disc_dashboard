@@ -10,18 +10,18 @@ const UNSPLASH_KEY = process.env.UNSPLASH_KEY;
 
 // Temas profissionais rotativos
 const temas = [
-  "business teamwork office",
-  "leadership people meeting",
-  "corporate communication team",
-  "diversity inclusion office",
-  "career development workplace",
-  "technology innovation office",
-  "strategy leadership meeting"
+  "human resources team meeting corporate",
+  "leadership coaching business people discussion",
+  "corporate training team collaboration office",
+  "diversity inclusion workplace team",
+  "employee engagement meeting HR",
+  "organizational behavior teamwork office",
+  "professional business team strategy meeting"
 ];
 
 // Tema do dia (variação estável)
 function temaDoDia() {
-  const index = new Date().getDay();
+  const index = Math.floor(new Date().getTime() / 86400000);
   return temas[index % temas.length];
 }
 
