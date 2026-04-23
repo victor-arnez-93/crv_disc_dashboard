@@ -147,86 +147,81 @@ function carregarInsights() {
 }
 
 // ============================================================================
-// 4) NOTÍCIAS DO DIA — sessionStorage (alimentado pela página Notícias de RH)
+// 4) NOTÍCIAS DO DIA
 // ============================================================================
-
 function carregarNoticias() {
     const ul = document.getElementById("noticiasList");
     if (!ul) return;
 
-    // Tenta ler o que a página de notícias já carregou nesta sessão
-    const cache = sessionStorage.getItem("destaquesInicio");
+    fetch('/.netlify/functions/noticias_full')
+        .then(res => res.json())
+        .then(data => {
 
-    if (cache) {
-        try {
-            const itens = JSON.parse(cache);
             ul.innerHTML = "";
-            itens.forEach(n => {
+
+            data.slice(0, 3).forEach(n => {
                 ul.innerHTML += `
                     <li>
                         <div class="noticia-texto">${n.titulo}</div>
                         <div class="noticia-fonte">
                             <a href="${n.link}" target="_blank">${n.fonte}</a>
                         </div>
-                    </li>`;
+                    </li>
+                `;
             });
-            return;
-        } catch { /* segue para fallback */ }
-    }
-
-    // Fallback — banco interno enquanto usuário não visitar aba Notícias
-    const seed = new Date().getDate() + new Date().getMonth() * 31;
-    const fallback = [
-        { texto: dicas[seed % dicas.length],             fonte: "Dica Comportamental" },
-        { texto: estatisticas[seed % estatisticas.length], fonte: "Estatística RH"      }
-    ];
-
-    ul.innerHTML = "";
-    fallback.forEach(n => {
-        ul.innerHTML += `
-            <li>
-                <div class="noticia-texto">${n.texto}</div>
-                <div class="noticia-fonte"><a href="noticias_rh.html">Ver notícias completas →</a></div>
-            </li>`;
-    });
+        })
+        .catch(() => {
+            ul.innerHTML = `
+                <li>Erro ao carregar notícias.</li>
+            `;
+        });
 }
 
 // ============================================================================
-// 5) FOTO DO DIA — UNSPLASH SOURCE (sem key, tema RH/gestão, GitHub Pages ✅)
+// 5) FOTO DO DIA
 // ============================================================================
-
 function carregarFoto() {
     const img   = document.getElementById("fotoDia");
     const autor = document.getElementById("fotoAutor");
     const fonte = document.getElementById("fotoFonte");
+
     if (!img) return;
 
-    // Um tema por dia da semana — todos relacionados a gestão/RH/liderança
-    const TEMAS = [
-        "business,leadership",   // domingo
-        "teamwork,office",       // segunda
-        "corporate,meeting",     // terça
-        "management,people",     // quarta
-        "leadership,strategy",   // quinta
-        "human-resources,work",  // sexta
-        "diversity,workplace"    // sábado
-    ];
+    fetch('/.netlify/functions/foto')
+        .then(res => res.json())
+        .then(data => {
 
-    const tema = TEMAS[new Date().getDay()];
+            // imagem
+            img.src = data.url;
+            img.alt = "Foto do dia — ambiente corporativo";
 
-    // source.unsplash.com — URL direta, sem fetch, sem CORS, funciona no GitHub ✅
-    img.src = `https://source.unsplash.com/featured/800x450/?${tema}`;
-    img.alt = `Foto do dia — ${tema.replace(",", " ")}`;
+            // tema inteligente
+            let tema = "Ambiente Corporativo";
 
-    // Fallback se Unsplash Source falhar
-    img.onerror = () => {
-        const seed = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-        img.src    = `https://picsum.photos/seed/${seed}/800/450`;
-        img.onerror = null;
-    };
+            const texto = (data.link || "").toLowerCase();
 
-    if (autor) autor.innerHTML = `Foto: <a href="https://unsplash.com/s/photos/${tema.split(',')[0]}" target="_blank">Unsplash</a>`;
-    if (fonte) fonte.textContent = "Fonte: Unsplash";
+            if (texto.includes("leadership")) tema = "Liderança";
+            else if (texto.includes("team")) tema = "Trabalho em Equipe";
+            else if (texto.includes("strategy")) tema = "Estratégia";
+            else if (texto.includes("diversity")) tema = "Diversidade";
+            else if (texto.includes("hr") || texto.includes("human")) tema = "Recursos Humanos";
+
+            // autor
+            if (autor) {
+                autor.innerHTML = `Tema: <strong>${tema}</strong>`;
+            }
+
+            // fonte (clicável corretamente)
+            if (fonte) {
+                fonte.innerHTML = `
+                    Fonte: <a href="${data.link}" target="_blank">${data.fonte}</a>
+                `;
+            }
+
+        })
+        .catch(() => {
+            img.src = "https://picsum.photos/800/450";
+        });
 }
 
 // ============================================================================

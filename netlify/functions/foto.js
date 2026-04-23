@@ -123,10 +123,26 @@ exports.handler = async () => {
 
     const query = temaDoDia();
 
-    const foto =
-      (await buscarPexels(query)) ||
-      (await buscarUnsplash(query)) ||
-      fallbackFoto();
+let foto = await buscarPexels(query);
+
+// filtro básico de relevância
+function fotoValida(f) {
+  if (!f?.url) return false;
+
+  const texto = (f.autor || "" + f.link || "").toLowerCase();
+
+  const bloqueios = ["nature", "mountain", "landscape", "hollywood", "sunset"];
+
+  return !bloqueios.some(b => texto.includes(b));
+}
+
+if (!fotoValida(foto)) {
+  foto = await buscarUnsplash(query);
+}
+
+if (!fotoValida(foto)) {
+  foto = fallbackFoto();
+}
 
     CACHE_FOTO = foto;
     CACHE_DATA = new Date().toDateString();
