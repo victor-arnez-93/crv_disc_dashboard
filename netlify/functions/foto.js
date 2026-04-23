@@ -43,22 +43,19 @@ async function buscarPexels(query) {
     if (!PEXELS_API_KEY) return null;
 
     const res = await fetch(
-      `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=1&orientation=landscape`,
-      {
-        headers: {
-          Authorization: PEXELS_API_KEY
-        }
-      }
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=15&orientation=landscape`,
+      { headers: { Authorization: PEXELS_API_KEY } }
     );
 
     if (!res.ok) return null;
     const data = await res.json();
     if (!data.photos?.length) return null;
 
-    const foto = data.photos[0];
+    const foto = data.photos[Math.floor(Math.random() * data.photos.length)];
 
     return {
       url: foto.src.large2x || foto.src.large,
+      titulo: foto.alt || query,
       autor: foto.photographer,
       fonte: "Pexels",
       link: foto.url
@@ -85,7 +82,8 @@ async function buscarUnsplash(query) {
     if (!foto?.urls) return null;
 
     return {
-      url: foto.urls.regular,
+      url: foto.urls.regular + "&w=1200&q=80",
+      titulo: foto.description || foto.alt_description || query,
       autor: foto.user?.name || "Autor desconhecido",
       fonte: "Unsplash",
       link: foto.links?.html || "#"
@@ -155,10 +153,10 @@ exports.handler = async () => {
     // fallback só se não veio nada mesmo
 if (!foto) {
   foto = {
-    url: `https://source.unsplash.com/800x450/?${encodeURIComponent(query)}`,
-    autor: "Unsplash",
-    fonte: "Unsplash",
-    link: "https://unsplash.com"
+    url: `https://picsum.photos/800/450?random=${Date.now()}`,
+    autor: "Banco de Imagens",
+    fonte: "Imagem dinâmica",
+    link: "#"
   };
 }
 

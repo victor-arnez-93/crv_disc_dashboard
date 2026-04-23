@@ -191,31 +191,15 @@ function carregarFoto() {
         .then(res => res.json())
         .then(data => {
 
-            // imagem
             img.src = data.url;
-            img.alt = "Foto do dia — ambiente corporativo";
+            img.alt = data.titulo || "Foto corporativa";
 
-            // tema inteligente
-            let tema = "Ambiente Corporativo";
-
-            const texto = (data.link || "").toLowerCase();
-
-            if (texto.includes("leadership")) tema = "Liderança";
-            else if (texto.includes("team")) tema = "Trabalho em Equipe";
-            else if (texto.includes("strategy")) tema = "Estratégia";
-            else if (texto.includes("diversity")) tema = "Diversidade";
-            else if (texto.includes("hr") || texto.includes("human")) tema = "Recursos Humanos";
-
-            // autor
             if (autor) {
-                autor.innerHTML = `Tema: <strong>${tema}</strong>`;
+                autor.innerHTML = `Tema: <strong>${data.titulo || "Ambiente Corporativo"}</strong>`;
             }
 
-            // fonte (clicável corretamente)
             if (fonte) {
-                fonte.innerHTML = `
-                    Fonte: <a href="${data.link}" target="_blank">${data.fonte}</a>
-                `;
+                fonte.innerHTML = `Fonte: <a href="${data.link}" target="_blank">${data.fonte}</a>`;
             }
 
         })
