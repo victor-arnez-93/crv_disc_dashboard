@@ -95,8 +95,6 @@ async function buscarUnsplash(query) {
   }
 }
 
-
-
 // ============================================================================
 // FALLBACK SE TUDO DER ERRADO
 // ============================================================================
@@ -123,27 +121,43 @@ exports.handler = async () => {
 
     const query = temaDoDia();
 
-let foto = await buscarPexels(query);
+    // tenta Pexels primeiro
+    let foto = await buscarPexels(query);
 
-// filtro básico de relevância
-function fotoValida(f) {
-  if (!f?.url) return false;
+    // filtro de relevância
+    function fotoValida(f) {
+      if (!f?.url) return false;
 
-  const texto = (f.autor || "" + f.link || "").toLowerCase();
+      const texto = (f.link || "").toLowerCase();
 
-  const bloqueios = ["nature", "mountain", "landscape", "hollywood", "sunset"];
+      const bloqueios = [
+        "nature",
+        "mountain",
+        "landscape",
+        "sunset",
+        "beach",
+        "sky",
+        "forest"
+      ];
 
-  return !bloqueios.some(b => texto.includes(b));
-}
+      return !bloqueios.some(b => texto.includes(b));
+    }
 
-if (!fotoValida(foto)) {
-  foto = await buscarUnsplash(query);
-}
+    // se Pexels não for válido → tenta Unsplash
+    if (!fotoValida(foto)) {
+      const tentativa = await buscarUnsplash(query);
 
-if (!fotoValida(foto)) {
-  foto = fallbackFoto();
-}
+      if (fotoValida(tentativa)) {
+        foto = tentativa;
+      }
+    }
 
+    // fallback só se não veio nada mesmo
+    if (!foto) {
+      foto = fallbackFoto();
+    }
+
+    // salva no cache
     CACHE_FOTO = foto;
     CACHE_DATA = new Date().toDateString();
 
@@ -151,6 +165,7 @@ if (!fotoValida(foto)) {
       statusCode: 200,
       body: JSON.stringify(foto)
     };
+
   } catch (e) {
     return {
       statusCode: 500,

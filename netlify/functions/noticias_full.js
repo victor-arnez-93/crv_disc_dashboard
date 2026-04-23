@@ -1,24 +1,37 @@
 // ============================================================================
 // CRV DISC — NOTÍCIAS RH (Netlify Functions / CommonJS)
 // ============================================================================
-const Parser = require("rss-parser");
+exports.handler = async () => {
+  try {
+    const res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=https://vocerh.abril.com.br/feed/");
+    const data = await res.json();
 
-const parser = new Parser({
-  headers: { "User-Agent": "CRV-DISC-Dashboard" },
-  timeout: 20000
-});
+    if (!data.items) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify([])
+      };
+    }
 
-const FEEDS = [
-  { url: "https://vocerh.abril.com.br/feed/", prioridade: 1, fonte: "Você RH" },
-  { url: "https://startups.com.br/feed/", prioridade: 2, fonte: "Startups" },
-  { url: "https://mitsloanreview.com.br/categoria/lideranca/feed/", prioridade: 3, fonte: "MIT Sloan – Liderança" },
-  { url: "https://mitsloanreview.com.br/categoria/gestao-de-pessoas/feed/", prioridade: 3, fonte: "MIT Sloan – Gestão de Pessoas" }
-];
+    const noticias = data.items.slice(0, 5).map(item => ({
+      titulo: item.title,
+      resumo: item.description.replace(/<[^>]+>/g, "").slice(0, 150),
+      link: item.link,
+      fonte: "Você RH"
+    }));
 
-// CACHE
-let CACHE = null;
-let CACHE_TIME = 0;
-const TTL = 6 * 60 * 60 * 1000;
+    return {
+      statusCode: 200,
+      body: JSON.stringify(noticias)
+    };
+
+  } catch (e) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify([])
+    };
+  }
+};
 
 // ============================================================================
 // Utilidades
