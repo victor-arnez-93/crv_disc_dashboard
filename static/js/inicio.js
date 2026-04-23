@@ -175,11 +175,13 @@ const perfisDisc = [
 function carregarDiscDia() {
     const container = document.getElementById("discDia");
     const card      = document.getElementById("cardDiscDia");
+    const badge     = document.getElementById("discBadge");
     if (!container) return;
 
     const perfil = perfisDisc[Math.floor(Date.now() / 86400000) % perfisDisc.length];
 
-    if (card) card.setAttribute("data-perfil", perfil.letra);
+    if (card)  card.setAttribute("data-perfil", perfil.letra);
+    if (badge) badge.textContent = perfil.letra + " · " + perfil.tipo.split(" ")[0];
 
     container.innerHTML = `
         <li>
@@ -220,7 +222,6 @@ function carregarPerguntaDia() {
 // ============================================================================
 // 8) AÇÕES RÁPIDAS — exposto globalmente
 // ============================================================================
-
 window.irParaSistema = function(tipo) {
     const urls = {
         disc:      "https://www.discprofpaulorocha.com/",
@@ -228,9 +229,23 @@ window.irParaSistema = function(tipo) {
     };
     const url = urls[tipo];
     if (!url) return;
-    if (confirm("Você será redirecionado para outro sistema. Deseja continuar?")) {
+
+    const modal   = document.getElementById("modalRedir");
+    const confirm = document.getElementById("modalRedirConfirm");
+    const cancel  = document.getElementById("modalRedirCancel");
+
+    modal.classList.add("ativo");
+
+    confirm.onclick = () => {
+        modal.classList.remove("ativo");
         window.open(url, "_blank");
-    }
+    };
+
+    cancel.onclick = () => modal.classList.remove("ativo");
+
+    modal.onclick = (e) => {
+        if (e.target === modal) modal.classList.remove("ativo");
+    };
 };
 
 // ============================================================================

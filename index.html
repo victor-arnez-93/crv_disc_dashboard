@@ -191,15 +191,16 @@
         <i class="fas fa-bolt"></i>
         Acesso Rápido
     </div>
-    <p class="card-subtitulo">Navegue diretamente para os módulos principais do sistema.</p>
+    <p class="card-subtitulo">
+        Faça o <strong>Teste DISC</strong> — um modelo de tendências comportamentais que apoia autoconhecimento, comunicação em equipe e gestão no ambiente de trabalho. Ou monte seu <strong>Currículo Profissional</strong> com formatação clássica, pronto para PDF e impressão.<br>
+        <span style="opacity:0.55; font-size:12px;">Adaptado pelo Prof. Me. Paulo Rubens Rocha Albino</span>
+    </p>
     <div class="acoes-rapidas">
         <button class="menu-btn" onclick="window.irParaSistema('disc')">
-            <i class="fas fa-brain"></i>
-            Fazer Teste DISC
+            <i class="fas fa-brain"></i> Fazer Teste DISC
         </button>
         <button class="menu-btn" onclick="window.irParaSistema('curriculo')">
-            <i class="fas fa-file-alt"></i>
-            Criar Currículo
+            <i class="fas fa-file-alt"></i> Criar Currículo
         </button>
     </div>
 </div>
@@ -232,9 +233,10 @@
 
             <!-- PERFIL DISC DO DIA -->
             <div class="card" id="cardDiscDia">
-                <div class="card-titulo">
+                <div class="card-titulo disc-titulo-row">
                     <i class="fas fa-brain"></i>
                     Perfil DISC do Dia
+                    <span id="discBadge" class="disc-badge"></span>
                 </div>
                 <div id="discDia" class="lista-insights"></div>
             </div>
@@ -290,6 +292,21 @@
 
     </div>
 </main>
+
+<!-- MODAL REDIRECIONAMENTO -->
+<div id="modalRedir" class="modal-redir">
+    <div class="modal-redir-content">
+        <div class="modal-redir-header">
+            <i class="fas fa-external-link-alt"></i>
+            <h3>Redirecionamento</h3>
+        </div>
+        <p class="modal-redir-body" id="modalRedirMsg">Você será redirecionado para outro sistema.</p>
+        <div class="modal-redir-footer">
+            <button class="menu-btn" id="modalRedirConfirm"><i class="fas fa-check"></i> Confirmar</button>
+            <button class="menu-btn modal-redir-cancel" id="modalRedirCancel"><i class="fas fa-times"></i> Cancelar</button>
+        </div>
+    </div>
+</div>
 
 <!-- ================================================================== -->
 <!-- JAVASCRIPT -->

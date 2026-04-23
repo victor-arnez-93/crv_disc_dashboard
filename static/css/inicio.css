@@ -682,10 +682,107 @@
     border-color: rgba(249,137,72,0.28);
 }
 
-/* ============================================
-   RESPONSIVIDADE
-   ============================================ */
+/* DISC título com badge ao lado */
+.disc-titulo-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
 
+.disc-badge {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-left: auto;
+}
+
+/* Cores por perfil */
+#cardDiscDia[data-perfil="D"] .disc-badge { background: rgba(255,70,70,0.15);   color: #ff4646; border: 1px solid rgba(255,70,70,0.5);   box-shadow: 0 0 8px rgba(255,70,70,0.4); }
+#cardDiscDia[data-perfil="I"] .disc-badge { background: rgba(255,180,0,0.15);   color: #ffb400; border: 1px solid rgba(255,180,0,0.5);   box-shadow: 0 0 8px rgba(255,180,0,0.4); }
+#cardDiscDia[data-perfil="S"] .disc-badge { background: rgba(0,200,140,0.15);   color: #00c88c; border: 1px solid rgba(0,200,140,0.5);   box-shadow: 0 0 8px rgba(0,200,140,0.4); }
+#cardDiscDia[data-perfil="C"] .disc-badge { background: rgba(70,140,255,0.15);  color: #468cff; border: 1px solid rgba(70,140,255,0.5);  box-shadow: 0 0 8px rgba(70,140,255,0.4); }
+
+/* Neon na borda do card por perfil */
+#cardDiscDia[data-perfil="D"] { border-color: rgba(255,70,70,0.5);  box-shadow: 0 0 14px rgba(255,70,70,0.25),  0 4px 14px rgba(0,0,0,0.4); }
+#cardDiscDia[data-perfil="I"] { border-color: rgba(255,180,0,0.5);  box-shadow: 0 0 14px rgba(255,180,0,0.25),  0 4px 14px rgba(0,0,0,0.4); }
+#cardDiscDia[data-perfil="S"] { border-color: rgba(0,200,140,0.5);  box-shadow: 0 0 14px rgba(0,200,140,0.25),  0 4px 14px rgba(0,0,0,0.4); }
+#cardDiscDia[data-perfil="C"] { border-color: rgba(70,140,255,0.5); box-shadow: 0 0 14px rgba(70,140,255,0.25), 0 4px 14px rgba(0,0,0,0.4); }
+
+/* MODAL REDIRECIONAMENTO */
+.modal-redir {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 99999;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-redir.ativo { display: flex; }
+
+.modal-redir-content {
+    background: var(--cor-sidebar);
+    border: 2px solid var(--cor-primaria);
+    border-radius: 16px;
+    padding: 28px 32px;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 0 30px rgba(249,137,72,0.35), 0 8px 32px rgba(0,0,0,0.5);
+    animation: cardPop 0.3s ease both;
+}
+
+.modal-redir-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--cor-primaria);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.modal-redir-header i { font-size: 18px; }
+
+.modal-redir-body {
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    color: var(--cor-texto);
+    opacity: 0.9;
+    margin-bottom: 22px;
+    line-height: 1.5;
+}
+
+.modal-redir-footer {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.modal-redir-cancel {
+    border-color: rgba(255,255,255,0.15) !important;
+    background: transparent !important;
+}
+
+.modal-redir-cancel:hover {
+    border-color: rgba(255,70,70,0.5) !important;
+    box-shadow: 0 0 10px rgba(255,70,70,0.3) !important;
+}
+
+[data-theme="light"] .modal-redir-content {
+    background: #FFFFFF;
+    border-color: #241E4E;
+    box-shadow: 0 0 20px rgba(36,30,78,0.2), 0 8px 32px rgba(0,0,0,0.15);
+}
+
+/* RESPONSIVO */
 @media (max-width: 1200px) {
     .dashboard-container { padding: 18px 14px; }
 }
@@ -732,6 +829,7 @@
     .seta-frase { width: 32px; height: 32px; font-size: 13px; }
     .cards-3 { gap: 20px; }
     .cards-grid-2x2 { gap: 20px; }
+    .disc-badge { margin-left: 0; }  /* ← badge enfileira no mobile */
 }
 
 @media (max-width: 480px) {
