@@ -96,86 +96,66 @@
 <!-- ================================================================== -->
 <header class="header">
 
-    <!-- BOTÃO HAMBÚRGUER (mobile) -->
     <button id="btnMenuMobile" class="btn-menu">
         <i class="fas fa-bars"></i>
     </button>
 
-    <!-- LOGO + TÍTULO -->
     <div class="header-left">
         <img src="static/imagens/logo_disc.png" alt="DISC" class="logo-header">
-
         <div class="header-titles">
             <span class="titulo">Dashboard</span>
             <span class="subtitulo"><strong>Painel de Gestão Comportamental</strong></span>
         </div>
     </div>
 
-    <!-- BUSCA -->
     <div class="search-box">
         <input type="text" placeholder="Buscar no painel...">
         <i class="fas fa-search"></i>
     </div>
 
-    <!-- ÁREA DIREITA -->
     <div class="header-right">
 
-        <!-- RELÓGIO -->
         <span id="relogio" class="clock">00:00:00</span>
 
-        <!-- CLIMA + DROPDOWN -->
         <div class="weather-box" id="weatherBox">
-
-            <!-- ÍCONE DO CLIMA -->
             <img id="iconeClimaImg" src="static/imagens/ico_dia.png" alt="clima" class="icone-clima-img">
-
-            <!-- TEMPERATURA -->
             <span id="temperatura" class="temperature">19°C</span>
 
-            <!-- DROPDOWN COMPLETO -->
             <div id="modalClima" class="modal-clima">
                 <div class="modal-clima-content">
-
                     <div class="modal-clima-header">
                         <h3>São Paulo - BR</h3>
                         <button class="modal-clima-close" id="closeModalClima">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
-
                     <div class="modal-clima-body" id="modalClimaBody">
                         <div class="previsao-dia">
                             <p class="dia-nome">qui.</p>
                             <p class="temperaturas">24° / 16°</p>
                             <p class="emoji-clima">☁️</p>
                         </div>
-
                         <div class="previsao-dia">
                             <p class="dia-nome">sex.</p>
                             <p class="temperaturas">33° / 15°</p>
                             <p class="emoji-clima">☀️</p>
                         </div>
-
                         <div class="previsao-dia">
                             <p class="dia-nome">sáb.</p>
                             <p class="temperaturas">32° / 21°</p>
                             <p class="emoji-clima">☀️</p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
 
-        <!-- BOTÃO TEMA -->
         <button id="btnTema" class="btn-tema">
             <i class="fas fa-moon"></i>
         </button>
 
-        <!-- USUÁRIO -->
         <div class="user-box">
             <img src="static/imagens/foto2.jpeg" alt="Foto">
-
             <div class="user-info">
                 <span class="user-name">Prof. Paulo Rocha</span>
                 <span class="user-role">Gestão de Pessoas</span>
@@ -189,109 +169,86 @@
 <!-- ================================================================== -->
 <!-- CONTEÚDO PRINCIPAL -->
 <!-- ================================================================== -->
-
 <main class="main-content">
-
     <div class="dashboard-container">
 
-        <!-- CARD PRINCIPAL (MODELO CORRETO + FRASE ROTATIVA) -->
-<div class="card-principal">
+        <!-- CARD PRINCIPAL -->
+        <div class="card-principal">
+            <h1 class="titulo-pagina">DASHBOARD – INÍCIO</h1>
+            <p class="bemvindo-texto">Bem-vindo, Prof. Paulo Rocha!</p>
+            <p class="subtexto-inicial">
+                Explore comportamento organizacional de forma interativa! Descubra perfis DISC,
+                acompanhe notícias relacionadas a Gestão e Empreendedorismo, analise liderança e comunicação,
+                e use os insights no cotidiano, projetos acadêmicos ou ambiente profissional.
+            </p>
+            <div id="fraseRotativa" class="dashboard-quote"></div>
+            <div id="wrapperSetasFrase"></div>
+        </div>
 
-    <h1 class="titulo-pagina">DASHBOARD – INÍCIO</h1>
-
-    <p class="bemvindo-texto">
-        Bem-vindo, Prof. Paulo Rocha!
-    </p>
-
-    <p class="subtexto-inicial">
-        Explore comportamento organizacional de forma interativa! Descubra perfis DISC,
-acompanhe notícias relacionadas a Gestão e Empreendedorismo, analise liderança e comunicação,
-e use os insights no cotidiano, projetos acadêmicos ou ambiente profissional.
-    </p>
-
-    <!-- FRASE ROTATIVA ORIGINAL (SEM SETAS NO HTML) -->
-    <div id="fraseRotativa" class="dashboard-quote"></div>
-    <div id="wrapperSetasFrase"></div>
-</div>
-
-<!-- AÇÕES RÁPIDAS -->
-<div class="acoes-rapidas-container">
-
-    <div class="acoes-header">
+<!-- ACESSO RÁPIDO -->
+<div class="card" style="text-align: center;">
+    <div class="card-titulo" style="justify-content: center;">
         <i class="fas fa-bolt"></i>
         Acesso Rápido
     </div>
-
+    <p class="card-subtitulo">Navegue diretamente para os módulos principais do sistema.</p>
     <div class="acoes-rapidas">
-
-        <button class="menu-btn" onclick="irParaSistema('disc')">
+        <button class="menu-btn" onclick="window.irParaSistema('disc')">
             <i class="fas fa-brain"></i>
             Fazer Teste DISC
         </button>
-
-        <button class="menu-btn" onclick="irParaSistema('curriculo')">
+        <button class="menu-btn" onclick="window.irParaSistema('curriculo')">
             <i class="fas fa-file-alt"></i>
             Criar Currículo
         </button>
-
     </div>
-
 </div>
 
+        <!-- GRID 2×2 -->
+        <div class="cards-grid-2x2">
+            <div class="card-novo card-dica" id="cardDica">
+                <h3 class="novo-titulo"><i class="fas fa-lightbulb"></i> Dica Comportamental do Dia</h3>
+                <p id="textoDica" class="novo-conteudo"></p>
+                <div id="fonteDica" class="novo-fonte"></div>
+            </div>
+            <div class="card-novo card-stat" id="cardEst1">
+                <h3 class="novo-titulo"><i class="fas fa-chart-line"></i> Estatística de RH</h3>
+                <p id="textoEst1" class="novo-conteudo"></p>
+                <div id="fonteEst1" class="novo-fonte"></div>
+            </div>
+            <div class="card-novo card-stat" id="cardEst2">
+                <h3 class="novo-titulo"><i class="fas fa-chart-pie"></i> Indicador de Liderança</h3>
+                <p id="textoEst2" class="novo-conteudo"></p>
+                <div id="fonteEst2" class="novo-fonte"></div>
+            </div>
+            <div class="card-hero" id="cardHero">
+                <h3 class="hero-titulo"><i class="fas fa-bolt"></i> Insight Rápido para Líderes</h3>
+                <p id="textoHero" class="hero-frase"></p>
+            </div>
+        </div>
 
-<!-- ===================================================== -->
-<!-- GRID 2×2 — DICA / ESTAT A / ESTAT B / HERO             -->
-<!-- ===================================================== -->
-<div class="cards-grid-2x2">
+        <!-- ✅ GRID 2 COLUNAS — DISC + PERGUNTA -->
+        <div class="cards-topo">
 
-    <!-- DICA -->
-    <div class="card-novo card-dica" id="cardDica">
-        <h3 class="novo-titulo"><i class="fas fa-lightbulb"></i> Dica Comportamental do Dia</h3>
-        <p id="textoDica" class="novo-conteudo"></p>
-        <div id="fonteDica" class="novo-fonte"></div>
-    </div>
+            <!-- PERFIL DISC DO DIA -->
+            <div class="card" id="cardDiscDia">
+                <div class="card-titulo">
+                    <i class="fas fa-brain"></i>
+                    Perfil DISC do Dia
+                </div>
+                <div id="discDia" class="lista-insights"></div>
+            </div>
 
-    <!-- ESTATÍSTICA A -->
-    <div class="card-novo card-stat" id="cardEst1">
-        <h3 class="novo-titulo"><i class="fas fa-chart-line"></i> Estatística de RH</h3>
-        <p id="textoEst1" class="novo-conteudo"></p>
-        <div id="fonteEst1" class="novo-fonte"></div>
-    </div>
+            <!-- PERGUNTA REFLEXIVA -->
+            <div class="card">
+                <div class="card-titulo">
+                    <i class="fas fa-question"></i>
+                    Pergunta Reflexiva do Dia
+                </div>
+                <div id="perguntaDia" class="lista-insights"></div>
+            </div>
 
-    <!-- ESTATÍSTICA B -->
-    <div class="card-novo card-stat" id="cardEst2">
-        <h3 class="novo-titulo"><i class="fas fa-chart-pie"></i> Indicador de Liderança</h3>
-        <p id="textoEst2" class="novo-conteudo"></p>
-        <div id="fonteEst2" class="novo-fonte"></div>
-    </div>
-
-    <!-- HERO -->
-    <div class="card-hero" id="cardHero">
-        <h3 class="hero-titulo"><i class="fas fa-bolt"></i> Insight Rápido para Líderes</h3>
-        <p id="textoHero" class="hero-frase"></p>
-    </div>
-
-</div>
-
-        <!-- PERFIL DISC DO DIA -->
-<div class="card">
-    <div class="card-titulo">
-        <i class="fas fa-brain"></i>
-        Perfil DISC do Dia
-    </div>
-
-    <div id="discDia" class="lista-insights"></div>
-</div>
-
-        <!-- PERGUNTA REFLEXIVA -->
-<div class="card">
-    <div class="card-titulo">
-        <i class="fas fa-question"></i>
-        Pergunta Reflexiva do Dia
-    </div>
-
-    <div id="perguntaDia" class="lista-insights"></div>
-</div>
+        </div>
 
         <!-- GRID 3 CARDS -->
         <div class="cards-3">
@@ -320,39 +277,26 @@ e use os insights no cotidiano, projetos acadêmicos ou ambiente profissional.
                     <i class="fas fa-camera"></i>
                     Foto do Dia
                 </div>
-
                 <div class="card-foto-wrapper">
                     <img id="fotoDia" src="static/imagens/logo1.png" alt="">
                 </div>
-
                 <div class="foto-info">
                     <div class="foto-tema" id="fotoAutor"></div>
                     <div class="foto-legenda" id="fotoFonte"></div>
                 </div>
-
             </div>
 
         </div>
 
-
     </div>
-
 </main>
 
-
-
-
 <!-- ================================================================== -->
-<!-- JAVASCRIPT                                                         -->
+<!-- JAVASCRIPT -->
 <!-- ================================================================== -->
 <script src="static/js/main.js"></script>
-
-<!-- CARREGAR BANCO COMO MÓDULO -->
 <script type="module" src="static/js/banco_interno.js"></script>
-
-<!-- CARREGAR INÍCIO COMO MÓDULO -->
 <script type="module" src="static/js/inicio.js"></script>
-
 
 </body>
 </html>

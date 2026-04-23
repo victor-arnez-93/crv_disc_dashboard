@@ -5,6 +5,47 @@
    ============================================ */
 
 /* ============================================
+   ANIMAÇÕES GLOBAIS DE ENTRADA
+   ============================================ */
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes fadeSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeSlideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardPop {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ============================================
    CONTAINER GERAL
    ============================================ */
 
@@ -20,7 +61,7 @@
 }
 
 /* ============================================
-   CARD PRINCIPAL — MODELO ERP ADAPTADO DISC
+   CARD PRINCIPAL
    ============================================ */
 
 .card-principal {
@@ -33,9 +74,9 @@
     box-shadow:
         0 0 14px rgba(249,137,72,0.25),
         0 6px 22px rgba(0,0,0,0.30);
+    animation: fadeSlideDown 0.5s ease both;
 }
 
-/* Título principal */
 .dashboard-title {
     font-family: 'Orbitron', sans-serif;
     font-size: 32px;
@@ -46,7 +87,6 @@
     margin-bottom: 16px;
 }
 
-/* Boas-vindas */
 .dashboard-welcome {
     font-size: 18px;
     font-family: 'Manrope', sans-serif;
@@ -55,7 +95,6 @@
     margin-bottom: 10px;
 }
 
-/* Subtítulo */
 .dashboard-subtitle {
     font-size: 15px;
     font-family: 'Manrope', sans-serif;
@@ -64,7 +103,7 @@
     margin-bottom: 22px;
 }
 
-/* FRASE ROTATIVA (texto principal) */
+/* FRASE ROTATIVA */
 .dashboard-quote {
     margin-top: 14px;
     font-size: 19px;
@@ -74,34 +113,193 @@
     letter-spacing: 0.3px;
     opacity: 0;
     animation: fadeIn 0.5s forwards ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.dashboard-quote::before {
-    content: '"';
+.dashboard-quote::before { content: '"'; }
+.dashboard-quote::after  { content: '"'; }
+
+/* Tema escuro: frase laranja */
+[data-theme="dark"] #fraseRotativa {
+    color: #F98948;
 }
 
-.dashboard-quote::after {
-    content: '"';
-}
-
-/* animação de fade suave */
-@keyframes fadeIn {
-    to { opacity: 1; }
+#fraseRotativa {
+    margin-top: 16px;
+    margin-bottom: 6px;
+    transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 /* ============================================
-   GRID DOS TRÊS CARDS
+   TÍTULOS DO CARD PRINCIPAL
    ============================================ */
 
-.cards-3 {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 26px;
+.titulo-pagina {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 30px;
+    letter-spacing: 1px;
+    color: var(--cor-primaria);
+    text-align: center;
+    margin-bottom: 12px;
+    animation: fadeSlideDown 0.45s ease both;
+}
+
+.bemvindo-texto {
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--cor-texto);
+    margin-bottom: 6px;
+    text-align: center;
+    animation: fadeSlideDown 0.5s 0.05s ease both;
+    opacity: 0;
+    animation-fill-mode: both;
+}
+
+.subtexto-inicial {
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    color: var(--cor-texto);
+    opacity: 0;
+    margin-bottom: 22px;
+    text-align: center;
+    animation: fadeSlideDown 0.55s 0.1s ease both;
+    animation-fill-mode: both;
 }
 
 /* ============================================
-   CARD BASE — (INSIGHTS / NOTÍCIAS / FOTO)
+   SETAS DA FRASE
+   ============================================ */
+
+.setas-frase-wrapper {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    animation: fadeIn 0.6s 0.3s ease both;
+    opacity: 0;
+    animation-fill-mode: both;
+}
+
+.seta-frase {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #F98948;
+    color: #FFF;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 0 10px rgba(249,137,72,0.5);
+    transition: 0.25s ease;
+}
+
+.seta-frase:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 16px rgba(249,137,72,0.8);
+}
+
+/* ============================================
+   AÇÕES RÁPIDAS — CARD PADRÃO
+   ============================================ */
+
+.acoes-rapidas-container {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.acoes-rapidas {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;  /* ← botões centralizados */
+}
+
+.acoes-header {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1px;
+    color: var(--cor-primaria);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-transform: uppercase;
+    width: 100%;          /* ← ocupa toda a largura do pai */
+    text-align: center;   /* ← fallback para o texto */
+}
+
+.acoes-rapidas {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Subtítulo do card de ações */
+.card-subtitulo {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    color: var(--cor-texto);
+    opacity: 0.75;
+    margin-bottom: 16px;
+    margin-top: -6px;
+    text-align: center;
+}
+
+/* BOTÃO PADRÃO DO SISTEMA */
+.menu-btn {
+    padding: 12px 20px;
+    border-radius: 30px;
+    border: 2px solid rgba(249,137,72,0.25);
+    background: linear-gradient(135deg, rgba(249,137,72,0.08), transparent);
+    color: var(--cor-texto);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(249,137,72,0.35), transparent 70%);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.menu-btn:hover::before {
+    opacity: 1;
+}
+
+.menu-btn:hover {
+    border-color: rgba(249,137,72,0.7);
+    box-shadow:
+        0 0 14px rgba(249,137,72,0.6),
+        inset 0 0 10px rgba(249,137,72,0.25);
+    transform: translateY(-3px) scale(1.03);
+}
+
+.menu-btn i {
+    color: var(--cor-primaria);
+    font-size: 16px;
+}
+
+/* ============================================
+   CARD BASE
    ============================================ */
 
 .card {
@@ -115,6 +313,9 @@
         0 0 12px rgba(249,137,72,0.22),
         0 4px 14px rgba(0,0,0,0.4);
     transition: 0.25s ease;
+    animation: cardPop 0.45s ease both;
+    background: var(--card-bg, var(--cor-sidebar));
+    color: var(--text-color, var(--cor-texto));
 }
 
 .card:hover {
@@ -125,7 +326,6 @@
     transform: translateY(-3px);
 }
 
-/* TITULO DO CARD */
 .card-titulo {
     display: flex;
     align-items: center;
@@ -137,7 +337,6 @@
     margin-bottom: 12px;
 }
 
-/* Ícones FontAwesome nos títulos */
 .card-titulo i {
     font-size: 20px;
     filter: drop-shadow(0 0 6px rgba(249,137,72,0.35));
@@ -149,8 +348,145 @@
     filter: drop-shadow(0 0 10px rgba(249,137,72,0.6));
 }
 
+/* Animação escalonada nos cards filhos */
+.cards-3 .card:nth-child(1) { animation-delay: 0.05s; }
+.cards-3 .card:nth-child(2) { animation-delay: 0.12s; }
+.cards-3 .card:nth-child(3) { animation-delay: 0.19s; }
+
+.cards-topo .card:nth-child(1) { animation-delay: 0.08s; }
+.cards-topo .card:nth-child(2) { animation-delay: 0.15s; }
+
 /* ============================================
-   INSIGHTS — LISTA (PADRONIZADO)
+   GRID DOS TRÊS CARDS
+   ============================================ */
+
+.cards-3 {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
+}
+
+/* ============================================
+   GRID 2 COLUNAS — DISC + PERGUNTA
+   ============================================ */
+
+.cards-topo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px;
+}
+
+/* ============================================
+   GRID 2×2
+   ============================================ */
+
+.cards-grid-2x2 {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin: 34px 0;
+}
+
+.cards-grid-2x2 .card-novo,
+.cards-grid-2x2 .card-hero {
+    background: var(--cor-sidebar);
+    border: 2px solid rgba(249,137,72,0.22);
+    border-radius: 18px;
+    padding: 26px 28px;
+    box-shadow:
+        0 0 14px rgba(249,137,72,0.28),
+        0 4px 12px rgba(0,0,0,0.45);
+    transition: 0.25s ease;
+    font-family: 'Manrope', sans-serif;
+    animation: cardPop 0.45s ease both;
+    background: var(--card-bg, var(--cor-sidebar));
+    color: var(--text-color, var(--cor-texto));
+}
+
+.cards-grid-2x2 .card-novo:nth-child(1) { animation-delay: 0.05s; }
+.cards-grid-2x2 .card-novo:nth-child(2) { animation-delay: 0.12s; }
+.cards-grid-2x2 .card-novo:nth-child(3) { animation-delay: 0.19s; }
+.cards-grid-2x2 .card-hero             { animation-delay: 0.26s; }
+
+.cards-grid-2x2 .card-novo:hover,
+.cards-grid-2x2 .card-hero:hover {
+    border-color: rgba(249,137,72,0.45);
+    box-shadow:
+        0 0 20px rgba(249,137,72,0.55),
+        inset 0 0 12px rgba(249,137,72,0.30);
+    transform: translateY(-3px);
+}
+
+.novo-titulo,
+.hero-titulo {
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--cor-primaria);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Manrope', sans-serif;
+}
+
+.novo-titulo i,
+.hero-titulo i {
+    font-size: 20px;
+    filter: drop-shadow(0 0 6px rgba(249,137,72,0.40));
+}
+
+.novo-conteudo {
+    font-size: 16px;
+    color: var(--cor-texto);
+    line-height: 1.42;
+    font-family: 'Manrope', sans-serif;
+    margin-bottom: 8px;
+}
+
+.novo-fonte {
+    font-size: 13px;
+    color: var(--cor-primaria);
+    opacity: 0.85;
+    font-family: 'Manrope', sans-serif;
+}
+
+.card-hero .hero-frase {
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    color: var(--cor-texto);
+    line-height: 1.45;
+}
+
+/* ============================================
+   PERFIL DISC — CORES INTELIGENTES
+   ============================================ */
+
+.card-disc {
+    position: relative;
+    transition: 0.25s ease;
+}
+
+.card-disc[data-perfil="D"] { border-color: rgba(255, 70, 70, 0.5); }
+.card-disc[data-perfil="I"] { border-color: rgba(255, 180, 0, 0.5); }
+.card-disc[data-perfil="S"] { border-color: rgba(0, 200, 140, 0.5); }
+.card-disc[data-perfil="C"] { border-color: rgba(70, 140, 255, 0.5); }
+
+.card-disc:hover {
+    box-shadow:
+        0 0 20px rgba(249,137,72,0.5),
+        inset 0 0 12px rgba(249,137,72,0.25);
+    transform: translateY(-3px);
+}
+
+.card-disc strong {
+    font-size: 17px;
+    letter-spacing: 0.5px;
+}
+
+/* ============================================
+   INSIGHTS
    ============================================ */
 
 .lista-insights {
@@ -166,13 +502,11 @@
     gap: 6px;
 }
 
-/* Texto principal do insight */
 .lista-insights .insight-texto {
     font-size: 16px;
     font-family: 'Rajdhani', sans-serif;
     font-weight: 600;
     line-height: 1.4;
-    /* Limita a 4 linhas */
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
@@ -180,19 +514,9 @@
     text-overflow: ellipsis;
 }
 
-/* Tema claro: texto azul negrito */
-[data-theme="light"] .lista-insights .insight-texto {
-    color: #241E4E;
-    font-weight: 700;
-}
+[data-theme="light"] .lista-insights .insight-texto { color: #241E4E; font-weight: 700; }
+[data-theme="dark"]  .lista-insights .insight-texto { color: #FFFFFF; font-weight: 700; }
 
-/* Tema escuro: texto branco negrito */
-[data-theme="dark"] .lista-insights .insight-texto {
-    color: #FFFFFF;
-    font-weight: 700;
-}
-
-/* Fonte clicável (2ª linha) */
 .lista-insights .insight-fonte {
     font-size: 13px;
     font-family: 'Manrope', sans-serif;
@@ -200,29 +524,13 @@
     text-decoration: none;
 }
 
-.lista-insights .insight-fonte a {
-    text-decoration: none;
-    transition: opacity 0.25s ease;
-}
-
-/* Tema claro: fonte preta sem negrito sem sublinhado */
-[data-theme="light"] .lista-insights .insight-fonte a {
-    color: #000000;
-    font-weight: 400;
-}
-
-/* Tema escuro: fonte LARANJA sem negrito sem sublinhado */
-[data-theme="dark"] .lista-insights .insight-fonte a {
-    color: #F98948;
-    font-weight: 400;
-}
-
-.lista-insights .insight-fonte a:hover {
-    opacity: 0.7;
-}
+.lista-insights .insight-fonte a { text-decoration: none; transition: opacity 0.25s ease; }
+[data-theme="light"] .lista-insights .insight-fonte a { color: #000000; font-weight: 400; }
+[data-theme="dark"]  .lista-insights .insight-fonte a { color: #F98948;  font-weight: 400; }
+.lista-insights .insight-fonte a:hover { opacity: 0.7; }
 
 /* ============================================
-   NOTÍCIAS — LISTA (PADRÃO IGUAL INSIGHTS)
+   NOTÍCIAS
    ============================================ */
 
 .lista-noticias {
@@ -238,13 +546,11 @@
     gap: 6px;
 }
 
-/* Texto principal da notícia (NÃO É MAIS LINK) */
 .lista-noticias .noticia-texto {
     font-size: 16px;
     font-family: 'Rajdhani', sans-serif;
     font-weight: 600;
     line-height: 1.4;
-    /* Limita a 4 linhas */
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
@@ -252,25 +558,14 @@
     text-overflow: ellipsis;
 }
 
-/* Tema claro: texto azul negrito */
-[data-theme="light"] .lista-noticias .noticia-texto {
-    color: #241E4E;
-    font-weight: 700;
-}
+[data-theme="light"] .lista-noticias .noticia-texto { color: #241E4E; font-weight: 700; }
+[data-theme="dark"]  .lista-noticias .noticia-texto { color: #FFFFFF; font-weight: 700; }
 
-/* Tema escuro: texto branco negrito */
-[data-theme="dark"] .lista-noticias .noticia-texto {
-    color: #FFFFFF;
-    font-weight: 700;
-}
-
-/* Resumo da notícia (3ª linha) */
 .lista-noticias .noticia-resumo {
     font-size: 13px;
     font-family: 'Rajdhani', sans-serif;
     font-weight: 400;
     line-height: 1.3;
-    /* Limita a 2 linhas */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -278,43 +573,19 @@
     text-overflow: ellipsis;
 }
 
-/* Tema claro: resumo cinza escuro */
-[data-theme="light"] .lista-noticias .noticia-resumo {
-    color: #555555;
-}
+[data-theme="light"] .lista-noticias .noticia-resumo { color: #555555; }
+[data-theme="dark"]  .lista-noticias .noticia-resumo { color: #AAAAAA; }
 
-/* Tema escuro: resumo cinza claro */
-[data-theme="dark"] .lista-noticias .noticia-resumo {
-    color: #AAAAAA;
-}
-
-/* Fonte clicável (2ª linha) */
 .lista-noticias .noticia-fonte {
     font-size: 13px;
     font-family: 'Manrope', sans-serif;
     font-weight: 400;
 }
 
-.lista-noticias .noticia-fonte a {
-    text-decoration: none;
-    transition: opacity 0.25s ease;
-}
-
-/* Tema claro: fonte preta sem negrito sem sublinhado */
-[data-theme="light"] .lista-noticias .noticia-fonte a {
-    color: #000000;
-    font-weight: 400;
-}
-
-/* Tema escuro: fonte LARANJA sem negrito sem sublinhado */
-[data-theme="dark"] .lista-noticias .noticia-fonte a {
-    color: #F98948;
-    font-weight: 400;
-}
-
-.lista-noticias .noticia-fonte a:hover {
-    opacity: 0.7;
-}
+.lista-noticias .noticia-fonte a { text-decoration: none; transition: opacity 0.25s ease; }
+[data-theme="light"] .lista-noticias .noticia-fonte a { color: #000000; font-weight: 400; }
+[data-theme="dark"]  .lista-noticias .noticia-fonte a { color: #F98948;  font-weight: 400; }
+.lista-noticias .noticia-fonte a:hover { opacity: 0.7; }
 
 /* ============================================
    FOTO DO DIA
@@ -366,17 +637,8 @@
     font-weight: 600;
 }
 
-/* Tema claro: texto azul negrito */
-[data-theme="light"] .foto-tema {
-    color: #241E4E;
-    font-weight: 700;
-}
-
-/* Tema escuro: texto branco negrito */
-[data-theme="dark"] .foto-tema {
-    color: #FFFFFF;
-    font-weight: 700;
-}
+[data-theme="light"] .foto-tema { color: #241E4E; font-weight: 700; }
+[data-theme="dark"]  .foto-tema { color: #FFFFFF; font-weight: 700; }
 
 .foto-link {
     font-size: 13px;
@@ -384,53 +646,15 @@
     font-weight: 400;
 }
 
-.foto-link a {
-    text-decoration: none;
-    transition: opacity 0.25s ease;
-}
-
-/* Tema claro: fonte preta sem negrito sem sublinhado */
-[data-theme="light"] .foto-link a {
-    color: #000000;
-    font-weight: 400;
-}
-
-/* Tema escuro: fonte LARANJA sem negrito sem sublinhado */
-[data-theme="dark"] .foto-link a {
-    color: #F98948;
-    font-weight: 400;
-}
-
-.foto-link a:hover {
-    opacity: 0.7;
-}
-
-/* ============================================
-   ANIMAÇÕES DE ENTRADA (efeito sutil ERP)
-   ============================================ */
-
-@keyframes fadeSlideUp {
-    0% {
-        opacity: 0;
-        transform: translateY(14px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.dashboard-container,
-.card-principal,
-.cards-3 .card {
-    animation: fadeSlideUp 0.45s ease;
-}
+.foto-link a { text-decoration: none; transition: opacity 0.25s ease; }
+[data-theme="light"] .foto-link a { color: #000000; font-weight: 400; }
+[data-theme="dark"]  .foto-link a { color: #F98948;  font-weight: 400; }
+.foto-link a:hover { opacity: 0.7; }
 
 /* ============================================
    AJUSTES DE TEMA
    ============================================ */
 
-/* tema claro */
 [data-theme="light"] .card-principal,
 [data-theme="light"] .card {
     background: #FFFFFF;
@@ -440,710 +664,98 @@
         0 0 12px rgba(249,137,72,0.18);
 }
 
-/* tema escuro */
 [data-theme="dark"] .card-principal,
 [data-theme="dark"] .card {
     background: #1c1b1b;
     border-color: rgba(249,137,72,0.28);
 }
 
-/* ============================================
-   GRID 2×2 DOS NOVOS CARDS (PADRÃO ATUAL)
-   ============================================ */
-.cards-grid-2x2 {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
-    margin: 34px 0;
+[data-theme="light"] .cards-grid-2x2 .card-novo,
+[data-theme="light"] .cards-grid-2x2 .card-hero {
+    background: #FFFFFF;
+    border-color: rgba(0,0,0,0.15);
 }
 
-/* BASE DOS CARDS NOVOS + HERO */
-.cards-grid-2x2 .card-novo,
-.cards-grid-2x2 .card-hero {
-    background: var(--cor-sidebar);
-    border: 2px solid rgba(249,137,72,0.22);
-    border-radius: 18px;
-    padding: 26px 28px;
-    box-shadow:
-        0 0 14px rgba(249,137,72,0.28),
-        0 4px 12px rgba(0,0,0,0.45);
-    transition: 0.25s ease;
-    font-family: 'Manrope', sans-serif; /* PADRONIZAÇÃO */
+[data-theme="dark"] .cards-grid-2x2 .card-novo,
+[data-theme="dark"] .cards-grid-2x2 .card-hero {
+    background: #1c1b1b;
+    border-color: rgba(249,137,72,0.28);
 }
-
-/* Hover */
-.cards-grid-2x2 .card-novo:hover,
-.cards-grid-2x2 .card-hero:hover {
-    border-color: rgba(249,137,72,0.45);
-    box-shadow:
-        0 0 20px rgba(249,137,72,0.55),
-        inset 0 0 12px rgba(249,137,72,0.30);
-    transform: translateY(-3px);
-}
-
-/* TITULOS — COR LARANJA (tema escuro), PADRONIZADOS */
-.novo-titulo,
-.hero-titulo {
-    font-weight: 700;
-    font-size: 19px;
-    color: var(--cor-primaria);
-    margin-bottom: 10px; /* ESPAÇO ENTRE TÍTULO E TEXTO */
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: 'Manrope', sans-serif;
-}
-
-/* ICONES DOS TITULOS */
-.novo-titulo i,
-.hero-titulo i {
-    font-size: 20px;
-    filter: drop-shadow(0 0 6px rgba(249,137,72,0.40));
-}
-
-/* TEXTO PADRÃO DOS 4 CARDS */
-.novo-conteudo {
-    font-size: 16px;
-    color: var(--cor-texto);
-    line-height: 1.42;
-    font-family: 'Manrope', sans-serif;
-    margin-bottom: 8px;
-}
-
-/* FONTE */
-.novo-fonte {
-    font-size: 13px;
-    color: var(--cor-primaria);
-    opacity: 0.85;
-    font-family: 'Manrope', sans-serif;
-}
-
-/* HERO */
-.card-hero .hero-frase {
-    font-family: 'Manrope', sans-serif; /* MANTÉM O EXTRA */
-    font-size: 18px;
-    color: var(--cor-texto);
-    line-height: 1.45;
-}
-
 
 /* ============================================
-   SETAS — POSIÇÃO ALINHADA, TAMANHO FIXO
+   RESPONSIVIDADE
    ============================================ */
 
-.setas-frase-wrapper {
-    margin-top: 16px;
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-}
-
-.seta-frase {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: #F98948;
-    color: #FFF;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    box-shadow: 0 0 10px rgba(249,137,72,0.5);
-    transition: 0.25s ease;
-}
-
-.seta-frase:hover {
-    transform: scale(1.15);
-    box-shadow: 0 0 16px rgba(249,137,72,0.8);
-}
-
-
-/* ================================
-   AJUSTE DO CARD PRINCIPAL NOVO
-   ================================ */
-
-.titulo-pagina {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 30px;
-    letter-spacing: 1px;
-    color: var(--cor-primaria);
-    text-align: center;
-    margin-bottom: 12px;
-}
-
-.bemvindo-texto {
-    font-family: 'Manrope', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--cor-texto);
-    margin-bottom: 6px;
-    text-align: center;
-}
-
-.subtexto-inicial {
-    font-family: 'Manrope', sans-serif;
-    font-size: 15px;
-    color: var(--cor-texto);
-    opacity: 0.85;
-    margin-bottom: 22px;
-    text-align: center;
-}
-
-/* Frase principal — cor laranja no tema escuro */
-[data-theme="dark"] #fraseRotativa {
-    color: #F98948;
-}
-
-/* Espaçamento entre textos */
-#fraseRotativa {
-    margin-top: 16px;
-    margin-bottom: 6px;
-}
-
-/* =========================================================
-   LAPTOP — até 1200px
-   ========================================================= */
 @media (max-width: 1200px) {
-    .dashboard-container {
-        padding: 18px 14px;
-    }
+    .dashboard-container { padding: 18px 14px; }
 }
 
-/* =========================================================
-   TABLETS — até 900px
-   ========================================================= */
 @media (max-width: 900px) {
-
-    /* Garantir que o card principal não encoste no topo */
-    .main-content {
-        padding-top: 70px !important;
-    }
-
-    /* Empilhar cards de 2×2 */
-    .cards-2,
-    .cards-3,
-    .cards-grid-2x2 {
-        grid-template-columns: 1fr !important;
-        gap: 22px;
-    }
-
-    /* Card principal */
-    .card-principal {
-        padding: 28px 24px;
-    }
-
-    /* Título INÍCIO */
-    .titulo-pagina {
-        font-size: 26px;
-    }
-
-    /* Texto 'Bem-vindo' */
-    .bemvindo-texto {
-        font-size: 17px;
-    }
-
-    /* Subtexto */
-    .subtexto-inicial {
-        font-size: 15px;
-        margin-bottom: 20px;
-    }
-
-    /* Frase rotativa */
-    .dashboard-quote,
-    #fraseRotativa {
-        font-size: 17px;
-    }
-
-    /* Foto do Dia */
-    .card-foto-wrapper img {
-        height: 220px;
-    }
-
-    /* Forçar botão hamburguer aparecer */
-    #btnMenu {
-        display: flex !important;
-    }
+    .main-content { padding-top: 70px !important; }
+    .cards-2, .cards-3, .cards-grid-2x2 { grid-template-columns: 1fr !important; gap: 22px; }
+    .card-principal { padding: 28px 24px; }
+    .titulo-pagina { font-size: 26px; }
+    .bemvindo-texto { font-size: 17px; }
+    .subtexto-inicial { font-size: 15px; margin-bottom: 20px; }
+    .dashboard-quote, #fraseRotativa { font-size: 17px; }
+    .card-foto-wrapper img { height: 220px; }
+    #btnMenu { display: flex !important; }
 }
-
-/* =========================================================
-   CELULARES — até 768px (breakpoint real de celulares)
-   ========================================================= */
-@media (max-width: 768px) {
-
-    /* Garantir que TODOS os grids virem 1 coluna */
-    .cards-2,
-    .cards-3,
-    .cards-grid-2x2 {
-        grid-template-columns: 1fr !important;
-        gap: 20px;
-    }
-
-    .dashboard-title {
-        font-size: 24px;
-    }
-
-    .card {
-        padding: 18px 16px;
-    }
-
-    .card-titulo {
-        font-size: 16px;
-    }
-
-    .card-foto-wrapper img {
-        height: 200px;
-    }
-}
-
-/* =========================================================
-   CELULARES — até 600px
-   ========================================================= */
-@media (max-width: 600px) {
-
-    /* Descola do header */
-    .main-content {
-        padding-top: 75px !important;
-    }
-
-    /* Ajustes do card inicial */
-    .card-principal {
-        padding: 24px 18px;
-    }
-
-    .titulo-pagina {
-        font-size: 22px;
-    }
-
-    .bemvindo-texto {
-        font-size: 16px;
-    }
-
-    .subtexto-inicial {
-        font-size: 14px;
-    }
-
-    #fraseRotativa {
-        font-size: 16px;
-    }
-
-    /* Setas menores */
-    .seta-frase {
-        width: 30px;
-        height: 30px;
-        font-size: 12px;
-    }
-
-    /* Cards gerais */
-    .cards-3,
-    .cards-grid-2x2 {
-        gap: 18px;
-    }
-
-    .card-foto-wrapper img {
-        height: 180px;
-    }
-}
-
-/* =========================================================
-   CELULARES MUITO PEQUENOS — até 420px
-   ========================================================= */
-@media (max-width: 420px) {
-    .card-principal {
-        padding: 20px 14px;
-    }
-
-    #fraseRotativa {
-        font-size: 15px;
-    }
-}
-
-/* ============================================
-   AÇÕES RÁPIDAS — DESTAQUE REAL (SEM QUEBRAR PADRÃO)
-   ============================================ */
-
-.acoes-rapidas-container {
-    margin-top: 28px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-}
-
-/* TÍTULO COM ORBITRON (CHAMATIVO) */
-.acoes-header {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 18px;
-    letter-spacing: 1px;
-    color: var(--cor-primaria);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-transform: uppercase;
-}
-
-/* BOTÕES BASE (HERDA DO SISTEMA) */
-.acoes-rapidas {
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-/* 🔥 BOTÃO TURBINADO */
-.menu-btn {
-    padding: 12px 20px;
-    border-radius: 30px;
-    border: 2px solid rgba(249,137,72,0.25);
-    background: linear-gradient(135deg, rgba(249,137,72,0.08), transparent);
-    color: var(--cor-texto);
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    transition: 0.25s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-/* 🔥 EFEITO GLOW */
-.menu-btn::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle, rgba(249,137,72,0.35), transparent 70%);
-    opacity: 0;
-    transition: 0.3s;
-}
-
-.menu-btn:hover::before {
-    opacity: 1;
-}
-
-/* HOVER */
-.menu-btn:hover {
-    border-color: rgba(249,137,72,0.7);
-    box-shadow:
-        0 0 14px rgba(249,137,72,0.6),
-        inset 0 0 10px rgba(249,137,72,0.25);
-    transform: translateY(-3px) scale(1.03);
-}
-
-/* ÍCONE */
-.menu-btn i {
-    color: var(--cor-primaria);
-    font-size: 16px;
-}
-
-/* ============================================
-   PERFIL + PERGUNTA → 2 COLUNAS
-   ============================================ */
-
-.cards-topo {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 26px;
-}
-
-/* ============================================
-   PERFIL DISC — CORES INTELIGENTES
-   ============================================ */
-
-.card-disc {
-    position: relative;
-    transition: 0.25s ease;
-}
-
-/* Cores por perfil */
-.card-disc[data-perfil="D"] {
-    border-color: rgba(255, 70, 70, 0.5);
-}
-
-.card-disc[data-perfil="I"] {
-    border-color: rgba(255, 180, 0, 0.5);
-}
-
-.card-disc[data-perfil="S"] {
-    border-color: rgba(0, 200, 140, 0.5);
-}
-
-.card-disc[data-perfil="C"] {
-    border-color: rgba(70, 140, 255, 0.5);
-}
-
-/* GLOW NO HOVER */
-.card-disc:hover {
-    box-shadow:
-        0 0 20px rgba(249,137,72,0.5),
-        inset 0 0 12px rgba(249,137,72,0.25);
-    transform: translateY(-3px);
-}
-
-/* TEXTO DO PERFIL MAIS FORTE */
-.card-disc strong {
-    font-size: 17px;
-    letter-spacing: 0.5px;
-}
-
-/* ===============================================================
-RESPONSIVIDADE MOBILE — COMPLETO ATUALIZADO
-=============================================================== */
 
 @media (max-width: 768px) {
-/* Container geral */
-.dashboard-container {
-padding: 16px 12px;
-gap: 24px;
+    .cards-2, .cards-3, .cards-grid-2x2, .cards-topo { grid-template-columns: 1fr !important; gap: 20px; }
+    .dashboard-title { font-size: 24px; }
+    .card { padding: 18px 16px; border-radius: 14px; }
+    .card-titulo { font-size: 16px; }
+    .card-titulo i { font-size: 18px; }
+    .card-foto-wrapper { border-radius: 14px; }
+    .card-foto-wrapper img { height: 200px; }
+    .lista-insights, .lista-noticias { gap: 16px; }
+    .lista-insights .insight-texto, .lista-noticias .noticia-texto { font-size: 15px; }
+    .lista-insights .insight-fonte, .lista-noticias .noticia-fonte { font-size: 12px; }
+    .lista-noticias .noticia-resumo { font-size: 12px; }
+    .foto-info { padding: 12px 14px; }
+    .foto-tema { font-size: 15px; }
+    .foto-link { font-size: 12px; }
+    .novo-titulo, .hero-titulo { font-size: 17px; }
+    .novo-conteudo { font-size: 15px; }
+    .novo-fonte { font-size: 12px; }
+    .card-hero .hero-frase { font-size: 16px; }
+    .acoes-rapidas { flex-direction: column; align-items: stretch; width: 100%; }
+    .menu-btn { width: 100%; justify-content: center; font-size: 15px; padding: 12px; }
+    .dashboard-container { padding: 16px 12px; gap: 24px; }
+    .card-principal { padding: 24px 18px; margin-bottom: 28px; border-radius: 16px; }
+    .titulo-pagina { font-size: 24px; margin-bottom: 10px; }
+    .bemvindo-texto { font-size: 17px; margin-bottom: 6px; }
+    .subtexto-inicial { font-size: 14px; margin-bottom: 18px; }
+    .dashboard-quote, #fraseRotativa { font-size: 16px; line-height: 1.4; }
+    .seta-frase { width: 32px; height: 32px; font-size: 13px; }
+    .cards-3 { gap: 20px; }
+    .cards-grid-2x2 { gap: 20px; }
 }
-
-/* Card principal */
-.card-principal {
-padding: 24px 18px;
-margin-bottom: 28px;
-border-radius: 16px;
-}
-
-/* Título INÍCIO */
-.titulo-pagina {
-font-size: 24px;
-margin-bottom: 10px;
-}
-
-/* Texto 'Bem-vindo' */
-.bemvindo-texto {
-font-size: 17px;
-margin-bottom: 6px;
-}
-
-/* Subtexto */
-.subtexto-inicial {
-font-size: 14px;
-margin-bottom: 18px;
-}
-
-/* Frase rotativa */
-.dashboard-quote,
-#fraseRotativa {
-font-size: 16px;
-line-height: 1.4;
-}
-
-/* Setas menores */
-.seta-frase {
-width: 32px;
-height: 32px;
-font-size: 13px;
-}
-
-/* Grid dos 3 cards vira 1 coluna */
-.cards-3 {
-grid-template-columns: 1fr;
-gap: 20px;
-}
-
-/* Grid 2x2 vira 1 coluna */
-.cards-grid-2x2 {
-grid-template-columns: 1fr;
-gap: 20px;
-}
-
-/* 🔥 NOVO — TOPO (DISC + PERGUNTA) */
-.cards-topo {
-grid-template-columns: 1fr;
-gap: 20px;
-}
-
-/* Cards gerais */
-.card {
-padding: 18px 16px;
-border-radius: 14px;
-}
-
-.card-titulo {
-font-size: 17px;
-}
-
-.card-titulo i {
-font-size: 18px;
-}
-
-/* Lista de insights */
-.lista-insights,
-.lista-noticias {
-gap: 16px;
-}
-
-.lista-insights .insight-texto,
-.lista-noticias .noticia-texto {
-font-size: 15px;
-}
-
-.lista-insights .insight-fonte,
-.lista-noticias .noticia-fonte {
-font-size: 12px;
-}
-
-.lista-noticias .noticia-resumo {
-font-size: 12px;
-}
-
-/* Foto do dia */
-.card-foto-wrapper {
-border-radius: 14px;
-}
-
-.card-foto-wrapper img {
-height: 200px;
-}
-
-.foto-info {
-padding: 12px 14px;
-}
-
-.foto-tema {
-font-size: 15px;
-}
-
-.foto-link {
-font-size: 12px;
-}
-
-/* Cards novos */
-.novo-titulo,
-.hero-titulo {
-font-size: 17px;
-}
-
-.novo-conteudo {
-font-size: 15px;
-}
-
-.novo-fonte {
-font-size: 12px;
-}
-
-.card-hero .hero-frase {
-font-size: 16px;
-}
-
-/* 🔥 AÇÕES RÁPIDAS */
-.acoes-rapidas {
-flex-direction: column;
-align-items: stretch;
-width: 100%;
-}
-
-.menu-btn {
-width: 100%;
-justify-content: center;
-font-size: 15px;
-padding: 12px;
-}
-}
-
-/* ===============================================================
-MOBILE PEQUENO — até 480px
-=============================================================== */
 
 @media (max-width: 480px) {
-.dashboard-container {
-padding: 14px 10px;
-gap: 20px;
+    .dashboard-container { padding: 14px 10px; gap: 20px; }
+    .card-principal { padding: 20px 16px; border-radius: 14px; }
+    .titulo-pagina { font-size: 22px; }
+    .bemvindo-texto { font-size: 16px; }
+    .subtexto-inicial { font-size: 13px; }
+    #fraseRotativa { font-size: 15px; }
+    .seta-frase { width: 30px; height: 30px; font-size: 12px; }
+    .card { padding: 16px 14px; }
+    .card-foto-wrapper img { height: 180px; }
+    .cards-3, .cards-grid-2x2 { gap: 16px; }
+    .menu-btn { font-size: 14px; padding: 11px; }
+    .acoes-header { font-size: 16px; }
 }
-
-.card-principal {
-padding: 20px 16px;
-border-radius: 14px;
-}
-
-.titulo-pagina {
-font-size: 22px;
-}
-
-.bemvindo-texto {
-font-size: 16px;
-}
-
-.subtexto-inicial {
-font-size: 13px;
-}
-
-#fraseRotativa {
-font-size: 15px;
-}
-
-.seta-frase {
-width: 30px;
-height: 30px;
-font-size: 12px;
-}
-
-.card {
-padding: 16px 14px;
-}
-
-.card-foto-wrapper img {
-height: 180px;
-}
-
-.cards-3,
-.cards-grid-2x2 {
-gap: 16px;
-}
-
-/* 🔥 AJUSTES FINOS */
-.menu-btn {
-font-size: 14px;
-padding: 11px;
-}
-
-.acoes-header {
-font-size: 16px;
-}
-}
-
-/* ===============================================================
-MOBILE MUITO PEQUENO — até 360px
-=============================================================== */
 
 @media (max-width: 360px) {
-.dashboard-container {
-padding: 12px 8px;
+    .dashboard-container { padding: 12px 8px; }
+    .card-principal { padding: 18px 14px; }
+    .titulo-pagina { font-size: 20px; }
+    #fraseRotativa { font-size: 14px; }
+    .card { padding: 14px 12px; }
+    .card-titulo { font-size: 16px; }
+    .card-foto-wrapper img { height: 160px; }
+    .menu-btn { font-size: 13px; padding: 10px; }
 }
-
-.card-principal {
-padding: 18px 14px;
-}
-
-.titulo-pagina {
-font-size: 20px;
-}
-
-#fraseRotativa {
-font-size: 14px;
-}
-
-.card {
-padding: 14px 12px;
-}
-
-.card-titulo {
-font-size: 16px;
-}
-
-.card-foto-wrapper img {
-height: 160px;
-}
-
-/* 🔥 ULTRA COMPACTO */
-.menu-btn {
-font-size: 13px;
-padding: 10px;
-}
-}
-

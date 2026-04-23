@@ -1,16 +1,11 @@
 // ============================================================================
-// inicio.js — VERSÃO FINAL CORRIGIDA
+// inicio.js — DISC Dashboard
 // ============================================================================
 
-import {
-    dicas,
-    estatisticas,
-    indicadores,
-    heroFrases
-} from "./banco_interno.js";
+import { dicas, estatisticas, indicadores, heroFrases } from "./banco_interno.js";
 
 // ============================================================================
-// 1) FRASE PRINCIPAL — ROTATIVA
+// 1) FRASE PRINCIPAL ROTATIVA
 // ============================================================================
 
 const frasesPrincipais = [
@@ -24,27 +19,16 @@ const frasesPrincipais = [
 let fraseIndex = 0;
 
 function atualizarFrasePrincipal() {
-    const elemento = document.getElementById("fraseRotativa");
-    if (!elemento) return;
-
-    elemento.style.opacity = 0;
-    elemento.style.transform = "translateY(-10px)";
-
+    const el = document.getElementById("fraseRotativa");
+    if (!el) return;
+    el.style.opacity = 0;
+    el.style.transform = "translateY(-10px)";
     setTimeout(() => {
-        elemento.textContent = frasesPrincipais[fraseIndex];
-        elemento.style.opacity = 1;
-        elemento.style.transform = "translateY(0)";
+        el.textContent = frasesPrincipais[fraseIndex];
+        el.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+        el.style.opacity = 1;
+        el.style.transform = "translateY(0)";
     }, 200);
-}
-
-function fraseAnterior() {
-    fraseIndex = (fraseIndex - 1 + frasesPrincipais.length) % frasesPrincipais.length;
-    atualizarFrasePrincipal();
-}
-
-function proximaFrase() {
-    fraseIndex = (fraseIndex + 1) % frasesPrincipais.length;
-    atualizarFrasePrincipal();
 }
 
 function criarSetasFrase() {
@@ -57,98 +41,82 @@ function criarSetasFrase() {
     const btnEsq = document.createElement("button");
     btnEsq.className = "seta-frase";
     btnEsq.innerHTML = `<i class="fas fa-chevron-left"></i>`;
-    btnEsq.onclick = fraseAnterior;
+    btnEsq.onclick = () => {
+        fraseIndex = (fraseIndex - 1 + frasesPrincipais.length) % frasesPrincipais.length;
+        atualizarFrasePrincipal();
+    };
 
     const btnDir = document.createElement("button");
     btnDir.className = "seta-frase";
     btnDir.innerHTML = `<i class="fas fa-chevron-right"></i>`;
-    btnDir.onclick = proximaFrase;
+    btnDir.onclick = () => {
+        fraseIndex = (fraseIndex + 1) % frasesPrincipais.length;
+        atualizarFrasePrincipal();
+    };
 
-    wrapper.appendChild(btnEsq);
-    wrapper.appendChild(btnDir);
+    wrapper.append(btnEsq, btnDir);
     container.appendChild(wrapper);
 }
 
 // ============================================================================
-// 2) ROTATIVOS DOS 4 CARDS — A CADA 20s
+// 2) CARDS ROTATIVOS (a cada 20s)
 // ============================================================================
 
 let rotacaoIndex = 0;
 
-function animarTroca(element) {
-    element.style.opacity = 0;
-    element.style.transform = "translateY(-10px)";
-
+function animarTroca(el) {
+    if (!el) return;
+    el.style.transition = "opacity 0.2s ease, transform 0.2s ease";
+    el.style.opacity = 0;
+    el.style.transform = "translateY(-8px)";
     setTimeout(() => {
-        element.style.opacity = 1;
-        element.style.transform = "translateY(0)";
+        el.style.opacity = 1;
+        el.style.transform = "translateY(0)";
     }, 200);
 }
 
 function atualizarCardsRotativos() {
-    const dica = document.getElementById("textoDica");
-    const est1 = document.getElementById("textoEst1");
-    const est2 = document.getElementById("textoEst2");
-    const hero = document.getElementById("textoHero");
+    const ids = ["textoDica", "textoEst1", "textoEst2", "textoHero"];
+    const bancos = [dicas, estatisticas, indicadores, heroFrases];
 
-    if (!dica || !est1 || !est2 || !hero) return;
+    ids.forEach((id, i) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        animarTroca(el);
+        setTimeout(() => {
+            el.textContent = bancos[i][rotacaoIndex % bancos[i].length];
+        }, 200);
+    });
 
-    dica.textContent = dicas[rotacaoIndex];
-    est1.textContent = estatisticas[rotacaoIndex];
-    est2.textContent = indicadores[rotacaoIndex];
-    hero.textContent = heroFrases[rotacaoIndex];
-
-    animarTroca(dica);
-    animarTroca(est1);
-    animarTroca(est2);
-    animarTroca(hero);
-
-    rotacaoIndex = (rotacaoIndex + 1) % dicas.length;
+    rotacaoIndex++;
 }
 
 // ============================================================================
-// 3) INSIGHTS DO DIA (BANCO INTERNO) — 2 POR DIA
+// 3) INSIGHTS DO DIA (2 por sessão — sem localStorage)
 // ============================================================================
-
-function obterInsightsDoDia() {
-    const cache     = localStorage.getItem("insightsDia");
-    const cacheData = localStorage.getItem("insightsData");
-    const hoje      = new Date().toDateString();
-
-    if (cache && cacheData === hoje) return JSON.parse(cache);
-
-    const copia     = [...dicas];
-    const resultado = [];
-
-    for (let i = 0; i < 2; i++) {
-        const idx = Math.floor(Math.random() * copia.length);
-        resultado.push(copia.splice(idx, 1)[0]);
-    }
-
-    localStorage.setItem("insightsDia",  JSON.stringify(resultado));
-    localStorage.setItem("insightsData", hoje);
-
-    return resultado;
-}
 
 function carregarInsights() {
     const ul = document.getElementById("insightsList");
     if (!ul) return;
 
-    const lista = obterInsightsDoDia();
-    ul.innerHTML = "";
+    const copia = [...dicas];
+    const resultado = [];
+    for (let i = 0; i < 2; i++) {
+        const idx = Math.floor(Math.random() * copia.length);
+        resultado.push(copia.splice(idx, 1)[0]);
+    }
 
-    lista.forEach((txt) => {
-        ul.innerHTML += `
-            <li class="insight-item">
-                <span class="insight-texto">${txt}</span>
-            </li>`;
-    });
+    ul.innerHTML = resultado.map(txt => `
+        <li class="insight-item">
+            <span class="insight-texto">${txt}</span>
+        </li>
+    `).join("");
 }
 
 // ============================================================================
 // 4) NOTÍCIAS DO DIA
 // ============================================================================
+
 function carregarNoticias() {
     const ul = document.getElementById("noticiasList");
     if (!ul) return;
@@ -156,55 +124,40 @@ function carregarNoticias() {
     fetch('/.netlify/functions/noticias_full')
         .then(res => res.json())
         .then(data => {
-
-            ul.innerHTML = "";
-
-            data.slice(0, 3).forEach(n => {
-                ul.innerHTML += `
-                    <li>
-                        <div class="noticia-texto">${n.titulo}</div>
-                        <div class="noticia-fonte">
-                            <a href="${n.link}" target="_blank" rel="noopener noreferrer">
-                        </div>
-                    </li>
-                `;
-            });
+            ul.innerHTML = data.slice(0, 3).map(n => `
+                <li>
+                    <div class="noticia-texto">${n.titulo}</div>
+                    <div class="noticia-fonte">
+                        <a href="${n.link}" target="_blank" rel="noopener noreferrer">${n.fonte || "Ver fonte"}</a>
+                    </div>
+                </li>
+            `).join("");
         })
         .catch(() => {
-            ul.innerHTML = `
-                <li>Erro ao carregar notícias.</li>
-            `;
+            ul.innerHTML = `<li><span class="insight-texto">Erro ao carregar notícias.</span></li>`;
         });
 }
 
 // ============================================================================
 // 5) FOTO DO DIA
 // ============================================================================
+
 function carregarFoto() {
     const img   = document.getElementById("fotoDia");
     const autor = document.getElementById("fotoAutor");
     const fonte = document.getElementById("fotoFonte");
-
     if (!img) return;
 
     fetch('/.netlify/functions/foto')
         .then(res => res.json())
         .then(data => {
-
             img.src = data.url;
             img.alt = data.titulo || "Foto corporativa";
-
-if (autor) {
-    autor.innerHTML = `Tema: <strong>${data.titulo}</strong>`;
-}
-
-if (fonte) {
-    fonte.innerHTML = data.legenda;
-}
-
+            if (autor) autor.innerHTML = `Tema: <strong>${data.titulo}</strong>`;
+            if (fonte) fonte.innerHTML = data.legenda || "";
         })
         .catch(() => {
-            img.src = "https://picsum.photos/800/450";
+            img.src = "https://picsum.photos/seed/gestao/800/450";
         });
 }
 
@@ -212,100 +165,21 @@ if (fonte) {
 // 6) PERFIL DISC DO DIA
 // ============================================================================
 
-function obterDiscDoDia() {
-
-    const perfis = [
-        {
-            tipo: "Dominância (D)",
-            texto: "Foco em resultados, decisões rápidas e ação direta.",
-            insight: "Use essa energia para destravar decisões importantes, mas cuide da comunicação."
-        },
-        {
-            tipo: "Influência (I)",
-            texto: "Comunicação, persuasão e conexão com pessoas.",
-            insight: "Momento ideal para engajar equipe e fortalecer relacionamentos."
-        },
-        {
-            tipo: "Estabilidade (S)",
-            texto: "Consistência, colaboração e apoio ao time.",
-            insight: "Bom dia para fortalecer cultura e reduzir conflitos."
-        },
-        {
-            tipo: "Conformidade (C)",
-            texto: "Análise, precisão e foco em qualidade.",
-            insight: "Excelente momento para revisar processos e evitar erros."
-        }
-    ];
-
-    const index = Math.floor(new Date().getTime() / 86400000);
-    return perfis[index % perfis.length];
-}
-
-// ============================================================================
-// 7) PERGUNTA REFLEXIVA DO DIA
-// ============================================================================
-
-function obterPerguntaDoDia() {
-
-    const perguntas = [
-
-        {
-            pergunta: "O que na sua equipe hoje depende mais de clareza do que de esforço?",
-            insight: "Falta de direção costuma ser confundida com falta de dedicação."
-        },
-
-        {
-            pergunta: "Você está corrigindo comportamento ou apenas reagindo a ele?",
-            insight: "Gestão eficaz atua na causa, não no sintoma."
-        },
-
-        {
-            pergunta: "Sua comunicação está orientando ou apenas informando?",
-            insight: "Informação sem direcionamento não gera ação."
-        },
-
-        {
-            pergunta: "Qual decisão você está adiando que já tem informação suficiente?",
-            insight: "Excesso de análise também é um risco de gestão."
-        },
-
-        {
-            pergunta: "Você está desenvolvendo pessoas ou apenas cobrando resultados?",
-            insight: "Resultados sustentáveis vêm de evolução, não pressão."
-        },
-
-        {
-            pergunta: "Se sua equipe replicar seu comportamento hoje, isso seria positivo?",
-            insight: "Cultura é reflexo direto da liderança."
-        }
-
-    ];
-
-    const index = Math.floor(new Date().getTime() / 86400000);
-    return perguntas[index % perguntas.length];
-}
-
-function carregarPerguntaDia() {
-
-    const container = document.getElementById("perguntaDia");
-    if (!container) return;
-
-    const item = obterPerguntaDoDia();
-
-    container.innerHTML = `
-        <li>
-            <span class="insight-texto"><strong>${item.pergunta}</strong></span>
-            <span class="insight-texto" style="opacity:0.8">${item.insight}</span>
-        </li>
-    `;
-}
+const perfisDisc = [
+    { tipo: "Dominância (D)",   letra: "D", texto: "Foco em resultados, decisões rápidas e ação direta.",       insight: "Use essa energia para destravar decisões importantes, mas cuide da comunicação." },
+    { tipo: "Influência (I)",   letra: "I", texto: "Comunicação, persuasão e conexão com pessoas.",              insight: "Momento ideal para engajar equipe e fortalecer relacionamentos." },
+    { tipo: "Estabilidade (S)", letra: "S", texto: "Consistência, colaboração e apoio ao time.",                 insight: "Bom dia para fortalecer cultura e reduzir conflitos." },
+    { tipo: "Conformidade (C)", letra: "C", texto: "Análise, precisão e foco em qualidade.",                    insight: "Excelente momento para revisar processos e evitar erros." }
+];
 
 function carregarDiscDia() {
-
     const container = document.getElementById("discDia");
+    const card      = document.getElementById("cardDiscDia");
     if (!container) return;
 
-    const perfil = obterDiscDoDia();
+    const perfil = perfisDisc[Math.floor(Date.now() / 86400000) % perfisDisc.length];
+
+    if (card) card.setAttribute("data-perfil", perfil.letra);
 
     container.innerHTML = `
         <li>
@@ -317,30 +191,47 @@ function carregarDiscDia() {
 }
 
 // ============================================================================
-// 8) AÇÕES RÁPIDAS — REDIRECIONAMENTO
+// 7) PERGUNTA REFLEXIVA DO DIA
 // ============================================================================
 
-function irParaSistema(tipo) {
+const perguntasDia = [
+    { pergunta: "O que na sua equipe hoje depende mais de clareza do que de esforço?",      insight: "Falta de direção costuma ser confundida com falta de dedicação." },
+    { pergunta: "Você está corrigindo comportamento ou apenas reagindo a ele?",             insight: "Gestão eficaz atua na causa, não no sintoma." },
+    { pergunta: "Sua comunicação está orientando ou apenas informando?",                    insight: "Informação sem direcionamento não gera ação." },
+    { pergunta: "Qual decisão você está adiando que já tem informação suficiente?",         insight: "Excesso de análise também é um risco de gestão." },
+    { pergunta: "Você está desenvolvendo pessoas ou apenas cobrando resultados?",           insight: "Resultados sustentáveis vêm de evolução, não pressão." },
+    { pergunta: "Se sua equipe replicar seu comportamento hoje, isso seria positivo?",      insight: "Cultura é reflexo direto da liderança." }
+];
 
-    let url = "";
+function carregarPerguntaDia() {
+    const container = document.getElementById("perguntaDia");
+    if (!container) return;
 
-    if (tipo === "disc") {
-        url = "https://www.discprofpaulorocha.com/";
-    }
+    const item = perguntasDia[Math.floor(Date.now() / 86400000) % perguntasDia.length];
 
-    if (tipo === "curriculo") {
-        url = "https://www.discprofpaulorocha.com/curriculo";
-    }
-
-    const confirmar = confirm(
-        "Você será redirecionado para outro sistema. Deseja continuar?"
-    );
-
-    if (confirmar) {
-        window.open(url, "_blank");
-    }
+    container.innerHTML = `
+        <li>
+            <span class="insight-texto"><strong>${item.pergunta}</strong></span>
+            <span class="insight-texto" style="opacity:0.8">${item.insight}</span>
+        </li>
+    `;
 }
 
+// ============================================================================
+// 8) AÇÕES RÁPIDAS — exposto globalmente
+// ============================================================================
+
+window.irParaSistema = function(tipo) {
+    const urls = {
+        disc:      "https://www.discprofpaulorocha.com/",
+        curriculo: "https://www.discprofpaulorocha.com/curriculo"
+    };
+    const url = urls[tipo];
+    if (!url) return;
+    if (confirm("Você será redirecionado para outro sistema. Deseja continuar?")) {
+        window.open(url, "_blank");
+    }
+};
 
 // ============================================================================
 // INICIALIZAR
@@ -354,20 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarNoticias();
     carregarFoto();
     carregarDiscDia();
-    setTimeout(() => {
-    const card = document.querySelector('.card-disc');
-    if (!card) return;
-
-    const texto = card.innerText;
-
-    if (texto.includes('(D)')) card.setAttribute('data-perfil', 'D');
-    else if (texto.includes('(I)')) card.setAttribute('data-perfil', 'I');
-    else if (texto.includes('(S)')) card.setAttribute('data-perfil', 'S');
-    else if (texto.includes('(C)')) card.setAttribute('data-perfil', 'C');
-
-}, 100);
     carregarPerguntaDia();
 
-    // Rotação dos 4 cards a cada 20s
     setInterval(atualizarCardsRotativos, 20000);
 });
