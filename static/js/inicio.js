@@ -164,7 +164,7 @@ function carregarNoticias() {
                     <li>
                         <div class="noticia-texto">${n.titulo}</div>
                         <div class="noticia-fonte">
-                            <a href="${n.link}" target="_blank">${n.fonte}</a>
+                            <a href="${n.link}" target="_blank" rel="noopener noreferrer">
                         </div>
                     </li>
                 `;
@@ -194,19 +194,153 @@ function carregarFoto() {
             img.src = data.url;
             img.alt = data.titulo || "Foto corporativa";
 
-            if (autor) {
+if (autor) {
     autor.innerHTML = `Tema: <strong>${data.titulo}</strong>`;
 }
 
-            if (fonte) {
-                fonte.textContent = data.legenda;
-            }
+if (fonte) {
+    fonte.innerHTML = data.legenda;
+}
 
         })
         .catch(() => {
             img.src = "https://picsum.photos/800/450";
         });
 }
+
+// ============================================================================
+// 6) PERFIL DISC DO DIA
+// ============================================================================
+
+function obterDiscDoDia() {
+
+    const perfis = [
+        {
+            tipo: "Dominância (D)",
+            texto: "Foco em resultados, decisões rápidas e ação direta.",
+            insight: "Use essa energia para destravar decisões importantes, mas cuide da comunicação."
+        },
+        {
+            tipo: "Influência (I)",
+            texto: "Comunicação, persuasão e conexão com pessoas.",
+            insight: "Momento ideal para engajar equipe e fortalecer relacionamentos."
+        },
+        {
+            tipo: "Estabilidade (S)",
+            texto: "Consistência, colaboração e apoio ao time.",
+            insight: "Bom dia para fortalecer cultura e reduzir conflitos."
+        },
+        {
+            tipo: "Conformidade (C)",
+            texto: "Análise, precisão e foco em qualidade.",
+            insight: "Excelente momento para revisar processos e evitar erros."
+        }
+    ];
+
+    const index = Math.floor(new Date().getTime() / 86400000);
+    return perfis[index % perfis.length];
+}
+
+// ============================================================================
+// 7) PERGUNTA REFLEXIVA DO DIA
+// ============================================================================
+
+function obterPerguntaDoDia() {
+
+    const perguntas = [
+
+        {
+            pergunta: "O que na sua equipe hoje depende mais de clareza do que de esforço?",
+            insight: "Falta de direção costuma ser confundida com falta de dedicação."
+        },
+
+        {
+            pergunta: "Você está corrigindo comportamento ou apenas reagindo a ele?",
+            insight: "Gestão eficaz atua na causa, não no sintoma."
+        },
+
+        {
+            pergunta: "Sua comunicação está orientando ou apenas informando?",
+            insight: "Informação sem direcionamento não gera ação."
+        },
+
+        {
+            pergunta: "Qual decisão você está adiando que já tem informação suficiente?",
+            insight: "Excesso de análise também é um risco de gestão."
+        },
+
+        {
+            pergunta: "Você está desenvolvendo pessoas ou apenas cobrando resultados?",
+            insight: "Resultados sustentáveis vêm de evolução, não pressão."
+        },
+
+        {
+            pergunta: "Se sua equipe replicar seu comportamento hoje, isso seria positivo?",
+            insight: "Cultura é reflexo direto da liderança."
+        }
+
+    ];
+
+    const index = Math.floor(new Date().getTime() / 86400000);
+    return perguntas[index % perguntas.length];
+}
+
+function carregarPerguntaDia() {
+
+    const container = document.getElementById("perguntaDia");
+    if (!container) return;
+
+    const item = obterPerguntaDoDia();
+
+    container.innerHTML = `
+        <li>
+            <span class="insight-texto"><strong>${item.pergunta}</strong></span>
+            <span class="insight-texto" style="opacity:0.8">${item.insight}</span>
+        </li>
+    `;
+}
+
+function carregarDiscDia() {
+
+    const container = document.getElementById("discDia");
+    if (!container) return;
+
+    const perfil = obterDiscDoDia();
+
+    container.innerHTML = `
+        <li>
+            <span class="insight-texto"><strong>${perfil.tipo}</strong></span>
+            <span class="insight-texto">${perfil.texto}</span>
+            <span class="insight-texto" style="opacity:0.8">${perfil.insight}</span>
+        </li>
+    `;
+}
+
+// ============================================================================
+// 8) AÇÕES RÁPIDAS — REDIRECIONAMENTO
+// ============================================================================
+
+function irParaSistema(tipo) {
+
+    let url = "";
+
+    if (tipo === "disc") {
+        url = "https://www.discprofpaulorocha.com/";
+    }
+
+    if (tipo === "curriculo") {
+        url = "https://www.discprofpaulorocha.com/curriculo";
+    }
+
+    const confirmar = confirm(
+        "Você será redirecionado para outro sistema. Deseja continuar?"
+    );
+
+    if (confirmar) {
+        window.open(url, "_blank");
+    }
+}
+
 
 // ============================================================================
 // INICIALIZAR
@@ -219,6 +353,20 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarInsights();
     carregarNoticias();
     carregarFoto();
+    carregarDiscDia();
+    setTimeout(() => {
+    const card = document.querySelector('.card-disc');
+    if (!card) return;
+
+    const texto = card.innerText;
+
+    if (texto.includes('(D)')) card.setAttribute('data-perfil', 'D');
+    else if (texto.includes('(I)')) card.setAttribute('data-perfil', 'I');
+    else if (texto.includes('(S)')) card.setAttribute('data-perfil', 'S');
+    else if (texto.includes('(C)')) card.setAttribute('data-perfil', 'C');
+
+}, 100);
+    carregarPerguntaDia();
 
     // Rotação dos 4 cards a cada 20s
     setInterval(atualizarCardsRotativos, 20000);

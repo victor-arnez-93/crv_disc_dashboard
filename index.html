@@ -177,7 +177,7 @@
             <img src="static/imagens/foto2.jpeg" alt="Foto">
 
             <div class="user-info">
-                <span class="user-name">Prof. Paulo Rubens</span>
+                <span class="user-name">Prof. Paulo Rocha</span>
                 <span class="user-role">Gestão de Pessoas</span>
             </div>
         </div>
@@ -212,6 +212,30 @@ e use os insights no cotidiano, projetos acadêmicos ou ambiente profissional.
     <!-- FRASE ROTATIVA ORIGINAL (SEM SETAS NO HTML) -->
     <div id="fraseRotativa" class="dashboard-quote"></div>
     <div id="wrapperSetasFrase"></div>
+</div>
+
+<!-- AÇÕES RÁPIDAS -->
+<div class="acoes-rapidas-container">
+
+    <div class="acoes-header">
+        <i class="fas fa-bolt"></i>
+        Acesso Rápido
+    </div>
+
+    <div class="acoes-rapidas">
+
+        <button class="menu-btn" onclick="irParaSistema('disc')">
+            <i class="fas fa-brain"></i>
+            Fazer Teste DISC
+        </button>
+
+        <button class="menu-btn" onclick="irParaSistema('curriculo')">
+            <i class="fas fa-file-alt"></i>
+            Criar Currículo
+        </button>
+
+    </div>
+
 </div>
 
 
@@ -249,7 +273,25 @@ e use os insights no cotidiano, projetos acadêmicos ou ambiente profissional.
 
 </div>
 
+        <!-- PERFIL DISC DO DIA -->
+<div class="card">
+    <div class="card-titulo">
+        <i class="fas fa-brain"></i>
+        Perfil DISC do Dia
+    </div>
 
+    <div id="discDia" class="lista-insights"></div>
+</div>
+
+        <!-- PERGUNTA REFLEXIVA -->
+<div class="card">
+    <div class="card-titulo">
+        <i class="fas fa-question"></i>
+        Pergunta Reflexiva do Dia
+    </div>
+
+    <div id="perguntaDia" class="lista-insights"></div>
+</div>
 
         <!-- GRID 3 CARDS -->
         <div class="cards-3">
@@ -291,6 +333,7 @@ e use os insights no cotidiano, projetos acadêmicos ou ambiente profissional.
             </div>
 
         </div>
+
 
     </div>
 
