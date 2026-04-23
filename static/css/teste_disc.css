@@ -15,7 +15,7 @@
 }
 
 /* ============================================
-   CARD PRINCIPAL (igual card-principal do início)
+   CARD PRINCIPAL
    ============================================ */
 
 .disc-card-principal {
@@ -39,7 +39,7 @@
     margin-bottom: 16px;
     display: flex;
     align-items: center;
-    justify-content: center; /* ✅ CENTRALIZADO (IMG 1) */
+    justify-content: center;
     gap: 14px;
 }
 
@@ -50,7 +50,7 @@
     opacity: 0.85;
     margin-bottom: 0;
     line-height: 1.6;
-    text-align: center; /* ✅ CENTRALIZADO */
+    text-align: center;
 }
 
 /* ============================================
@@ -76,7 +76,7 @@
     margin-bottom: 18px;
     display: flex;
     align-items: center;
-    justify-content: center; /* ✅ CENTRALIZADO (IMG 2) */
+    justify-content: center;
     gap: 10px;
 }
 
@@ -86,11 +86,11 @@
     color: var(--cor-texto);
     line-height: 1.7;
     margin: 0;
-    text-align: center; /* ✅ CENTRALIZADO */
+    text-align: center;
 }
 
 /* ============================================
-   GRID DOS 4 PERFIS DISC - HOVER CORRETO
+   GRID DOS 4 PERFIS DISC
    ============================================ */
 
 .disc-grid-4 {
@@ -114,7 +114,6 @@
     position: relative;
 }
 
-/* ✅ HOVER - LEVANTA E BRILHA */
 .disc-perfil-card:hover {
     transform: translateY(-8px) scale(1.03);
     box-shadow:
@@ -137,7 +136,6 @@
     transition: all 0.3s ease;
 }
 
-/* ✅ ÍCONE SÓ CRESCE (SEM ROTAÇÃO) */
 .disc-perfil-card:hover .disc-perfil-icone {
     transform: scale(1.15);
     box-shadow: 0 0 20px currentColor;
@@ -178,131 +176,48 @@
    CORES DOS PERFIS DISC - POR TEMA
    ============================================ */
 
-/* PERFIL D - DOMINÂNCIA (VERMELHO) */
-.disc-perfil-d {
-    border-color: rgba(239, 68, 68, 0.3);
-}
-.disc-perfil-d .disc-perfil-icone {
-    background: #ef4444;
-    color: #fff;
-}
+/* PERFIL D — DOMINÂNCIA (VERMELHO) */
+.disc-perfil-d { border-color: rgba(239,68,68,0.3); }
+.disc-perfil-d .disc-perfil-icone { background: #ef4444; color: #fff; }
+.disc-perfil-d:hover { border-color: #ef4444; background: rgba(239,68,68,0.08); }
 
-/* ✅ TEMA CLARO: TÍTULO AZUL, HOVER VERMELHO */
-[data-theme="light"] .disc-perfil-d h3 {
-    color: #1e3a8a;
-}
-[data-theme="light"] .disc-perfil-d:hover h3 {
-    color: #ef4444;
-}
+[data-theme="light"] .disc-perfil-d h3       { color: #1e3a8a; }
+[data-theme="light"] .disc-perfil-d:hover h3 { color: #ef4444; }
+[data-theme="dark"]  .disc-perfil-d h3       { color: var(--cor-primaria); }
+[data-theme="dark"]  .disc-perfil-d:hover h3 { color: #ef4444; }
 
-/* ✅ TEMA ESCURO: TÍTULO LARANJA, HOVER VERMELHO */
-[data-theme="dark"] .disc-perfil-d h3 {
-    color: var(--cor-primaria); /* LARANJA */
-}
-[data-theme="dark"] .disc-perfil-d:hover h3 {
-    color: #ef4444;
-}
+/* PERFIL I — INFLUÊNCIA (LARANJA) */
+.disc-perfil-i { border-color: rgba(245,158,11,0.3); }
+.disc-perfil-i .disc-perfil-icone { background: #f59e0b; color: #fff; }
+.disc-perfil-i:hover { border-color: #f59e0b; background: rgba(245,158,11,0.08); }
 
-.disc-perfil-d:hover {
-    border-color: #ef4444;
-    background: rgba(239, 68, 68, 0.08);
-}
+[data-theme="light"] .disc-perfil-i h3       { color: #1e3a8a; }
+[data-theme="light"] .disc-perfil-i:hover h3 { color: #f59e0b; }
+[data-theme="dark"]  .disc-perfil-i h3       { color: var(--cor-primaria); }
+[data-theme="dark"]  .disc-perfil-i:hover h3 { color: #f59e0b; }
 
+/* PERFIL S — ESTABILIDADE (VERDE) */
+.disc-perfil-s { border-color: rgba(16,185,129,0.3); }
+.disc-perfil-s .disc-perfil-icone { background: #10b981; color: #fff; }
+.disc-perfil-s:hover { border-color: #10b981; background: rgba(16,185,129,0.08); }
 
-/* PERFIL I - INFLUÊNCIA (LARANJA) */
-.disc-perfil-i {
-    border-color: rgba(245, 158, 11, 0.3);
-}
-.disc-perfil-i .disc-perfil-icone {
-    background: #f59e0b;
-    color: #fff;
-}
+[data-theme="light"] .disc-perfil-s h3       { color: #1e3a8a; }
+[data-theme="light"] .disc-perfil-s:hover h3 { color: #10b981; }
+[data-theme="dark"]  .disc-perfil-s h3       { color: var(--cor-primaria); }
+[data-theme="dark"]  .disc-perfil-s:hover h3 { color: #10b981; }
 
-/* ✅ TEMA CLARO: TÍTULO AZUL, HOVER LARANJA */
-[data-theme="light"] .disc-perfil-i h3 {
-    color: #1e3a8a;
-}
-[data-theme="light"] .disc-perfil-i:hover h3 {
-    color: #f59e0b;
-}
+/* PERFIL C — CONFORMIDADE (AZUL) */
+.disc-perfil-c { border-color: rgba(59,130,246,0.3); }
+.disc-perfil-c .disc-perfil-icone { background: #3b82f6; color: #fff; }
+.disc-perfil-c:hover { border-color: #3b82f6; background: rgba(59,130,246,0.08); }
 
-/* ✅ TEMA ESCURO: TÍTULO LARANJA, HOVER LARANJA FORTE */
-[data-theme="dark"] .disc-perfil-i h3 {
-    color: var(--cor-primaria);
-}
-[data-theme="dark"] .disc-perfil-i:hover h3 {
-    color: #f59e0b;
-}
-
-.disc-perfil-i:hover {
-    border-color: #f59e0b;
-    background: rgba(245, 158, 11, 0.08);
-}
-
-
-/* PERFIL S - ESTABILIDADE (VERDE) */
-.disc-perfil-s {
-    border-color: rgba(16, 185, 129, 0.3);
-}
-.disc-perfil-s .disc-perfil-icone {
-    background: #10b981;
-    color: #fff;
-}
-
-/* ✅ TEMA CLARO: TÍTULO AZUL, HOVER VERDE */
-[data-theme="light"] .disc-perfil-s h3 {
-    color: #1e3a8a;
-}
-[data-theme="light"] .disc-perfil-s:hover h3 {
-    color: #10b981;
-}
-
-/* ✅ TEMA ESCURO: TÍTULO LARANJA, HOVER VERDE */
-[data-theme="dark"] .disc-perfil-s h3 {
-    color: var(--cor-primaria);
-}
-[data-theme="dark"] .disc-perfil-s:hover h3 {
-    color: #10b981;
-}
-
-.disc-perfil-s:hover {
-    border-color: #10b981;
-    background: rgba(16, 185, 129, 0.08);
-}
-
-
-/* PERFIL C - CONFORMIDADE (AZUL) */
-.disc-perfil-c {
-    border-color: rgba(59, 130, 246, 0.3);
-}
-.disc-perfil-c .disc-perfil-icone {
-    background: #3b82f6;
-    color: #fff;
-}
-
-/* ✅ TEMA CLARO: TÍTULO AZUL ESCURO, HOVER AZUL CLARO */
-[data-theme="light"] .disc-perfil-c h3 {
-    color: #1e3a8a;
-}
-[data-theme="light"] .disc-perfil-c:hover h3 {
-    color: #3b82f6;
-}
-
-/* ✅ TEMA ESCURO: TÍTULO LARANJA, HOVER AZUL */
-[data-theme="dark"] .disc-perfil-c h3 {
-    color: var(--cor-primaria);
-}
-[data-theme="dark"] .disc-perfil-c:hover h3 {
-    color: #3b82f6;
-}
-
-.disc-perfil-c:hover {
-    border-color: #3b82f6;
-    background: rgba(59, 130, 246, 0.08);
-}
+[data-theme="light"] .disc-perfil-c h3       { color: #1e3a8a; }
+[data-theme="light"] .disc-perfil-c:hover h3 { color: #3b82f6; }
+[data-theme="dark"]  .disc-perfil-c h3       { color: var(--cor-primaria); }
+[data-theme="dark"]  .disc-perfil-c:hover h3 { color: #3b82f6; }
 
 /* ============================================
-   BOTÃO CENTRALIZADO - FORÇADO
+   BOTÃO CTA — CENTRALIZADO
    ============================================ */
 
 .disc-btn-teste {
@@ -316,17 +231,15 @@
     color: #0a0a0a;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 6px 20px rgba(249, 137, 72, 0.4);
-
-    /* ✅ CENTRALIZAÇÃO FORÇADA */
-    display: table !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    box-shadow: 0 6px 20px rgba(249,137,72,0.4);
 }
 
 .disc-btn-teste:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 28px rgba(249, 137, 72, 0.6);
+    box-shadow: 0 10px 28px rgba(249,137,72,0.6);
     filter: brightness(1.1);
 }
 
@@ -379,7 +292,7 @@
 
 .disc-beneficio-item:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(249, 137, 72, 0.25);
+    box-shadow: 0 6px 16px rgba(249,137,72,0.25);
 }
 
 .disc-beneficio-item i {
@@ -417,7 +330,7 @@
     padding: 40px 36px;
     margin-bottom: 32px;
     text-align: center;
-    box-shadow: 0 0 24px rgba(249, 137, 72, 0.45);
+    box-shadow: 0 0 24px rgba(249,137,72,0.45);
 }
 
 .disc-card-cta h2 {
@@ -459,34 +372,6 @@
     font-size: 16px;
 }
 
-.disc-btn-teste {
-    padding: 18px 44px;
-    font-size: 18px;
-    font-weight: 700;
-    font-family: 'Manrope', sans-serif;
-    background: var(--cor-primaria);
-    border: none;
-    border-radius: 12px;
-    color: #0a0a0a;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: block; /* ✅ MUDOU DE inline-flex PARA block */
-    width: fit-content; /* ✅ LARGURA APENAS DO CONTEÚDO */
-    margin: 0 auto; !important; /* ✅ CENTRALIZA */
-    box-shadow: 0 6px 20px rgba(249, 137, 72, 0.4);
-}
-
-.disc-btn-teste:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 28px rgba(249, 137, 72, 0.6);
-    filter: brightness(1.1);
-}
-
-.disc-btn-teste i {
-    font-size: 20px;
-    margin-right: 8px; /* ✅ ESPAÇO ENTRE ÍCONE E TEXTO */
-}
-
 .disc-cta-nota {
     font-size: 12px;
     font-family: 'Manrope', sans-serif;
@@ -505,7 +390,7 @@
    ============================================ */
 
 .disc-aviso {
-    background: rgba(249, 137, 72, 0.12);
+    background: rgba(249,137,72,0.12);
     border: 1px solid var(--cor-primaria);
     border-radius: 12px;
     padding: 18px 22px;
@@ -532,12 +417,11 @@
    AJUSTES DE TEMA
    ============================================ */
 
-/* ✅ TEMA CLARO - TÍTULOS AZUIS (IMG 7) */
 [data-theme="light"] .disc-titulo-principal,
 [data-theme="light"] .disc-card-sobre h2,
 [data-theme="light"] .disc-card-beneficios h2,
 [data-theme="light"] .disc-card-cta h2 {
-    color: #241e4e; /* ✅ AZUL DO SISTEMA NO TEMA CLARO */
+    color: #241e4e;
 }
 
 [data-theme="light"] .disc-card-principal,
@@ -556,7 +440,6 @@
     background: #f8f8f8;
 }
 
-/* Tema escuro */
 [data-theme="dark"] .disc-card-principal,
 [data-theme="dark"] .disc-card-sobre,
 [data-theme="dark"] .disc-perfil-card,
@@ -567,241 +450,69 @@
 }
 
 /* ============================================
-RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
-============================================ */
+   RESPONSIVIDADE
+   ============================================ */
 
-/* TABLET — até 1000px */
 @media (max-width: 1000px) {
-  .disc-grid-4 {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-  }
-
-  .disc-container {
-    padding: 20px 16px;
-  }
+    .disc-grid-4 { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .disc-container { padding: 20px 16px; }
 }
 
-/* MOBILE — até 768px */
 @media (max-width: 768px) {
-  /* Container principal */
-  .disc-container {
-    padding: 16px 12px;
-  }
-
-  /* Card principal */
-  .disc-card-principal {
-    padding: 28px 20px;
-    border-radius: 16px;
-  }
-
-  .disc-titulo-principal {
-    font-size: 26px;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .disc-titulo-principal i {
-    font-size: 28px;
-  }
-
-  .disc-subtitulo {
-    font-size: 15px;
-  }
-
-  /* Card sobre DISC */
-  .disc-card-sobre {
-    padding: 24px 18px;
-    border-radius: 16px;
-  }
-
-  .disc-card-sobre h2 {
-    font-size: 20px;
-    flex-direction: column;
-  }
-
-  .disc-card-sobre p {
-    font-size: 14px;
-  }
-
-  /* Grid perfis vira 1 coluna */
-  .disc-grid-4 {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
-  .disc-perfil-card {
-    padding: 20px 16px;
-  }
-
-  .disc-perfil-card h3 {
-    font-size: 16px;
-  }
-
-  .disc-perfil-icone {
-    width: 46px;
-    height: 46px;
-    font-size: 22px;
-  }
-
-  /* Card benefícios */
-  .disc-card-beneficios {
-    padding: 24px 18px;
-    border-radius: 16px;
-  }
-
-  .disc-card-beneficios h2 {
-    font-size: 20px;
-    flex-direction: column;
-  }
-
-  .disc-beneficios-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .disc-beneficio-item {
-    padding: 18px 16px;
-  }
-
-  .disc-beneficio-item i {
-    font-size: 28px;
-  }
-
-  .disc-beneficio-item h4 {
-    font-size: 15px;
-  }
-
-  .disc-beneficio-item p {
-    font-size: 12px;
-  }
-
-  /* Card CTA */
-  .disc-card-cta {
-    padding: 28px 20px;
-    border-radius: 16px;
-  }
-
-  .disc-card-cta h2 {
-    font-size: 24px;
-  }
-
-  .disc-card-cta > p {
-    font-size: 15px;
-  }
-
-  .disc-card-cta ul {
-    text-align: left;
-    padding-left: 0;
-  }
-
-  .disc-card-cta li {
-    font-size: 14px;
-  }
-
-  /* Botão teste */
-  .disc-btn-teste {
-    width: 100%;
-    padding: 16px 32px;
-    font-size: 16px;
-    justify-content: center;
-  }
-
-  .disc-btn-teste i {
-    font-size: 18px;
-  }
-
-  /* Aviso */
-  .disc-aviso {
-    padding: 16px 18px;
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
-  }
-
-  .disc-aviso i {
-    font-size: 24px;
-  }
-
-  .disc-aviso p {
-    font-size: 12px;
-  }
-
-  .disc-cta-nota {
-    font-size: 11px;
-  }
+    .disc-container { padding: 16px 12px; }
+    .disc-card-principal { padding: 28px 20px; border-radius: 16px; }
+    .disc-titulo-principal { font-size: 26px; flex-direction: column; gap: 8px; }
+    .disc-titulo-principal i { font-size: 28px; }
+    .disc-subtitulo { font-size: 15px; }
+    .disc-card-sobre { padding: 24px 18px; border-radius: 16px; }
+    .disc-card-sobre h2 { font-size: 20px; flex-direction: column; }
+    .disc-card-sobre p { font-size: 14px; }
+    .disc-grid-4 { grid-template-columns: 1fr; gap: 18px; }
+    .disc-perfil-card { padding: 20px 16px; }
+    .disc-perfil-card h3 { font-size: 16px; }
+    .disc-perfil-icone { width: 46px; height: 46px; font-size: 22px; }
+    .disc-card-beneficios { padding: 24px 18px; border-radius: 16px; }
+    .disc-card-beneficios h2 { font-size: 20px; flex-direction: column; }
+    .disc-beneficios-grid { grid-template-columns: 1fr; gap: 16px; }
+    .disc-beneficio-item { padding: 18px 16px; }
+    .disc-beneficio-item i { font-size: 28px; }
+    .disc-beneficio-item h4 { font-size: 15px; }
+    .disc-beneficio-item p { font-size: 12px; }
+    .disc-card-cta { padding: 28px 20px; border-radius: 16px; }
+    .disc-card-cta h2 { font-size: 24px; }
+    .disc-card-cta > p { font-size: 15px; }
+    .disc-card-cta ul { text-align: left; padding-left: 0; }
+    .disc-card-cta li { font-size: 14px; }
+    .disc-btn-teste { width: 100%; padding: 16px 32px; font-size: 16px; }
+    .disc-btn-teste i { font-size: 18px; }
+    .disc-aviso { padding: 16px 18px; flex-direction: column; gap: 10px; text-align: center; }
+    .disc-aviso i { font-size: 24px; }
+    .disc-aviso p { font-size: 12px; }
+    .disc-cta-nota { font-size: 11px; }
 }
 
-/* MOBILE PEQUENO — até 480px */
 @media (max-width: 480px) {
-  /* Container */
-  .disc-container {
-    padding: 14px 10px;
-  }
-
-  /* Card principal */
-  .disc-card-principal {
-    padding: 24px 16px;
-  }
-
-  .disc-titulo-principal {
-    font-size: 24px;
-  }
-
-  .disc-subtitulo {
-    font-size: 14px;
-  }
-
-  /* Cards gerais */
-  .disc-card-sobre,
-  .disc-card-beneficios,
-  .disc-card-cta {
-    padding: 20px 16px;
-  }
-
-  .disc-card-sobre h2,
-  .disc-card-beneficios h2 {
-    font-size: 18px;
-  }
-
-  .disc-card-cta h2 {
-    font-size: 22px;
-  }
-
-  /* Perfis */
-  .disc-perfil-card {
-    padding: 18px 14px;
-  }
-
-  .disc-perfil-icone {
-    width: 42px;
-    height: 42px;
-    font-size: 20px;
-  }
-
-  /* Botão */
-  .disc-btn-teste {
-    padding: 14px 24px;
-    font-size: 15px;
-  }
-
-  /* Grid */
-  .disc-grid-4 {
-    gap: 16px;
-  }
+    .disc-container { padding: 14px 10px; }
+    .disc-card-principal { padding: 24px 16px; }
+    .disc-titulo-principal { font-size: 24px; }
+    .disc-subtitulo { font-size: 14px; }
+    .disc-card-sobre,
+    .disc-card-beneficios,
+    .disc-card-cta { padding: 20px 16px; }
+    .disc-card-sobre h2,
+    .disc-card-beneficios h2 { font-size: 18px; }
+    .disc-card-cta h2 { font-size: 22px; }
+    .disc-perfil-card { padding: 18px 14px; }
+    .disc-perfil-icone { width: 42px; height: 42px; font-size: 20px; }
+    .disc-btn-teste { padding: 14px 24px; font-size: 15px; }
+    .disc-grid-4 { gap: 16px; }
 }
 
-/* MOBILE MUITO PEQUENO — até 360px */
 @media (max-width: 360px) {
-  .disc-container {
-    padding: 12px 8px;
-  }
-
-  .disc-titulo-principal {
-    font-size: 22px;
-  }
-
-  .disc-card-principal,
-  .disc-card-sobre,
-  .disc-card-beneficios,
-  .disc-card-c
+    .disc-container { padding: 12px 8px; }
+    .disc-titulo-principal { font-size: 22px; }
+    .disc-card-principal,
+    .disc-card-sobre,
+    .disc-card-beneficios,
+    .disc-card-cta { padding: 18px 14px; }
+}
