@@ -153,9 +153,14 @@ exports.handler = async () => {
     }
 
     // fallback só se não veio nada mesmo
-    if (!foto) {
-      foto = fallbackFoto();
-    }
+if (!foto) {
+  foto = {
+    url: `https://source.unsplash.com/800x450/?${encodeURIComponent(query)}`,
+    autor: "Unsplash",
+    fonte: "Unsplash",
+    link: "https://unsplash.com"
+  };
+}
 
     // salva no cache
     CACHE_FOTO = foto;
