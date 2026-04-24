@@ -438,23 +438,16 @@
 }
 
 .novo-conteudo {
-    font-size: 16px;
+    font-size: 15px;
     color: var(--cor-texto);
     line-height: 1.42;
     font-family: 'Manrope', sans-serif;
     margin-bottom: 8px;
 }
 
-.novo-fonte {
-    font-size: 13px;
-    color: var(--cor-primaria);
-    opacity: 0.85;
-    font-family: 'Manrope', sans-serif;
-}
-
 .card-hero .hero-frase {
     font-family: 'Manrope', sans-serif;
-    font-size: 18px;
+    font-size: 15px;
     color: var(--cor-texto);
     line-height: 1.45;
 }
@@ -654,7 +647,6 @@
 /* ============================================
    AJUSTES DE TEMA
    ============================================ */
-
 [data-theme="light"] .card-principal,
 [data-theme="light"] .card {
     background: #FFFFFF;
@@ -680,6 +672,32 @@
 [data-theme="dark"] .cards-grid-2x2 .card-hero {
     background: #1c1b1b;
     border-color: rgba(249,137,72,0.28);
+}
+
+/* IMAGEM DE FUNDO DO CARD PRINCIPAL */
+.card-principal {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-principal-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.13;
+    filter: blur(2px) saturate(0.8);
+    pointer-events: none;
+    border-radius: 22px;
+    z-index: 0;
+}
+
+/* Garante que o conteúdo fica acima da imagem */
+.card-principal > *:not(.card-principal-img) {
+    position: relative;
+    z-index: 1;
 }
 
 /* DISC título com badge ao lado */
@@ -1136,6 +1154,7 @@
     .main-content { padding-top: 70px !important; }
     .cards-2, .cards-3, .cards-grid-2x2 { grid-template-columns: 1fr !important; gap: 22px; }
     .card-principal { padding: 28px 24px; }
+    .card-principal-img { display: none; }
     .titulo-pagina { font-size: 26px; }
     .bemvindo-texto { font-size: 17px; }
     .subtexto-inicial { font-size: 15px; margin-bottom: 20px; }
@@ -1162,7 +1181,7 @@
     .novo-titulo, .hero-titulo { font-size: 17px; }
     .novo-conteudo { font-size: 15px; }
     .novo-fonte { font-size: 12px; }
-    .card-hero .hero-frase { font-size: 16px; }
+    .card-hero .hero-frase { font-size: 15px; }
     .acoes-rapidas { flex-direction: column; align-items: stretch; width: 100%; }
     .menu-btn { width: 100%; justify-content: center; font-size: 15px; padding: 12px; }
     .dashboard-container { padding: 16px 12px; gap: 24px; }
@@ -1174,7 +1193,11 @@
     .seta-frase { width: 32px; height: 32px; font-size: 13px; }
     .cards-3 { gap: 20px; }
     .cards-grid-2x2 { gap: 20px; }
-    .disc-badge { margin-left: 0; }  /* ← badge enfileira no mobile */
+    .disc-badge { margin-left: 0; }
+    /* Simulador de compatibilidade */
+    .compatibilidade-form .form-row { flex-direction: column; align-items: stretch; }
+    .compatibilidade-form select { min-width: unset; width: 100%; }
+    .btn-analisar { width: 100%; justify-content: center; }
 }
 
 @media (max-width: 480px) {
@@ -1190,6 +1213,8 @@
     .cards-3, .cards-grid-2x2 { gap: 16px; }
     .menu-btn { font-size: 14px; padding: 11px; }
     .acoes-header { font-size: 16px; }
+    .insights-compatibilidade { padding: 20px 16px; }
+    .insights-compatibilidade h2 { font-size: 17px; }
 }
 
 @media (max-width: 360px) {
@@ -1201,4 +1226,5 @@
     .card-titulo { font-size: 16px; }
     .card-foto-wrapper img { height: 160px; }
     .menu-btn { font-size: 13px; padding: 10px; }
+    .btn-analisar { font-size: 13px; padding: 10px 16px; }
 }

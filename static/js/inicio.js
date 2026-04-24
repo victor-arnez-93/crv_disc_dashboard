@@ -257,6 +257,8 @@ window.analisarCompatibilidade = function() {
             ${dados.dicas.map(d => `<li style="margin-bottom:6px;">${d}</li>`).join('')}
         </ul>
     `;
+    resultado.classList.remove('show');
+    void resultado.offsetHeight; // força reflow para reanimar
     resultado.classList.add('show');
 };
 
@@ -289,6 +291,15 @@ window.irParaSistema = function(tipo) {
     };
 };
 
+function atualizarImagemTema() {
+    const img = document.getElementById("imgCardPrincipal");
+    if (!img) return;
+    const tema = document.documentElement.getAttribute("data-theme");
+    img.src = tema === "dark"
+        ? "static/imagens/imginicio2.png"
+        : "static/imagens/imginicio1.png";
+}
+
 // ============================================================================
 // INICIALIZAR
 // ============================================================================
@@ -302,6 +313,11 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarFoto();
     carregarDiscDia();
     carregarPerguntaDia();
+    atualizarImagemTema();
+
+        // Observa troca de tema
+    const observer = new MutationObserver(atualizarImagemTema);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
     setInterval(atualizarCardsRotativos, 20000);
 });
