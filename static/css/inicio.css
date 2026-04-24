@@ -1217,7 +1217,7 @@
 .card-acesso-destaque::after {
     content: "";
     position: absolute;
-    inset: -6px;
+    inset: -4px;
     border-radius: inherit;
 
     background: conic-gradient(
@@ -1228,8 +1228,8 @@
         transparent 360deg
     );
 
-    filter: blur(30px);
-    opacity: 0.25;
+    filter: blur(18px);   /* ↓ REDUZIDO */
+    opacity: 0.12;        /* ↓ REDUZIDO */
 
     animation: rotate 5s linear infinite;
 }
@@ -1240,7 +1240,7 @@
 
 /* TEMA */
 [data-theme="light"] .card-acesso-destaque {
-    --cor-primaria: #468cff;
+    --cor-primaria: #2f5fd0; /* azul real do sistema */
 }
 
 [data-theme="dark"] .card-acesso-destaque {
@@ -1255,7 +1255,7 @@
 
 /* BOTÃO GRADIENTE */
 .btn-gradient {
-    padding: 14px 32px;
+    padding: 14px 36px;
     border-radius: 999px;
     border: none;
     font-size: 14px;
@@ -1267,38 +1267,38 @@
     justify-content: center;
     gap: 10px;
 
-    color: white;
-    min-width: 200px;
+    min-width: 220px;
 
     background-size: 300% 300%;
     animation: gradientMove 6s ease infinite;
     transition: 0.25s ease;
 }
 
-.btn-gradient:hover {
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+/* 🔵 TEMA CLARO — AZUL DO SISTEMA */
+[data-theme="light"] .btn-gradient {
+    background: linear-gradient(
+        270deg,
+        #2f5fd0,   /* azul do sistema */
+        #4f7df5,
+        #6fa0ff
+    );
+    color: #ffffff;
 }
 
-/* TEMA ESCURO */
+/* 🟠 TEMA ESCURO — LARANJA → QUASE BRANCO */
 [data-theme="dark"] .btn-gradient {
     background: linear-gradient(
         270deg,
         #f98948,
         #ffb347,
-        #ffffff
-    );
-}
-
-/* TEMA CLARO */
-[data-theme="light"] .btn-gradient {
-    background: linear-gradient(
-        270deg,
-        #468cff,
-        #6fa8ff,
-        #9cc4ff
+        #fff3e6
     );
     color: #0a0a0a;
+}
+
+.btn-gradient:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.25);
 }
 
 @keyframes gradientMove {
