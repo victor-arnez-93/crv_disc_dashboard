@@ -1,13 +1,36 @@
 // ============================================
 // GERADOR DE RESPOSTAS IA — OPÇÃO C (COMPLETA)
 // ============================================
-
+// ============================================
+// GERADOR DE RESPOSTAS IA — VERSÃO TURBINADA
+// ============================================
 function gerarRespostaIA(pergunta) {
     const msg = pergunta.toLowerCase().trim();
 
-    // ============================================
-    // 1) DETECÇÃO DE ASSUNTOS TOTALMENTE FORA DO TEMA
-    // ============================================
+    // --------------------------------------------
+    // 0) SAUDAÇÕES / INTERAÇÃO HUMANA GENÉRICA
+    // --------------------------------------------
+    const saudacoes = ["oi", "olá", "ola", "bom dia", "boa tarde", "boa noite"];
+    if (saudacoes.some(s => msg.startsWith(s))) {
+        return `
+            Olá! 👋<br><br>
+            Sou o <strong>Assistente DISC IA</strong>, treinado exclusivamente nos conteúdos deste painel:
+            perfis DISC, liderança, clima organizacional, conflitos, motivação e gestão de pessoas.<br><br>
+            Me conte: em qual situação ou perfil você quer ajuda agora?
+        `;
+    }
+
+    if (msg.includes("obrigado") || msg.includes("valeu") || msg.includes("agradeço")) {
+        return `
+            Eu que agradeço! 🙌<br>
+            Se quiser, posso te ajudar com outro ponto: feedback por perfil, motivação da equipe,
+            conflitos entre perfis ou estratégias de liderança usando DISC.
+        `;
+    }
+
+    // --------------------------------------------
+    // 1) DETECÇÃO DE ASSUNTOS FORA DO TEMA
+    // --------------------------------------------
     const temasPermitidos = [
         "disc", "perfil", "comportamento", "dominancia", "dominância",
         "influencia", "influência", "estabilidade", "conformidade",
@@ -22,178 +45,245 @@ function gerarRespostaIA(pergunta) {
     if (foraDoTema && msg.length > 4) {
         return `
             Entendi sua mensagem! 😊<br><br>
-            Aqui eu sou focado em ajudar com temas como:<br>
-            • Análise DISC<br>
+            Aqui eu sou um assistente <strong>treinado apenas nos conteúdos deste projeto</strong>,
+            focado em temas como:<br>
+            • Análise DISC e perfis comportamentais<br>
             • Liderança e gestão de pessoas<br>
-            • Clima organizacional<br>
-            • Recrutamento e RH<br>
-            • Comunicação e conflitos<br>
-            • Saúde mental no ambiente de trabalho<br><br>
-            Se quiser, posso te orientar em qualquer um desses assuntos!<br>
-            Sobre qual tema gostaria de falar?
+            • Clima organizacional e cultura<br>
+            • Recrutamento, RH e desenvolvimento de talentos<br>
+            • Comunicação, conflitos e saúde mental no trabalho<br><br>
+            Se quiser, me conte uma situação ou dúvida relacionada a esses temas
+            e eu te ajudo a aplicar o DISC na prática.
         `;
     }
 
-    // ============================================
-    // 2) BASE DE RESPOSTAS — PERFIS (DISC)
-    // ============================================
-    const respostas = [
+    // --------------------------------------------
+    // 2) BASE DE RESPOSTAS POR PERFIL (DISC)
+    // --------------------------------------------
+    const respostasPerfis = [
         {
-            keys: ["perfil d", "dominancia", "dominância", "perfil dominante", "d "],
+            keys: ["perfil d", "dominancia", "dominância", "perfil dominante", " d "],
             resp: `
                 <strong>Perfil D (Dominância)</strong><br><br>
                 Características principais:<br>
                 • Rápido, direto e orientado a resultados<br>
-                • Gosta de desafios e autonomia<br>
-                • Odia detalhes e lentidão<br><br>
-
+                • Gosta de desafios, metas claras e autonomia<br>
+                • Impaciente com detalhes, burocracia e lentidão<br><br>
                 Para lidar bem com esse perfil:<br>
-                • Vá direto ao ponto<br>
-                • Mostre impacto e resultados<br>
-                • Dê autonomia e metas claras<br><br>
-
-                Se quiser, posso te ajudar a:<br>
-                • Montar um feedback para um perfil D<br>
-                • Resolver um conflito entre D e outros perfis<br>
-                • Melhorar a comunicação com esse estilo
+                • Vá direto ao ponto e mostre impacto em resultados<br>
+                • Negocie metas e indicadores claros<br>
+                • Evite rodeios, mas mantenha respeito e objetividade<br><br>
+                Posso te ajudar com:<br>
+                • Um roteiro de feedback para um colaborador D<br>
+                • Como reduzir conflitos entre D e S ou D e C<br>
+                • Como usar um D como líder de projetos de alta pressão
             `
         },
         {
-            keys: ["perfil i", "influencia", "influência", "influente", "i "],
+            keys: ["perfil i", "influencia", "influência", "influente", " i "],
             resp: `
                 <strong>Perfil I (Influência)</strong><br><br>
                 Características:<br>
                 • Comunicativo, sociável e otimista<br>
-                • Gosta de reconhecimento e interação<br>
-                • Não curte rotina ou cobranças rígidas<br><br>
-
-                Para ter melhor relação com esse perfil:<br>
-                • Use entusiasmo e empatia<br>
-                • Envolva em decisões<br>
-                • Reconheça publicamente<br><br>
-
-                Quer aprofundar?<br>
-                • Posso sugerir formas de motivar um perfil I<br>
-                • Ou como dar um feedback sem desmotivá-lo
+                • Gosta de reconhecimento, liberdade e interação<br>
+                • Foge de rotinas muito rígidas e ambientes frios<br><br>
+                Para se relacionar melhor com esse perfil:<br>
+                • Use entusiasmo e exemplos práticos<br>
+                • Reconheça publicamente conquistas e ideias<br>
+                • Dê espaço para participação em decisões e apresentações<br><br>
+                Posso sugerir:<br>
+                • Estratégias para engajar um time com muitos perfis I<br>
+                • Como dar feedback sem desmotivar esse perfil
             `
         },
         {
-            keys: ["perfil s", "estabilidade", "estável", "s "],
+            keys: ["perfil s", "estabilidade", "estável", " s "],
             resp: `
                 <strong>Perfil S (Estabilidade)</strong><br><br>
                 Características:<br>
-                • Calmo, prestativo, paciente<br>
-                • Evita conflitos e mudanças bruscas<br>
-                • Valoriza segurança e harmonia<br><br>
-
-                Como trabalhar melhor com esse perfil:<br>
-                • Explique mudanças com antecedência<br>
-                • Use tom acolhedor e gentil<br>
-                • Dê espaço para absorver informações<br><br>
-
-                Quer ajuda com:<br>
-                • Estratégia de feedback para um perfil S?<br>
-                • Reduzir ansiedade ou insegurança de um colaborador S?
+                • Calmo, prestativo, paciente e colaborativo<br>
+                • Evita conflitos diretos e mudanças bruscas<br>
+                • Valoriza segurança, rotina e ambiente harmonioso<br><br>
+                Para trabalhar melhor com esse perfil:<br>
+                • Explique mudanças com antecedência e clareza<br>
+                • Use tom acolhedor, sem pressão exagerada<br>
+                • Dê tempo para que ele processe informações e decisões<br><br>
+                Posso te ajudar com:<br>
+                • Roteiros de feedback cuidadosos para perfil S<br>
+                • Estratégias para reduzir ansiedade em mudanças de estrutura
             `
         },
         {
-            keys: ["perfil c", "conformidade", "analítico", "c "],
+            keys: ["perfil c", "conformidade", "analítico", "analitico", " c "],
             resp: `
                 <strong>Perfil C (Conformidade)</strong><br><br>
                 Características:<br>
-                • Detalhista, técnico, organizado<br>
-                • Gosta de precisão e lógica<br>
-                • Evita erros e improvisos<br><br>
-
+                • Detalhista, técnico e organizado<br>
+                • Gosta de precisão, lógica e padrões de qualidade<br>
+                • Evita erros, improvisos e decisões sem dados<br><br>
                 Para lidar melhor com esse perfil:<br>
-                • Forneça dados e processos claros<br>
-                • Explique lógica das decisões<br>
-                • Evite pressão por rapidez extrema<br><br>
-
-                Posso te ajudar com:<br>
-                • Feedback estruturado para um C<br>
-                • Como evitar conflitos entre C e I ou C e D
+                • Forneça dados, critérios e processos claros<br>
+                • Explique a lógica das decisões e dos prazos<br>
+                • Evite pressionar por respostas rápidas sem informações<br><br>
+                Posso apoiar com:<br>
+                • Como estruturar uma reunião com perfil C<br>
+                • Como equilibrar velocidade (D) e qualidade (C) na mesma equipe
             `
         }
     ];
 
-    // Matching keywords
-    for (const item of respostas) {
+    for (const item of respostasPerfis) {
         if (item.keys.some(k => msg.includes(k))) {
             return item.resp;
         }
     }
 
-    // ============================================
-    // 3) TEMAS AMPLIADOS (LIDERANÇA, SAÚDE, CLIMA)
-    // ============================================
+    // --------------------------------------------
+    // 3) INTENÇÕES ESPECÍFICAS (feedback, motivação etc.)
+    // --------------------------------------------
 
-    if (msg.includes("lider") || msg.includes("gestor") || msg.includes("liderança")) {
+    // Feedback por perfil
+    if (msg.includes("feedback") && msg.includes("perfil d")) {
         return `
-            Liderança eficaz envolve adaptar seu estilo aos diferentes perfis DISC.<br><br>
-            Algumas estratégias práticas:<br>
-            • Com D → Direto, desafiador e orientado a resultados<br>
-            • Com I → Inspirador, acolhedor e comunicativo<br>
-            • Com S → Gentil, estruturado e paciente<br>
-            • Com C → Detalhado, lógico e organizado<br><br>
-            Quer que eu analise um caso específico? Posso ajudar!
+            Para dar <strong>feedback para perfil D</strong>:<br><br>
+            • Seja direto, objetivo e focado em resultados<br>
+            • Comece pela meta/indicador, depois traga o comportamento<br>
+            • Mostre impacto no negócio e proponha um desafio de melhoria<br>
+            • Combine prazos claros e indicadores de sucesso<br><br>
+            Evite:<br>
+            • Conversas muito longas sem ponto central<br>
+            • Focar apenas em emoções sem falar de resultados
         `;
     }
 
-    if (msg.includes("saude mental") || msg.includes("ansiedade") || msg.includes("estresse")) {
+    if (msg.includes("feedback") && msg.includes("perfil s")) {
         return `
-            A saúde mental no trabalho é profundamente influenciada pelo estilo comportamental.<br><br>
-            Algumas recomendações:<br>
-            • Perfis S e C tendem a sofrer mais em ambientes caóticos<br>
-            • Perfis D podem acumular stress por excesso de responsabilidade<br>
-            • Perfis I podem se desgastar com isolamento<br><br>
-            Quer analisar o caso de alguém ou da sua equipe?
+            Para dar <strong>feedback para perfil S</strong>:<br><br>
+            • Escolha ambiente reservado e acolhedor<br>
+            • Comece reforçando contribuições e qualidades da pessoa<br>
+            • Explique o ponto de melhoria com exemplos específicos, sem rótulos<br>
+            • Mostre que você está junto para apoiar o plano de ação<br><br>
+            Evite:<br>
+            • Tom agressivo ou pressões públicas<br>
+            • Surpresas de última hora sem contexto
+        `;
+    }
+
+    if (msg.includes("feedback") && msg.includes("perfil i")) {
+        return `
+            Para dar <strong>feedback para perfil I</strong>:<br><br>
+            • Use tom positivo e encorajador<br>
+            • Mostre impacto do comportamento nas relações e na imagem do time<br>
+            • Combine ajustes de forma colaborativa, ouvindo ideias da pessoa<br>
+            • Reforce que ela continua sendo importante para o grupo<br><br>
+            Evite:<br>
+            • Cortar totalmente espaço de expressão e criatividade<br>
+            • Conversas muito frias e distantes
+        `;
+    }
+
+    if (msg.includes("feedback") && msg.includes("perfil c")) {
+        return `
+            Para dar <strong>feedback para perfil C</strong>:<br><br>
+            • Leve dados, fatos e exemplos objetivos<br>
+            • Mostre exatamente onde está o desvio de padrão/processo<br>
+            • Pergunte a opinião técnica da pessoa sobre como melhorar<br>
+            • Combine critérios claros de qualidade e prazos realistas<br><br>
+            Evite:<br>
+            • Críticas vagas, sem exemplos<br>
+            • Pressão por velocidade sem discutir riscos
+        `;
+    }
+
+    // Motivação
+    if (msg.includes("motivar") || msg.includes("motivação") || msg.includes("engajar")) {
+        return `
+            Motivação na ótica DISC muda de perfil para perfil:<br><br>
+            • <strong>D</strong> → desafios, metas ambiciosas, autonomia e poder de decisão<br>
+            • <strong>I</strong> → reconhecimento público, interação e espaço para criar<br>
+            • <strong>S</strong> → ambiente estável, apoio, segurança e pertencimento<br>
+            • <strong>C</strong> → qualidade, especialização técnica e tempo para fazer bem feito<br><br>
+            Me diga qual perfil (ou combinação) você quer motivar e eu detalho estratégias específicas.
+        `;
+    }
+
+    // Conflitos
+    if (msg.includes("conflito") || msg.includes("briga") || msg.includes("desentendimento")) {
+        return `
+            Conflitos entre perfis DISC geralmente são choques de ritmo e prioridade, não de caráter.<br><br>
+            Exemplos clássicos:<br>
+            • <strong>D x S</strong> → pressa vs segurança<br>
+            • <strong>I x C</strong> → espontaneidade vs precisão<br>
+            • <strong>D x C</strong> → velocidade vs análise detalhada<br><br>
+            Uma boa mediação:<br>
+            • Nomeia as diferenças de perfil<br>
+            • Negocia um \"meio-termo\" de ritmo, comunicação e nível de detalhe<br>
+            • Define acordos concretos de como cada um vai ajustar o comportamento.
+        `;
+    }
+
+    // Liderança / gestor
+    if (msg.includes("lider") || msg.includes("liderança") || msg.includes("gestor")) {
+        return `
+            Liderança eficaz com DISC significa adaptar seu estilo aos perfis da equipe:<br><br>
+            • Com <strong>D</strong> → seja desafiador, objetivo e dê autonomia<br>
+            • Com <strong>I</strong> → seja inspirador, comunicativo e reconheça em público<br>
+            • Com <strong>S</strong> → seja paciente, presente e previsível<br>
+            • Com <strong>C</strong> → seja estruturado, técnico e transparente nos critérios<br><br>
+            Se quiser, me descreva um caso (perfil do líder + perfil do time) e eu te ajudo a desenhar uma abordagem.
+        `;
+    }
+
+    // Saúde mental / clima / cultura
+    if (msg.includes("saude mental") || msg.includes("saúde mental") || msg.includes("ansiedade") || msg.includes("estresse")) {
+        return `
+            A saúde mental no trabalho é fortemente impactada pelo ajuste entre perfil DISC e ambiente:<br><br>
+            • <strong>S e C</strong> sofrem mais em ambientes caóticos e imprevisíveis<br>
+            • <strong>D</strong> acumula stress em contextos de cobrança extrema e pouco apoio<br>
+            • <strong>I</strong> se desgasta com isolamento e falta de reconhecimento<br><br>
+            Podemos olhar um caso específico da sua equipe e pensar adaptações práticas.
         `;
     }
 
     if (msg.includes("clima") || msg.includes("organizacional") || msg.includes("cultura")) {
         return `
-            Melhorar o clima organizacional passa por comunicação, segurança psicológica e clareza de papéis.<br><br>
-            Posso te orientar com:<br>
-            • Como reduzir conflitos<br>
-            • Estratégias de motivação<br>
-            • Como alinhar equipes usando DISC<br><br>
-            O que você gostaria de melhorar no seu time?
+            Melhorar o clima organizacional com DISC passa por:<br><br>
+            • Garantir segurança psicológica (pessoas podem falar sem medo)<br>
+            • Ajustar líderes ao perfil das equipes<br>
+            • Equilibrar velocidade (D/I) com estabilidade (S/C)<br>
+            • Ter rituais que atendam todos os perfis (reuniões rápidas, espaços de escuta, documentação clara)<br><br>
+            Me diga qual problema de clima você está percebendo que eu te ajudo a mapear os perfis envolvidos.
         `;
     }
 
-    if (msg.includes("conflito") || msg.includes("briga") || msg.includes("desentendimento")) {
-        return `
-            Conflitos entre perfis DISC são comuns. Vamos olhar rapidamente:<br><br>
-            • D x S → Ritmo vs segurança<br>
-            • I x C → Criatividade vs precisão<br>
-            • D x C → Pressa vs análise<br><br>
-            Se quiser, posso te ajudar a mediar uma situação específica.
-        `;
-    }
-
-    // ============================================
+    // --------------------------------------------
     // 4) RESPOSTA PADRÃO INTELIGENTE
-    // ============================================
-
+    // --------------------------------------------
     return `
         Entendi! Para te ajudar melhor, posso falar sobre:<br><br>
         • Perfis D, I, S e C<br>
-        • Liderança e gestão<br>
+        • Liderança e gestão de pessoas<br>
         • Clima organizacional e cultura<br>
         • Saúde mental no trabalho<br>
         • Conflitos e comunicação<br>
         • Recrutamento e análise comportamental<br><br>
-        Sobre qual desses temas você quer conversar? 😊
+        Me conta rapidamente: qual é a situação ou dúvida que você quer resolver agora? 😊
     `;
 }
 
 // ============================================
 // SIMULADOR DE CENÁRIOS
 // ============================================
+const TOTAL_CENARIOS = 10;
 
 let cenarioAtual = 1;
 let pontuacao = 0;
+
+// ============================================
+// SIMULADOR DE CENÁRIOS DE GESTÃO
+// ============================================
+
+const TOTAL_CENARIOS = 10;
 
 const cenarios = {
     1: {
@@ -285,10 +375,139 @@ const cenarios = {
             C: 'Email ajuda, mas S precisa de diálogo pessoal para expressar preocupações e receber suporte.',
             D: 'Pior opção! S detesta surpresas. Falta de comunicação gera insegurança e resistência.'
         }
+    },
+    6: {
+        icone: 'fa-laptop-house',
+        titulo: 'Gerindo Trabalho Remoto com Perfis Mistos',
+        contexto: 'Seu time passou para modelo híbrido. Perfis I sentem falta de interação e perfis C reclamam de reuniões demais. Como equilibrar?',
+        opcoes: {
+            A: { texto: 'Manter todas as reuniões diárias longas para garantir alinhamento máximo.', pontos: 2 },
+            B: { texto: 'Reduzir ao mínimo as reuniões e resolver tudo por e-mail.', pontos: 1 },
+            C: { texto: 'Criar rituais curtos de conexão para I e canais assíncronos estruturados para C.', pontos: 10 },
+            D: { texto: 'Deixar cada um trabalhar como quiser, sem regras definidas.', pontos: 3 }
+        },
+        respostaCorreta: 'C',
+        feedback: {
+            C: 'Ótimo! I precisa de conexão social, C precisa de estrutura assíncrona. Combinar os dois equilibra engajamento e foco.',
+            A: 'Reuniões longas cansam todos os perfis, especialmente C e D.',
+            B: 'Só e-mail isola perfis I e S e pode gerar ruídos.',
+            D: 'Ausência de regras aumenta conflitos de estilo e expectativas.'
+        }
+    },
+    7: {
+        icone: 'fa-exclamation-triangle',
+        titulo: 'Conflito de Prazos entre D e C',
+        contexto: 'Líder perfil D quer lançar funcionalidade rapidamente. Analista perfil C alerta para riscos de qualidade. Como conduzir?',
+        opcoes: {
+            A: { texto: 'Apoiar totalmente o D e exigir entrega rápida, mesmo com risco de bugs.', pontos: 1 },
+            B: { texto: 'Apoiar totalmente o C e adiar o projeto até eliminar todos os riscos.', pontos: 3 },
+            C: { texto: 'Facilitar acordo definindo MVP com critérios mínimos de qualidade e plano de correções posteriores.', pontos: 10 },
+            D: { texto: 'Pedir que resolvam sozinhos para estimular autonomia.', pontos: 2 }
+        },
+        respostaCorreta: 'C',
+        feedback: {
+            C: 'Excelente! A combinação D+C é poderosa quando há acordo entre velocidade e qualidade por meio de um MVP bem definido.',
+            A: 'Ignorar qualidade mina confiança do C e pode afetar cliente.',
+            B: 'Perfeccionismo extremo pode matar o prazo e frustrar o D.',
+            D: 'Conflitos estruturais precisam de facilitação, não abandono.'
+        }
+    },
+    8: {
+        icone: 'fa-heart-circle-bolt',
+        titulo: 'Prevenindo Burnout em Perfis de Alta Entrega',
+        contexto: 'Colaborador com combinação D/C entrega muito, mas demonstra sinais de esgotamento. Qual abordagem é mais adequada?',
+        opcoes: {
+            A: { texto: 'Elogiar a alta performance e oferecer ainda mais responsabilidades.', pontos: 1 },
+            B: { texto: 'Ignorar sinais emocionais e focar apenas em metas e indicadores.', pontos: 0 },
+            C: { texto: 'Reconhecer resultados, alinhar limites de carga e negociar redistribuição de demandas.', pontos: 10 },
+            D: { texto: 'Sugerir que ele tire férias por conta própria se achar necessário.', pontos: 4 }
+        },
+        respostaCorreta: 'C',
+        feedback: {
+            C: 'Perfeito! D/C tende a não colocar limites. Liderança precisa reconhecer, ajustar carga e proteger saúde mental.',
+            A: 'Mais responsabilidade sem limites acelera o burnout.',
+            B: 'Ignorar sinais emocionais é risco alto de adoecimento.',
+            D: 'Férias ajudam, mas sem ajuste estrutural o problema volta.'
+        }
+    },
+    9: {
+        icone: 'fa-user-plus',
+        titulo: 'Recrutando para Equipe com Déficit de Perfil S',
+        contexto: 'Time atual tem muitos perfis D e I, com clima de pressão e poucas escutas. Nova vaga aberta: qual foco de perfil é mais estratégico?',
+        opcoes: {
+            A: { texto: 'Buscar outro perfil D para aumentar foco em resultados.', pontos: 1 },
+            B: { texto: 'Contratar perfil I para deixar o ambiente mais animado.', pontos: 3 },
+            C: { texto: 'Priorizar candidato com perfil S forte para trazer estabilidade e suporte.', pontos: 10 },
+            D: { texto: 'Escolher perfil C extremo para controlar tudo via processos.', pontos: 4 }
+        },
+        respostaCorreta: 'C',
+        feedback: {
+            C: 'Ótima escolha! Perfil S traz escuta, estabilidade e cuidado, equilibrando o excesso de D e I na equipe.',
+            A: 'Mais D pode aumentar a pressão e conflitos.',
+            B: 'Mais I aumenta energia, mas não resolve falta de estabilidade.',
+            D: 'C ajuda em processos, mas não supre necessidade de acolhimento.'
+        }
+    },
+    10: {
+        icone: 'fa-chalkboard-teacher',
+        titulo: 'Conduzindo Reunião com Multiperfis',
+        contexto: 'Reunião estratégica reúne D, I, S e C. Nas últimas, D dominou a fala e C ficou em silêncio. Como melhorar a próxima?',
+        opcoes: {
+            A: { texto: 'Deixar a reunião totalmente livre para que cada um se manifeste quando quiser.', pontos: 2 },
+            B: { texto: 'Dar a palavra apenas para quem se posicionar espontaneamente.', pontos: 1 },
+            C: { texto: 'Definir pauta com tempo para cada tema e rodadas de fala, convidando S e C ativamente a opinar.', pontos: 10 },
+            D: { texto: 'Fazer reunião só com D e I e depois informar S e C das decisões.', pontos: 0 }
+        },
+        respostaCorreta: 'C',
+        feedback: {
+            C: 'Excelente! Estrutura de fala e convite ativo garante voz para S e C, sem perder objetividade de D e I.',
+            A: 'Formato solto tende a favorecer apenas perfis mais expansivos.',
+            B: 'S e C costumam falar menos se não forem convidados.',
+            D: 'Excluir S e C gera resistência e piora o clima.'
+        }
     }
 };
 
-function responderCenario(opcao, cenarioNum) {
+// ============================================
+// FUNÇÕES DO SIMULADOR
+// ============================================
+
+let cenarioAtual = 1;
+let pontuacao = 0;
+
+function carregarCenario(numero) {
+    const cenario = cenarios[numero];
+    if (!cenario) return;
+
+    document.querySelector('.cenario-badge').textContent =
+        `Cenário ${numero} de ${TOTAL_CENARIOS}`;
+
+    document.querySelector('.cenario-icone i').className = `fas ${cenario.icone}`;
+    document.getElementById('cenarioTitulo').textContent = cenario.titulo;
+    document.getElementById('cenarioContexto').textContent = cenario.contexto;
+
+    const opcoesDiv = document.getElementById('cenarioOpcoes');
+    opcoesDiv.innerHTML = '';
+
+    Object.keys(cenario.opcoes).forEach(letra => {
+        const opcao = cenario.opcoes[letra];
+        const btn = document.createElement('button');
+        btn.className = 'opcao-btn';
+        btn.onclick = (event) => responderCenario(letra, numero, event);
+        btn.innerHTML = `
+            <span class="opcao-letra">${letra}</span>
+            <span class="opcao-texto">${opcao.texto}</span>
+        `;
+        opcoesDiv.appendChild(btn);
+    });
+
+    const feedbackDiv = document.getElementById('feedbackCenario');
+    feedbackDiv.classList.remove('show');
+    feedbackDiv.innerHTML = '';
+    document.getElementById('btnProximoCenario').style.display = 'none';
+}
+
+function responderCenario(opcao, cenarioNum, event) {
     const cenario = cenarios[cenarioNum];
     const opcaoSelecionada = cenario.opcoes[opcao];
 
@@ -318,16 +537,15 @@ function responderCenario(opcao, cenarioNum) {
     `;
     feedbackDiv.classList.add('show');
 
-    // Mostra botão próximo cenário
-    if (cenarioAtual < 5) {
+    // Mostra botão próximo cenário ou resultado final
+    if (cenarioAtual < TOTAL_CENARIOS) {
         document.getElementById('btnProximoCenario').style.display = 'flex';
     } else {
-        // Último cenário - mostra resultado final
         setTimeout(() => {
             feedbackDiv.innerHTML += `
                 <hr style="margin: 16px 0; border: 1px solid rgba(249,137,72,0.2);">
                 <h4 style="color: var(--cor-primaria);">🎉 Simulação Concluída!</h4>
-                <p><strong>Pontuação Final: ${pontuacao}/50 pontos</strong></p>
+                <p><strong>Pontuação Final: ${pontuacao}/${TOTAL_CENARIOS * 10} pontos</strong></p>
                 <p>${avaliarDesempenho(pontuacao)}</p>
             `;
         }, 1000);
@@ -335,56 +553,27 @@ function responderCenario(opcao, cenarioNum) {
 }
 
 function avaliarDesempenho(pontos) {
-    if (pontos >= 45) return '🏆 Excelente! Você domina os princípios DISC e sabe aplicá-los em situações reais.';
-    if (pontos >= 35) return '👏 Muito bom! Você tem boa compreensão do DISC e está no caminho certo.';
-    if (pontos >= 25) return '📚 Bom esforço! Continue estudando os perfis para melhorar suas decisões.';
+    if (pontos >= 90) return '🏆 Excelente! Você domina os princípios DISC e sabe aplicá-los em situações reais.';
+    if (pontos >= 70) return '👏 Muito bom! Você tem boa compreensão do DISC e está no caminho certo.';
+    if (pontos >= 50) return '📚 Bom esforço! Continue estudando os perfis para melhorar suas decisões.';
     return '💪 Continue praticando! Revise os perfis DISC e tente novamente.';
 }
 
 function proximoCenario() {
+    if (cenarioAtual >= TOTAL_CENARIOS) return;
     cenarioAtual++;
-
-    if (cenarioAtual > 5) {
-        return;
-    }
-
-    const cenario = cenarios[cenarioAtual];
-
-    // Atualiza badge
-    document.querySelector('.cenario-badge').textContent = `Cenário ${cenarioAtual} de 5`;
-
-    // Atualiza conteúdo
-    document.querySelector('.cenario-icone i').className = `fas ${cenario.icone}`;
-    document.getElementById('cenarioTitulo').textContent = cenario.titulo;
-    document.getElementById('cenarioContexto').textContent = cenario.contexto;
-
-    // Atualiza opções
-    const opcoesDiv = document.getElementById('cenarioOpcoes');
-    opcoesDiv.innerHTML = '';
-
-    Object.keys(cenario.opcoes).forEach(letra => {
-        const opcao = cenario.opcoes[letra];
-        const btn = document.createElement('button');
-        btn.className = 'opcao-btn';
-        btn.onclick = () => responderCenario(letra, cenarioAtual);
-        btn.innerHTML = `
-            <span class="opcao-letra">${letra}</span>
-            <span class="opcao-texto">${opcao.texto}</span>
-        `;
-        opcoesDiv.appendChild(btn);
-    });
-
-    // Esconde feedback e botão
-    document.getElementById('feedbackCenario').classList.remove('show');
-    document.getElementById('btnProximoCenario').style.display = 'none';
+    carregarCenario(cenarioAtual);
 }
 
 function reiniciarSimulador() {
     cenarioAtual = 1;
     pontuacao = 0;
     document.getElementById('pontuacaoTotal').textContent = '0';
-    proximoCenario();
+    carregarCenario(cenarioAtual);
 }
+
+// Chamar uma vez no onload da página:
+// carregarCenario(cenarioAtual);
 
 // ============================================
 // BIBLIOTECA DE CASOS DE USO
@@ -650,140 +839,6 @@ document.getElementById('modalCaso')?.addEventListener('click', (e) => {
     }
 });
 
-// ============================================
-// SIMULADOR DE COMPATIBILIDADE (MANTIDO)
-// ============================================
-
-function analisarCompatibilidade() {
-    const perfil1 = document.getElementById('perfil1').value;
-    const perfil2 = document.getElementById('perfil2').value;
-    const resultado = document.getElementById('resultadoCompatibilidade');
-
-    const compatibilidades = {
-        'DD': {
-            nivel: '70%',
-            titulo: 'Boa Compatibilidade - Foco em Resultados',
-            descricao: 'Dois perfis D trabalham bem juntos quando há clareza de papéis e objetivos. Cuidado com disputas de poder.',
-            dicas: [
-                'Estabeleça limites claros de responsabilidade',
-                'Defina metas compartilhadas e complementares',
-                'Crie canais de comunicação direta'
-            ]
-        },
-        'DI': {
-            nivel: '85%',
-            titulo: 'Ótima Compatibilidade - Ação + Comunicação',
-            descricao: 'D traz foco e resultados, I traz energia e networking. Combinação poderosa para projetos que exigem velocidade e influência.',
-            dicas: [
-                'D cuida da execução, I cuida das relações',
-                'Aproveitem a complementaridade natural',
-                'Celebrem conquistas juntos'
-            ]
-        },
-        'DS': {
-            nivel: '60%',
-            titulo: 'Média Compatibilidade - Requer Ajustes',
-            descricao: 'D pode ver S como lento, S pode ver D como agressivo. Requer esforço consciente de adaptação mútua.',
-            dicas: [
-                'D precisa desacelerar e ouvir mais',
-                'S precisa ser mais assertivo quando necessário',
-                'Estabeleçam ritmo de trabalho equilibrado'
-            ]
-        },
-        'DC': {
-            nivel: '65%',
-            titulo: 'Média-Alta Compatibilidade - Velocidade vs Qualidade',
-            descricao: 'Conflito natural entre velocidade (D) e precisão (C). Quando bem gerenciado, equilibra resultados rápidos com qualidade.',
-            dicas: [
-                'Definam prazos realistas juntos',
-                'C precisa aceitar "bom o suficiente" às vezes',
-                'D precisa respeitar necessidade de análise'
-            ]
-        },
-        'II': {
-            nivel: '80%',
-            titulo: 'Ótima Compatibilidade - Energia e Criatividade',
-            descricao: 'Dois perfis I criam ambiente criativo, animado e colaborativo. Cuidado com falta de foco e dispersão.',
-            dicas: [
-                'Estabeleçam prazos e metas claras',
-                'Usem ferramentas de organização',
-                'Balancem socialização com produtividade'
-            ]
-        },
-        'IS': {
-            nivel: '90%',
-            titulo: 'Excelente Compatibilidade - Harmonia Natural',
-            descricao: 'Combinação muito harmoniosa! I traz energia, S traz estabilidade. Ambos valorizam relacionamentos.',
-            dicas: [
-                'Aproveitem a sinergia natural',
-                'I inspire, S apoie',
-                'Tomem cuidado com evitar conflitos necessários'
-            ]
-        },
-        'IC': {
-            nivel: '55%',
-            titulo: 'Baixa-Média Compatibilidade - Opostos',
-            descricao: 'I é espontâneo e social, C é metódico e reservado. Requer grande esforço de compreensão mútua.',
-            dicas: [
-                'Respeitem diferenças de ritmo e estilo',
-                'I traga criatividade, C traga estrutura',
-                'Comuniquem expectativas claramente'
-            ]
-        },
-        'SS': {
-            nivel: '75%',
-            titulo: 'Boa Compatibilidade - Harmonia e Cooperação',
-            descricao: 'Dois perfis S criam ambiente estável e colaborativo. Podem ter dificuldade com mudanças e decisões rápidas.',
-            dicas: [
-                'Pratiquem assertividade juntos',
-                'Estabeleçam sistema para decisões',
-                'Apoiem-se mutuamente em mudanças'
-            ]
-        },
-        'SC': {
-            nivel: '80%',
-            titulo: 'Ótima Compatibilidade - Consistência e Qualidade',
-            descricao: 'Ambos valorizam processos e qualidade. Trabalham bem em ambientes estruturados e previsíveis.',
-            dicas: [
-                'Criem processos claros juntos',
-                'Balancem paciência com produtividade',
-                'Celebrem pequenas conquistas'
-            ]
-        },
-        'CC': {
-            nivel: '70%',
-            titulo: 'Boa Compatibilidade - Precisão e Análise',
-            descricao: 'Dois perfis C garantem qualidade excepcional. Cuidado com análise excessiva e lentidão em decisões.',
-            dicas: [
-                'Estabeleçam prazos realistas mas firmes',
-                'Definam critério de "bom o suficiente"',
-                'Celebrem qualidade do trabalho'
-            ]
-        }
-    };
-
-    // Gera chave (sempre em ordem alfabética para cobrir ambas combinações)
-    const chave = [perfil1, perfil2].sort().join('');
-    const dados = compatibilidades[chave] || compatibilidades['DD']; // fallback
-
-    resultado.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-            <div style="font-size: 48px; font-weight: 700; color: var(--cor-primaria);">
-                ${dados.nivel}
-            </div>
-            <h3 style="margin: 0;">${dados.titulo}</h3>
-        </div>
-        <p><strong>Análise:</strong> ${dados.descricao}</p>
-        <h4 style="color: var(--cor-primaria); margin-top: 16px; margin-bottom: 8px;">
-            💡 Dicas para Melhorar a Colaboração:
-        </h4>
-        <ul style="margin: 0; padding-left: 20px;">
-            ${dados.dicas.map(dica => `<li style="margin-bottom: 6px;">${dica}</li>`).join('')}
-        </ul>
-    `;
-
-    resultado.classList.add('show');
-}
 // ============================================
 // CHAT IA — ENVIO DE MENSAGENS
 // ============================================

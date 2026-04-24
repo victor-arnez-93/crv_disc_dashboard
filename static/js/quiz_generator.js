@@ -655,6 +655,28 @@ btnGerarQuiz.addEventListener('click', gerarQuiz);
 btnReiniciar.addEventListener('click', reiniciarQuiz);
 btnCompartilhar.addEventListener('click', compartilharQuiz);
 btnImprimir.addEventListener('click', imprimirQuiz);
+document.getElementById('modalAvisoFechar').addEventListener('click', fecharAviso);
+
+// ============================================================================
+// FUNÇÃO: AVISO CUSTOMIZADO (substitui alert())
+// ============================================================================
+
+let _avisoCallback = null;
+
+function mostrarAviso(mensagem, callback) {
+    _avisoCallback = callback || null;
+    document.getElementById('modalAvisoTexto').textContent = mensagem;
+    document.getElementById('modalAviso').style.display = 'flex';
+}
+
+function fecharAviso() {
+    document.getElementById('modalAviso').style.display = 'none';
+    if (typeof _avisoCallback === 'function') {
+        const cb = _avisoCallback;
+        _avisoCallback = null;
+        cb();
+    }
+}
 
 // ============================================================================
 // FUNÇÃO: GERAR QUIZ
@@ -684,7 +706,7 @@ function gerarQuiz() {
     }
 
     if (perguntasFiltradas.length === 0) {
-        alert("Nenhuma pergunta encontrada com esses filtros. Tente outras opções.");
+        mostrarAviso("Nenhuma pergunta encontrada com esses filtros. Tente outras opções.");
         return;
     }
 
@@ -695,21 +717,24 @@ function gerarQuiz() {
     const qtdFinal = Math.min(quantidade, disponiveis);
 
     if (qtdFinal < quantidade) {
-        alert(`Foram encontradas apenas ${qtdFinal} perguntas para esses filtros. O quiz será gerado com ${qtdFinal} questões.`);
+        // Prepara o quiz mas exibe aviso antes de renderizar
+        quizAtual = perguntasFiltradas.slice(0, qtdFinal);
+        mostrarAviso(
+            `Foram encontradas apenas ${qtdFinal} perguntas para esses filtros. O quiz será gerado com ${qtdFinal} questões.`,
+            () => _iniciarQuiz(tema, dificuldade, qtdFinal)
+        );
+        return;
     }
 
     quizAtual = perguntasFiltradas.slice(0, qtdFinal);
+    _iniciarQuiz(tema, dificuldade, qtdFinal);
+}
 
-    // Resetar estado
-    respostas = {};
-    tempoDecorrido = 0;
+// ============================================================================
+// FUNÇÃO AUXILIAR: INICIAR QUIZ (chamada após aviso ou diretamente)
+// ============================================================================
 
-    // Atualizar interface
-    mensagemInicial.style.display = "none";
-    areaQuiz.style.display = "block";
-    resultadoFinal.style.display = "none";
-
-    // Textos para exibir os filtros escolhidos
+function _iniciarQuiz(tema, dificuldade, qtdFinal) {
     const temaTexto = {
         todos: "Conteúdos Gerais",
         disc: "Perfis DISC",
@@ -726,16 +751,18 @@ function gerarQuiz() {
         avancado: "nível avançado"
     };
 
+    respostas = {};
+    tempoDecorrido = 0;
+
+    mensagemInicial.style.display = "none";
+    areaQuiz.style.display = "block";
+    resultadoFinal.style.display = "none";
+
     tituloQuiz.textContent =
         `Quiz de ${temaTexto[tema]} — ${qtdFinal} questões (${dificuldadeTexto[dificuldade]})`;
 
-    // Renderizar perguntas
     renderizarPerguntas();
-
-    // Iniciar cronômetro
     iniciarCronometro();
-
-    // Scroll para o quiz
     areaQuiz.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
@@ -751,7 +778,6 @@ function renderizarPerguntas() {
         card.className = 'pergunta-card';
         card.setAttribute('data-pergunta-id', pergunta.id);
 
-        // Embaralhar alternativas
         const alternativasEmbaralhadas = embaralhar([...pergunta.alternativas]);
 
         card.innerHTML = `
@@ -775,12 +801,10 @@ function renderizarPerguntas() {
         corpoQuiz.appendChild(card);
     });
 
-    // Adicionar listeners para respostas
     document.querySelectorAll('.alternativa input').forEach(input => {
         input.addEventListener('change', registrarResposta);
     });
 
-    // Atualizar progresso
     atualizarProgresso();
 }
 
@@ -794,17 +818,14 @@ function registrarResposta(e) {
 
     respostas[perguntaId] = correta;
 
-    // Adicionar classe visual
     const alternativa = e.target.closest('.alternativa');
     document.querySelectorAll(`input[name="pergunta_${perguntaId}"]`).forEach(inp => {
         inp.closest('.alternativa').classList.remove('selecionada');
     });
     alternativa.classList.add('selecionada');
 
-    // Atualizar progresso
     atualizarProgresso();
 
-    // Verificar se finalizou
     if (Object.keys(respostas).length === quizAtual.length) {
         setTimeout(() => finalizarQuiz(), 500);
     }
@@ -827,12 +848,10 @@ function atualizarProgresso() {
 function finalizarQuiz() {
     pararCronometro();
 
-    // Calcular acertos
     const acertos = Object.values(respostas).filter(r => r === true).length;
     const total = quizAtual.length;
     const percentual = Math.round((acertos / total) * 100);
 
-    // Mostrar respostas corretas/erradas
     quizAtual.forEach(pergunta => {
         const card = document.querySelector(`[data-pergunta-id="${pergunta.id}"]`);
         const inputs = card.querySelectorAll('input[type="radio"]');
@@ -847,17 +866,14 @@ function finalizarQuiz() {
                 alternativa.classList.add('errada');
             }
 
-            // Desabilitar inputs
             input.disabled = true;
         });
     });
 
-    // Mostrar resultado
     document.getElementById('acertosTotal').textContent = acertos;
     document.getElementById('totalPerguntas').textContent = total;
     document.getElementById('percentualAcertos').textContent = `${percentual}%`;
 
-    // Feedback personalizado
     let feedback = '';
     if (percentual >= 90) feedback = '🏆 Excelente! Você domina o assunto!';
     else if (percentual >= 70) feedback = '👏 Muito bom! Continue estudando!';
@@ -925,12 +941,12 @@ function compartilharQuiz() {
 
 function copiarTexto(texto) {
     navigator.clipboard.writeText(texto).then(() => {
-        alert('✅ Resultado copiado! Cole onde quiser compartilhar.');
+        mostrarAviso('✅ Resultado copiado! Cole onde quiser compartilhar.');
     });
 }
 
 // ============================================================================
-// FUNÇÃO: IMPRIMIR QUIZ (USA O CSS @media print)
+// FUNÇÃO: IMPRIMIR QUIZ
 // ============================================================================
 
 function imprimirQuiz() {

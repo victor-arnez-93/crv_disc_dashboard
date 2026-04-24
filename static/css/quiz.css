@@ -608,7 +608,7 @@
 
     /* Cabeçalho de impressão */
     .quiz-header::before {
-        content: "DISC Dashboard - Prof. Paulo Rubens";
+        content: "DISC Dashboard - Prof. Paulo Rocha";
         display: block;
         text-align: center;
         font-size: 14px;
@@ -624,14 +624,19 @@
     }
 
     /* Cards de pergunta */
-    .pergunta-card {
-        page-break-inside: avoid;
-        background: white !important;
-        border: none !important;
-        box-shadow: none !important;
-        margin-bottom: 30px;
-        padding: 0 !important;
-    }
+.pergunta-card {
+    background: white !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 8pt 0 !important;
+    margin: 0 0 10pt 0 !important;
+    break-inside: avoid;
+    break-after: avoid;
+}
+
+.pergunta-card:nth-child(2n) {
+    break-after: auto;
+}
 
     /* Número da questão */
     .pergunta-numero {
@@ -719,6 +724,11 @@
         color: #999;
         font-size: 12px;
     }
+
+    /* Remove o header do quiz (título + cronômetro/progresso) */
+    .quiz-header {
+        display: none !important;
+    }
 }
 
 /* ============================================
@@ -730,6 +740,48 @@
 
 [data-theme="light"] .quiz-header h2 {
     color: #241E4E !important;
+}
+
+.modal-aviso {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+}
+
+.modal-aviso-conteudo {
+    background: var(--card-bg, #1e1e2e);
+    border: 1px solid var(--border-color, #3a3a5c);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.modal-aviso-icone {
+    font-size: 2.5rem;
+    color: var(--accent-color, #f0a500);
+}
+
+.modal-aviso-conteudo p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text-color, #cdd6f4);
+    max-width: 100%;
+}
+
+@media print {
+    .modal-aviso { display: none !important; }
 }
 
 /* ============================================

@@ -252,6 +252,47 @@
 
         </div>
 
+                <!-- Simulador de Compatibilidade -->
+        <div class="insights-compatibilidade">
+            <h2>
+                <i class="fas fa-users-cog"></i>
+                Simulador de Compatibilidade de Equipe
+            </h2>
+
+            <div class="compatibilidade-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Perfil 1:</label>
+                        <select id="perfil1">
+                            <option value="D">Dominância (D)</option>
+                            <option value="I">Influência (I)</option>
+                            <option value="S">Estabilidade (S)</option>
+                            <option value="C">Conformidade (C)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Perfil 2:</label>
+                        <select id="perfil2">
+                            <option value="D">Dominância (D)</option>
+                            <option value="I" selected>Influência (I)</option>
+                            <option value="S">Estabilidade (S)</option>
+                            <option value="C">Conformidade (C)</option>
+                        </select>
+                    </div>
+
+                    <button class="btn-analisar" onclick="analisarCompatibilidade()">
+                        <i class="fas fa-search"></i>
+                        Analisar Compatibilidade
+                    </button>
+                </div>
+
+                <div id="resultadoCompatibilidade" class="resultado-compatibilidade">
+                    <!-- Resultado inserido via JS -->
+                </div>
+            </div>
+        </div>
+
         <!-- GRID 3 CARDS -->
         <div class="cards-3">
 
@@ -314,6 +355,7 @@
 <script src="static/js/main.js"></script>
 <script type="module" src="static/js/banco_interno.js"></script>
 <script type="module" src="static/js/inicio.js"></script>
+<script src="static/js/compatibilidade.js"></script>
 
 </body>
 </html>
