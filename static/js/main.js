@@ -77,126 +77,77 @@ if (weatherBox && modalClima) {
 }
 
 // ===============================
-// CLIMA + ÍCONE DIA/NOITE
+// CLIMA REAL — OPEN METEO
 // ===============================
-// Função para mapear clima para emoji
-const getWeatherEmoji = (weather) => ({
-    Clear: "☀️",
-    Clouds: "☁️",
-    Rain: "🌧️",
-    Drizzle: "🌦️",
-    Thunderstorm: "⛈️",
-    Snow: "❄️",
-    Mist: "🌫️",
-    Fog: "🌫️",
-    Haze: "🌫️"
-}[weather] || "🌡️");
 
 async function carregarClima() {
     const temperatura = document.getElementById("temperatura");
-    if (!temperatura) return;
+    const modalBody   = document.getElementById("modalClimaBody");
+    const icone       = document.getElementById("iconeClimaImg");
+
+    if (!temperatura || !modalBody) return;
 
     try {
+        const url = "https://api.open-meteo.com/v1/forecast?latitude=-23.35&longitude=-47.85&daily=weathercode,temperature_2m_max,temperature_2m_min&current_weather=true&timezone=America/Sao_Paulo&forecast_days=3";
+
+        const resp = await fetch(url);
+        const data = await resp.json();
+
         const diasSemana = ["dom.", "seg.", "ter.", "qua.", "qui.", "sex.", "sáb."];
 
-        // Calcula os 3 próximos dias (incluindo hoje)
-        const hoje = new Date();
-        const amanha = new Date(hoje);
-        amanha.setDate(amanha.getDate() + 1);
-        const depois = new Date(hoje);
-        depois.setDate(depois.getDate() + 2);
+        const getEmoji = (code) => {
+            if (code === 0) return "☀️";
+            if (code <= 2) return "🌤️";
+            if (code === 3) return "☁️";
+            if (code <= 49) return "🌫️";
+            if (code <= 67) return "🌧️";
+            if (code <= 82) return "🌦️";
+            return "⛈️";
+        };
 
-        // Mock com 3 dias calculados dinamicamente
-        const previsoes = [
-            {
-                dia: diasSemana[hoje.getDay()],
-                temperatura: 24,
-                min: 16,
-                emoji: getWeatherEmoji('Clouds')
-            },
-            {
-                dia: diasSemana[amanha.getDay()],
-                temperatura: 33,
-                min: 15,
-                emoji: getWeatherEmoji('Clear')
-            },
-            {
-                dia: diasSemana[depois.getDay()],
-                temperatura: 32,
-                min: 21,
-                emoji: getWeatherEmoji('Clear')
-            }
-        ];
+        const getIcone = (code) => {
+            if (code === 0) return "static/imagens/ico_dia.png";
+            if (code <= 3) return "static/imagens/ico_nublado.png";
+            if (code <= 67) return "static/imagens/ico_chuva.png";
+            return "static/imagens/ico_dia.png";
+        };
 
-        // Atualiza temperatura principal
-        temperatura.textContent = `${previsoes[0].temperatura}°C`;
-        atualizarIconeClimaPorHora();
+        // temperatura atual
+        temperatura.textContent = Math.round(data.current_weather.temperature) + "°C";
 
-        // Atualiza modal se existir
-        const modalClima = document.getElementById('modalClima');
-        if (modalClima) {
-            atualizarModalClima(previsoes);
+        // ícone do clima
+        if (icone) {
+            icone.src = getIcone(data.current_weather.weathercode);
         }
 
-        console.log('Previsões calculadas:', previsoes.map(p => p.dia));
+        // modal (3 dias)
+        modalBody.innerHTML = data.daily.time.map((d, i) => {
+            const dt = new Date(d + "T12:00:00");
 
-    } catch (erro) {
-        console.error('Erro ao buscar clima:', erro);
-        temperatura.textContent = '--°C';
+            return `
+                <div class="previsao-dia">
+                    <p class="dia-nome">${i === 0 ? "Hoje" : diasSemana[dt.getDay()]}</p>
+                    <p class="temperaturas">
+                        ${Math.round(data.daily.temperature_2m_max[i])}° /
+                        ${Math.round(data.daily.temperature_2m_min[i])}°
+                    </p>
+                    <p class="emoji-clima">${getEmoji(data.daily.weathercode[i])}</p>
+                </div>
+            `;
+        }).join("");
+
+    } catch (e) {
+        console.error("Erro clima:", e);
+        temperatura.textContent = "--°";
+        if (modalBody) {
+            modalBody.innerHTML = "<p style='opacity:.6'>Clima indisponível</p>";
+        }
     }
 }
 
-function atualizarModalClima(previsoes) {
-    const modalClima = document.getElementById('modalClima');
-    if (!modalClima) return;
-
-    // Procura os elementos que já existem no HTML
-    const diasElementos = modalClima.querySelectorAll('.clima-dia, .previsao-dia, [class*="dia"]');
-
-    console.log(`Encontrados ${diasElementos.length} elementos de dia no modal`);
-
-    if (diasElementos.length >= 3) {
-        // Atualiza cada dia existente
-        previsoes.forEach((prev, index) => {
-            if (diasElementos[index]) {
-                const diaEl = diasElementos[index];
-
-                console.log(`Atualizando dia ${index}: ${prev.dia}`);
-
-                // Atualiza o nome do dia (qui. sex. sáb.)
-                const diaTexto = diaEl.querySelector('.dia-nome, .dia-semana, .nome-dia');
-                if (diaTexto) diaTexto.textContent = prev.dia;
-
-                // Atualiza temperatura
-                const tempTexto = diaEl.querySelector('.temperatura, .temp');
-                if (tempTexto) tempTexto.textContent = `${prev.temperatura}°/${prev.min}°`;
-
-                // Atualiza emoji
-                const emoji = diaEl.querySelector('.emoji, .icone, img');
-                if (emoji) {
-                    if (emoji.tagName === 'IMG') {
-                        emoji.alt = prev.emoji;
-                    } else {
-                        emoji.textContent = prev.emoji;
-                    }
-                }
-            }
-        });
-    }
-}
-
-function atualizarIconeClimaPorHora() {
-    const iconeClimaImg = document.getElementById("iconeClimaImg");
-    if (!iconeClimaImg) return;
-    const hora = new Date().getHours();
-    iconeClimaImg.src = hora >= 6 && hora < 18
-        ? "static/imagens/ico_dia.png"
-        : "static/imagens/ico_noite.png";
-}
-
+// Atualiza clima a cada 10 minutos
 carregarClima();
 setInterval(carregarClima, 600000);
-
 
 // ===============================
 // PERFIL
