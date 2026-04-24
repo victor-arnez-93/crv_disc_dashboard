@@ -120,21 +120,19 @@ async function carregarClima() {
             icone.src = getIcone(data.current_weather.weathercode);
         }
 
-        // modal (3 dias)
-        modalBody.innerHTML = data.daily.time.map((d, i) => {
-            const dt = new Date(d + "T12:00:00");
+    // modal (3 dias) — versão correta
+const previsoes = data.daily.time.map((d, i) => {
+    const dt = new Date(d + "T12:00:00");
 
-            return `
-                <div class="previsao-dia">
-                    <p class="dia-nome">${i === 0 ? "Hoje" : diasSemana[dt.getDay()]}</p>
-                    <p class="temperaturas">
-                        ${Math.round(data.daily.temperature_2m_max[i])}° /
-                        ${Math.round(data.daily.temperature_2m_min[i])}°
-                    </p>
-                    <p class="emoji-clima">${getEmoji(data.daily.weathercode[i])}</p>
-                </div>
-            `;
-        }).join("");
+    return {
+        dia: i === 0 ? "Hoje" : diasSemana[dt.getDay()],
+        max: Math.round(data.daily.temperature_2m_max[i]),
+        min: Math.round(data.daily.temperature_2m_min[i]),
+        emoji: getEmoji(data.daily.weathercode[i])
+    };
+});
+
+atualizarModalClima(previsoes);
 
     } catch (e) {
         console.error("Erro clima:", e);
@@ -148,6 +146,39 @@ async function carregarClima() {
 // Atualiza clima a cada 10 minutos
 carregarClima();
 setInterval(carregarClima, 600000);
+
+function atualizarModalClima(previsoes) {
+    const modalClima = document.getElementById('modalClimaBody');
+    if (!modalClima) return;
+
+    const diasElementos = modalClima.querySelectorAll('.previsao-dia');
+
+    // Se não existir estrutura, cria
+    if (diasElementos.length === 0) {
+        modalClima.innerHTML = previsoes.map(p => `
+            <div class="previsao-dia">
+                <p class="dia-nome">${p.dia}</p>
+                <p class="temperaturas">${p.max}° / ${p.min}°</p>
+                <p class="emoji-clima">${p.emoji}</p>
+            </div>
+        `).join('');
+        return;
+    }
+
+    // Se já existir, atualiza
+    previsoes.forEach((prev, index) => {
+        const el = diasElementos[index];
+        if (!el) return;
+
+        const dia = el.querySelector('.dia-nome');
+        const temp = el.querySelector('.temperaturas');
+        const emoji = el.querySelector('.emoji-clima');
+
+        if (dia) dia.textContent = prev.dia;
+        if (temp) temp.textContent = `${prev.max}° / ${prev.min}°`;
+        if (emoji) emoji.textContent = prev.emoji;
+    });
+}
 
 // ===============================
 // PERFIL
