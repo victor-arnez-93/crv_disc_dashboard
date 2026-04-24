@@ -27,6 +27,17 @@ const sidebar = document.getElementById("sidebar");
 const btnMenuDesktop = document.getElementById("btnMenu");
 const btnMenuMobile = document.getElementById("btnMenuMobile");
 
+function atualizarIconeClimaPorHora() {
+    const iconeClimaImg = document.getElementById("iconeClimaImg");
+    if (!iconeClimaImg) return;
+
+    const hora = new Date().getHours();
+
+    iconeClimaImg.src = (hora >= 6 && hora < 18)
+        ? "static/imagens/ico_dia.png"
+        : "static/imagens/ico_noite.png";
+}
+
 // ===============================
 // TEMA CLARO / ESCURO
 // ===============================
