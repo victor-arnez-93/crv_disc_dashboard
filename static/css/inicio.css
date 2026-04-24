@@ -1255,56 +1255,71 @@
 
 /* BOTÃO GRADIENTE */
 .btn-gradient {
-    padding: 14px 36px;
-    border-radius: 999px;
-    border: none;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
+  padding: 14px 40px;
+  border-radius: 999px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 
-    min-width: 220px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
 
-    background-size: 300% 300%;
-    animation: gradientMove 6s ease infinite;
-    transition: 0.25s ease;
+  background-size: 300% 300%;
+  animation: gradientMove 5s ease infinite;
+  transition: 0.3s;
 }
 
-/* 🔵 TEMA CLARO — AZUL DO SISTEMA */
+/* 🔵 TEMA CLARO — AZUL REAL DO SISTEMA */
 [data-theme="light"] .btn-gradient {
-    background: linear-gradient(
-        270deg,
-        #2f5fd0,   /* azul do sistema */
-        #4f7df5,
-        #6fa0ff
-    );
-    color: #ffffff;
+  background: linear-gradient(
+    270deg,
+    #241E4E,
+    #3b348c,
+    #5a54c7,
+    #241E4E
+  );
+  color: #ffffff;
 }
 
-/* 🟠 TEMA ESCURO — LARANJA → QUASE BRANCO */
+/* 🟠 TEMA ESCURO — LARANJA COM MOVIMENTO REAL */
 [data-theme="dark"] .btn-gradient {
-    background: linear-gradient(
-        270deg,
-        #f98948,
-        #ffb347,
-        #fff3e6
-    );
-    color: #0a0a0a;
+  background: linear-gradient(
+    270deg,
+    #f98948,
+    #ff7a18,
+    #ffb347,
+    #f98948
+  );
+  color: #000000;
 }
 
 .btn-gradient:hover {
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
 @keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.card-acesso-destaque .card-titulo {
+    font-family: 'Orbitron', sans-serif;
+}
+
+.destaque-texto {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+}
+
+.btn-gradient span {
+    font-family: 'Rajdhani', sans-serif;
 }
 
 /* RESPONSIVO */
