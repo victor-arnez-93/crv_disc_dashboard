@@ -219,6 +219,47 @@ function carregarPerguntaDia() {
     `;
 }
 
+// ============================================
+// SIMULADOR DE COMPATIBILIDADE (movido para home)
+// ============================================
+window.analisarCompatibilidade = function() {
+    const perfil1 = document.getElementById('perfil1').value;
+    const perfil2 = document.getElementById('perfil2').value;
+    const resultado = document.getElementById('resultadoCompatibilidade');
+    if (!resultado) return;
+
+    if (!perfil1 || !perfil2) return;
+
+    const compatibilidades = {
+        'DI': { nivel: '85%', titulo: 'Alta Compatibilidade', descricao: 'D e I trabalham bem juntos — D traz foco em resultados e I garante engajamento da equipe.', dicas: ['D define metas; I motiva o time', 'Cuidado: D pode ser impaciente com a sociabilidade de I', 'Combinar velocidade de D com entusiasmo de I é poderoso'] },
+        'DS': { nivel: '60%', titulo: 'Compatibilidade Moderada', descricao: 'Opostos em ritmo. D prefere velocidade, S valoriza estabilidade.', dicas: ['D precisa reduzir urgência desnecessária', 'S precisa comunicar discordâncias antes de acumular', 'Juntos equilibram pressa com cuidado'] },
+        'DC': { nivel: '70%', titulo: 'Boa Compatibilidade', descricao: 'Ambos orientados a objetivos, mas D quer velocidade e C quer qualidade.', dicas: ['Definir critérios de "bom o suficiente"', 'C valida tecnicamente; D decide e executa', 'Conflito de prazos é o maior risco'] },
+        'IS': { nivel: '90%', titulo: 'Excelente Compatibilidade', descricao: 'I e S são perfis complementares em clima e relacionamento.', dicas: ['I anima; S estabiliza', 'Cuidado com evitar conflitos necessários', 'Ótima dupla para cultura e bem-estar'] },
+        'IC': { nivel: '55%', titulo: 'Compatibilidade com Desafios', descricao: 'I é espontâneo; C é metódico. Podem gerar atritos mas também inovação com qualidade.', dicas: ['Criar processo estruturado com espaço criativo', 'I apresenta ideias; C valida viabilidade', 'Respeitar ritmos diferentes'] },
+        'SC': { nivel: '80%', titulo: 'Alta Compatibilidade', descricao: 'S e C valorizam qualidade, processo e colaboração.', dicas: ['Ambos evitam conflito — precisam ser encorajados a discordar', 'Ótimos para manutenção e qualidade', 'Podem ser lentos em decisões — precisa de D ou I para impulsionar'] },
+        'DD': { nivel: '65%', titulo: 'Compatibilidade com Alerta', descricao: 'Dois perfis D competem por liderança. Pode ser produtivo ou gerar atrito.', dicas: ['Dividir claramente áreas de responsabilidade', 'Criar regras de tomada de decisão', 'Canalizar competitividade para desafios externos'] },
+        'II': { nivel: '75%', titulo: 'Boa Compatibilidade', descricao: 'Dois I criam ambiente animado, mas podem perder foco.', dicas: ['Precisa de D ou C para manter resultados e qualidade', 'Excelente para criatividade e relacionamento', 'Risco: falar mais do que entregar'] },
+        'SS': { nivel: '80%', titulo: 'Alta Compatibilidade', descricao: 'Dois S criam ambiente harmonioso e colaborativo.', dicas: ['Excelente clima, mas podem evitar decisões difíceis', 'Precisam de D para dar direção', 'Ótimos para suporte e atendimento'] },
+        'CC': { nivel: '70%', titulo: 'Boa Compatibilidade', descricao: 'Dois C entregam qualidade, mas podem se perder em detalhes.', dicas: ['Precisam de D ou I para executar com velocidade', 'Excelentes em análise e processos', 'Risco: paralisação por excesso de análise'] }
+    };
+
+    const chave = [perfil1, perfil2].sort().join('');
+    const dados = compatibilidades[chave] || compatibilidades['DD'];
+
+    resultado.innerHTML = `
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+            <div style="font-size:48px; font-weight:700; color:var(--cor-primaria);">${dados.nivel}</div>
+            <h3 style="margin:0;">${dados.titulo}</h3>
+        </div>
+        <p><strong>Análise:</strong> ${dados.descricao}</p>
+        <h4 style="color:var(--cor-primaria); margin-top:16px; margin-bottom:8px;">💡 Dicas para Melhorar a Colaboração:</h4>
+        <ul style="margin:0; padding-left:20px;">
+            ${dados.dicas.map(d => `<li style="margin-bottom:6px;">${d}</li>`).join('')}
+        </ul>
+    `;
+    resultado.classList.add('show');
+};
+
 // ============================================================================
 // 8) AÇÕES RÁPIDAS — exposto globalmente
 // ============================================================================

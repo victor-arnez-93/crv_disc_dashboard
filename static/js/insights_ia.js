@@ -275,15 +275,8 @@ function gerarRespostaIA(pergunta) {
 // SIMULADOR DE CENÁRIOS
 // ============================================
 const TOTAL_CENARIOS = 10;
-
 let cenarioAtual = 1;
 let pontuacao = 0;
-
-// ============================================
-// SIMULADOR DE CENÁRIOS DE GESTÃO
-// ============================================
-
-const TOTAL_CENARIOS = 10;
 
 const cenarios = {
     1: {
@@ -578,16 +571,13 @@ function reiniciarSimulador() {
 // ============================================
 // BIBLIOTECA DE CASOS DE USO
 // ============================================
-
-function filtrarCasos(categoria) {
+function filtrarCasos(categoria, event) {
     const cards = document.querySelectorAll('.caso-card');
     const filtros = document.querySelectorAll('.filtro-caso');
 
-    // Atualiza botões ativos
     filtros.forEach(f => f.classList.remove('active'));
-    event.target.classList.add('active');
+    event.target.classList.add('active');   // ← agora recebe o event correto
 
-    // Filtra cards
     cards.forEach(card => {
         if (categoria === 'todos') {
             card.style.display = 'block';
