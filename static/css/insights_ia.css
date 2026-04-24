@@ -63,6 +63,12 @@
     margin-bottom: 32px;
 }
 
+/* ✅ CORREÇÃO: evita que filhos do grid estourem a coluna */
+.insights-grid-principal > * {
+    min-width: 0;
+    overflow: hidden;
+}
+
 /* ============================================
    CHAT IA
    ============================================ */
@@ -76,8 +82,8 @@
         0 4px 14px rgba(0,0,0,0.4);
     display: flex;
     flex-direction: column;
-    height: auto; /* ✅ NOVA - SE ADAPTA AO SIMULADOR */
-    min-height: 600px; /* ✅ ALTURA MÍNIMA */
+    height: auto;
+    min-height: 600px;
 }
 
 .insights-chat-header {
@@ -271,6 +277,247 @@
 .insights-chat-input button i {
     color: #0a0a0a;
     font-size: 16px;
+}
+
+/* ============================================
+   SIMULADOR DE CENÁRIOS (dentro do insights_ia)
+   ============================================ */
+
+.insights-simulador {
+    background: var(--cor-sidebar);
+    border: 2px solid rgba(249,137,72,0.20);
+    border-radius: 18px;
+    padding: 28px 24px;
+    box-shadow:
+        0 0 12px rgba(249,137,72,0.22),
+        0 4px 14px rgba(0,0,0,0.4);
+    /* ✅ CORREÇÃO: garante que o simulador não estoure a coluna */
+    overflow: hidden;
+    word-break: break-word;
+}
+
+.insights-simulador h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cor-texto);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.insights-simulador h2 i {
+    color: var(--cor-primaria);
+}
+
+.simulador-intro {
+    font-size: 13px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    opacity: 0.75;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.cenario-atual {
+    background: var(--cor-header);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.cenario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.cenario-badge {
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-primaria);
+    background: rgba(249,137,72,0.15);
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+.cenario-pontos {
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--cor-primaria);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cenario-conteudo {
+    /* ✅ CORREÇÃO: removido text-align:center pois quebrava layout do icone+texto lado a lado */
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.cenario-icone {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--cor-primaria);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* ✅ CORREÇÃO: flex-shrink evita que o ícone encolha */
+    flex-shrink: 0;
+}
+
+.cenario-icone i {
+    font-size: 28px;
+    color: #0a0a0a;
+}
+
+.cenario-conteudo h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--cor-texto);
+    margin-bottom: 12px;
+}
+
+.cenario-contexto {
+    font-size: 14px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    line-height: 1.6;
+    opacity: 0.85;
+}
+
+.cenario-opcoes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.opcao-btn {
+    background: var(--cor-sidebar);
+    border: 2px solid rgba(249,137,72,0.2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    /* ✅ CORREÇÃO: impede que o botão estoure o container */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.opcao-btn:hover {
+    border-color: var(--cor-primaria);
+    background: rgba(249,137,72,0.1);
+    transform: translateX(5px);
+}
+
+.opcao-btn.selecionada {
+    border-color: var(--cor-primaria);
+    background: rgba(249,137,72,0.15);
+}
+
+.opcao-letra {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--cor-primaria);
+    color: #0a0a0a;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.opcao-texto {
+    font-size: 13px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    line-height: 1.5;
+}
+
+.cenario-feedback {
+    margin-top: 20px;
+    padding: 16px;
+    background: rgba(249,137,72,0.1);
+    border-left: 4px solid var(--cor-primaria);
+    border-radius: 8px;
+    display: none;
+}
+
+.cenario-feedback.show {
+    display: block;
+    animation: slideIn 0.3s ease;
+}
+
+.cenario-feedback h4 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+    margin-bottom: 8px;
+}
+
+.cenario-feedback p {
+    font-size: 13px;
+    font-family: 'Manrope', sans-serif;
+    color: var(--cor-texto);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.simulador-acoes {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.btn-proximo-cenario,
+.btn-reiniciar {
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Manrope', sans-serif;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-proximo-cenario {
+    background: var(--cor-primaria);
+    color: #0a0a0a;
+}
+
+.btn-proximo-cenario:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(249,137,72,0.4);
+}
+
+.btn-reiniciar {
+    background: rgba(249,137,72,0.2);
+    color: var(--cor-primaria);
+}
+
+.btn-reiniciar:hover {
+    background: rgba(249,137,72,0.3);
 }
 
 /* ============================================
@@ -577,7 +824,7 @@
 }
 
 /* ============================================
-   DICAS POR PERFIL (MANTIDO DO ORIGINAL)
+   DICAS POR PERFIL
    ============================================ */
 
 .insights-dicas-section {
@@ -683,7 +930,7 @@
 }
 
 /* ============================================
-   SIMULADOR DE COMPATIBILIDADE (MANTIDO)
+   SIMULADOR DE COMPATIBILIDADE
    ============================================ */
 
 .insights-compatibilidade {
@@ -833,23 +1080,20 @@
 }
 
 /* ============================================
-RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
-============================================ */
+   RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
+   ============================================ */
 
 /* TABLET — até 1200px */
 @media (max-width: 1200px) {
-  /* Grid principal vira 1 coluna */
   .insights-grid-principal {
     grid-template-columns: 1fr;
     gap: 20px;
   }
 
-  /* Dicas vira 2 colunas */
   .insights-dicas-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* Casos vira 2 colunas */
   .casos-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -861,12 +1105,10 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
 
 /* MOBILE — até 768px */
 @media (max-width: 768px) {
-  /* Container */
   .insights-container {
     padding: 16px 12px;
   }
 
-  /* Card principal */
   .insights-card-principal {
     padding: 28px 20px;
     border-radius: 16px;
@@ -886,13 +1128,11 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
     font-size: 15px;
   }
 
-  /* Grid principal 1 coluna */
   .insights-grid-principal {
     grid-template-columns: 1fr;
     gap: 18px;
   }
 
-  /* Chat IA */
   .insights-chat-container {
     min-height: 500px;
     border-radius: 16px;
@@ -942,7 +1182,6 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
     height: 44px;
   }
 
-  /* Simulador */
   .insights-simulador {
     padding: 24px 18px;
     border-radius: 16px;
@@ -958,6 +1197,13 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
 
   .cenario-atual {
     padding: 16px;
+  }
+
+  /* ✅ CORREÇÃO mobile: volta para coluna no mobile */
+  .cenario-conteudo {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
   .cenario-icone {
@@ -1001,7 +1247,6 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
     justify-content: center;
   }
 
-  /* Casos de uso */
   .insights-casos-uso h2 {
     font-size: 20px;
   }
@@ -1043,7 +1288,6 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
     font-size: 13px;
   }
 
-  /* Dicas por perfil */
   .insights-dicas-section h2 {
     font-size: 20px;
   }
@@ -1071,7 +1315,6 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
     font-size: 12px;
   }
 
-  /* Compatibilidade */
   .insights-compatibilidade {
     padding: 24px 18px;
   }
@@ -1102,7 +1345,6 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
     font-size: 13px;
   }
 
-  /* Modal */
   .modal-caso-content {
     padding: 30px 24px;
     width: 95%;
@@ -1127,12 +1369,10 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
 
 /* MOBILE PEQUENO — até 480px */
 @media (max-width: 480px) {
-  /* Container */
   .insights-container {
     padding: 14px 10px;
   }
 
-  /* Card principal */
   .insights-card-principal {
     padding: 24px 16px;
   }
@@ -1145,7 +1385,6 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
     font-size: 14px;
   }
 
-  /* Chat */
   .insights-chat-container {
     min-height: 450px;
   }
@@ -1171,7 +1410,6 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
     font-size: 18px;
   }
 
-  /* Simulador */
   .insights-simulador {
     padding: 20px 16px;
   }
@@ -1180,7 +1418,6 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
     padding: 14px;
   }
 
-  /* Casos */
   .caso-card {
     padding: 18px 16px;
   }
@@ -1189,12 +1426,10 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
     font-size: 15px;
   }
 
-  /* Dicas */
   .dica-card {
     padding: 18px 16px;
   }
 
-  /* Modal */
   .modal-caso-content {
     padding: 24px 18px;
   }
