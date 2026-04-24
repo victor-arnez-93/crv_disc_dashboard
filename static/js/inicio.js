@@ -58,6 +58,11 @@ function criarSetasFrase() {
     container.appendChild(wrapper);
 }
 
+function getPeriodoIndex() {
+    const hora = new Date().getHours();
+    return (hora >= 6 && hora < 18) ? 0 : 1;
+}
+
 // ============================================================================
 // 2) CARDS ROTATIVOS (a cada 20s)
 // ============================================================================
@@ -99,7 +104,13 @@ function carregarInsights() {
     const ul = document.getElementById("insightsList");
     if (!ul) return;
 
-    const copia = [...dicas];
+    const periodo = getPeriodoIndex();
+
+// divide o banco em blocos
+const inicio = periodo * 6;
+const fim = inicio + 6;
+
+const copia = [...dicas].slice(inicio, fim);
     const resultado = [];
     for (let i = 0; i < 3; i++) {
         const idx = Math.floor(Math.random() * copia.length);
@@ -171,7 +182,8 @@ function carregarFoto() {
         { url: "/static/imagens/img8.png", titulo: "Perfil comportamental (DISC)", legenda: "Compreender perfis comportamentais melhora comunicação, liderança e desempenho em equipe." }
     ];
 
-    const index = Math.floor(Date.now() / 86400000) % imagens.length;
+    const base = Math.floor(Date.now() / 86400000);
+    const index = (base * 2 + getPeriodoIndex()) % imagens.length;
     const foto  = imagens[index];
 
     const img   = document.getElementById("fotoDia");
@@ -200,7 +212,10 @@ function carregarDiscDia() {
     const badge     = document.getElementById("discBadge");
     if (!container) return;
 
-    const perfil = perfisDisc[Math.floor(Date.now() / 86400000) % perfisDisc.length];
+    const base = Math.floor(Date.now() / 86400000);
+    const index = (base * 2 + getPeriodoIndex()) % perfisDisc.length;
+
+    const perfil = perfisDisc[index];
 
     if (card)  card.setAttribute("data-perfil", perfil.letra);
     if (badge) badge.textContent = perfil.letra + " · " + perfil.tipo.split(" ")[0];
@@ -231,7 +246,10 @@ function carregarPerguntaDia() {
     const container = document.getElementById("perguntaDia");
     if (!container) return;
 
-    const item = perguntasDia[Math.floor(Date.now() / 86400000) % perguntasDia.length];
+    const base = Math.floor(Date.now() / 86400000);
+    const index = (base * 2 + getPeriodoIndex()) % perguntasDia.length;
+
+    const item = perguntasDia[index];
 
     container.innerHTML = `
         <li>

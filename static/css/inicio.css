@@ -205,41 +205,11 @@
 /* ============================================
    AÇÕES RÁPIDAS — CARD PADRÃO
    ============================================ */
-
-.acoes-rapidas-container {
-    margin-top: 28px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-}
-
 .acoes-rapidas {
     display: flex;
     gap: 14px;
     flex-wrap: wrap;
     justify-content: center;  /* ← botões centralizados */
-}
-
-.acoes-header {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 18px;
-    letter-spacing: 1px;
-    color: var(--cor-primaria);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    text-transform: uppercase;
-    width: 100%;          /* ← ocupa toda a largura do pai */
-    text-align: center;   /* ← fallback para o texto */
-}
-
-.acoes-rapidas {
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    justify-content: center;
 }
 
 /* Subtítulo do card de ações */
@@ -1143,6 +1113,60 @@
 [data-theme="light"] .insights-compatibilidade {
     background: #FFFFFF;
     border-color: rgba(0,0,0,0.12);
+}
+
+/* ===============================
+   ACESSO RÁPIDO — DESTAQUE
+=============================== */
+
+.destaque-texto {
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.85;
+    margin-bottom: 15px;
+}
+
+.destaque-acoes {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.menu-btn.destaque {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    min-width: 220px;
+
+    background: linear-gradient(135deg, #ff7a18, #ffb347);
+    color: white;
+    border: none;
+
+    transition: all 0.25s ease;
+}
+
+.menu-btn.destaque:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+}
+
+.btn-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.btn-titulo {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.btn-desc {
+    font-size: 11px;
+    opacity: 0.85;
 }
 
 /* RESPONSIVO */
