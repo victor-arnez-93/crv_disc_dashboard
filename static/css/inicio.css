@@ -1021,6 +1021,112 @@
     background: rgba(249,137,72,0.3);
 }
 
+/* ============================================
+   SIMULADOR DE COMPATIBILIDADE
+   ============================================ */
+
+.insights-compatibilidade {
+    background: var(--cor-sidebar);
+    border: 2px solid rgba(249,137,72,0.20);
+    border-radius: 18px;
+    padding: 28px 24px;
+    box-shadow:
+        0 0 12px rgba(249,137,72,0.22),
+        0 4px 14px rgba(0,0,0,0.4);
+}
+
+.insights-compatibilidade h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cor-texto);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.insights-compatibilidade h2 i { color: var(--cor-primaria); }
+
+.compatibilidade-form .form-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.compatibilidade-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.compatibilidade-form label {
+    font-size: 13px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    color: var(--cor-texto);
+    opacity: 0.85;
+}
+
+.compatibilidade-form select {
+    background: var(--cor-header);
+    border: 2px solid rgba(249,137,72,0.25);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    color: var(--cor-texto);
+    cursor: pointer;
+    transition: 0.25s ease;
+    min-width: 180px;
+}
+
+.compatibilidade-form select:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 8px rgba(249,137,72,0.3);
+}
+
+.btn-analisar {
+    padding: 11px 22px;
+    background: var(--cor-primaria);
+    color: #0a0a0a;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.25s ease;
+    white-space: nowrap;
+}
+
+.btn-analisar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(249,137,72,0.4);
+}
+
+.resultado-compatibilidade {
+    margin-top: 20px;
+    padding: 20px;
+    background: var(--cor-header);
+    border-radius: 12px;
+    border: 1px solid rgba(249,137,72,0.2);
+    display: none;
+    animation: fadeSlideUp 0.35s ease both;
+}
+
+.resultado-compatibilidade.show { display: block; }
+
+[data-theme="light"] .insights-compatibilidade {
+    background: #FFFFFF;
+    border-color: rgba(0,0,0,0.12);
+}
+
 /* RESPONSIVO */
 @media (max-width: 1200px) {
     .dashboard-container { padding: 18px 14px; }

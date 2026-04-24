@@ -464,10 +464,6 @@ const cenarios = {
 // ============================================
 // FUNÇÕES DO SIMULADOR
 // ============================================
-
-let cenarioAtual = 1;
-let pontuacao = 0;
-
 function carregarCenario(numero) {
     const cenario = cenarios[numero];
     if (!cenario) return;
@@ -880,6 +876,14 @@ function adicionarMensagemChat(tipo, texto) {
 document.getElementById("chatInput")?.addEventListener("keypress", (e) => {
     if (e.key === "Enter") enviarMensagem();
 });
+
+function enviarSugestao(texto) {
+    const input = document.getElementById("chatInput");
+    if (input) {
+        input.value = texto;
+        enviarMensagem();
+    }
+}
 
 // Inicializa o primeiro cenário ao carregar a página
 document.addEventListener('DOMContentLoaded', () => {
