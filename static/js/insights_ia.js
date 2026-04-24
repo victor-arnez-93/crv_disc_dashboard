@@ -890,3 +890,8 @@ function adicionarMensagemChat(tipo, texto) {
 document.getElementById("chatInput")?.addEventListener("keypress", (e) => {
     if (e.key === "Enter") enviarMensagem();
 });
+
+// Inicializa o primeiro cenário ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+    carregarCenario(1);
+});
