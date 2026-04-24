@@ -341,6 +341,47 @@ function atualizarImagemTema() {
 }
 
 // ============================================================================
+// 9) ATUALIZAÇÃO AUTOMÁTICA (06h / 18h)
+// ============================================================================
+
+function atualizarConteudoPeriodo() {
+    carregarInsights();
+    carregarFoto();
+    carregarDiscDia();
+    carregarPerguntaDia();
+}
+
+function agendarAtualizacaoPeriodo() {
+    const agora = new Date();
+    const proximo = new Date();
+
+    const hora = agora.getHours();
+
+    if (hora < 6) {
+        proximo.setHours(6, 0, 0, 0);
+    } else if (hora < 18) {
+        proximo.setHours(18, 0, 0, 0);
+    } else {
+        proximo.setDate(proximo.getDate() + 1);
+        proximo.setHours(6, 0, 0, 0);
+    }
+
+    const tempoRestante = proximo.getTime() - agora.getTime();
+
+    console.log("⏱ Próxima atualização em:", Math.round(tempoRestante / 1000), "segundos");
+
+    setTimeout(() => {
+        console.log("🔄 Atualizando conteúdo por mudança de período...");
+
+        atualizarConteudoPeriodo();
+
+        // reprograma o próximo ciclo
+        agendarAtualizacaoPeriodo();
+
+    }, tempoRestante);
+}
+
+// ============================================================================
 // INICIALIZAR
 // ============================================================================
 
@@ -354,6 +395,7 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarDiscDia();
     carregarPerguntaDia();
     atualizarImagemTema();
+    agendarAtualizacaoPeriodo();
 
         // Observa troca de tema
     const observer = new MutationObserver(atualizarImagemTema);

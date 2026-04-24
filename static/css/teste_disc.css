@@ -449,6 +449,12 @@
     border-color: rgba(249,137,72,0.28);
 }
 
+.btn-center-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
 /* ============================================
    RESPONSIVIDADE
    ============================================ */

@@ -657,8 +657,10 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
-    opacity: 0.13;
-    filter: blur(2px) saturate(0.8);
+
+    opacity: 0.22;
+    filter: blur(1px) saturate(0.9) brightness(0.95);
+
     pointer-events: none;
     border-radius: 22px;
     z-index: 0;
@@ -1167,6 +1169,142 @@
 .btn-desc {
     font-size: 11px;
     opacity: 0.85;
+}
+
+/* ===============================
+   CARD DESTAQUE COM BORDA ANIMADA
+=============================== */
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.card-acesso-destaque {
+    position: relative;
+    border-radius: 18px;
+    padding: 26px;
+    overflow: hidden;
+}
+
+/* BORDA ANIMADA */
+.card-acesso-destaque::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+
+    background: conic-gradient(
+        from var(--angle),
+        transparent 0deg,
+        transparent 240deg,
+        var(--cor-primaria),
+        transparent 360deg
+    );
+
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    animation: rotate 4s linear infinite;
+}
+
+/* GLOW */
+.card-acesso-destaque::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: inherit;
+
+    background: conic-gradient(
+        from var(--angle),
+        transparent 0deg,
+        transparent 240deg,
+        var(--cor-primaria),
+        transparent 360deg
+    );
+
+    filter: blur(30px);
+    opacity: 0.25;
+
+    animation: rotate 5s linear infinite;
+}
+
+@keyframes rotate {
+    to { --angle: 360deg; }
+}
+
+/* TEMA */
+[data-theme="light"] .card-acesso-destaque {
+    --cor-primaria: #468cff;
+}
+
+[data-theme="dark"] .card-acesso-destaque {
+    --cor-primaria: #f98948;
+}
+
+.destaque-texto-upper {
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* BOTÃO GRADIENTE */
+.btn-gradient {
+    padding: 14px 32px;
+    border-radius: 999px;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    color: white;
+    min-width: 200px;
+
+    background-size: 300% 300%;
+    animation: gradientMove 6s ease infinite;
+    transition: 0.25s ease;
+}
+
+.btn-gradient:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* TEMA ESCURO */
+[data-theme="dark"] .btn-gradient {
+    background: linear-gradient(
+        270deg,
+        #f98948,
+        #ffb347,
+        #ffffff
+    );
+}
+
+/* TEMA CLARO */
+[data-theme="light"] .btn-gradient {
+    background: linear-gradient(
+        270deg,
+        #468cff,
+        #6fa8ff,
+        #9cc4ff
+    );
+    color: #0a0a0a;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* RESPONSIVO */
