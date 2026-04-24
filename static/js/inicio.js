@@ -396,6 +396,8 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarPerguntaDia();
     atualizarImagemTema();
     agendarAtualizacaoPeriodo();
+    document.getElementById('btnTesteDisc')?.addEventListener('click', () => irParaSistema('disc'));
+document.getElementById('btnCriarCurriculo')?.addEventListener('click', () => irParaSistema('curriculo'));
 
         // Observa troca de tema
     const observer = new MutationObserver(atualizarImagemTema);

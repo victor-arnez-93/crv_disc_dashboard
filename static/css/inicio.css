@@ -1276,26 +1276,18 @@
 
 /* 🔵 TEMA CLARO — AZUL REAL DO SISTEMA */
 [data-theme="light"] .btn-gradient {
-  background: linear-gradient(
-    270deg,
-    #241E4E,
-    #3f37c9,
-    #4895ef,
-    #6fa8ff
-  );
-  color: #ffffff;
+    background: linear-gradient(270deg, #241E4E, #3f37c9, #4895ef, #6fa8ff);
+    background-size: 300% 300%;
+    animation: gradientMove 3s linear infinite;
+    color: #ffffff;
 }
 
 /* 🟠 TEMA ESCURO — LARANJA COM MOVIMENTO REAL */
 [data-theme="dark"] .btn-gradient {
-  background: linear-gradient(
-    270deg,
-    #f98948,
-    #ff7a18,
-    #ffb347,
-    #ff9a3c
-  );
-  color: #000000;
+    background: linear-gradient(270deg, #f98948, #ff7a18, #ffb347, #ff9a3c);
+    background-size: 300% 300%;
+    animation: gradientMove 3s linear infinite;
+    color: #000000;
 }
 
 .btn-gradient:hover {
