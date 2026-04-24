@@ -1270,7 +1270,7 @@
   font-weight: 700;
 
   background-size: 300% 300%;
-  animation: gradientMove 5s ease infinite;
+  animation: gradientMove 3s linear infinite;
   transition: 0.3s;
 }
 
@@ -1279,9 +1279,9 @@
   background: linear-gradient(
     270deg,
     #241E4E,
-    #3b348c,
-    #5a54c7,
-    #241E4E
+    #3f37c9,
+    #4895ef,
+    #6fa8ff
   );
   color: #ffffff;
 }
@@ -1293,7 +1293,7 @@
     #f98948,
     #ff7a18,
     #ffb347,
-    #f98948
+    #ff9a3c
   );
   color: #000000;
 }
@@ -1320,6 +1320,16 @@
 
 .btn-gradient span {
     font-family: 'Rajdhani', sans-serif;
+}
+
+.card-acesso-destaque::before,
+.card-acesso-destaque::after {
+    pointer-events: none;
+}
+
+.btn-gradient {
+    position: relative;
+    z-index: 2;
 }
 
 /* RESPONSIVO */
