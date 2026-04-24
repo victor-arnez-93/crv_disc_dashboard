@@ -232,10 +232,9 @@
                 <i class="fas fa-list-ol"></i> Número de Perguntas
             </label>
             <select id="numPerguntas" class="filtro-select">
-                <option value="5">5 perguntas</option>
+                <option value="6">6 perguntas</option>
                 <option value="10" selected>10 perguntas</option>
-                <option value="15">15 perguntas</option>
-                <option value="20">20 perguntas</option>
+                <option value="12">12 perguntas</option>
             </select>
         </div>
 
@@ -249,6 +248,13 @@
     <!-- ÁREA DO QUIZ GERADO -->
     <!-- ============================================ -->
     <div id="areaQuiz" class="area-quiz" style="display: none;">
+
+        <!-- Cabeçalho de Prova (para impressão) -->
+        <div id="cabecalhoProva">
+            <p>Nome: ________________________________________________</p>
+            <p>Curso: ________________________________________________</p>
+            <p>Semestre: ______________________    Data: ____/____/______</p>
+        </div>
 
         <!-- Header do Quiz -->
         <div class="quiz-header">

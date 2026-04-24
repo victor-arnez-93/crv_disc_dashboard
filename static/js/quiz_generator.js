@@ -279,12 +279,12 @@ const bancoPerguntas = [
         id: 23,
         tema: "lideranca",
         dificuldade: "avancado",
-        pergunta: "Segundo pesquisas da Gallup, qual percentual de colaboradores deixam empresas por causa de gestores ruins?",
+        pergunta: "Segundo pesquisas da Gallup, aproximadamente qual percentual de pessoas já deixou um emprego para se afastar de um gestor ruim?",
         alternativas: [
-            { texto: "20-30%", correta: false },
-            { texto: "40-50%", correta: false },
-            { texto: "60-70%", correta: true },
-            { texto: "80-90%", correta: false }
+            { texto: "Cerca de 20%", correta: false },
+            { texto: "Cerca de 50%", correta: true },
+            { texto: "Cerca de 80%", correta: false },
+            { texto: "Quase 100%", correta: false }
         ]
     },
     {
@@ -389,12 +389,12 @@ const bancoPerguntas = [
         id: 32,
         tema: "comunicacao",
         dificuldade: "intermediario",
-        pergunta: "Segundo estudos, qual percentual da comunicação é não-verbal (linguagem corporal, tom)?",
+        pergunta: "Nos estudos clássicos de Albert Mehrabian sobre expressão de sentimentos e atitudes, aproximadamente que porcentagem do impacto da mensagem está ligada a aspectos não verbais (tom de voz e linguagem corporal)?",
         alternativas: [
-            { texto: "20-30%", correta: false },
-            { texto: "40-50%", correta: false },
-            { texto: "70-93%", correta: true },
-            { texto: "10-15%", correta: false }
+            { texto: "Cerca de 10%", correta: false },
+            { texto: "Cerca de 30%", correta: false },
+            { texto: "Cerca de 90%", correta: true },
+            { texto: "Cerca de 100%", correta: false }
         ]
     },
     {
@@ -661,49 +661,73 @@ btnImprimir.addEventListener('click', imprimirQuiz);
 // ============================================================================
 
 function gerarQuiz() {
-    const tema = filtroTema.value;
-    const dificuldade = filtroDificuldade.value;
-    const quantidade = parseInt(numPerguntas.value);
+    let tema = filtroTema.value;
+    let dificuldade = filtroDificuldade.value;
+    let quantidade = parseInt(numPerguntas.value, 10);
 
-    // Filtrar perguntas
+    // Garantir que a quantidade está entre as opções 6, 10 e 12
+    const quantidadesPermitidas = [6, 10, 12];
+    if (!quantidadesPermitidas.includes(quantidade)) {
+        quantidade = 10;
+        numPerguntas.value = "10";
+    }
+
+    // Filtrar perguntas por tema e dificuldade
     let perguntasFiltradas = [...bancoPerguntas];
 
-    if (tema !== 'todos') {
+    if (tema !== "todos") {
         perguntasFiltradas = perguntasFiltradas.filter(p => p.tema === tema);
     }
 
-    if (dificuldade !== 'todas') {
+    if (dificuldade !== "todas") {
         perguntasFiltradas = perguntasFiltradas.filter(p => p.dificuldade === dificuldade);
     }
 
-    // Embaralhar e selecionar quantidade
-    perguntasFiltradas = embaralhar(perguntasFiltradas);
-    quizAtual = perguntasFiltradas.slice(0, quantidade);
-
-    if (quizAtual.length === 0) {
-        alert('Nenhuma pergunta encontrada com esses filtros. Tente outras opções.');
+    if (perguntasFiltradas.length === 0) {
+        alert("Nenhuma pergunta encontrada com esses filtros. Tente outras opções.");
         return;
     }
+
+    // Embaralhar e aplicar quantidade final (sem passar do que existe)
+    perguntasFiltradas = embaralhar(perguntasFiltradas);
+
+    const disponiveis = perguntasFiltradas.length;
+    const qtdFinal = Math.min(quantidade, disponiveis);
+
+    if (qtdFinal < quantidade) {
+        alert(`Foram encontradas apenas ${qtdFinal} perguntas para esses filtros. O quiz será gerado com ${qtdFinal} questões.`);
+    }
+
+    quizAtual = perguntasFiltradas.slice(0, qtdFinal);
 
     // Resetar estado
     respostas = {};
     tempoDecorrido = 0;
 
     // Atualizar interface
-    mensagemInicial.style.display = 'none';
-    areaQuiz.style.display = 'block';
-    resultadoFinal.style.display = 'none';
+    mensagemInicial.style.display = "none";
+    areaQuiz.style.display = "block";
+    resultadoFinal.style.display = "none";
 
-    // Atualizar título
+    // Textos para exibir os filtros escolhidos
     const temaTexto = {
-        'todos': 'Geral',
-        'disc': 'Perfis DISC',
-        'lideranca': 'Liderança',
-        'comunicacao': 'Comunicação',
-        'conflitos': 'Gestão de Conflitos',
-        'motivacao': 'Motivação'
+        todos: "Conteúdos Gerais",
+        disc: "Perfis DISC",
+        lideranca: "Liderança",
+        comunicacao: "Comunicação",
+        conflitos: "Gestão de Conflitos",
+        motivacao: "Motivação"
     };
-    tituloQuiz.textContent = `Quiz de ${temaTexto[tema]}`;
+
+    const dificuldadeTexto = {
+        todas: "todos os níveis",
+        basico: "nível básico",
+        intermediario: "nível intermediário",
+        avancado: "nível avançado"
+    };
+
+    tituloQuiz.textContent =
+        `Quiz de ${temaTexto[tema]} — ${qtdFinal} questões (${dificuldadeTexto[dificuldade]})`;
 
     // Renderizar perguntas
     renderizarPerguntas();
@@ -712,7 +736,7 @@ function gerarQuiz() {
     iniciarCronometro();
 
     // Scroll para o quiz
-    areaQuiz.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    areaQuiz.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 // ============================================================================
@@ -734,7 +758,7 @@ function renderizarPerguntas() {
             <span class="pergunta-numero">Questão ${index + 1}</span>
             <p class="pergunta-texto">${pergunta.pergunta}</p>
             <div class="alternativas">
-                ${alternativasEmbaralhadas.map((alt, i) => `
+                ${alternativasEmbaralhadas.map((alt) => `
                     <label class="alternativa">
                         <input
                             type="radio"
@@ -908,6 +932,7 @@ function copiarTexto(texto) {
 // ============================================================================
 // FUNÇÃO: IMPRIMIR QUIZ (USA O CSS @media print)
 // ============================================================================
+
 function imprimirQuiz() {
     window.print();
 }
@@ -928,4 +953,3 @@ function embaralhar(array) {
 // ============================================================================
 // FIM DO ARQUIVO
 // ============================================================================
- 
