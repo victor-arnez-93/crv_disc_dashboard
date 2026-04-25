@@ -684,6 +684,11 @@
         visibility: hidden;
     }
 
+    body {
+    margin: 0 !important;
+    padding: 0 !important;
+    }
+
     /* 🔥 MOSTRA SÓ O MODAL ATIVO */
     .modal-caso.ativo,
     .modal-caso.ativo * {
@@ -697,9 +702,6 @@
 
     .modal-caso.ativo {
         display: block !important;
-        position: absolute;
-        top: 0;
-        left: 0;
         width: 100%;
         margin: 0 !important;
         padding: 0 !important;
