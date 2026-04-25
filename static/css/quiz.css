@@ -628,14 +628,26 @@
     background: white !important;
     border: none !important;
     box-shadow: none !important;
-    padding: 8pt 0 !important;
-    margin: 0 0 10pt 0 !important;
+
+    padding: 10pt 0 !important;
+    margin: 0 0 12pt 0 !important;
+
     break-inside: avoid;
-    break-after: avoid;
+    page-break-inside: avoid;
 }
 
+/* controla quebra de página melhor */
 .pergunta-card:nth-child(2n) {
-    break-after: auto;
+    page-break-after: auto;
+}
+
+#cabecalhoProva {
+    margin-bottom: 20px;
+    page-break-after: avoid;
+}
+
+.quiz-corpo {
+    page-break-before: auto;
 }
 
     /* Número da questão */
