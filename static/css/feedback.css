@@ -683,6 +683,186 @@
 }
 
 /* ============================================
+   IMPRESSÃO — SIMULADOR DE FEEDBACK
+============================================ */
+@media print {
+
+    /* 1. ZERA TUDO */
+    body > * {
+        display: none !important;
+    }
+
+    /* 2. EXIBE APENAS O RESULTADO */
+    .main-content {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* 3. ESCONDE TUDO DENTRO DO MAIN, EXCETO O RESULTADO */
+    .main-content > *:not(.resultado-feedback) {
+        display: none !important;
+    }
+
+    /* 4. RESULTADO */
+    .resultado-feedback {
+        display: block !important;
+        background: white !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        animation: none !important;
+    }
+
+    /* 5. REMOVE DECORAÇÕES */
+    * {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        animation: none !important;
+        transition: none !important;
+    }
+
+    /* 6. ESCONDE ELEMENTOS DESNECESSÁRIOS */
+    .feedback-acoes,
+    .feedback-secao h3 i,
+    .resultado-badge {
+        display: none !important;
+    }
+
+    /* 7. CABEÇALHO DE IMPRESSÃO */
+    .resultado-header::before {
+        content: "DISC Dashboard — Prof. Paulo Rocha | Simulador de Feedback";
+        display: block;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        font-size: 11pt;
+        color: #666 !important;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .resultado-header {
+        flex-direction: row !important;
+        padding-bottom: 12px !important;
+        margin-bottom: 16px !important;
+        border-bottom: 2px solid #000 !important;
+        gap: 12px !important;
+    }
+
+    .resultado-info h2 {
+        font-family: Arial, sans-serif !important;
+        font-size: 16pt !important;
+        font-weight: bold !important;
+        color: #000 !important;
+        margin-bottom: 4px !important;
+    }
+
+    .resultado-info p {
+        font-family: Arial, sans-serif !important;
+        font-size: 11pt !important;
+        opacity: 1 !important;
+    }
+
+    /* 8. SEÇÕES */
+    .feedback-secao {
+        margin-bottom: 10mm !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .feedback-secao h3 {
+        font-family: Arial, sans-serif !important;
+        font-size: 13pt !important;
+        font-weight: bold !important;
+        color: #000 !important;
+        border-bottom: 1px solid #000 !important;
+        padding-bottom: 2mm !important;
+        margin-bottom: 4mm !important;
+        display: block !important;
+    }
+
+    /* 9. SCRIPT DE FEEDBACK */
+    .feedback-script {
+        background: white !important;
+        border: 1px solid #ccc !important;
+        border-radius: 0 !important;
+        padding: 12px !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 11pt !important;
+        line-height: 1.7 !important;
+        transform: none !important;
+    }
+
+    /* 10. DICA DE TOM */
+    .feedback-dica {
+        background: white !important;
+        border-left: 3px solid #000 !important;
+        border-radius: 0 !important;
+        padding: 10px 14px !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 11pt !important;
+        line-height: 1.6 !important;
+    }
+
+    /* 11. LISTA DO QUE EVITAR */
+    .feedback-lista {
+        display: block !important;
+    }
+
+    .feedback-lista li {
+        background: white !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 4px 0 4px 20px !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 11pt !important;
+        margin-bottom: 4px !important;
+    }
+
+    .feedback-lista li::before {
+        content: '✗' !important;
+        color: #000 !important;
+    }
+
+    /* 12. DIÁLOGO */
+    .feedback-dialogo {
+        background: white !important;
+        border: 1px solid #ccc !important;
+        border-radius: 0 !important;
+        padding: 12px !important;
+        gap: 12px !important;
+    }
+
+    .dialogo-label {
+        font-family: Arial, sans-serif !important;
+        font-size: 10pt !important;
+        font-weight: bold !important;
+        color: #000 !important;
+    }
+
+    .dialogo-texto {
+        background: white !important;
+        border-left: 2px solid #000 !important;
+        border-radius: 0 !important;
+        padding: 8px 12px !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 11pt !important;
+        line-height: 1.6 !important;
+    }
+
+    /* 13. PÁGINA */
+    @page {
+        margin: 18mm 15mm;
+        size: A4;
+    }
+}
+
+/* ============================================
    RESPONSIVIDADE
 ============================================ */
 @media (max-width: 768px) {

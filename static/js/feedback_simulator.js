@@ -1066,10 +1066,27 @@ document.getElementById("feedbackDialogo").innerHTML = `
         alert("Script copiado!");
     });
 
-    // IMPRIMIR
-    document.getElementById("btnImprimir").addEventListener("click", () => {
-        window.print();
+// IMPRIMIR
+document.getElementById("btnImprimir").addEventListener("click", () => {
+
+    const bodyChildren = Array.from(document.body.children);
+    const estadosOriginais = bodyChildren.map(el => el.style.display);
+
+    const mainContent = document.querySelector(".main-content");
+    bodyChildren.forEach(el => {
+        if (el !== mainContent) el.style.display = "none";
     });
+
+    // resultado já está display:block aqui (usuário clicou em Gerar antes)
+    // mas garantimos por segurança
+    resultado.style.display = "block";
+
+    window.print();
+
+    bodyChildren.forEach((el, i) => {
+        el.style.display = estadosOriginais[i];
+    });
+});
 
     // NOVO
     document.getElementById("btnNovo").addEventListener("click", () => {
