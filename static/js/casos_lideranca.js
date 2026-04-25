@@ -655,7 +655,38 @@ modalCaso.addEventListener('click', (e) => {
     if (e.target === modalCaso) fecharModal();
 });
 
-btnImprimirCaso.addEventListener('click', () => window.print());
+btnImprimirCaso.addEventListener('click', () => {
+    // Esconde TUDO do body exceto o modal
+    const bodyChildren = document.body.children;
+    const estadosOriginais = [];
+
+    for (let el of bodyChildren) {
+        estadosOriginais.push(el.style.display);
+        if (el !== modalCaso) {
+            el.style.display = 'none';
+        }
+    }
+
+    // Garante que modal está estático para impressão
+    const contentOriginal = {
+        position: modalCaso.style.position,
+        height: modalCaso.style.height
+    };
+    modalCaso.style.position = 'static';
+    modalCaso.style.height = 'auto';
+
+    window.print();
+
+    // Restaura tudo depois
+    let i = 0;
+    for (let el of bodyChildren) {
+        el.style.display = estadosOriginais[i];
+        i++;
+    }
+    modalCaso.style.position = contentOriginal.position;
+    modalCaso.style.height = contentOriginal.height;
+});
+
 btnCompartilharCaso.addEventListener('click', compartilharCaso);
 
 // ============================================================================

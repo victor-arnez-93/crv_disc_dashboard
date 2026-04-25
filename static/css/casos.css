@@ -679,111 +679,146 @@
 /* ============================================ */
 @media print {
 
-    /* 1. ESCONDE TUDO */
-    body * {
-        visibility: hidden;
+    /* ZERA TUDO COM DISPLAY */
+    body > * {
+        display: none !important;
     }
 
-    /* 2. MOSTRA SÓ O MODAL ATIVO E SEUS FILHOS */
-    .modal-caso.ativo,
-    .modal-caso.ativo * {
-        visibility: visible;
-    }
-
-    /* 3. POSICIONA O MODAL ATIVO COMO O QUIZ FAZ */
-    .modal-caso.ativo {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
+    /* EXIBE APENAS O MODAL ATIVO */
+    #modalCaso.ativo {
+        display: block !important;
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
         background: white !important;
-        box-shadow: none !important;
-        border: none !important;
+        backdrop-filter: none !important;
         padding: 0 !important;
         margin: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
     }
 
-    /* 4. CONTEÚDO DO MODAL */
     .modal-caso-content {
+        position: static !important;
         width: 100% !important;
-        padding: 20px !important;
-        margin: 0 !important;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
         background: white !important;
         border: none !important;
         box-shadow: none !important;
-        height: auto !important;
-        overflow: visible !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+        animation: none !important;
     }
 
-    /* 5. REMOVE CORES — só após o posicionamento */
-    .modal-caso.ativo * {
+    /* REMOVE DECORAÇÕES */
+    * {
         color: #000 !important;
         background: transparent !important;
         box-shadow: none !important;
         text-shadow: none !important;
+        animation: none !important;
+        transition: none !important;
     }
 
-    /* 6. ESCONDER ELEMENTOS DESNECESSÁRIOS */
+    /* ESCONDE ELEMENTOS DESNECESSÁRIOS */
     .modal-close,
     .modal-footer,
     .modal-badge,
     .modal-tags,
-    .modal-secao h3 i {
+    .modal-secao h3 i,
+    .modal-body::-webkit-scrollbar {
         display: none !important;
-        visibility: hidden !important;
     }
 
-    /* 7. CABEÇALHO DE IMPRESSÃO */
+    /* CABEÇALHO DE IMPRESSÃO */
+    .modal-header {
+        padding: 0 0 12px 0 !important;
+        border-bottom: 2px solid #000 !important;
+        margin-bottom: 16px !important;
+    }
+
     .modal-header::before {
-        content: "DISC Dashboard - Prof. Paulo Rocha";
+        content: "DISC Dashboard — Prof. Paulo Rocha";
         display: block;
         text-align: center;
-        font-size: 12px;
-        color: #666;
+        font-family: Arial, sans-serif;
+        font-size: 11pt;
+        color: #666 !important;
         margin-bottom: 10px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #ddd;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #ccc;
     }
 
     .modal-header h2 {
         font-family: Arial, sans-serif !important;
-        font-size: 18pt !important;
+        font-size: 16pt !important;
+        font-weight: bold !important;
+        color: #000 !important;
         text-align: left !important;
-        margin-bottom: 10mm !important;
+        margin: 0 !important;
     }
 
-    /* 8. SEÇÕES */
+    /* BODY DO MODAL: remove scroll, mostra tudo */
+    .modal-body {
+        overflow: visible !important;
+        height: auto !important;
+        padding: 16px 0 !important;
+        display: block !important;
+    }
+
+    /* SEÇÕES */
     .modal-secao {
-        margin-bottom: 8mm;
+        margin-bottom: 10mm !important;
         break-inside: avoid;
         page-break-inside: avoid;
     }
 
     .modal-secao h3 {
-        font-size: 14pt !important;
-        border-bottom: 1px solid #000;
-        padding-bottom: 2mm;
-        margin-bottom: 3mm;
+        font-family: Arial, sans-serif !important;
+        font-size: 13pt !important;
+        font-weight: bold !important;
+        color: #000 !important;
+        border-bottom: 1px solid #000 !important;
+        padding-bottom: 2mm !important;
+        margin-bottom: 4mm !important;
+        display: block !important;
     }
 
     .modal-secao p {
+        font-family: Arial, sans-serif !important;
         font-size: 11pt !important;
-        line-height: 1.6;
-        text-align: justify;
+        line-height: 1.6 !important;
+        text-align: justify !important;
+        color: #000 !important;
     }
 
     .modal-secao ul {
-        padding-left: 6mm;
+        list-style: disc !important;
+        padding-left: 8mm !important;
+        display: block !important;
     }
 
     .modal-secao ul li {
+        font-family: Arial, sans-serif !important;
         font-size: 11pt !important;
-        margin-bottom: 2mm;
+        line-height: 1.6 !important;
+        margin-bottom: 3mm !important;
+        padding-left: 0 !important;
+        color: #000 !important;
     }
 
-    /* 9. CONFIGURAÇÃO DE PÁGINA */
+    /* Remove o ::before dos li (triângulo laranja) */
+    .modal-secao ul li::before {
+        display: none !important;
+    }
+
     @page {
-        margin: 15mm;
+        margin: 18mm 15mm;
+        size: A4;
     }
 }
 
