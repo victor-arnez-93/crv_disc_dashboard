@@ -865,10 +865,104 @@ const feedbackDatabase = {
                     "Cobrar adaptação imediata",
                     "Ser frio ou direto demais"
                 ],
-                dialogo: {
+                                dialogo: {
                     gestor: "Sei que mudanças são desafiadoras, mas você ajudou muito o time a passar por isso.",
                     colaborador: "Tentei apoiar o pessoal da melhor forma possível...",
                     gestor: "E conseguiu. Sua postura fez toda diferença."
+                }
+            }
+        },
+
+        // ===== ADICIONADO =====
+        construtivo: {
+            qualidade: {
+                script: "Percebi alguns pontos de melhoria na qualidade das últimas entregas. Sei do seu cuidado habitual, por isso acredito que possamos ajustar o processo para garantir o padrão que você mesmo costuma manter. Vamos revisar juntos?",
+                tom: "Calmo, acolhedor e sem pressão. Perfis S precisam de segurança para melhorar.",
+                evitar: [
+                    "Ser direto demais ou crítico",
+                    "Pressionar por resultados imediatos",
+                    "Comparar com outros",
+                    "Criar clima de cobrança"
+                ],
+                dialogo: {
+                    gestor: "Notei alguns detalhes que podemos melhorar. Posso te apoiar nisso?",
+                    colaborador: "Claro, quero melhorar sim.",
+                    gestor: "Ótimo. Vamos ajustar juntos, sei que você tem esse padrão."
+                }
+            }
+        },
+
+        desenvolvimento: {
+            comunicacao: {
+                script: "Você já se comunica de forma muito respeitosa. Agora quero te ajudar a ganhar mais segurança para se posicionar. Sua opinião é importante e precisa aparecer mais.",
+                tom: "Incentivador e seguro. Perfis S precisam de confiança para evoluir.",
+                evitar: [
+                    "Forçar exposição",
+                    "Criticar timidez",
+                    "Comparar com perfis extrovertidos",
+                    "Gerar pressão"
+                ],
+                dialogo: {
+                    gestor: "Quero te ouvir mais nas reuniões.",
+                    colaborador: "Tenho receio de falar errado...",
+                    gestor: "Sua visão é valiosa. Pode falar com segurança."
+                }
+            }
+        }
+    },
+
+    // ===== PERFIL C - CONFORMIDADE =====
+    C: {
+        positivo: {
+            qualidade: {
+                script: "Seu nível de precisão e atenção aos detalhes é excepcional. Você entrega com consistência e confiabilidade, garantindo alto padrão em tudo que faz. Isso é fundamental para o time.",
+                tom: "Técnico, lógico e específico. Perfis C valorizam precisão.",
+                evitar: [
+                    "Elogios genéricos",
+                    "Excesso de emoção",
+                    "Falta de dados",
+                    "Ser vago"
+                ],
+                dialogo: {
+                    gestor: "Seu trabalho veio sem nenhum erro novamente.",
+                    colaborador: "Revisei todos os pontos críticos.",
+                    gestor: "Isso garante nosso padrão. Excelente."
+                }
+            }
+        },
+
+        construtivo: {
+            comunicacao: {
+                script: "Seu conteúdo é excelente, mas a forma de comunicar pode ser mais objetiva. Às vezes você aprofunda demais e perde clareza. Vamos trabalhar síntese?",
+                tom: "Racional e direto, sem emoção.",
+                evitar: [
+                    "Ser emocional",
+                    "Criticar inteligência",
+                    "Generalizar",
+                    "Falta de lógica"
+                ],
+                dialogo: {
+                    gestor: "Sua análise está ótima, mas extensa.",
+                    colaborador: "Quis cobrir todos os pontos.",
+                    gestor: "Ótimo, mas vamos focar no essencial."
+                }
+            }
+        },
+
+        desenvolvimento: {
+            iniciativa: {
+                script: "Você tem excelente capacidade analítica. Agora quero te ver tomando mais iniciativa sem precisar de validação completa. Nem tudo precisa estar 100% perfeito para agir.",
+                tom: "Desafiador, mas lógico.",
+                evitar: [
+                    "Pressionar emocionalmente",
+                    "Criticar cautela",
+                    "Forçar decisões rápidas sem contexto",
+                    "Ignorar necessidade de segurança"
+                ],
+                dialogo: {
+                    gestor: "Você pode decidir isso sem revisão completa.",
+                    colaborador: "Prefiro validar tudo antes...",
+                    gestor: "Entendo, mas nesse caso pode agir com base no que já sabe."
                 }
             }
         }
