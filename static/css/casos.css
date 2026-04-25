@@ -701,9 +701,10 @@
 
     /* MODAL COMO PÁGINA */
     .modal-caso {
-        display: block !important;
-        position: static !important;
-        background: none !important;
+        display: contents !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
     }
 
     /* 🔥 CORREÇÃO CRÍTICA (REMOVE BUG) */
@@ -723,6 +724,7 @@
         border-bottom: 1px solid #000 !important;
         margin-bottom: 10mm;
         padding-bottom: 5mm;
+        page-break-before: avoid !important;
         page-break-after: avoid;
     }
 
@@ -733,8 +735,12 @@
     }
 
     .modal-header h2 {
+        font-family: Arial, sans-serif !important;
         font-size: 18pt !important;
-        margin-bottom: 5mm;
+        font-weight: 700;
+        color: #000 !important;
+        text-align: left !important;
+        margin: 0 0 5mm 0 !important;
     }
 
     /* 🔥 REMOVE SCROLL BUGADO */
