@@ -691,7 +691,7 @@
         margin: 15mm;
     }
 
-    /* OCULTAR TUDO QUE NÃO É CONTEÚDO */
+    /* OCULTAR INTERFACE */
     aside, header, .sidebar, .header,
     .btn-modal, .modal-close, .modal-footer,
     .controles-casos, .casos-stats, .grid-casos,
@@ -699,23 +699,26 @@
         display: none !important;
     }
 
-    /* MODAL VIRA PÁGINA */
+    /* MODAL COMO PÁGINA */
     .modal-caso {
         display: block !important;
         position: static !important;
         background: none !important;
     }
 
+    /* 🔥 CORREÇÃO CRÍTICA (REMOVE BUG) */
     .modal-caso-content {
+        display: block !important;
         width: 100% !important;
         max-width: 100% !important;
+        height: auto !important;
         max-height: none !important;
+        overflow: visible !important;
         border: none !important;
         padding: 0 !important;
-        overflow: visible !important;
     }
 
-    /* HEADER SIMPLES */
+    /* HEADER */
     .modal-header {
         border-bottom: 1px solid #000 !important;
         margin-bottom: 10mm;
@@ -734,14 +737,18 @@
         margin-bottom: 5mm;
     }
 
-    /* CONTEÚDO */
+    /* 🔥 REMOVE SCROLL BUGADO */
     .modal-body {
         padding: 0 !important;
+        overflow: visible !important;
+        height: auto !important;
     }
 
+    /* 🔥 PERMITE QUEBRA NATURAL */
     .modal-secao {
         margin-bottom: 8mm;
-        page-break-inside: avoid;
+        page-break-inside: auto;
+        break-inside: auto;
     }
 
     .modal-secao h3 {
@@ -749,12 +756,14 @@
         margin-bottom: 3mm;
         border-bottom: 1px solid #000;
         padding-bottom: 2mm;
+        page-break-after: avoid;
     }
 
     .modal-secao p {
         font-size: 11pt !important;
         line-height: 1.6;
         text-align: justify;
+        page-break-inside: auto;
     }
 
     .modal-secao ul {
@@ -765,16 +774,16 @@
         font-size: 11pt !important;
         margin-bottom: 2mm;
         line-height: 1.5;
-        page-break-inside: avoid;
+        page-break-inside: auto;
     }
 
-    /* QUEBRA INTELIGENTE */
+    /* QUEBRA CONTROLADA */
     h2, h3 {
         page-break-after: avoid;
     }
 
     p, li {
-        page-break-inside: avoid;
+        page-break-inside: auto;
     }
 
     @page {
