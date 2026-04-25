@@ -679,44 +679,34 @@
 /* ============================================ */
 @media print {
 
-    * {
-        box-shadow: none !important;
-        text-shadow: none !important;
-        background: transparent !important;
-        color: #000 !important;
+    /* 🔥 ESCONDE TUDO */
+    body * {
+        visibility: hidden;
     }
 
-    body {
-        font-family: Arial, sans-serif !important;
-        margin: 15mm;
+    /* 🔥 MOSTRA SÓ O MODAL */
+    .modal-caso-content,
+    .modal-caso-content * {
+        visibility: visible;
     }
 
-    /* OCULTAR INTERFACE */
-    aside, header, .sidebar, .header,
-    .btn-modal, .modal-close, .modal-footer,
-    .controles-casos, .casos-stats, .grid-casos,
-    .card-principal, .sem-resultados {
-        display: none !important;
-    }
-
-    /* MODAL COMO PÁGINA */
-    .modal-caso {
-        display: contents !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        height: auto !important;
-    }
-
-    /* 🔥 CORREÇÃO CRÍTICA (REMOVE BUG) */
+    /* 🔥 FORÇA COMEÇAR NO TOPO */
     .modal-caso-content {
-        display: block !important;
-        width: 100% !important;
-        max-width: 100% !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+
+        background: white !important;
+        padding: 20px !important;
+        margin: 0 !important;
+
+        box-shadow: none !important;
+        border: none !important;
+
         height: auto !important;
         max-height: none !important;
         overflow: visible !important;
-        border: none !important;
-        padding: 0 !important;
     }
 
     /* HEADER */
@@ -724,14 +714,6 @@
         border-bottom: 1px solid #000 !important;
         margin-bottom: 10mm;
         padding-bottom: 5mm;
-        page-break-before: avoid !important;
-        page-break-after: avoid;
-    }
-
-    .modal-badge,
-    .modal-tags,
-    .modal-secao h3 i {
-        display: none !important;
     }
 
     .modal-header h2 {
@@ -740,21 +722,24 @@
         font-weight: 700;
         color: #000 !important;
         text-align: left !important;
-        margin: 0 0 5mm 0 !important;
+        margin-bottom: 5mm !important;
     }
 
-    /* 🔥 REMOVE SCROLL BUGADO */
+    .modal-badge,
+    .modal-tags,
+    .modal-secao h3 i,
+    .modal-close,
+    .modal-footer {
+        display: none !important;
+    }
+
+    /* CONTEÚDO */
     .modal-body {
         padding: 0 !important;
-        overflow: visible !important;
-        height: auto !important;
     }
 
-    /* 🔥 PERMITE QUEBRA NATURAL */
     .modal-secao {
         margin-bottom: 8mm;
-        page-break-inside: auto;
-        break-inside: auto;
     }
 
     .modal-secao h3 {
@@ -762,14 +747,12 @@
         margin-bottom: 3mm;
         border-bottom: 1px solid #000;
         padding-bottom: 2mm;
-        page-break-after: avoid;
     }
 
     .modal-secao p {
         font-size: 11pt !important;
         line-height: 1.6;
         text-align: justify;
-        page-break-inside: auto;
     }
 
     .modal-secao ul {
@@ -780,16 +763,6 @@
         font-size: 11pt !important;
         margin-bottom: 2mm;
         line-height: 1.5;
-        page-break-inside: auto;
-    }
-
-    /* QUEBRA CONTROLADA */
-    h2, h3 {
-        page-break-after: avoid;
-    }
-
-    p, li {
-        page-break-inside: auto;
     }
 
     @page {
