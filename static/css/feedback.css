@@ -673,6 +673,15 @@
     color: #241E4E !important; /* AZUL NO TEMA CLARO */
 }
 
+.feedback-script {
+    transition: all 0.3s ease;
+}
+
+.feedback-script:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 12px rgba(249,137,72,0.25);
+}
+
 /* ============================================
    RESPONSIVIDADE
 ============================================ */

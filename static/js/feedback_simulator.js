@@ -856,5 +856,131 @@ const feedbackDatabase = {
                     gestor: "E você consegue. Você lidera com coração. Isso é raro e valioso."
                 }
             },
-            adaptacao: {
-                script: "Sei que mudanças não são fáceis para você, mas você abraçou essa com maturidade e ainda ajudou colegas a se adaptarem. Você transformou sua preocupação em apoio para
+                adaptacao: {
+                    script: "Sei que mudanças não são fáceis para você, mas você lidou com isso com maturidade e ainda apoiou colegas durante o processo. Essa capacidade de adaptação, com cuidado e responsabilidade, faz muita diferença no time.",
+                    tom: "Calmo, acolhedor e reconhecendo o esforço. Perfis S valorizam segurança e apoio.",
+                    evitar: [
+                    "Pressionar mudanças bruscas",
+                    "Ignorar emoções envolvidas",
+                    "Cobrar adaptação imediata",
+                    "Ser frio ou direto demais"
+                ],
+                dialogo: {
+                    gestor: "Sei que mudanças são desafiadoras, mas você ajudou muito o time a passar por isso.",
+                    colaborador: "Tentei apoiar o pessoal da melhor forma possível...",
+                    gestor: "E conseguiu. Sua postura fez toda diferença."
+                }
+            }
+        }
+    }
+};
+
+// ============================================================================
+// LÓGICA DO SIMULADOR
+// ============================================================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const btnGerar = document.getElementById("btnGerarFeedback");
+    const resultado = document.getElementById("resultadoFeedback");
+
+    btnGerar.addEventListener("click", () => {
+
+        const perfil = document.querySelector("input[name='perfil']:checked")?.value;
+        const tipo = document.querySelector("input[name='tipo']:checked")?.value;
+        const contexto = document.getElementById("contexto")?.value;
+
+        if (!perfil || !tipo || !contexto) return;
+
+        const data = feedbackDatabase?.[perfil]?.[tipo]?.[contexto];
+
+        if (!data) {
+            alert("Combinação não encontrada.");
+            return;
+        }
+
+        // HEADER
+        const badge = document.getElementById("resultadoBadge");
+badge.innerText = perfil;
+
+// REMOVE classes antigas
+badge.classList.remove("perfil-D", "perfil-I", "perfil-S", "perfil-C");
+
+// ADICIONA a correta
+badge.classList.add(`perfil-${perfil}`);
+
+        document.getElementById("resultadoTitulo").innerText =
+            `Feedback para Perfil ${perfil}`;
+
+        document.getElementById("resultadoSubtitulo").innerText =
+            `${tipo.toUpperCase()} • ${contexto}`;
+
+        // SCRIPT
+        document.getElementById("feedbackScript").innerText = data.script;
+
+        const scriptEl = document.getElementById("feedbackScript");
+
+// insere o texto
+scriptEl.innerText = data.script;
+
+// estado inicial
+scriptEl.style.opacity = "0";
+scriptEl.style.transform = "translateY(10px)";
+
+// animação
+setTimeout(() => {
+    scriptEl.style.opacity = "1";
+    scriptEl.style.transform = "translateY(0)";
+}, 50);
+
+        // TOM
+        document.getElementById("feedbackTom").innerText = data.tom;
+
+        // EVITAR
+        const lista = document.getElementById("feedbackEvitar");
+        lista.innerHTML = "";
+
+        data.evitar.forEach(item => {
+            const li = document.createElement("li");
+            li.innerText = item;
+            lista.appendChild(li);
+        });
+
+        // DIÁLOGO
+document.getElementById("feedbackDialogo").innerHTML = `
+    <div class="dialogo-fala">
+        <span class="dialogo-label">Gestor</span>
+        <div class="dialogo-texto">${data.dialogo.gestor}</div>
+    </div>
+
+    <div class="dialogo-fala">
+        <span class="dialogo-label">Colaborador</span>
+        <div class="dialogo-texto">${data.dialogo.colaborador}</div>
+    </div>
+`;
+
+        resultado.style.display = "block";
+
+        resultado.scrollIntoView({ behavior: "smooth" });
+
+    });
+
+    // COPIAR
+    document.getElementById("btnCopiar").addEventListener("click", () => {
+        const texto = document.getElementById("feedbackScript").innerText;
+        navigator.clipboard.writeText(texto);
+        alert("Script copiado!");
+    });
+
+    // IMPRIMIR
+    document.getElementById("btnImprimir").addEventListener("click", () => {
+        window.print();
+    });
+
+    // NOVO
+    document.getElementById("btnNovo").addEventListener("click", () => {
+        document.getElementById("resultadoFeedback").style.display = "none";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+});
