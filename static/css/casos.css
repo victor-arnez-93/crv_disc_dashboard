@@ -684,69 +684,78 @@
         visibility: hidden;
     }
 
-    /* 🔥 MOSTRA SÓ O MODAL */
-    .modal-caso-content,
-    .modal-caso-content * {
+    /* 🔥 MOSTRA SÓ O MODAL ATIVO */
+    .modal-caso.ativo,
+    .modal-caso.ativo * {
         visibility: visible;
     }
 
-    /* 🔥 FORÇA COMEÇAR NO TOPO */
-    .modal-caso-content {
+    /* 🔥 FORÇA APENAS UM BLOCO */
+    .modal-caso {
+        display: none !important;
+    }
+
+    .modal-caso.ativo {
+        display: block !important;
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
-
-        background: white !important;
-        padding: 20px !important;
         margin: 0 !important;
-
-        box-shadow: none !important;
-        border: none !important;
-
-        height: auto !important;
-        max-height: none !important;
-        overflow: visible !important;
-    }
-
-    /* HEADER */
-    .modal-header {
-        border-bottom: 1px solid #000 !important;
-        margin-bottom: 10mm;
-        padding-bottom: 5mm;
-    }
-
-    .modal-header h2 {
-        font-family: Arial, sans-serif !important;
-        font-size: 18pt !important;
-        font-weight: 700;
-        color: #000 !important;
-        text-align: left !important;
-        margin-bottom: 5mm !important;
-    }
-
-    .modal-badge,
-    .modal-tags,
-    .modal-secao h3 i,
-    .modal-close,
-    .modal-footer {
-        display: none !important;
+        padding: 0 !important;
+        background: white !important;
     }
 
     /* CONTEÚDO */
-    .modal-body {
-        padding: 0 !important;
+    .modal-caso-content {
+        display: block !important;
+        width: 100% !important;
+        padding: 20px !important;
+        margin: 0 !important;
+
+        background: white !important;
+        border: none !important;
+        box-shadow: none !important;
+
+        height: auto !important;
+        overflow: visible !important;
     }
 
+    /* REMOVE CORES */
+    * {
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    /* ESCONDER LIXO */
+    .modal-close,
+    .modal-footer,
+    .modal-badge,
+    .modal-tags,
+    .modal-secao h3 i {
+        display: none !important;
+    }
+
+    /* TÍTULO */
+    .modal-header h2 {
+        font-family: Arial, sans-serif !important;
+        font-size: 18pt !important;
+        text-align: left !important;
+        margin-bottom: 10mm !important;
+    }
+
+    /* SEÇÕES */
     .modal-secao {
         margin-bottom: 8mm;
     }
 
     .modal-secao h3 {
         font-size: 14pt !important;
-        margin-bottom: 3mm;
         border-bottom: 1px solid #000;
         padding-bottom: 2mm;
+        margin-bottom: 3mm;
     }
 
     .modal-secao p {
@@ -762,7 +771,6 @@
     .modal-secao ul li {
         font-size: 11pt !important;
         margin-bottom: 2mm;
-        line-height: 1.5;
     }
 
     @page {
