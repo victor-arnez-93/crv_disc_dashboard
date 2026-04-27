@@ -578,6 +578,13 @@
 }
 
 /* ============================================
+   CABEÇALHO DE PROVA — oculto na tela, visível só na impressão
+============================================ */
+#cabecalhoProva {
+    display: none;
+}
+
+/* ============================================
    IMPRESSÃO LIMPA (ESTILO PROVA CONVENCIONAL)
 ============================================ */
 @media print {

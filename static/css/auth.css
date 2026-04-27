@@ -198,10 +198,14 @@
 }
 
 /* ── AVATAR HEADER ────────────────────────────────────────── */
+/* ── AVATAR HEADER ────────────────────────────────────────── */
 .user-avatar-clicavel {
     cursor: pointer;
     border-radius: 50%;
     transition: box-shadow .2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .user-avatar-clicavel:hover {
     box-shadow: 0 0 0 3px rgba(249,137,72,0.5);
@@ -216,11 +220,14 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    line-height: 0;
 }
 
 .user-avatar-visitante svg {
     width: 36px;
     height: 36px;
+    min-width: 36px;
+    min-height: 36px;
     display: block;
 }
 

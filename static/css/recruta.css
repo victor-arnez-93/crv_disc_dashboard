@@ -576,7 +576,8 @@
 .disc-badge.s { background: #27ae60; }
 .disc-badge.c { background: #3498db; }
 
-.btn-acao {
+.area-candidato .btn-acao,
+.area-empresa .btn-acao {
     background: var(--cor-primaria);
     color: #FFFFFF;
     border: none;
@@ -589,16 +590,19 @@
     font-family: 'Manrope', sans-serif;
 }
 
-.btn-acao:hover {
+.area-candidato .btn-acao:hover,
+.area-empresa .btn-acao:hover {
     background: #ff8c52;
     box-shadow: 0 4px 12px rgba(249, 137, 72, 0.3);
 }
 
-[data-theme="light"] .btn-acao {
+[data-theme="light"] .area-candidato .btn-acao,
+[data-theme="light"] .area-empresa .btn-acao {
     background: var(--cor-secundaria);
 }
 
-[data-theme="light"] .btn-acao:hover {
+[data-theme="light"] .area-candidato .btn-acao:hover,
+[data-theme="light"] .area-empresa .btn-acao:hover {
     background: #2d2870;
     box-shadow: 0 4px 12px rgba(36, 30, 78, 0.3);
 }

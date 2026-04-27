@@ -2,7 +2,6 @@
 // MAIN.JS — DISC DASHBOARD
 // Relógio, Tema Claro/Escuro, Clima, Sidebar Desktop + Mobile
 // ===================================================================
-
 // ===============================
 // RELÓGIO DIGITAL
 // ===============================
@@ -27,16 +26,37 @@ const sidebar = document.getElementById("sidebar");
 const btnMenuDesktop = document.getElementById("btnMenu");
 const btnMenuMobile = document.getElementById("btnMenuMobile");
 
-function atualizarIconeClimaPorHora() {
-    const iconeClimaImg = document.getElementById("iconeClimaImg");
-    if (!iconeClimaImg) return;
-
+// ===============================
+// ÍCONE CLIMA POR HORA + WEATHERCODE
+// ===============================
+function isDia() {
     const hora = new Date().getHours();
-
-    iconeClimaImg.src = (hora >= 6 && hora < 18)
-        ? "static/imagens/ico_dia.png"
-        : "static/imagens/ico_noite.png";
+    return hora >= 6 && hora < 18;
 }
+
+function getIcone(code) {
+    if (code <= 1) return isDia() ? "static/imagens/ico_dia.png" : "static/imagens/ico_noite.png";
+    if (code <= 3) return "static/imagens/ico_nublado.png";
+    if (code <= 67) return "static/imagens/ico_chuva.png";
+    if (code <= 82) return "static/imagens/ico_chuva.png";
+    return "static/imagens/ico_chuva.png";
+}
+
+function atualizarIconeClimaPorHora() {
+    const icone = document.getElementById("iconeClimaImg");
+    if (!icone) return;
+
+    // Só troca se o ícone atual for dia ou noite (não interfere em chuva/nublado)
+    const src = icone.src || "";
+    if (src.includes("ico_dia") || src.includes("ico_noite")) {
+        icone.src = isDia()
+            ? "static/imagens/ico_dia.png"
+            : "static/imagens/ico_noite.png";
+    }
+}
+
+// Checa a cada minuto se virou 18h ou 6h
+setInterval(atualizarIconeClimaPorHora, 60000);
 
 // ===============================
 // TEMA CLARO / ESCURO
@@ -90,7 +110,6 @@ if (weatherBox && modalClima) {
 // ===============================
 // CLIMA REAL — OPEN METEO
 // ===============================
-
 async function carregarClima() {
     const temperatura = document.getElementById("temperatura");
     const modalBody   = document.getElementById("modalClimaBody");
@@ -116,34 +135,26 @@ async function carregarClima() {
             return "⛈️";
         };
 
-        const getIcone = (code) => {
-            if (code === 0) return "static/imagens/ico_dia.png";
-            if (code <= 3) return "static/imagens/ico_nublado.png";
-            if (code <= 67) return "static/imagens/ico_chuva.png";
-            return "static/imagens/ico_dia.png";
-        };
-
-        // temperatura atual
+        // Temperatura atual
         temperatura.textContent = Math.round(data.current_weather.temperature) + "°C";
 
-        // ícone do clima
+        // Ícone respeita weathercode + hora do dia
         if (icone) {
             icone.src = getIcone(data.current_weather.weathercode);
         }
 
-    // modal (3 dias) — versão correta
-const previsoes = data.daily.time.map((d, i) => {
-    const dt = new Date(d + "T12:00:00");
+        // Modal 3 dias
+        const previsoes = data.daily.time.map((d, i) => {
+            const dt = new Date(d + "T12:00:00");
+            return {
+                dia: i === 0 ? "Hoje" : diasSemana[dt.getDay()],
+                max: Math.round(data.daily.temperature_2m_max[i]),
+                min: Math.round(data.daily.temperature_2m_min[i]),
+                emoji: getEmoji(data.daily.weathercode[i])
+            };
+        });
 
-    return {
-        dia: i === 0 ? "Hoje" : diasSemana[dt.getDay()],
-        max: Math.round(data.daily.temperature_2m_max[i]),
-        min: Math.round(data.daily.temperature_2m_min[i]),
-        emoji: getEmoji(data.daily.weathercode[i])
-    };
-});
-
-atualizarModalClima(previsoes);
+        atualizarModalClima(previsoes);
 
     } catch (e) {
         console.error("Erro clima:", e);
@@ -154,7 +165,6 @@ atualizarModalClima(previsoes);
     }
 }
 
-// Atualiza clima a cada 10 minutos
 carregarClima();
 setInterval(carregarClima, 600000);
 
@@ -164,7 +174,6 @@ function atualizarModalClima(previsoes) {
 
     const diasElementos = modalClima.querySelectorAll('.previsao-dia');
 
-    // Se não existir estrutura, cria
     if (diasElementos.length === 0) {
         modalClima.innerHTML = previsoes.map(p => `
             <div class="previsao-dia">
@@ -176,17 +185,14 @@ function atualizarModalClima(previsoes) {
         return;
     }
 
-    // Se já existir, atualiza
     previsoes.forEach((prev, index) => {
         const el = diasElementos[index];
         if (!el) return;
-
-        const dia = el.querySelector('.dia-nome');
-        const temp = el.querySelector('.temperaturas');
+        const dia   = el.querySelector('.dia-nome');
+        const temp  = el.querySelector('.temperaturas');
         const emoji = el.querySelector('.emoji-clima');
-
-        if (dia) dia.textContent = prev.dia;
-        if (temp) temp.textContent = `${prev.max}° / ${prev.min}°`;
+        if (dia)   dia.textContent   = prev.dia;
+        if (temp)  temp.textContent  = `${prev.max}° / ${prev.min}°`;
         if (emoji) emoji.textContent = prev.emoji;
     });
 }
@@ -256,7 +262,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // ============================================================
 // MENU MOBILE — CONTROLE COMPLETO (GLOBAL)
 // ============================================================
-// Criar overlay uma vez no carregamento
 let overlay = document.getElementById("sidebar-overlay");
 if (!overlay) {
   overlay = document.createElement("div");
@@ -265,10 +270,8 @@ if (!overlay) {
   document.body.appendChild(overlay);
 }
 
-// Referências
 const btnFechar = document.querySelector(".sidebar-fechar");
 
-// ABRIR menu mobile (botão hambúrguer)
 if (btnMenuMobile && sidebar) {
   btnMenuMobile.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -278,7 +281,6 @@ if (btnMenuMobile && sidebar) {
   });
 }
 
-// FECHAR menu (botão X)
 if (btnFechar && sidebar) {
   btnFechar.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -288,7 +290,6 @@ if (btnFechar && sidebar) {
   });
 }
 
-// FECHAR ao clicar no overlay
 if (overlay && sidebar) {
   overlay.addEventListener("click", () => {
     sidebar.classList.remove("aberta");
@@ -297,7 +298,6 @@ if (overlay && sidebar) {
   });
 }
 
-// FECHAR ao clicar em qualquer link do menu
 document.querySelectorAll('.sidebar .menu-item').forEach(item => {
   item.addEventListener('click', () => {
     if (window.innerWidth <= 768) {
@@ -313,12 +313,10 @@ document.querySelectorAll('.sidebar .menu-item').forEach(item => {
 // ============================================================
 function ajustarMenuResponsivo() {
   if (window.innerWidth <= 768) {
-    // Mobile: sidebar começa fechada (fora da tela)
     sidebar.classList.remove("aberta");
     overlay.classList.remove("mostrar");
     document.body.classList.remove("menu-aberto");
   } else {
-    // Desktop: remove classes mobile
     sidebar.classList.remove("aberta");
     document.body.classList.remove("menu-aberto");
   }
@@ -331,7 +329,6 @@ window.addEventListener("DOMContentLoaded", ajustarMenuResponsivo);
 // ============================================================
 (function marcarMenuAtivo() {
     const pagina = window.location.pathname.split('/').pop().replace('.html', '') || 'index';
-
     document.querySelectorAll('.menu-item').forEach(btn => {
         btn.classList.remove('active');
         const dp = (btn.dataset.page || '').toLowerCase().trim();
