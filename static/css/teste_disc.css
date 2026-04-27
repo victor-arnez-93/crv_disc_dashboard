@@ -551,6 +551,56 @@
     justify-content: center;
 }
 
+[data-theme="light"] .modal-redir-content {
+    background: #FFFFFF;
+    border-color: #241E4E;
+    box-shadow: 0 0 20px rgba(36,30,78,0.2), 0 8px 32px rgba(0,0,0,0.15);
+}
+
+/* ============================================
+   MENU-BTN (replicado do inicio.css)
+   ============================================ */
+
+.menu-btn {
+    padding: 12px 20px;
+    border-radius: 30px;
+    border: 2px solid rgba(249,137,72,0.25);
+    background: linear-gradient(135deg, rgba(249,137,72,0.08), transparent);
+    color: var(--cor-texto);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(249,137,72,0.35), transparent 70%);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.menu-btn:hover::before { opacity: 1; }
+
+.menu-btn:hover {
+    border-color: rgba(249,137,72,0.7);
+    box-shadow: 0 0 14px rgba(249,137,72,0.6), inset 0 0 10px rgba(249,137,72,0.25);
+    transform: translateY(-3px) scale(1.03);
+}
+
+.menu-btn i {
+    color: var(--cor-primaria);
+    font-size: 16px;
+}
+
 .modal-redir-cancel {
     border-color: rgba(255,255,255,0.15) !important;
     background: transparent !important;
@@ -561,10 +611,28 @@
     box-shadow: 0 0 10px rgba(255,70,70,0.3) !important;
 }
 
-[data-theme="light"] .modal-redir-content {
-    background: #FFFFFF;
-    border-color: #241E4E;
-    box-shadow: 0 0 20px rgba(36,30,78,0.2), 0 8px 32px rgba(0,0,0,0.15);
+/* Tema claro */
+[data-theme="light"] .menu-btn {
+    border-color: rgba(36,30,78,0.2);
+    background: linear-gradient(135deg, rgba(36,30,78,0.06), transparent);
+    color: #241E4E;
+}
+
+[data-theme="light"] .menu-btn i {
+    color: #241E4E;
+}
+
+[data-theme="light"] .menu-btn:hover {
+    border-color: rgba(36,30,78,0.5);
+    box-shadow: 0 0 14px rgba(36,30,78,0.2), inset 0 0 10px rgba(36,30,78,0.1);
+}
+
+[data-theme="light"] .modal-redir-cancel {
+    border-color: rgba(0,0,0,0.15) !important;
+}
+
+[data-theme="light"] .modal-redir-cancel:hover {
+    border-color: rgba(255,70,70,0.5) !important;
 }
 
 /* ============================================
