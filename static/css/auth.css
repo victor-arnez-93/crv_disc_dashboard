@@ -384,23 +384,49 @@
     gap: 12px;
     justify-content: center;
 }
+
 .auth-btn-cancelar {
-    background: transparent;
-    border: 2px solid rgba(249,137,72,0.3);
-    color: var(--cor-texto, #ddd);
+    padding: 10px 20px !important;
+    border-radius: 30px !important;
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent !important;
+    border: 2px solid rgba(249,137,72,0.3) !important;
+    color: var(--cor-texto, #ddd) !important;
+    transition: .25s ease;
+    transform: none !important;
+    box-shadow: none !important;
 }
 .auth-btn-cancelar:hover {
-    border-color: rgba(249,137,72,0.6);
+    border-color: rgba(249,137,72,0.6) !important;
+    transform: none !important;
+    box-shadow: none !important;
 }
 .auth-btn-confirmar {
-    background: var(--cor-primaria, #F98948);
-    color: #0a0a0a;
-    border: none;
+    padding: 10px 20px !important;
+    border-radius: 30px !important;
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--cor-primaria, #F98948) !important;
+    color: #0a0a0a !important;
+    border: none !important;
+    transition: .25s ease;
 }
 .auth-btn-confirmar:hover {
-    box-shadow: 0 0 16px rgba(249,137,72,0.5);
-    transform: translateY(-1px);
+    box-shadow: 0 0 16px rgba(249,137,72,0.5) !important;
+    transform: translateY(-1px) !important;
 }
+
 .user-foto {
     width: 36px;
     height: 36px;

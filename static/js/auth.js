@@ -44,12 +44,12 @@
                 <h3 class="auth-modal-titulo">Sair do sistema?</h3>
                 <p class="auth-modal-subtitulo">Você será desconectado e retornará à tela de login.</p>
                 <div class="auth-modal-acoes">
-                    <button class="menu-btn auth-btn-cancelar" id="btnSairCancelar">
-                        <i class="fas fa-times"></i> Cancelar
-                    </button>
-                    <button class="menu-btn auth-btn-confirmar" id="btnSairConfirmar">
-                        <i class="fas fa-check"></i> Confirmar
-                    </button>
+                <button class="auth-btn-cancelar" id="btnSairCancelar">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button class="auth-btn-confirmar" id="btnSairConfirmar">
+                    <i class="fas fa-check"></i> Confirmar
+                </button>
                 </div>
             </div>
         `;
