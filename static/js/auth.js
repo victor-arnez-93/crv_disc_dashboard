@@ -194,14 +194,14 @@ userBox.innerHTML = `
     modal.innerHTML = `
         <div class="login-content">
             <div class="login-logo-topo">
-                <img src="static/imagens/logo_disc.png" alt="DISC Dashboard"
-                     onclick="window.open('https://crvsolucoesti.com/','_blank','noopener,noreferrer')">
+                <img src="static/imagens/logo_disc.png" alt="DISC Dashboard">
+                <span class="login-dashboard-label">DASHBOARD</span>
             </div>
             <div class="login-header">
                 <i class="fas fa-lock"></i>
                 <h3>Acesso ao Painel</h3>
             </div>
-            <p class="login-subtitulo">Entre com suas credenciais ou acesse como visitante.</p>
+            <p class="login-subtitulo login-subtitulo-center">Entre com suas credenciais ou acesse como visitante.</p>
             <div class="login-group">
                 <label for="loginEmail">E-mail</label>
                 <input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="username">

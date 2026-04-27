@@ -396,3 +396,34 @@
     display: block;
     border: 2px solid rgba(249,137,72,0.4);
 }
+/* DASHBOARD abaixo da logo */
+.login-logo-topo {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.login-dashboard-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--cor-primaria, #F98948);
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
+/* Header centralizado */
+.login-header {
+    justify-content: center;
+    text-align: center;
+}
+
+/* Subtítulo centralizado em Rajdhani */
+.login-subtitulo-center {
+    text-align: center;
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600;
+    opacity: 0.8;
+}
