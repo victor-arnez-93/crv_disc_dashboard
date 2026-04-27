@@ -107,10 +107,10 @@
                 <div class="user-modal-divisor"></div>
                 <div class="user-modal-acoes">
                     ${isAdmin ? `
-                    <button class="menu-btn user-modal-btn" id="btnModalConfig">
+                    <button class="user-modal-btn" id="btnModalConfig">
                         <i class="fas fa-cog"></i> Configuracoes
-                    </button>` : ""}
-                    <button class="menu-btn user-modal-btn user-modal-btn-sair" id="btnModalSair">
+                    </button>
+                    <button class="user-modal-btn user-modal-btn-sair" id="btnModalSair">
                         <i class="fas fa-sign-out-alt"></i> Sair
                     </button>
                 </div>
