@@ -96,7 +96,11 @@
                     <div class="user-modal-avatar">
                     ${isAdmin
                         ? `<img src="static/imagens/foto2.jpeg" alt="Usuário">`
-                        : `<i class="fas fa-user-circle"></i>`}
+                        : `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;">
+    <circle cx="20" cy="20" r="20" fill="rgba(249,137,72,0.15)"/>
+    <circle cx="20" cy="17" r="7" fill="#F98948" opacity="0.9"/>
+    <ellipse cx="20" cy="31" rx="11" ry="7" fill="#F98948" opacity="0.9"/>
+  </svg>`
                     </div>
                     <div>
                         <div class="user-modal-nome">${usuario.nome}</div>
@@ -152,7 +156,13 @@
             <div class="user-avatar-clicavel" id="userAvatarBtn" title="Minha conta">
                 ${isAdmin
                     ? `<img src="${usuario.foto || 'static/imagens/foto2.jpeg'}" alt="Usuário" class="user-foto">`
-                    : `<div class="user-foto user-avatar-visitante"><i class="fas fa-user-circle"></i></div>`}
+                    : `<div class="user-foto user-avatar-visitante">
+    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="18" cy="18" r="18" fill="rgba(249,137,72,0.15)"/>
+        <circle cx="18" cy="15" r="6" fill="#F98948" opacity="0.9"/>
+        <ellipse cx="18" cy="27" rx="10" ry="6" fill="#F98948" opacity="0.9"/>
+    </svg>
+   </div>`
             </div>
             <div class="user-info">
                 <span class="user-name">${usuario.nome}</span>
