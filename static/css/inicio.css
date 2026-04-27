@@ -1324,6 +1324,28 @@
     z-index: 2;
 }
 
+.card-ver-mais {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--cor-primaria, #F98948);      /* laranja — tema escuro */
+    transition: opacity .2s, gap .2s;
+}
+
+[data-theme="light"] .card-ver-mais {
+    color: #241E4E;                            /* azul escuro — tema claro */
+}
+
+.card-ver-mais:hover {
+    opacity: .75;
+    gap: 10px;
+}
+
 /* RESPONSIVO */
 @media (max-width: 1200px) {
     .dashboard-container { padding: 18px 14px; }
