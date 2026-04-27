@@ -9,16 +9,12 @@ const RSS_FEEDS = [
 ];
 
 // IMAGENS PADRÃO
-const IMG_TEMA = [
-  "/static/imagens/rh_ia1.jpg",
-  "/static/imagens/rh_ia2.jpg",
-  "/static/imagens/startups1.jpg",
-  "/static/imagens/noticia_placeholder.jpg"
-];
-
-function imagemTematicaAleatoria() {
-  return IMG_TEMA[Math.floor(Math.random() * IMG_TEMA.length)];
+function imagemMitSloan() {
+  return Math.random() > 0.5
+    ? "/static/imagens/imgnot1.png"
+    : "/static/imagens/imgnot2.png";
 }
+
 
 let noticias = [];
 
@@ -47,14 +43,17 @@ function formatarDataRelativa(data) {
 }
 
 // OBTER IMAGEM
-function obterImagemNoticia(item) {
+function obterImagemNoticia(item, feed) {
   if (item.thumbnail && item.thumbnail.length > 10) return item.thumbnail;
   if (item.enclosure && item.enclosure.link) return item.enclosure.link;
 
   const conteudo = item.description || item["content:encoded"] || "";
   const imgMatch = conteudo.match(/<img.*?src=["'](.*?)["']/i);
+  if (imgMatch) return imgMatch[1];
 
-  return imgMatch ? imgMatch[1] : imagemTematicaAleatoria();
+  if (feed.categoria === "mitsloan") return imagemMitSloan();
+
+  return "";
 }
 
 
@@ -230,7 +229,7 @@ async function buscarNoticiasMultiRSS() {
         categoria: feed.categoria,
         fonte: feed.nome,
         data: item.pubDate,
-        imagem: obterImagemNoticia(item),
+        imagem: obterImagemNoticia(item, feed),
         link: item.link
       }));
 

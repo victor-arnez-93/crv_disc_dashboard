@@ -180,6 +180,8 @@ function carregarFoto() {
         { url: "/static/imagens/img6.png", titulo: "Análise e gestão",            legenda: "A gestão moderna combina análise de dados com leitura comportamental para decisões mais eficazes." },
         { url: "/static/imagens/img7.png", titulo: "Performance e resultados",    legenda: "Resultados consistentes vêm da capacidade de transformar informação em ação estratégica." },
         { url: "/static/imagens/img8.png", titulo: "Perfil comportamental (DISC)", legenda: "Compreender perfis comportamentais melhora comunicação, liderança e desempenho em equipe." }
+        { url: "/static/imagens/imgnot1.png", titulo: "Liderança e estratégia",  legenda: "Líderes eficazes não apenas tomam decisões — eles constroem o contexto para que boas decisões aconteçam." },
+        { url: "/static/imagens/imgnot2.png", titulo: "Gestão e inovação",        legenda: "Organizações que combinam rigor analítico com abertura à mudança constroem vantagem competitiva sustentável." }
     ];
 
     const base = Math.floor(Date.now() / 86400000);
