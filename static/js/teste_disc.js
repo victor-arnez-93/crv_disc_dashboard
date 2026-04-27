@@ -101,11 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// ============================================
-// REDIRECIONAMENTO (MANTIDO)
-// ============================================
-
-function irParaSistema(tipo) {
+// ===== REDIRECIONAMENTO SITE DISC =====
+window.irParaSistema = function(tipo) {
 
     const urls = {
         disc: "https://www.discprofpaulorocha.com/"
@@ -118,11 +115,6 @@ function irParaSistema(tipo) {
     const confirm = document.getElementById("modalRedirConfirm");
     const cancel  = document.getElementById("modalRedirCancel");
 
-    if (!modal) {
-        window.open(url, "_blank");
-        return;
-    }
-
     modal.classList.add("ativo");
 
     confirm.onclick = () => {
@@ -130,11 +122,9 @@ function irParaSistema(tipo) {
         window.open(url, "_blank");
     };
 
-    cancel.onclick = () => {
-        modal.classList.remove("ativo");
-    };
+    cancel.onclick = () => modal.classList.remove("ativo");
 
     modal.onclick = (e) => {
         if (e.target === modal) modal.classList.remove("ativo");
     };
-}
+};
