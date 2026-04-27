@@ -22,6 +22,50 @@
         }
     ];
 
+// ── Atualiza foto/ícone e injeta modal de usuário no header ─────────────
+function atualizarHeaderUsuario(usuario) {
+    const userBox = document.querySelector(".user-box");
+    if (!userBox) return;
+
+    const isAdmin     = usuario.role === "admin";
+    const avatarHTML  = isAdmin
+        ? `<img src="static/imagens/foto_usuario.jpg" alt="Usuário" class="user-avatar">`
+        : `<div class="user-avatar user-avatar-visitante"><i class="fas fa-user-circle"></i></div>`;
+
+    userBox.innerHTML = `
+        ${avatarHTML}
+        <div class="user-info">
+            <span class="user-nome">${usuario.nome}</span>
+            <span class="user-cargo">${usuario.cargo}</span>
+        </div>
+        <i class="fas fa-chevron-down user-chevron"></i>
+        <div class="user-dropdown" id="userDropdown">
+            ${isAdmin ? `<button class="user-dd-item" onclick="window.location.href='configuracoes.html'">
+                <i class="fas fa-cog"></i> Configurações
+            </button>` : ""}
+            <button class="user-dd-item user-dd-sair" id="btnSair">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </button>
+        </div>
+    `;
+
+    // Abre/fecha dropdown
+    userBox.addEventListener("click", (e) => {
+        e.stopPropagation();
+        userBox.classList.toggle("aberto");
+    });
+    document.addEventListener("click", () => userBox.classList.remove("aberto"));
+
+    // Sair
+    document.getElementById("btnSair")?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        try { sessionStorage.removeItem("__discSessao"); } catch {}
+        window.__discAuthOk  = false;
+        window.__discUsuario = null;
+        window.location.reload();
+    });
+}
+
     // ── Aplica restrições de menu conforme o papel ───────────────────────────
     function aplicarPermissoes(role) {
         if (role === "admin") return; // admin vê tudo
@@ -32,13 +76,21 @@
         });
     }
 
-    // ── Se já está autenticado nesta aba, apenas aplica permissões ───────────
-    if (window.__discAuthOk) {
-        document.addEventListener("DOMContentLoaded", () => {
-            aplicarPermissoes(window.__discUsuario?.role || "visitante");
-        });
-        return;
-    }
+// ── Recupera sessão do sessionStorage ────────────────────────────────────
+const _sessao = (() => {
+    try { return JSON.parse(sessionStorage.getItem("__discSessao")); }
+    catch { return null; }
+})();
+
+if (_sessao) {
+    window.__discAuthOk  = true;
+    window.__discUsuario = _sessao;
+    document.addEventListener("DOMContentLoaded", () => {
+        aplicarPermissoes(_sessao.role);
+        atualizarHeaderUsuario(_sessao);
+    });
+    return;
+}
 
     // ── Injeta CSS do modal ──────────────────────────────────────────────────
     const style = document.createElement("style");
@@ -227,6 +279,48 @@
             background: #f5f5f5;
             color: #241E4E;
         }
+        .user-avatar-visitante {
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(249,137,72,0.15);
+    border-radius: 50%;
+    font-size: 22px;
+    color: var(--cor-primaria, #F98948);
+}
+.user-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--cor-sidebar, #1c1b1b);
+    border: 1px solid rgba(249,137,72,0.25);
+    border-radius: 12px;
+    min-width: 180px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    z-index: 9999;
+    overflow: hidden;
+}
+.user-box { position: relative; cursor: pointer; }
+.user-box.aberto .user-dropdown { display: block; }
+.user-chevron {
+    font-size: 11px;
+    color: var(--cor-texto, #ddd);
+    opacity: .5;
+    transition: transform .2s;
+}
+.user-box.aberto .user-chevron { transform: rotate(180deg); }
+.user-dd-item {
+    width: 100%; padding: 11px 16px;
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Manrope', sans-serif; font-size: 13px;
+    color: var(--cor-texto, #ddd);
+    background: none; border: none; cursor: pointer;
+    transition: background .2s;
+    text-align: left;
+}
+.user-dd-item:hover { background: rgba(249,137,72,0.1); }
+.user-dd-sair { color: #ff6b6b; }
+.user-dd-sair:hover { background: rgba(255,70,70,0.1); }
     `;
     document.head.appendChild(style);
 
@@ -275,27 +369,25 @@
     const eIndex = paginaAtual === "index.html" || paginaAtual === "" || paginaAtual === "/";
 
     // ── Fecha modal e redireciona ────────────────────────────────────────────
-    function concluirLogin(usuario) {
-        window.__discAuthOk  = true;
-        window.__discUsuario = usuario;
+function concluirLogin(usuario) {
+    window.__discAuthOk  = true;
+    window.__discUsuario = usuario;
 
-        modal.classList.add("fechando");
+    // ✅ Persiste na aba inteira
+    try { sessionStorage.setItem("__discSessao", JSON.stringify(usuario)); } catch {}
 
-        setTimeout(() => {
-            modal.remove();
+    modal.classList.add("fechando");
 
-            // Aplica permissões ANTES de navegar (caso já esteja no index)
-            aplicarPermissoes(usuario.role);
-
-            // Dispara evento para configuracoes.js preencher o header
-            document.dispatchEvent(new CustomEvent("discLoginOk", { detail: usuario }));
-
-            // Redireciona para index se não estiver lá
-            if (!eIndex) {
-                window.location.href = "index.html";
-            }
-        }, 300);
-    }
+    setTimeout(() => {
+        modal.remove();
+        aplicarPermissoes(usuario.role);
+        atualizarHeaderUsuario(usuario);
+        document.dispatchEvent(new CustomEvent("discLoginOk", { detail: usuario }));
+        if (!eIndex) {
+            window.location.href = "index.html";
+        }
+    }, 300);
+}
 
     // ── Lógica do botão Entrar ───────────────────────────────────────────────
     function tentarLogin() {

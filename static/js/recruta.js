@@ -142,10 +142,12 @@ function iniciarFormCandidato() {
 
             console.log('Cadastrando candidato:', candidato);
 
-            localStorage.setItem('candidato_nome', candidato.nome);
-            localStorage.setItem('candidato_email', candidato.email);
+            window.candidatoSessao = {
+                nome:  candidato.nome,
+                email: candidato.email
+            };
 
-            alert('✓ Cadastro realizado! Você será direcionado para o Teste DISC.');
+            mostrarAviso('✓ Cadastro realizado! Você será direcionado para o Teste DISC.');
             setTimeout(() => {
                 window.location.href = 'teste_disc.html';
             }, 1500);

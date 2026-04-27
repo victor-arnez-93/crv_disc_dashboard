@@ -175,17 +175,13 @@ function renderizarNoticias() {
   noticias.forEach((n, idx) => {
     container.appendChild(criarCardNoticia(n, idx));
   });
-}
 
-// Salva para a tela inicial usar
-if (noticias.length > 0) {
-    sessionStorage.setItem("destaquesInicio", JSON.stringify(
-        noticias.slice(0, 2).map(n => ({
-            titulo: n.titulo,
-            fonte:  n.fonte,
-            link:   n.link
-        }))
-    ));
+  // ✅ ADICIONADO — salva em memória global após popular o array
+  window.destaquesInicio = noticias.slice(0, 2).map(n => ({
+    titulo: n.titulo,
+    fonte:  n.fonte,
+    link:   n.link
+  }));
 }
 
 // ============================================================================
