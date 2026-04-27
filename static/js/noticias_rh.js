@@ -60,12 +60,10 @@ function obterImagemNoticia(item, feed) {
 // ============================================================================
 // MODAL — FUNÇÃO COM SUPORTE AUTOMÁTICO A QUALQUER ID EXISTENTE
 // ============================================================================
-
 function abrirModalNoticia(idx) {
   const n = noticias[idx];
   if (!n) return;
 
-  // Identifica dinamicamente os elementos reais existentes no HTML
   const modalBG = document.getElementById("modal-noticia-bg") || document.getElementById("modalNoticia");
   const modalConteudo = document.getElementById("modal-noticia-conteudo") || document.getElementById("modalNoticiaConteudo");
   const modalTitulo = document.getElementById("modal-noticia-titulo") || document.getElementById("modalNoticiaTitulo");
@@ -76,51 +74,31 @@ function abrirModalNoticia(idx) {
     ? `<div class="noticia-imagem-modal" style="background-image:url('${n.imagem}')"></div>`
     : "";
 
-  // --------------------------------------------------------------------
-  // LIMPEZA DO CONTEÚDO (VERSÃO ROBUSTA PARA FEED REAL)
-  // --------------------------------------------------------------------
   let conteudo = n.conteudo || n.resumo || "";
 
+  // Remove tags e lixo indesejado
+  conteudo = conteudo
+    .replace(/<img[^>]*>/gi, "")
+    .replace(/<figure[^>]*>[\s\S]*?<\/figure>/gi, "")
+    .replace(/<button[^>]*>[\s\S]*?<\/button>/gi, "")
+    .replace(/<input[^>]*>/gi, "")
+    .replace(/<div[^>]*class=["'][^"']*publicidad[^"']*["'][^>]*>[\s\S]*?<\/div>/gi, "")
+    .replace(/<div[^>]*class=["'][^"']*salvar[^"']*["'][^>]*>[\s\S]*?<\/div>/gi, "")
+    .replace(/Publicidade/gi, "")
+    .replace(/Salvar conteúdo\s*\d*/gi, "");
+
+  // Extrai só texto puro de cada <p>
   if (conteudo.includes("</p>")) {
+    let partes = conteudo.split(/<\/p>/i)
+      .map(p => p.replace(/<[^>]+>/g, "").trim())
+      .filter(p => p.length > 20)
+      .map(p => `<p>${p}</p>`);
 
-      let partes = conteudo.split(/<\/p>/i).map(p => p + "</p>");
-
-      partes = partes.filter(p => {
-          const clean = p.toLowerCase();
-          return !clean.includes("relacionad")
-              && !clean.includes("<ul")
-              && !clean.includes("<li")
-              && !clean.includes("<h1")
-              && !clean.includes("<h2")
-              && !clean.includes("<h3")
-              && !clean.includes("href=")
-              && p.replace(/<[^>]+>/g, "").trim() !== "";
-      });
-
-      partes = partes.map(p => p.replace(/<img[^>]*>/gi, ""));
-
-      if (partes.length === 0) {
-          conteudo = `<p>${n.resumo}</p>`;
-      }
-      else if (partes.length === 1) {
-          let extra = (n.conteudo || "").replace(/<[^>]+>/g, "");
-          extra = extra.substring(0, 500);
-          conteudo = partes[0] + `<p>${extra}</p>`;
-      }
-      else {
-          conteudo = partes.join("");
-      }
-
+    conteudo = partes.length > 0 ? partes.join("") : `<p>${n.resumo}</p>`;
   } else {
-
-      let textoCru = conteudo.replace(/<[^>]*>/g, "").trim();
-      conteudo = `
-          <p>${n.resumo}</p>
-          <p>${textoCru.substring(0, 500)}...</p>
-      `;
+    const textoCru = conteudo.replace(/<[^>]*>/g, "").trim();
+    conteudo = `<p>${n.resumo}</p>${textoCru.length > 50 ? `<p>${textoCru.substring(0, 800)}</p>` : ""}`;
   }
-
-  conteudo = conteudo.replace(/<img[^>]*>/gi, "");
 
   // --------------------------------------------------------------------
   // APLICAÇÃO NO MODAL (somente se o elemento existir → sem erros)
