@@ -148,17 +148,17 @@
 
         const isAdmin = usuario.role === "admin";
 
-userBox.innerHTML = `
-    <div class="user-avatar-clicavel" id="userAvatarBtn" title="Minha conta">
-        ${isAdmin
-`<img src="${usuario.foto || 'static/imagens/foto2.jpeg'}" alt="Usuário" class="user-foto">`
-            : `<div class="user-foto user-avatar-visitante"><i class="fas fa-user-circle"></i></div>`}
-    </div>
-    <div class="user-info">
-        <span class="user-name">${usuario.nome}</span>
-        <span class="user-role">${usuario.cargo}</span>
-    </div>
-`;
+        userBox.innerHTML = `
+            <div class="user-avatar-clicavel" id="userAvatarBtn" title="Minha conta">
+                ${isAdmin
+                    ? `<img src="${usuario.foto || 'static/imagens/foto2.jpeg'}" alt="Usuário" class="user-foto">`
+                    : `<div class="user-foto user-avatar-visitante"><i class="fas fa-user-circle"></i></div>`}
+            </div>
+            <div class="user-info">
+                <span class="user-name">${usuario.nome}</span>
+                <span class="user-role">${usuario.cargo}</span>
+            </div>
+        `;
 
         document.getElementById("userAvatarBtn")?.addEventListener("click", (e) => {
             e.stopPropagation();
