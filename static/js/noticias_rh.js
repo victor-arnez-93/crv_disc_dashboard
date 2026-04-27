@@ -109,7 +109,7 @@ function abrirModalNoticia(idx) {
           conteudo = partes[0] + `<p>${extra}</p>`;
       }
       else {
-          conteudo = partes.slice(0, 3).join("");
+          conteudo = partes.join("");
       }
 
   } else {
