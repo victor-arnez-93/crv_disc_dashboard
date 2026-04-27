@@ -497,3 +497,36 @@ document.addEventListener('DOMContentLoaded', () => {
     inicializarEventos();
     mostrarTela('intro');
 });
+
+// ============================================
+// REDIRECIONAMENTO (IGUAL INICIO.JS)
+// ============================================
+
+function irParaSistema(tipo) {
+
+    const urls = {
+        disc: "https://www.discprofpaulorocha.com/"
+    };
+
+    const url = urls[tipo];
+    if (!url) return;
+
+    const modal   = document.getElementById("modalRedir");
+    const confirm = document.getElementById("modalRedirConfirm");
+    const cancel  = document.getElementById("modalRedirCancel");
+
+    modal.classList.add("ativo");
+
+    confirm.onclick = () => {
+        modal.classList.remove("ativo");
+        window.open(url, "_blank");
+    };
+
+    cancel.onclick = () => {
+        modal.classList.remove("ativo");
+    };
+
+    modal.onclick = (e) => {
+        if (e.target === modal) modal.classList.remove("ativo");
+    };
+}
