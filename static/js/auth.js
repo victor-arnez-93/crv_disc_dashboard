@@ -94,9 +94,9 @@
             <div class="user-modal-box" id="userModalBox" style="top:${rect.bottom + 10}px; right:${window.innerWidth - rect.right}px;">
                 <div class="user-modal-header">
                     <div class="user-modal-avatar">
-                        ${isAdmin
-                            ? `<img src="static/imagens/foto_usuario.jpg" alt="Usuário">`
-                            : `<i class="fas fa-user-circle"></i>`}
+                    ${isAdmin
+                        ? `<img src="static/imagens/foto2.jpeg" alt="Usuário">`
+                        : `<i class="fas fa-user-circle"></i>`}
                     </div>
                     <div>
                         <div class="user-modal-nome">${usuario.nome}</div>
@@ -148,17 +148,17 @@
 
         const isAdmin = usuario.role === "admin";
 
-        userBox.innerHTML = `
-            <div class="user-avatar-clicavel" id="userAvatarBtn" title="Minha conta">
-                ${isAdmin
-                    ? `<img src="static/imagens/foto_usuario.jpg" alt="Usuário" class="user-avatar">`
-                    : `<div class="user-avatar user-avatar-visitante"><i class="fas fa-user-circle"></i></div>`}
-            </div>
-            <div class="user-info">
-                <span class="user-nome">${usuario.nome}</span>
-                <span class="user-cargo">${usuario.cargo}</span>
-            </div>
-        `;
+userBox.innerHTML = `
+    <div class="user-avatar-clicavel" id="userAvatarBtn" title="Minha conta">
+        ${isAdmin
+`<img src="${usuario.foto || 'static/imagens/foto2.jpeg'}" alt="Usuário" class="user-foto">`
+            : `<div class="user-foto user-avatar-visitante"><i class="fas fa-user-circle"></i></div>`}
+    </div>
+    <div class="user-info">
+        <span class="user-name">${usuario.nome}</span>
+        <span class="user-role">${usuario.cargo}</span>
+    </div>
+`;
 
         document.getElementById("userAvatarBtn")?.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -168,8 +168,14 @@
 
     // ── Recupera sessão persistida ───────────────────────────────────────────
     const _sessao = (() => {
-        try { return JSON.parse(sessionStorage.getItem("__discSessao")); }
-        catch { return null; }
+        try {
+            const sess = JSON.parse(sessionStorage.getItem("__discSessao"));
+            if (!sess) return null;
+
+            // Mescla com perfil salvo localmente (foto, nome, cargo)
+            const perfil = JSON.parse(localStorage.getItem("__discPerfil") || "{}");
+            return { ...sess, ...perfil };
+        } catch { return null; }
     })();
 
     if (_sessao) {

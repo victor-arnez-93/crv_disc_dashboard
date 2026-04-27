@@ -7,17 +7,27 @@
 
 (function () {
 
-    function getPerfil() {
-        return window.__discPerfil || {
-            nome: "Prof. Paulo Rubens", cargo: "Gestão de Pessoas",
-            email: "paulo@email.com", foto: null
-        };
-    }
+function getPerfil() {
+    if (window.__discPerfil) return window.__discPerfil;
+    try {
+        const salvo = JSON.parse(localStorage.getItem("__discPerfil") || "null");
+        if (salvo) { window.__discPerfil = salvo; return salvo; }
+    } catch {}
+    return { nome: "Prof. Paulo Rocha", cargo: "Gestão de Pessoas", email: "paulo.rocha@fatecitapetininga.edu.br", foto: null };
+}
 
-    function setPerfil(dados) {
-        window.__discPerfil = { ...getPerfil(), ...dados };
-        document.dispatchEvent(new CustomEvent("discPerfilAtualizado", { detail: window.__discPerfil }));
-    }
+function setPerfil(dados) {
+    const atualizado = { ...getPerfil(), ...dados };
+    window.__discPerfil = atualizado;
+    try { localStorage.setItem("__discPerfil", JSON.stringify(atualizado)); } catch {}
+    // Atualiza sessão ativa também
+    try {
+        const sess = JSON.parse(sessionStorage.getItem("__discSessao") || "{}");
+        sessionStorage.setItem("__discSessao", JSON.stringify({ ...sess, ...atualizado }));
+        window.__discUsuario = { ...sess, ...atualizado };
+    } catch {}
+    document.dispatchEvent(new CustomEvent("discPerfilAtualizado", { detail: atualizado }));
+}
 
     function aplicarPerfilHeader(perfil) {
         const nomeEl  = document.querySelector(".user-nome, .user-name, #userName, [data-user-nome]");
@@ -120,10 +130,14 @@
                 document.body.appendChild(fotoInput);
             }
             btnFoto.addEventListener("click", () => fotoInput.click());
-            fotoInput.addEventListener("change", function () {
-                const file = this.files[0]; if (!file) return;
-                const reader = new FileReader();
-                reader.onload = e => {
+                fotoInput.addEventListener("change", function () {
+                    const file = this.files[0]; if (!file) return;
+                    if (file.size > 500 * 1024) {
+                        mostrarToast("Foto muito grande. Máximo 500KB.", "erro");
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = e => {
                     const b64 = e.target.result;
                     if (fotoPreview) fotoPreview.src = b64;
                     setPerfil({ foto: b64 });

@@ -388,3 +388,11 @@
     box-shadow: 0 0 16px rgba(249,137,72,0.5);
     transform: translateY(-1px);
 }
+.user-foto {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    border: 2px solid rgba(249,137,72,0.4);
+}
