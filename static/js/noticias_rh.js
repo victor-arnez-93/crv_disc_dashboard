@@ -8,9 +8,11 @@ const RSS_FEEDS = [
   { nome: "MIT Sloan BR", rss: "https://api.rss2json.com/v1/api.json?rss_url=https://www.mitsloanreview.com.br/feed/", limite: 2, categoria: "mitsloan" }
 ];
 
-// IMAGENS PADRÃO
+// IMAGENS PADRÃO — alterna fixo por índice, sem repetir
+let _mitSloanContador = 0;
 function imagemMitSloan() {
-  return Math.random() > 0.5
+  _mitSloanContador++;
+  return _mitSloanContador % 2 === 1
     ? "/static/imagens/imgnot1.png"
     : "/static/imagens/imgnot2.png";
 }
@@ -188,6 +190,7 @@ function renderizarNoticias() {
 // BUSCA RSS
 // ============================================================================
 async function buscarNoticiasMultiRSS() {
+  _mitSloanContador = 0; // ← reseta ao recarregar
   let blocoNoticias = [];
 
   for (const feed of RSS_FEEDS) {

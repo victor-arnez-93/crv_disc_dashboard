@@ -35,10 +35,16 @@ function isDia() {
 }
 
 function getIcone(code) {
-    if (code <= 1) return isDia() ? "static/imagens/ico_dia.png" : "static/imagens/ico_noite.png";
-    if (code <= 3) return "static/imagens/ico_nublado.png";
-    if (code <= 67) return "static/imagens/ico_chuva.png";
-    if (code <= 82) return "static/imagens/ico_chuva.png";
+    // Chuva é SEMPRE ico_chuva, independente de dia ou noite
+    if (code >= 51 && code <= 82) return "static/imagens/ico_chuva.png";
+    if (code > 82)                 return "static/imagens/ico_chuva.png";
+
+    // Entre 18h e 6h → SEMPRE ico_noite (exceto chuva já tratada acima)
+    if (!isDia()) return "static/imagens/ico_noite.png";
+
+    // Período diurno: diferencia limpo, parcialmente nublado e nublado fechado
+    if (code <= 1) return "static/imagens/ico_dia.png";
+    if (code <= 3) return "static/imagens/ico_nublado.png";  // só de dia
     return "static/imagens/ico_chuva.png";
 }
 
@@ -46,12 +52,16 @@ function atualizarIconeClimaPorHora() {
     const icone = document.getElementById("iconeClimaImg");
     if (!icone) return;
 
-    // Só troca se o ícone atual for dia ou noite (não interfere em chuva/nublado)
     const src = icone.src || "";
+    // Atualiza dia→noite ou noite→dia apenas se NÃO for ícone de chuva ou nublado de dia
     if (src.includes("ico_dia") || src.includes("ico_noite")) {
         icone.src = isDia()
             ? "static/imagens/ico_dia.png"
             : "static/imagens/ico_noite.png";
+    }
+    // Se for nublado E virou noite, troca para ico_noite
+    if (src.includes("ico_nublado") && !isDia()) {
+        icone.src = "static/imagens/ico_noite.png";
     }
 }
 
