@@ -561,7 +561,7 @@
    MENU-BTN (replicado do inicio.css)
    ============================================ */
 
-.menu-btn {
+button.menu-btn {
     padding: 12px 20px;
     border-radius: 30px;
     border: 2px solid rgba(249,137,72,0.25);
@@ -579,7 +579,7 @@
     overflow: hidden;
 }
 
-.menu-btn::before {
+button.menu-btn::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -588,50 +588,50 @@
     transition: 0.3s;
 }
 
-.menu-btn:hover::before { opacity: 1; }
+button.menu-btn:hover::before { opacity: 1; }
 
-.menu-btn:hover {
+button.menu-btn:hover {
     border-color: rgba(249,137,72,0.7);
     box-shadow: 0 0 14px rgba(249,137,72,0.6), inset 0 0 10px rgba(249,137,72,0.25);
     transform: translateY(-3px) scale(1.03);
 }
 
-.menu-btn i {
+button.menu-btn i {
     color: var(--cor-primaria);
     font-size: 16px;
 }
 
-.modal-redir-cancel {
+button.modal-redir-cancel {
     border-color: rgba(255,255,255,0.15) !important;
     background: transparent !important;
 }
 
-.modal-redir-cancel:hover {
+button.modal-redir-cancel:hover {
     border-color: rgba(255,70,70,0.5) !important;
     box-shadow: 0 0 10px rgba(255,70,70,0.3) !important;
 }
 
 /* Tema claro */
-[data-theme="light"] .menu-btn {
+[data-theme="light"] button.menu-btn {
     border-color: rgba(36,30,78,0.2);
     background: linear-gradient(135deg, rgba(36,30,78,0.06), transparent);
     color: #241E4E;
 }
 
-[data-theme="light"] .menu-btn i {
+[data-theme="light"] button.menu-btn i {
     color: #241E4E;
 }
 
-[data-theme="light"] .menu-btn:hover {
+[data-theme="light"] button.menu-btn:hover {
     border-color: rgba(36,30,78,0.5);
     box-shadow: 0 0 14px rgba(36,30,78,0.2), inset 0 0 10px rgba(36,30,78,0.1);
 }
 
-[data-theme="light"] .modal-redir-cancel {
+[data-theme="light"] button.modal-redir-cancel {
     border-color: rgba(0,0,0,0.15) !important;
 }
 
-[data-theme="light"] .modal-redir-cancel:hover {
+[data-theme="light"] button.modal-redir-cancel:hover {
     border-color: rgba(255,70,70,0.5) !important;
 }
 
