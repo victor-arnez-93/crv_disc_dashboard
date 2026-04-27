@@ -65,7 +65,7 @@
         });
 
         document.getElementById("btnSairConfirmar").addEventListener("click", () => {
-            try { sessionStorage.removeItem("__discSessao"); } catch {}
+            try { localStorage.removeItem("__discSessao"); } catch {}
             window.__discAuthOk  = false;
             window.__discUsuario = null;
             window.location.reload();
@@ -179,7 +179,7 @@
     // ── Recupera sessão persistida ───────────────────────────────────────────
     const _sessao = (() => {
         try {
-            const sess = JSON.parse(sessionStorage.getItem("__discSessao"));
+            const sess = JSON.parse(localStorage.getItem("__discSessao"));
             if (!sess) return null;
 
             // Mescla com perfil salvo localmente (foto, nome, cargo)
@@ -244,7 +244,7 @@
     function concluirLogin(usuario) {
         window.__discAuthOk  = true;
         window.__discUsuario = usuario;
-        try { sessionStorage.setItem("__discSessao", JSON.stringify(usuario)); } catch {}
+        try { localStorage.setItem("__discSessao", JSON.stringify(usuario)); } catch {}
 
         modal.classList.add("fechando");
         setTimeout(() => {
