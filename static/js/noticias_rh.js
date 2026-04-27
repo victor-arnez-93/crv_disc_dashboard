@@ -2,10 +2,10 @@
 // CRV DISC – Notícias RH (Curadoria, Modal, Fallbacks e Compatibilidade Total)
 // ============================================================================
 
-// FEEDS
 const RSS_FEEDS = [
-  { nome: "Você RH", rss: "https://api.rss2json.com/v1/api.json?rss_url=https://vocerh.abril.com.br/feed/", limite: 5, categoria: "vocerh" },
-  { nome: "Startups", rss: "https://api.rss2json.com/v1/api.json?rss_url=https://startups.com.br/feed/", limite: 3, categoria: "startups" }
+  { nome: "Você RH",    rss: "https://api.rss2json.com/v1/api.json?rss_url=https://vocerh.abril.com.br/feed/",          limite: 5, categoria: "vocerh"   },
+  { nome: "Startups",   rss: "https://api.rss2json.com/v1/api.json?rss_url=https://startups.com.br/feed/",              limite: 2, categoria: "startups" },
+  { nome: "MIT Sloan BR", rss: "https://api.rss2json.com/v1/api.json?rss_url=https://www.mitsloanreview.com.br/feed/", limite: 2, categoria: "mitsloan" }
 ];
 
 // IMAGENS PADRÃO
