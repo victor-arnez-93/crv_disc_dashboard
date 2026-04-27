@@ -1,7 +1,7 @@
 // ============================================================================
 // auth.js — DISC Dashboard
 // • Bloqueia acesso sem login em todas as páginas
-// • Persiste sessão via sessionStorage entre navegações
+// • Persiste sessão via localStorage entre navegações
 // • Modal de usuário (foto/avatar clicável) com opções estilizadas
 // • Modal de confirmação de saída estilizado (tema claro/escuro)
 // • CSS externo → auth.css
@@ -21,7 +21,6 @@
         }
     ];
 
-    // ── Permissões de menu ───────────────────────────────────────────────────
     function aplicarPermissoes(role) {
         if (role === "admin") return;
         RESTRITO_VISITANTE.forEach(page => {
@@ -30,7 +29,6 @@
         });
     }
 
-    // ── Modal de confirmação de saída ────────────────────────────────────────
     function abrirModalSair() {
         const existente = document.getElementById("modalSairBG");
         if (existente) existente.remove();
@@ -56,7 +54,6 @@
             </div>
         `;
         document.body.appendChild(bg);
-
         setTimeout(() => bg.classList.add("visivel"), 10);
 
         document.getElementById("btnSairCancelar").addEventListener("click", () => {
@@ -79,7 +76,6 @@
         });
     }
 
-    // ── Modal de usuário (clique na foto/avatar) ─────────────────────────────
     function abrirModalUsuario(usuario, anchorEl) {
         const existente = document.getElementById("modalUsuarioBG");
         if (existente) { existente.remove(); return; }
@@ -94,13 +90,14 @@
             <div class="user-modal-box" id="userModalBox" style="top:${rect.bottom + 10}px; right:${window.innerWidth - rect.right}px;">
                 <div class="user-modal-header">
                     <div class="user-modal-avatar">
-                    ${isAdmin
-                        ? `<img src="static/imagens/foto2.jpeg" alt="Usuário">`
-                        : `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;">
-    <circle cx="20" cy="20" r="20" fill="rgba(249,137,72,0.15)"/>
-    <circle cx="20" cy="17" r="7" fill="#F98948" opacity="0.9"/>
-    <ellipse cx="20" cy="31" rx="11" ry="7" fill="#F98948" opacity="0.9"/>
-  </svg>`
+                        ${isAdmin
+                            ? `<img src="static/imagens/foto2.jpeg" alt="Usuario">`
+                            : `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;">
+                                <circle cx="20" cy="20" r="20" fill="rgba(249,137,72,0.15)"/>
+                                <circle cx="20" cy="17" r="7" fill="#F98948" opacity="0.9"/>
+                                <ellipse cx="20" cy="31" rx="11" ry="7" fill="#F98948" opacity="0.9"/>
+                               </svg>`
+                        }
                     </div>
                     <div>
                         <div class="user-modal-nome">${usuario.nome}</div>
@@ -111,7 +108,7 @@
                 <div class="user-modal-acoes">
                     ${isAdmin ? `
                     <button class="menu-btn user-modal-btn" id="btnModalConfig">
-                        <i class="fas fa-cog"></i> Configurações
+                        <i class="fas fa-cog"></i> Configuracoes
                     </button>` : ""}
                     <button class="menu-btn user-modal-btn user-modal-btn-sair" id="btnModalSair">
                         <i class="fas fa-sign-out-alt"></i> Sair
@@ -120,7 +117,6 @@
             </div>
         `;
         document.body.appendChild(bg);
-
         setTimeout(() => document.getElementById("userModalBox")?.classList.add("visivel"), 10);
 
         document.getElementById("btnModalSair")?.addEventListener("click", () => {
@@ -133,7 +129,6 @@
             window.location.href = "configuracoes.html";
         });
 
-        // Fecha ao clicar fora
         setTimeout(() => {
             document.addEventListener("click", function fechar(e) {
                 if (!document.getElementById("userModalBox")?.contains(e.target) &&
@@ -145,7 +140,6 @@
         }, 50);
     }
 
-    // ── Atualiza o header com avatar clicável ────────────────────────────────
     function atualizarHeaderUsuario(usuario) {
         const userBox = document.querySelector(".user-box");
         if (!userBox) return;
@@ -155,14 +149,15 @@
         userBox.innerHTML = `
             <div class="user-avatar-clicavel" id="userAvatarBtn" title="Minha conta">
                 ${isAdmin
-                    ? `<img src="${usuario.foto || 'static/imagens/foto2.jpeg'}" alt="Usuário" class="user-foto">`
+                    ? `<img src="${usuario.foto || 'static/imagens/foto2.jpeg'}" alt="Usuario" class="user-foto">`
                     : `<div class="user-foto user-avatar-visitante">
-    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="18" cy="18" r="18" fill="rgba(249,137,72,0.15)"/>
-        <circle cx="18" cy="15" r="6" fill="#F98948" opacity="0.9"/>
-        <ellipse cx="18" cy="27" rx="10" ry="6" fill="#F98948" opacity="0.9"/>
-    </svg>
-   </div>`
+                        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="18" cy="18" r="18" fill="rgba(249,137,72,0.15)"/>
+                            <circle cx="18" cy="15" r="6" fill="#F98948" opacity="0.9"/>
+                            <ellipse cx="18" cy="27" rx="10" ry="6" fill="#F98948" opacity="0.9"/>
+                        </svg>
+                       </div>`
+                }
             </div>
             <div class="user-info">
                 <span class="user-name">${usuario.nome}</span>
@@ -181,8 +176,6 @@
         try {
             const sess = JSON.parse(localStorage.getItem("__discSessao"));
             if (!sess) return null;
-
-            // Mescla com perfil salvo localmente (foto, nome, cargo)
             const perfil = JSON.parse(localStorage.getItem("__discPerfil") || "{}");
             return { ...sess, ...perfil };
         } catch { return null; }
@@ -218,7 +211,7 @@
             </div>
             <div class="login-group">
                 <label for="loginSenha">Senha</label>
-                <input type="password" id="loginSenha" placeholder="••••••••" autocomplete="current-password">
+                <input type="password" id="loginSenha" placeholder="********" autocomplete="current-password">
             </div>
             <div class="login-erro" id="loginErro">
                 <i class="fas fa-exclamation-circle"></i> E-mail ou senha incorretos.
@@ -232,7 +225,7 @@
                     <i class="fas fa-user"></i> Continuar como Visitante
                 </button>
             </div>
-            <p class="login-rodape">DISC Dashboard · Prof. Paulo Rubens · CRV Soluções em TI</p>
+            <p class="login-rodape">DISC Dashboard · Prof. Paulo Rubens · CRV Solucoes em TI</p>
         </div>
     `;
     document.body.appendChild(modal);
