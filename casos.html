@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -113,7 +113,7 @@
 
     <!-- BUSCA -->
     <div class="search-box">
-        <input type="text" placeholder="Buscar no painel...">
+        <input type="text" id="searchInput" placeholder="Buscar no painel...">
         <i class="fas fa-search"></i>
     </div>
 
@@ -174,11 +174,11 @@
 
         <!-- USUÁRIO -->
         <div class="user-box">
-            <img src="static/imagens/foto2.jpeg" alt="Foto">
+            <img src="static/imagens/foto2.jpeg" alt="Foto" data-user-foto class="user-foto">
 
             <div class="user-info">
-                <span class="user-name">Prof. Paulo Rubens</span>
-                <span class="user-role">Gestão de Pessoas</span>
+                <span class="user-name" data-user-nome>Prof. Paulo Rubens</span>
+                <span class="user-role" data-user-cargo>Gestão de Pessoas</span>
             </div>
         </div>
 
@@ -356,8 +356,11 @@
 <!-- ================================================================== -->
 <!-- SCRIPTS -->
 <!-- ================================================================== -->
+<script src="static/js/auth.js"></script>
 <script src="static/js/main.js"></script>
-<script src="static/js/casos_lideranca.js" type="module"></script>
+<script src="static/js/busca.js"></script>
+<script src="static/js/configuracoes.js"></script>
+<script type="module" src="static/js/casos_lideranca.js"></script>
 
 </body>
 </html>

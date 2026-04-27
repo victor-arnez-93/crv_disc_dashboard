@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DISC Dashboard</title>
+    <title>Configurações | DISC Dashboard</title>
 
     <!-- FAVICON -->
     <link rel="icon" href="static/imagens/favicon.ico">
@@ -116,7 +116,7 @@
 
     <!-- BUSCA -->
     <div class="search-box">
-        <input type="text" placeholder="Buscar no painel...">
+        <input type="text" id="searchInput" placeholder="Buscar no painel...">
         <i class="fas fa-search"></i>
     </div>
 
@@ -177,11 +177,11 @@
 
         <!-- USUÁRIO -->
         <div class="user-box">
-            <img src="static/imagens/foto2.jpeg" alt="Foto">
+            <img src="static/imagens/foto2.jpeg" alt="Foto" data-user-foto class="user-foto">
 
             <div class="user-info">
-                <span class="user-name">Prof. Paulo Rubens</span>
-                <span class="user-role">Gestão de Pessoas</span>
+                <span class="user-name" data-user-nome>Prof. Paulo Rubens</span>
+                <span class="user-role" data-user-cargo>Gestão de Pessoas</span>
             </div>
         </div>
 
@@ -192,7 +192,6 @@
 <!-- ================================================================== -->
 <!-- CONTEÚDO PRINCIPAL -->
 <!-- ================================================================== -->
-
 <main class="main-content">
   <div class="config-container">
 
@@ -200,26 +199,38 @@
       <h1><i class="fas fa-cog"></i> Configurações do Sistema</h1>
       <p>Gerencie seu perfil, preferências, integrações e contato do dashboard.</p>
     </div>
-    <form class="config-form" onsubmit="salvarConfiguracoes(); return false;">
+
+    <form class="config-form" id="formPerfil" data-config-perfil onsubmit="salvarConfiguracoes(); return false;">
+
       <!-- PERFIL -->
       <section class="config-section">
         <h2><i class="fas fa-user"></i> Perfil</h2>
         <div class="perfil-row">
+
           <div class="foto-perfil-wrapper" style="position:relative;width:fit-content;">
-            <img class="profile-photo" src="static/imagens/foto2.jpeg" alt="Prof. Paulo Rubens" id="fotoPerfil">
+            <img class="profile-photo" src="static/imagens/foto2.jpeg" alt="Prof. Paulo Rubens"
+                 id="fotoPreview" data-user-foto>
             <label for="uploadFoto" class="foto-upload-btn" title="Alterar foto">
               <i class="fas fa-camera"></i>
-              <input type="file" id="uploadFoto" accept="image/*" style="display:none;" onchange="trocarFotoPerfil(this)">
+              <input type="file" id="uploadFoto" accept="image/*" style="display:none;"
+                     onchange="trocarFotoPerfil(this)">
             </label>
           </div>
+
           <div class="perfil-info">
-            <label for="nomeUsuario">Nome</label>
-            <input id="nomeUsuario" type="text" value="Prof. Paulo Rubens" autocomplete="name" />
-            <label for="emailUsuario">Email</label>
-            <input id="emailUsuario" type="email" value="paulo@email.com" autocomplete="email" />
+            <label for="inputNome">Nome</label>
+            <input id="inputNome" type="text" value="Prof. Paulo Rubens" autocomplete="name">
+
+            <label for="inputEmail">Email</label>
+            <input id="inputEmail" type="email" value="paulo@email.com" autocomplete="email">
+
+            <label for="inputCargo">Cargo</label>
+            <input id="inputCargo" type="text" value="Gestão de Pessoas" autocomplete="organization-title">
           </div>
+
         </div>
       </section>
+
       <!-- PREFERÊNCIAS compactas -->
       <section class="config-section">
         <h2>Sobre o sistema</h2>
@@ -276,7 +287,12 @@
     <div id="mensagemFeedback" style="display:none;margin-top:24px;padding:16px;border-radius:12px;text-align:center;"></div>
   </div>
 </main>
+
+<!-- SCRIPTS -->
+<script src="static/js/auth.js"></script>
 <script src="static/js/main.js"></script>
+<script src="static/js/busca.js"></script>
 <script src="static/js/configuracoes.js"></script>
+
 </body>
 </html>
