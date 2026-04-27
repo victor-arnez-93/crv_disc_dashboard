@@ -206,6 +206,7 @@
 .user-avatar-clicavel:hover {
     box-shadow: 0 0 0 3px rgba(249,137,72,0.5);
 }
+
 .user-avatar-visitante {
     width: 36px;
     height: 36px;
@@ -214,8 +215,15 @@
     justify-content: center;
     background: rgba(249,137,72,0.15);
     border-radius: 50%;
-    font-size: 22px;
+    overflow: hidden;
     color: var(--cor-primaria, #F98948);
+}
+
+.user-avatar-visitante i {
+    font-size: 36px;        /* igual ao tamanho do círculo */
+    line-height: 1;
+    display: block;
+    margin-top: 6px;        /* empurra pra baixo — o fa-user-circle tem espaço em cima */
 }
 
 /* ── MODAL USUÁRIO (clique no avatar) ─────────────────────── */

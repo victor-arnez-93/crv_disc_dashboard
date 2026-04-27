@@ -6,14 +6,23 @@
 
 (function () {
 
-    const PAGINAS = [
-        { titulo: "Início",        url: "index.html",         icone: "fa-home",         tags: "inicio home dashboard painel boas-vindas frases clima relógio" },
-        { titulo: "Teste DISC",    url: "teste_disc.html",    icone: "fa-clipboard-list",tags: "teste disc avaliação perfil comportamental dominância influência estabilidade conformidade" },
-        { titulo: "Insights IA",   url: "insights_ia.html",   icone: "fa-brain",        tags: "insights ia inteligência artificial análise gestão recomendações" },
-        { titulo: "Dinâmicas",     url: "dinamicas.html",     icone: "fa-users",        tags: "dinâmicas equipe atividades exercícios team building grupo" },
-        { titulo: "Empatia",       url: "empatia.html",       icone: "fa-heart",        tags: "empatia mapa escuta ativa relacionamento comunicação" },
-        { titulo: "Configurações", url: "configuracoes.html", icone: "fa-cog",          tags: "configurações perfil usuário foto nome email tema contato" },
-    ];
+const PAGINAS = [
+    { titulo: "Início",               url: "index.html",         icone: "fa-home",           role: "todos",  tags: "inicio home dashboard painel boas-vindas frases clima relogio" },
+    { titulo: "Teste DISC",           url: "teste_disc.html",    icone: "fa-clipboard-list", role: "todos",  tags: "teste disc avaliacao perfil comportamental dominancia influencia estabilidade conformidade" },
+    { titulo: "DISC Recruta",         url: "recruta.html",       icone: "fa-users-cog",      role: "admin",  tags: "recruta recrutamento selecao candidatos disc rh" },
+    { titulo: "Insights & IA",        url: "insights_ia.html",   icone: "fa-brain",          role: "todos",  tags: "insights ia inteligencia artificial analise gestao recomendacoes" },
+    { titulo: "Quiz para Aulas",      url: "quiz.html",          icone: "fa-question-circle",role: "todos",  tags: "quiz perguntas aula sala aprendizado avaliacao" },
+    { titulo: "Casos de Liderança",   url: "casos.html",         icone: "fa-book-open",      role: "todos",  tags: "casos lideranca lider historias exemplos gestao" },
+    { titulo: "Simulador Feedback",   url: "feedback.html",      icone: "fa-comments",       role: "todos",  tags: "feedback simulador retorno avaliacao conversa comunicacao" },
+    { titulo: "Dinâmicas & Empatia",  url: "dinamicas.html",     icone: "fa-users",          role: "todos",  tags: "dinamicas empatia equipe atividades exercicios team building grupo escuta" },
+    { titulo: "Notícias de RH",       url: "noticias_rh.html",   icone: "fa-newspaper",      role: "todos",  tags: "noticias rh recursos humanos artigos tendencias mercado" },
+    { titulo: "Configurações",        url: "configuracoes.html", icone: "fa-cog",            role: "admin",  tags: "configuracoes perfil usuario foto nome email tema contato" },
+];
+
+function getPaginasVisiveis() {
+    const role = window.__discUsuario?.role || "visitante";
+    return PAGINAS.filter(p => p.role === "todos" || role === "admin");
+}
 
     function indexarPaginaAtual() {
         const itens = [];
@@ -190,7 +199,7 @@
             debounce = setTimeout(() => {
                 const t = norm(termo);
                 const res = [];
-                PAGINAS.forEach(p => { if (norm(p.titulo+" "+p.tags).includes(t)) res.push({...p,tipo:"pagina"}); });
+                getPaginasVisiveis().forEach(p => { if (norm(p.titulo+" "+p.tags).includes(t)) res.push({...p,tipo:"pagina"}); });
                 if (!indice) indice = indexarPaginaAtual();
                 indice.forEach(item => { if (norm(item.texto+" "+item.secao).includes(t)) res.push(item); });
                 container.classList.add("ativo");
