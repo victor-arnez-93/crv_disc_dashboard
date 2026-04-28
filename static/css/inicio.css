@@ -1192,7 +1192,7 @@
 .card-acesso-destaque {
     position: relative;
     overflow: hidden;
-    min-height: 230px;
+    min-height: 280px;
     justify-content: center;
 }
 
@@ -1202,10 +1202,11 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
-
+    object-position: center 48%;
+    transform: scale(0.92);
+    transform-origin: center;
     opacity: 0.28;
-    filter: blur(2px) saturate(0.95) brightness(1);
+    filter: blur(1px) saturate(1.15) brightness(0.88);
 
     pointer-events: none;
     border-radius: 18px;
@@ -1220,7 +1221,7 @@
 [data-theme="dark"] .card-destaque-img {
     content: url('../imagens/imgdestaque1.png');
     opacity: 0.24;
-    filter: blur(2px) saturate(0.95) brightness(0.65);
+    filter: blur(1px) saturate(1.15) brightness(0.88);
 }
 
 /* BORDA ANIMADA */
