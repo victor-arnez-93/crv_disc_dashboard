@@ -1188,6 +1188,40 @@
     overflow: hidden;
 }
 
+/* FUNDO COM IMAGEM + OVERLAY CONTROLADO */
+.card-acesso-destaque {
+    background: url('../imagens/imgdestaque.png') center/cover no-repeat;
+}
+
+/* TEMA ESCURO — TROCA IMAGEM */
+[data-theme="dark"] .card-acesso-destaque {
+    background: url('../imagens/imgdestaque1.png') center/cover no-repeat;
+}
+
+/* OVERLAY (sem quebrar borda animada) */
+.card-acesso-destaque .bg-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+
+    background: rgba(255,255,255,0.78);
+    backdrop-filter: blur(4px);
+
+    z-index: 0;
+}
+
+/* ESCURO — AJUSTE FINO PRA LEGIBILIDADE */
+[data-theme="dark"] .card-acesso-destaque .bg-overlay {
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(5px);
+}
+
+/* GARANTE QUE TUDO FIQUE ACIMA */
+.card-acesso-destaque > * {
+    position: relative;
+    z-index: 2;
+}
+
 /* BORDA ANIMADA */
 .card-acesso-destaque::before {
     content: "";
