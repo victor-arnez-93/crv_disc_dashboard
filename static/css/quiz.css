@@ -616,14 +616,15 @@
     /* Cabeçalho de impressão */
     #cabecalhoProva {
         display: block !important;
-        text-align: center;
-        margin-bottom: 20px;
+        text-align: left;
+        padding-left: 10px;
+        margin-bottom: 10px;
         font-size: 14px;
         color: #000;
         border-bottom: 1px solid #ccc;
         padding-bottom: 10px;
 
-        page-break-after: avoid;
+        page-break-after: avoid !important;
     }
 
     .quiz-header h2 {
@@ -644,14 +645,22 @@
     page-break-inside: avoid;
 }
 
-/* Primeira pergunta quebra após (cabeçalho + 1 pergunta) */
-.pergunta-card:first-of-type {
+/* Controle LIMPO e FUNCIONAL */
+
+/* Nunca quebra pergunta no meio */
+.pergunta-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+/* A cada 2 perguntas → nova página */
+.pergunta-card:nth-of-type(2n) {
     page-break-after: always;
 }
 
-/* A partir da segunda: 2 por página */
-.pergunta-card:nth-of-type(2n + 1) {
-    page-break-before: always;
+/* Garante que o cabeçalho venha com a primeira pergunta */
+#cabecalhoProva + .quiz-header + .quiz-corpo .pergunta-card:first-child {
+    page-break-before: avoid !important;
 }
 
 .quiz-corpo {
