@@ -645,7 +645,7 @@
     page-break-inside: avoid;
 }
 
-/* Controle LIMPO e FUNCIONAL */
+/* CONTROLE CORRETO */
 
 /* Nunca quebra pergunta no meio */
 .pergunta-card {
@@ -653,18 +653,14 @@
     page-break-inside: avoid;
 }
 
-/* A cada 2 perguntas → nova página */
-.pergunta-card:nth-of-type(2n) {
+/* A cada 2 perguntas quebra */
+.quiz-corpo .pergunta-card:nth-child(2n) {
     page-break-after: always;
 }
 
-/* Garante que o cabeçalho venha com a primeira pergunta */
-#cabecalhoProva + .quiz-header + .quiz-corpo .pergunta-card:first-child {
-    page-break-before: avoid !important;
-}
-
-.quiz-corpo {
-    page-break-before: auto;
+/* Remove qualquer quebra antes indevida */
+.quiz-corpo .pergunta-card {
+    page-break-before: auto !important;
 }
 
     /* Número da questão */
