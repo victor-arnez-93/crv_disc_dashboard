@@ -647,20 +647,22 @@
 
 /* CONTROLE CORRETO */
 
-/* Nunca quebra pergunta no meio */
+/* CONTROLE FINAL CORRETO */
+
+/* nunca quebra pergunta no meio */
 .pergunta-card {
     break-inside: avoid;
     page-break-inside: avoid;
 }
 
-/* A cada 2 perguntas quebra */
+/* força exatamente 2 por página */
 .quiz-corpo .pergunta-card:nth-child(2n) {
     page-break-after: always;
 }
 
-/* Remove qualquer quebra antes indevida */
-.quiz-corpo .pergunta-card {
-    page-break-before: auto !important;
+/* REMOVE quebra desnecessária no último item */
+.quiz-corpo .pergunta-card:last-child {
+    page-break-after: auto !important;
 }
 
     /* Número da questão */
@@ -738,16 +740,6 @@
     .alternativa.correta::after,
     .alternativa.errada::after {
         display: none !important;
-    }
-
-    /* Rodapé */
-    .quiz-corpo::after {
-        content: "_______________________________________________";
-        display: block;
-        text-align: center;
-        margin-top: 30px;
-        color: #999;
-        font-size: 12px;
     }
 
     /* Remove o header do quiz (título + cronômetro/progresso) */
