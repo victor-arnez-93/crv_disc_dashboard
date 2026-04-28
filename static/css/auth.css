@@ -219,15 +219,16 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    line-height: 0;
+
+    background: rgba(249,137,72,0.12); /* fundo leve */
+    border: 2px solid rgba(249,137,72,0.35);
 }
 
 .user-avatar-visitante svg {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    min-height: 36px;
+    width: 22px;
+    height: 22px;
     display: block;
+    margin: auto;
 }
 
 /* ── MODAL USUÁRIO (clique no avatar) ─────────────────────── */

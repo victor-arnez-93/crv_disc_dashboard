@@ -614,15 +614,16 @@
     }
 
     /* Cabeçalho de impressão */
-    .quiz-header::before {
-        content: "DISC Dashboard - Prof. Paulo Rocha";
-        display: block;
+    #cabecalhoProva {
+        display: block !important;
         text-align: center;
+        margin-bottom: 20px;
         font-size: 14px;
-        color: #666;
-        margin-bottom: 10px;
+        color: #000;
+        border-bottom: 1px solid #ccc;
         padding-bottom: 10px;
-        border-bottom: 1px solid #ddd;
+
+        page-break-after: avoid;
     }
 
     .quiz-header h2 {
@@ -643,14 +644,14 @@
     page-break-inside: avoid;
 }
 
-/* controla quebra de página melhor */
-.pergunta-card:nth-child(2n) {
-    page-break-after: auto;
+/* Primeira pergunta quebra após (cabeçalho + 1 pergunta) */
+.pergunta-card:first-of-type {
+    page-break-after: always;
 }
 
-#cabecalhoProva {
-    margin-bottom: 20px;
-    page-break-after: avoid;
+/* A partir da segunda: 2 por página */
+.pergunta-card:nth-of-type(2n + 1) {
+    page-break-before: always;
 }
 
 .quiz-corpo {
