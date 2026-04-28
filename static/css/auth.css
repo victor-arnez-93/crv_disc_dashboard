@@ -226,6 +226,10 @@
     border: 2px solid rgba(249,137,72,0.4);
 }
 
+.user-avatar-visitante svg * {
+    transform: translate(0.5px, 0.5px);
+}
+
 .user-avatar-visitante svg {
     width: 18px;
     height: 18px;
