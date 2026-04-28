@@ -773,33 +773,44 @@ function _iniciarQuiz(tema, dificuldade, qtdFinal) {
 function renderizarPerguntas() {
     corpoQuiz.innerHTML = '';
 
-    quizAtual.forEach((pergunta, index) => {
-        const card = document.createElement('div');
-        card.className = 'pergunta-card';
-        card.setAttribute('data-pergunta-id', pergunta.id);
+quizAtual.forEach((pergunta, index) => {
 
-        const alternativasEmbaralhadas = embaralhar([...pergunta.alternativas]);
+    let classePagina = '';
 
-        card.innerHTML = `
-            <span class="pergunta-numero">Questão ${index + 1}</span>
-            <p class="pergunta-texto">${pergunta.pergunta}</p>
-            <div class="alternativas">
-                ${alternativasEmbaralhadas.map((alt) => `
-                    <label class="alternativa">
-                        <input
-                            type="radio"
-                            name="pergunta_${pergunta.id}"
-                            value="${alt.correta}"
-                            data-pergunta-id="${pergunta.id}"
-                        >
-                        <span>${alt.texto}</span>
-                    </label>
-                `).join('')}
-            </div>
-        `;
+    // REGRA EXATA:
+    // index 0 = primeira página (sozinho)
+    // depois: de 2 em 2
 
-        corpoQuiz.appendChild(card);
-    });
+    if (index === 1 || (index > 1 && (index - 1) % 2 === 0)) {
+        classePagina = 'quebra-pagina';
+    }
+
+    const card = document.createElement('div');
+    card.className = `pergunta-card ${classePagina}`;
+    card.setAttribute('data-pergunta-id', pergunta.id);
+
+    const alternativasEmbaralhadas = embaralhar([...pergunta.alternativas]);
+
+    card.innerHTML = `
+        <span class="pergunta-numero">Questão ${index + 1}</span>
+        <p class="pergunta-texto">${pergunta.pergunta}</p>
+        <div class="alternativas">
+            ${alternativasEmbaralhadas.map((alt) => `
+                <label class="alternativa">
+                    <input
+                        type="radio"
+                        name="pergunta_${pergunta.id}"
+                        value="${alt.correta}"
+                        data-pergunta-id="${pergunta.id}"
+                    >
+                    <span>${alt.texto}</span>
+                </label>
+            `).join('')}
+        </div>
+    `;
+
+    corpoQuiz.appendChild(card);
+});
 
     document.querySelectorAll('.alternativa input').forEach(input => {
         input.addEventListener('change', registrarResposta);
