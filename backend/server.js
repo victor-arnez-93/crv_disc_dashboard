@@ -110,3 +110,12 @@ app.post("/api/chat", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor CRV DISC rodando na porta ${PORT}`);
 });
+
+app.get("/debug-key", (req, res) => {
+  const key = process.env.GROQ_API_KEY || "NÃO ENCONTRADA";
+  res.json({
+    temChave: !!process.env.GROQ_API_KEY,
+    inicio: key.substring(0, 10) + "...",
+    tamanho: key.length
+  });
+});
