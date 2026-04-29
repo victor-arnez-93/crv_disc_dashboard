@@ -827,15 +827,12 @@ document.getElementById('modalCaso')?.addEventListener('click', (e) => {
 
 // ============================================================
 // DISC DASHBOARD — Assistente IA (Groq via Backend)
-// Substitui apenas o bloco CHAT IA do insights_ia.js
 // ============================================================
 
 const BACKEND_URL = "https://server-crv-disc-dashboard.onrender.com";
 
-// Histórico da conversa (mantém contexto entre mensagens)
 let historicoConversa = [];
 
-// Mensagens de loading progressivo (disfarça cold start do Render)
 const mensagensLoading = [
   "Consultando base DISC...",
   "Analisando perfil comportamental...",
@@ -871,7 +868,28 @@ function adicionarMensagemChat(tipo, texto) {
 }
 
 // ============================================================
-// LOADING ANIMADO COM MENSAGENS PROGRESSIVAS
+// AVISO DE FALLBACK (modelo secundário em uso)
+// ============================================================
+function adicionarAvisoFallback() {
+  const chat = document.getElementById("chatMessages");
+  if (!chat) return;
+
+  const div = document.createElement("div");
+  div.className = "chat-message bot fallback-aviso";
+  div.innerHTML = `
+    <div class="message-avatar">
+      <i class="fas fa-robot"></i>
+    </div>
+    <div class="message-content">
+      <p>⚡ <em>Limite diário do modelo avançado atingido. Usando modelo padrão até amanhã — respostas continuam funcionando normalmente!</em></p>
+    </div>
+  `;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+// ============================================================
+// LOADING ANIMADO
 // ============================================================
 function adicionarLoading() {
   const chat = document.getElementById("chatMessages");
@@ -896,14 +914,10 @@ function adicionarLoading() {
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
 
-  // Troca a mensagem a cada 4s para parecer que está "pensando"
   let idx = 0;
   const interval = setInterval(() => {
     idx++;
-    if (idx >= mensagensLoading.length) {
-      clearInterval(interval);
-      return;
-    }
+    if (idx >= mensagensLoading.length) { clearInterval(interval); return; }
     const label = div.querySelector(".loading-label");
     if (label) label.textContent = mensagensLoading[idx];
   }, 4000);
@@ -920,7 +934,7 @@ function removerLoading() {
 }
 
 // ============================================================
-// ENVIAR MENSAGEM PARA O BACKEND
+// ENVIAR MENSAGEM
 // ============================================================
 async function enviarMensagem() {
   const input = document.getElementById("chatInput");
@@ -930,18 +944,14 @@ async function enviarMensagem() {
   const texto = input.value.trim();
   if (!texto) return;
 
-  // Exibe mensagem do usuário
   adicionarMensagemChat("user", texto);
   input.value = "";
   chat.scrollTop = chat.scrollHeight;
 
-  // Adiciona ao histórico
   historicoConversa.push({ role: "user", content: texto });
 
-  // Mostra loading
-  const loadingEl = adicionarLoading();
+  adicionarLoading();
 
-  // Desabilita input durante a chamada
   input.disabled = true;
   const btnEnviar = document.querySelector(".chat-send-btn, [onclick='enviarMensagem()']");
   if (btnEnviar) btnEnviar.disabled = true;
@@ -952,7 +962,7 @@ async function enviarMensagem() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         mensagem: texto,
-        historico: historicoConversa.slice(-10) // envia até 10 mensagens de contexto
+        historico: historicoConversa.slice(-10)
       })
     });
 
@@ -963,7 +973,12 @@ async function enviarMensagem() {
     const data = await resp.json();
     const resposta = data.resposta || "Não consegui processar sua pergunta. Tente novamente.";
 
-    // Formata quebras de linha em HTML
+    // Avisa se usou modelo de fallback (só uma vez por sessão)
+    if (data.fallback && !window._fallbackAvisado) {
+      adicionarAvisoFallback();
+      window._fallbackAvisado = true;
+    }
+
     const respostaFormatada = resposta
       .replace(/\n\n/g, "<br><br>")
       .replace(/\n/g, "<br>")
@@ -971,13 +986,8 @@ async function enviarMensagem() {
 
     adicionarMensagemChat("bot", respostaFormatada);
 
-    // Adiciona resposta ao histórico
     historicoConversa.push({ role: "assistant", content: resposta });
-
-    // Mantém histórico com no máximo 20 mensagens
-    if (historicoConversa.length > 20) {
-      historicoConversa = historicoConversa.slice(-20);
-    }
+    if (historicoConversa.length > 20) historicoConversa = historicoConversa.slice(-20);
 
   } catch (err) {
     removerLoading();
@@ -993,61 +1003,32 @@ async function enviarMensagem() {
 }
 
 // ============================================================
-// SUGESTÕES RÁPIDAS (chips)
+// SUGESTÕES E ENTER
 // ============================================================
 function enviarSugestao(texto) {
   const input = document.getElementById("chatInput");
-  if (input) {
-    input.value = texto;
-    enviarMensagem();
-  }
+  if (input) { input.value = texto; enviarMensagem(); }
 }
 
-// ============================================================
-// ENVIAR COM ENTER
-// ============================================================
 document.getElementById("chatInput")?.addEventListener("keypress", e => {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    enviarMensagem();
-  }
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); enviarMensagem(); }
 });
 
 // ============================================================
-// CSS DO LOADING (injetado automaticamente)
+// CSS DO LOADING
 // ============================================================
 (function injetarCSSLoading() {
   if (document.getElementById("disc-loading-style")) return;
   const style = document.createElement("style");
   style.id = "disc-loading-style";
   style.textContent = `
-    .loading-dots {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      margin-right: 8px;
-      vertical-align: middle;
-    }
-    .loading-dots span {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--cor-primaria, #F98948);
-      animation: discPulse 1.2s ease-in-out infinite;
-      display: inline-block;
-    }
-    .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-    .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes discPulse {
-      0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
-      40%            { transform: scale(1);   opacity: 1;   }
-    }
-    .loading-label {
-      font-style: italic;
-      opacity: 0.75;
-      font-size: 0.9em;
-      transition: opacity 0.3s;
-    }
+    .loading-dots { display:inline-flex;align-items:center;gap:4px;margin-right:8px;vertical-align:middle; }
+    .loading-dots span { width:7px;height:7px;border-radius:50%;background:var(--cor-primaria,#F98948);animation:discPulse 1.2s ease-in-out infinite;display:inline-block; }
+    .loading-dots span:nth-child(2){animation-delay:.2s}
+    .loading-dots span:nth-child(3){animation-delay:.4s}
+    @keyframes discPulse{0%,80%,100%{transform:scale(.7);opacity:.4}40%{transform:scale(1);opacity:1}}
+    .loading-label{font-style:italic;opacity:.75;font-size:.9em;transition:opacity .3s}
+    .fallback-aviso .message-content p{font-size:.85em;opacity:.8;font-style:italic}
   `;
   document.head.appendChild(style);
 })();

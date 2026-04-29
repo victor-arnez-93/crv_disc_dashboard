@@ -23,7 +23,15 @@ app.get("/ping", (req, res) => {
 });
 
 // ============================================================
-// PROMPT DO SISTEMA — Assistente DISC IA
+// MODELOS COM FALLBACK AUTOMÁTICO
+// ============================================================
+const MODELOS = [
+  { id: "llama-3.3-70b-versatile", nome: "Llama 3.3 70B" },
+  { id: "llama-3.1-8b-instant",    nome: "Llama 3.1 8B"  }
+];
+
+// ============================================================
+// PROMPT DO SISTEMA
 // ============================================================
 const SYSTEM_PROMPT = `Você é o Assistente DISC IA, integrado ao DISC Dashboard desenvolvido para o Prof. Paulo Rubens da CRV Soluções em TI.
 
@@ -50,15 +58,73 @@ Você PODE e DEVE:
 
 Quando o assunto fugir do contexto:
 - Responda brevemente e redirecione com elegância, não com bloqueio
-- Exemplo: se perguntarem sobre futebol, responda algo leve e conecte ao comportamento de equipe com DISC
 
 Formato das respostas:
 - Use **negrito** para destacar termos importantes
 - Quebre em parágrafos curtos para facilitar leitura no chat
-- Respostas entre 3-6 parágrafos — nem muito curtas, nem muito longas
+- Respostas entre 3-6 parágrafos
 - Quando der listas, use marcadores simples
 
 Idioma: sempre português brasileiro.`;
+
+// ============================================================
+// FUNÇÃO DE CHAMADA COM FALLBACK
+// ============================================================
+async function chamarGroq(messages) {
+  for (let i = 0; i < MODELOS.length; i++) {
+    const modelo = MODELOS[i];
+
+    try {
+      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: modelo.id,
+          messages,
+          temperature: 0.75,
+          max_tokens: 1024
+        })
+      });
+
+      const data = await response.json();
+
+      // Cota esgotada ou modelo indisponível → tenta o próximo
+      if (!response.ok) {
+        const code = data?.error?.code || "";
+        const isCotaOuModelo =
+          code === "rate_limit_exceeded" ||
+          code === "model_decommissioned" ||
+          code === "model_not_found" ||
+          response.status === 429;
+
+        if (isCotaOuModelo && i < MODELOS.length - 1) {
+          console.warn(`Modelo ${modelo.nome} indisponível (${code}), tentando fallback...`);
+          continue; // tenta o próximo modelo
+        }
+
+        console.error("Erro Groq:", data);
+        return { erro: true, status: response.status };
+      }
+
+      // Sucesso — retorna resposta + qual modelo foi usado
+      return {
+        resposta: data.choices[0].message.content,
+        modelo: modelo.nome,
+        isFallback: i > 0  // true se usou modelo de fallback
+      };
+
+    } catch (err) {
+      console.error(`Erro ao chamar modelo ${modelo.nome}:`, err);
+      if (i < MODELOS.length - 1) continue;
+      return { erro: true };
+    }
+  }
+
+  return { erro: true };
+}
 
 // ============================================================
 // ROTA DO CHAT
@@ -70,52 +136,25 @@ app.post("/api/chat", async (req, res) => {
     return res.status(400).json({ erro: "Mensagem vazia." });
   }
 
-  // Monta mensagens com histórico de contexto
   const messages = [
     { role: "system", content: SYSTEM_PROMPT },
-    ...historico.slice(-10), // até 10 mensagens anteriores
+    ...historico.slice(-10),
     { role: "user", content: mensagem }
   ];
 
-  try {
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "llama-3.1-8b-instant",
-        messages,
-        temperature: 0.75,
-        max_tokens: 1024
-      })
-    });
+  const resultado = await chamarGroq(messages);
 
-    if (!response.ok) {
-      const errData = await response.json();
-      console.error("Erro Groq:", errData);
-      return res.status(502).json({ erro: "Erro na API de IA." });
-    }
-
-    const data = await response.json();
-    res.json({ resposta: data.choices[0].message.content });
-
-  } catch (err) {
-    console.error("Erro servidor:", err);
-    res.status(500).json({ erro: "Erro interno no servidor." });
+  if (resultado.erro) {
+    return res.status(502).json({ erro: "Erro na API de IA." });
   }
+
+  res.json({
+    resposta: resultado.resposta,
+    modelo: resultado.modelo,
+    fallback: resultado.isFallback  // frontend usa isso para mostrar aviso
+  });
 });
 
 app.listen(PORT, () => {
   console.log(`Servidor CRV DISC rodando na porta ${PORT}`);
-});
-
-app.get("/debug-key", (req, res) => {
-  const key = process.env.GROQ_API_KEY || "NÃO ENCONTRADA";
-  res.json({
-    temChave: !!process.env.GROQ_API_KEY,
-    inicio: key.substring(0, 10) + "...",
-    tamanho: key.length
-  });
 });
