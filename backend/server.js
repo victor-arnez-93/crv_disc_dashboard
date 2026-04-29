@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors({
   origin: [
     "https://discprofpaulorocha.com",
+    "https://dashboard.discprofpaulorocha.com",
     "https://crv-disc-dashboard.onrender.com",
     "http://localhost",
     "http://127.0.0.1"
