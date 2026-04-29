@@ -588,6 +588,7 @@
    IMPRESSÃO LIMPA (ESTILO PROVA CONVENCIONAL)
 ============================================ */
 @media print {
+
     /* Ocultar tudo exceto o quiz */
     body * {
         visibility: hidden;
@@ -608,17 +609,18 @@
         padding: 20px;
     }
 
-    /* Ocultar sidebar, header e botões */
+    /* Ocultar elementos desnecessários */
     .sidebar,
     .header,
     .btn-acao,
     .controles-quiz,
     .quiz-info,
-    .modal-aviso {
+    .modal-aviso,
+    .quiz-header {
         display: none !important;
     }
 
-    /* Cabeçalho de impressão */
+    /* Cabeçalho */
     #cabecalhoProva {
         display: block !important;
         text-align: left;
@@ -628,27 +630,34 @@
         color: #000;
         border-bottom: 1px solid #ccc;
         padding-bottom: 10px;
-
-        page-break-after: avoid !important;
+        page-break-after: avoid;
     }
 
-    .quiz-header h2 {
-        color: #000 !important;
-        text-align: center;
+    /* ================================
+       CONTROLE DE QUEBRA DE PÁGINA
+    ================================= */
+
+    .pergunta-card {
+        background: white !important;
+        border: none !important;
+        box-shadow: none !important;
+
+        padding: 10pt 0 !important;
+        margin: 0 0 12pt 0 !important;
+
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
 
-    /* Cards de pergunta */
-.pergunta-card {
-    background: white !important;
-    border: none !important;
-    box-shadow: none !important;
+    /* Página 1 → 2 questões */
+    .pergunta-card:nth-of-type(3) {
+        page-break-before: always;
+    }
 
-    padding: 10pt 0 !important;
-    margin: 0 0 12pt 0 !important;
-
-    break-inside: avoid;
-    page-break-inside: avoid;
-}
+    /* Demais páginas → 3 questões */
+    .pergunta-card:nth-of-type(n + 3):nth-of-type(3n + 3) {
+        page-break-before: always;
+    }
 
     /* Número da questão */
     .pergunta-numero {
@@ -661,74 +670,55 @@
         font-weight: bold !important;
     }
 
-    /* Texto da pergunta */
+    /* Texto */
     .pergunta-texto {
         color: black !important;
         font-size: 15px !important;
-        font-weight: normal !important;
         margin-bottom: 15px !important;
         line-height: 1.6 !important;
     }
 
-    /* Container de alternativas */
+    /* Alternativas */
     .alternativas {
         display: flex !important;
         flex-direction: column !important;
         gap: 8px !important;
     }
 
-    /* ALTERNATIVAS ESTILO PROVA */
     .alternativa {
         background: white !important;
         border: none !important;
         box-shadow: none !important;
         padding: 5px 0 !important;
         display: flex !important;
-        align-items: flex-start !important;
         gap: 8px !important;
         color: black !important;
         font-size: 14px !important;
         line-height: 1.5 !important;
     }
 
-    /* Ocultar input radio */
     .alternativa input[type="radio"] {
         display: none !important;
     }
 
-    /* Adicionar (  ) antes do texto */
     .alternativa::before {
         content: "(   )";
         font-size: 14px;
         color: black;
-        font-weight: normal;
-        flex-shrink: 0;
         margin-right: 5px;
     }
 
-    /* Remover todos os efeitos visuais */
-    .alternativa:hover {
-        transform: none !important;
-        background: white !important;
-        border: none !important;
-    }
-
+    .alternativa:hover,
     .alternativa.selecionada,
     .alternativa.correta,
     .alternativa.errada {
-        background: white !important;
-        border: none !important;
-        box-shadow: none !important;
+        all: unset;
+        display: flex !important;
+        gap: 8px !important;
     }
 
-    /* Remover checks/x */
     .alternativa.correta::after,
     .alternativa.errada::after {
-        display: none !important;
-    }
-
-    /* Remove o header do quiz (título + cronômetro/progresso) */
-    .quiz-header {
         display: none !important;
     }
 }
