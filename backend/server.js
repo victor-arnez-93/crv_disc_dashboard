@@ -5,31 +5,76 @@ import cors from "cors";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Permite chamadas do domínio do dashboard
 app.use(cors({
   origin: [
     "https://discprofpaulorocha.com",
     "https://crv-disc-dashboard.onrender.com",
-    "http://localhost"
+    "http://localhost",
+    "http://127.0.0.1"
   ]
 }));
 
 app.use(express.json());
 
-// Health check — evita cold start longo e serve pra monitorar
+// Health check
 app.get("/ping", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
 // ============================================================
-// ROTA PRINCIPAL — ASSISTENTE DISC IA
+// PROMPT DO SISTEMA — Assistente DISC IA
+// ============================================================
+const SYSTEM_PROMPT = `Você é o Assistente DISC IA, integrado ao DISC Dashboard desenvolvido para o Prof. Paulo Rubens da CRV Soluções em TI.
+
+Sua personalidade:
+- Inteligente, direto e acolhedor — como um consultor sênior de RH que também sabe conversar
+- Usa linguagem acessível, mas com embasamento técnico quando necessário
+- É proativo: sugere aplicações práticas, dá exemplos reais, propõe ideias para o dashboard
+- Tem senso de humor leve quando apropriado, mas mantém profissionalismo
+
+Seu foco principal:
+- Metodologia DISC (perfis D, I, S, C) — análise, aplicação e interpretação
+- Gestão de Pessoas e RH — liderança, clima, cultura, recrutamento, feedback, conflitos
+- Desenvolvimento humano e organizacional
+- Psicologia comportamental aplicada ao trabalho
+- Dados e fatos embasados sobre gestão, produtividade e comportamento humano
+
+Você PODE e DEVE:
+- Responder perguntas fora do tema com naturalidade, mas sempre trazer de volta ao contexto do dashboard
+- Dar ideias novas de funcionalidades, frases ou insights para o DISC Dashboard
+- Citar estudos, dados e fatos reais sobre RH e gestão comportamental
+- Ajudar o professor a criar conteúdo didático sobre DISC
+- Analisar situações reais de equipe descritas pelo usuário
+- Ser criativo nas respostas — não apenas responder, mas enriquecer
+
+Quando o assunto fugir do contexto:
+- Responda brevemente e redirecione com elegância, não com bloqueio
+- Exemplo: se perguntarem sobre futebol, responda algo leve e conecte ao comportamento de equipe com DISC
+
+Formato das respostas:
+- Use **negrito** para destacar termos importantes
+- Quebre em parágrafos curtos para facilitar leitura no chat
+- Respostas entre 3-6 parágrafos — nem muito curtas, nem muito longas
+- Quando der listas, use marcadores simples
+
+Idioma: sempre português brasileiro.`;
+
+// ============================================================
+// ROTA DO CHAT
 // ============================================================
 app.post("/api/chat", async (req, res) => {
-  const { mensagem } = req.body;
+  const { mensagem, historico = [] } = req.body;
 
   if (!mensagem || mensagem.trim().length === 0) {
     return res.status(400).json({ erro: "Mensagem vazia." });
   }
+
+  // Monta mensagens com histórico de contexto
+  const messages = [
+    { role: "system", content: SYSTEM_PROMPT },
+    ...historico.slice(-10), // até 10 mensagens anteriores
+    { role: "user", content: mensagem }
+  ];
 
   try {
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -40,31 +85,8 @@ app.post("/api/chat", async (req, res) => {
       },
       body: JSON.stringify({
         model: "llama3-8b-8192",
-        messages: [
-          {
-            role: "system",
-            content: `Você é um assistente especializado em DISC, RH e liderança, integrado ao DISC Dashboard do Prof. Paulo Rubens da CRV Soluções em TI.
-
-Seu papel:
-- Explicar os perfis DISC (Dominância, Influência, Estabilidade, Conformidade)
-- Orientar sobre recrutamento, liderança e gestão comportamental
-- Dar dicas práticas sobre comunicação entre perfis
-- Analisar situações de conflito entre perfis DISC
-- Apoiar professores e gestores de RH com linguagem acessível
-
-Regras:
-- Responda sempre em português brasileiro
-- Seja claro, direto e profissional
-- Se a pergunta fugir completamente do tema, redirecione com gentileza
-- Não invente dados ou pesquisas que não existem
-- Respostas entre 3 e 8 parágrafos, sem exagero`
-          },
-          {
-            role: "user",
-            content: mensagem
-          }
-        ],
-        temperature: 0.7,
+        messages,
+        temperature: 0.75,
         max_tokens: 1024
       })
     });

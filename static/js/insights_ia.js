@@ -825,65 +825,232 @@ document.getElementById('modalCaso')?.addEventListener('click', (e) => {
     }
 });
 
-// ============================================
-// CHAT IA — ENVIO DE MENSAGENS
-// ============================================
+// ============================================================
+// DISC DASHBOARD — Assistente IA (Groq via Backend)
+// Substitui apenas o bloco CHAT IA do insights_ia.js
+// ============================================================
 
-function enviarMensagem() {
-    const input = document.getElementById("chatInput");
-    const chat = document.getElementById("chatMessages");
+const BACKEND_URL = "https://server-crv-disc-dashboard.onrender.com";
 
-    if (!input || !chat) return;
+// Histórico da conversa (mantém contexto entre mensagens)
+let historicoConversa = [];
 
-    const texto = input.value.trim();
-    if (texto === "") return;
+// Mensagens de loading progressivo (disfarça cold start do Render)
+const mensagensLoading = [
+  "Consultando base DISC...",
+  "Analisando perfil comportamental...",
+  "Processando com inteligência...",
+  "Quase lá..."
+];
 
-    // mensagem do usuário
-    adicionarMensagemChat("user", texto);
-
-    input.value = "";
-    chat.scrollTop = chat.scrollHeight;
-
-    // resposta IA (simulada)
-    setTimeout(() => {
-        const resposta = gerarRespostaIA(texto);
-        adicionarMensagemChat("bot", resposta);
-        chat.scrollTop = chat.scrollHeight;
-    }, 900);
-}
-
+// ============================================================
+// ADICIONAR MENSAGEM NO CHAT
+// ============================================================
 function adicionarMensagemChat(tipo, texto) {
-    const chat = document.getElementById("chatMessages");
-    const agora = new Date();
-    const hora = agora.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  const chat = document.getElementById("chatMessages");
+  if (!chat) return;
 
-    const div = document.createElement("div");
-    div.className = `chat-message ${tipo}`;
+  const agora = new Date();
+  const hora = agora.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
 
-    div.innerHTML = `
-        <div class="message-avatar">
-            <i class="fas fa-${tipo === "bot" ? "robot" : "user"}"></i>
-        </div>
-        <div class="message-content">
-            <p>${texto}</p>
-            <span class="message-time">${hora}</span>
-        </div>
-    `;
+  const div = document.createElement("div");
+  div.className = `chat-message ${tipo}`;
+  div.innerHTML = `
+    <div class="message-avatar">
+      <i class="fas fa-${tipo === "bot" ? "robot" : "user"}"></i>
+    </div>
+    <div class="message-content">
+      <p>${texto}</p>
+      <span class="message-time">${hora}</span>
+    </div>
+  `;
 
-    chat.appendChild(div);
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+  return div;
 }
 
-document.getElementById("chatInput")?.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") enviarMensagem();
+// ============================================================
+// LOADING ANIMADO COM MENSAGENS PROGRESSIVAS
+// ============================================================
+function adicionarLoading() {
+  const chat = document.getElementById("chatMessages");
+  if (!chat) return null;
+
+  const div = document.createElement("div");
+  div.className = "chat-message bot loading-msg";
+  div.id = "loadingMsg";
+  div.innerHTML = `
+    <div class="message-avatar">
+      <i class="fas fa-robot"></i>
+    </div>
+    <div class="message-content">
+      <p class="loading-texto">
+        <span class="loading-dots">
+          <span></span><span></span><span></span>
+        </span>
+        <span class="loading-label">Consultando base DISC...</span>
+      </p>
+    </div>
+  `;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+
+  // Troca a mensagem a cada 4s para parecer que está "pensando"
+  let idx = 0;
+  const interval = setInterval(() => {
+    idx++;
+    if (idx >= mensagensLoading.length) {
+      clearInterval(interval);
+      return;
+    }
+    const label = div.querySelector(".loading-label");
+    if (label) label.textContent = mensagensLoading[idx];
+  }, 4000);
+
+  div._loadingInterval = interval;
+  return div;
+}
+
+function removerLoading() {
+  const el = document.getElementById("loadingMsg");
+  if (!el) return;
+  if (el._loadingInterval) clearInterval(el._loadingInterval);
+  el.remove();
+}
+
+// ============================================================
+// ENVIAR MENSAGEM PARA O BACKEND
+// ============================================================
+async function enviarMensagem() {
+  const input = document.getElementById("chatInput");
+  const chat  = document.getElementById("chatMessages");
+  if (!input || !chat) return;
+
+  const texto = input.value.trim();
+  if (!texto) return;
+
+  // Exibe mensagem do usuário
+  adicionarMensagemChat("user", texto);
+  input.value = "";
+  chat.scrollTop = chat.scrollHeight;
+
+  // Adiciona ao histórico
+  historicoConversa.push({ role: "user", content: texto });
+
+  // Mostra loading
+  const loadingEl = adicionarLoading();
+
+  // Desabilita input durante a chamada
+  input.disabled = true;
+  const btnEnviar = document.querySelector(".chat-send-btn, [onclick='enviarMensagem()']");
+  if (btnEnviar) btnEnviar.disabled = true;
+
+  try {
+    const resp = await fetch(`${BACKEND_URL}/api/chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mensagem: texto,
+        historico: historicoConversa.slice(-10) // envia até 10 mensagens de contexto
+      })
+    });
+
+    removerLoading();
+
+    if (!resp.ok) throw new Error("Erro na resposta do servidor");
+
+    const data = await resp.json();
+    const resposta = data.resposta || "Não consegui processar sua pergunta. Tente novamente.";
+
+    // Formata quebras de linha em HTML
+    const respostaFormatada = resposta
+      .replace(/\n\n/g, "<br><br>")
+      .replace(/\n/g, "<br>")
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+    adicionarMensagemChat("bot", respostaFormatada);
+
+    // Adiciona resposta ao histórico
+    historicoConversa.push({ role: "assistant", content: resposta });
+
+    // Mantém histórico com no máximo 20 mensagens
+    if (historicoConversa.length > 20) {
+      historicoConversa = historicoConversa.slice(-20);
+    }
+
+  } catch (err) {
+    removerLoading();
+    console.error("Erro ao chamar backend:", err);
+    adicionarMensagemChat("bot",
+      "⚠️ Não consegui me conectar agora. O servidor pode estar acordando — aguarde alguns segundos e tente novamente."
+    );
+  } finally {
+    input.disabled = false;
+    if (btnEnviar) btnEnviar.disabled = false;
+    input.focus();
+  }
+}
+
+// ============================================================
+// SUGESTÕES RÁPIDAS (chips)
+// ============================================================
+function enviarSugestao(texto) {
+  const input = document.getElementById("chatInput");
+  if (input) {
+    input.value = texto;
+    enviarMensagem();
+  }
+}
+
+// ============================================================
+// ENVIAR COM ENTER
+// ============================================================
+document.getElementById("chatInput")?.addEventListener("keypress", e => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    enviarMensagem();
+  }
 });
 
-function enviarSugestao(texto) {
-    const input = document.getElementById("chatInput");
-    if (input) {
-        input.value = texto;
-        enviarMensagem();
+// ============================================================
+// CSS DO LOADING (injetado automaticamente)
+// ============================================================
+(function injetarCSSLoading() {
+  if (document.getElementById("disc-loading-style")) return;
+  const style = document.createElement("style");
+  style.id = "disc-loading-style";
+  style.textContent = `
+    .loading-dots {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-right: 8px;
+      vertical-align: middle;
     }
-}
+    .loading-dots span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cor-primaria, #F98948);
+      animation: discPulse 1.2s ease-in-out infinite;
+      display: inline-block;
+    }
+    .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes discPulse {
+      0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
+      40%            { transform: scale(1);   opacity: 1;   }
+    }
+    .loading-label {
+      font-style: italic;
+      opacity: 0.75;
+      font-size: 0.9em;
+      transition: opacity 0.3s;
+    }
+  `;
+  document.head.appendChild(style);
+})();
 
 // Inicializa o primeiro cenário ao carregar a página
 document.addEventListener('DOMContentLoaded', () => {
