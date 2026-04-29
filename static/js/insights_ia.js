@@ -14,9 +14,8 @@ function gerarRespostaIA(pergunta) {
     if (saudacoes.some(s => msg.startsWith(s))) {
         return `
             Olá! 👋<br><br>
-            Sou o <strong>Assistente DISC IA</strong>, treinado exclusivamente nos conteúdos deste painel:
-            perfis DISC, liderança, clima organizacional, conflitos, motivação e gestão de pessoas.<br><br>
-            Me conte: em qual situação ou perfil você quer ajuda agora?
+            Sou seu assistente DISC. Posso te ajudar com perfis, liderança ou situações do dia a dia.<br><br>
+            Sobre o que você quer conversar?
         `;
     }
 
