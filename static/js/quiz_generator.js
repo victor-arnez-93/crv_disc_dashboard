@@ -775,18 +775,8 @@ function renderizarPerguntas() {
 
 quizAtual.forEach((pergunta, index) => {
 
-    let classePagina = '';
-
-    // REGRA EXATA:
-    // index 0 = primeira página (sozinho)
-    // depois: de 2 em 2
-
-    if (index === 1 || (index > 1 && (index - 1) % 2 === 0)) {
-        classePagina = 'quebra-pagina';
-    }
-
     const card = document.createElement('div');
-    card.className = `pergunta-card ${classePagina}`;
+    card.className = 'pergunta-card';
     card.setAttribute('data-pergunta-id', pergunta.id);
 
     const alternativasEmbaralhadas = embaralhar([...pergunta.alternativas]);

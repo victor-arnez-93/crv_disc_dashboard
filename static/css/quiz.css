@@ -654,8 +654,12 @@
         page-break-before: always;
     }
 
-    /* Demais páginas → 3 questões */
-    .pergunta-card:nth-of-type(n + 3):nth-of-type(3n + 3) {
+    /* Depois: a cada 3 questões */
+    .pergunta-card:nth-of-type(6),
+    .pergunta-card:nth-of-type(9),
+    .pergunta-card:nth-of-type(12),
+    .pergunta-card:nth-of-type(15),
+    .pergunta-card:nth-of-type(18) {
         page-break-before: always;
     }
 
