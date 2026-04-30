@@ -225,7 +225,7 @@
                     <i class="fas fa-user"></i> Continuar como Visitante
                 </button>
             </div>
-            <p class="login-rodape">DISC Dashboard · Prof. Paulo Rubens · CRV Solucoes em TI</p>
+            <p class="login-rodape">DISC Dashboard · Prof. Paulo Rocha · CRV Solucoes em TI</p>
         </div>
     `;
     document.body.appendChild(modal);
