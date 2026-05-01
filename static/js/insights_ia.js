@@ -566,12 +566,15 @@ function reiniciarSimulador() {
 // ============================================
 // BIBLIOTECA DE CASOS DE USO
 // ============================================
-function filtrarCasos(categoria, event) {
+function filtrarCasos(categoria, el) {
     const cards = document.querySelectorAll('.caso-card');
     const filtros = document.querySelectorAll('.filtro-caso');
 
     filtros.forEach(f => f.classList.remove('active'));
-    event.target.classList.add('active');   // ← agora recebe o event correto
+
+    if (el) {
+        el.classList.add('active');
+    }
 
     cards.forEach(card => {
         if (categoria === 'todos') {
