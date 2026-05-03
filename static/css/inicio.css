@@ -46,6 +46,52 @@
 }
 
 /* ============================================
+   ANIMAÇÕES SUAVES DE ÍCONES (VIDA NA UI)
+   ============================================ */
+
+/* Lâmpada (pulsar leve de brilho) */
+@keyframes glowPulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 4px rgba(249,137,72,0.35));
+    }
+    50% {
+        transform: scale(1.08);
+        filter: drop-shadow(0 0 10px rgba(249,137,72,0.6));
+    }
+}
+
+/* Gráfico (leve subida) */
+@keyframes floatUp {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+/* Raio (micro vibração energética) */
+@keyframes pulseEnergy {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.12);
+    }
+}
+
+/* Pergunta (leve oscilação) */
+@keyframes tiltSoft {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(-4deg);
+    }
+}
+
+/* ============================================
    CONTAINER GERAL
    ============================================ */
 
@@ -313,9 +359,43 @@
     transition: 0.25s ease;
 }
 
+/* ============================================
+   APLICAÇÃO DAS ANIMAÇÕES
+   ============================================ */
+
+/* Dica (lâmpada) */
+.card-dica .novo-titulo i {
+    animation: glowPulse 2.8s ease-in-out infinite;
+}
+
+/* Estatísticas */
+.card-stat .novo-titulo i {
+    animation: floatUp 3.2s ease-in-out infinite;
+}
+
+/* Insight rápido (raio) */
+.card-hero .hero-titulo i {
+    animation: pulseEnergy 2.2s ease-in-out infinite;
+}
+
+/* Pergunta reflexiva */
+.cards-topo .card:nth-child(2) .card-titulo i {
+    animation: tiltSoft 3.5s ease-in-out infinite;
+}
+
+/* Perfil DISC (cérebro) */
+#cardDiscDia .card-titulo i {
+    animation: glowPulse 3.5s ease-in-out infinite;
+    opacity: 0.9;
+}
+
 .card:hover .card-titulo i {
     transform: scale(1.15);
     filter: drop-shadow(0 0 10px rgba(249,137,72,0.6));
+}
+
+.card:hover .card-titulo i {
+    animation-play-state: paused;
 }
 
 /* Animação escalonada nos cards filhos */
