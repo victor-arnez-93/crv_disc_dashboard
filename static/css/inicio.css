@@ -46,49 +46,125 @@
 }
 
 /* ============================================
-   ANIMAÇÕES SUAVES DE ÍCONES (VIDA NA UI)
-   ============================================ */
+ANIMAÇÕES SUAVES DE ÍCONES (VIDA NA UI) — v2
+============================================ */
 
-/* Lâmpada (pulsar leve de brilho) */
+/* --- LÂMPADA: brilho pulsante com halo duplo --- */
 @keyframes glowPulse {
-    0%, 100% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 4px rgba(249,137,72,0.35));
-    }
-    50% {
-        transform: scale(1.08);
-        filter: drop-shadow(0 0 10px rgba(249,137,72,0.6));
-    }
+  0%, 100% {
+    transform: scale(1);
+    filter:
+      drop-shadow(0 0 3px rgba(249,137,72,0.25))
+      drop-shadow(0 0 0px rgba(255,200,120,0));
+    opacity: 1;
+  }
+  40% {
+    transform: scale(1.1);
+    filter:
+      drop-shadow(0 0 8px rgba(249,137,72,0.7))
+      drop-shadow(0 0 18px rgba(255,200,80,0.35));
+    opacity: 0.92;
+  }
+  60% {
+    transform: scale(1.07);
+    filter:
+      drop-shadow(0 0 12px rgba(249,137,72,0.55))
+      drop-shadow(0 0 24px rgba(255,170,60,0.2));
+    opacity: 0.95;
+  }
 }
 
-/* Gráfico (leve subida) */
-@keyframes floatUp {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-3px);
-    }
+/* --- GRÁFICO/ESTATÍSTICA: barras subindo + float elegante --- */
+@keyframes chartRise {
+  0%, 100% {
+    transform: translateY(0) scaleY(1);
+    filter: drop-shadow(0 2px 4px rgba(249,137,72,0.2));
+  }
+  30% {
+    transform: translateY(-4px) scaleY(1.06);
+    filter: drop-shadow(0 4px 10px rgba(249,137,72,0.45));
+  }
+  70% {
+    transform: translateY(-2px) scaleY(1.03);
+    filter: drop-shadow(0 3px 7px rgba(249,137,72,0.3));
+  }
 }
 
-/* Raio (micro vibração energética) */
+/* --- RAIO / INSIGHT: pulso energético com micro-flash --- */
 @keyframes pulseEnergy {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.12);
-    }
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 4px rgba(249,137,72,0.3));
+    opacity: 1;
+  }
+  20% {
+    transform: scale(1.18) rotate(-3deg);
+    filter: drop-shadow(0 0 14px rgba(249,200,60,0.8)) brightness(1.3);
+    opacity: 0.9;
+  }
+  35% {
+    transform: scale(1.05) rotate(2deg);
+    filter: drop-shadow(0 0 6px rgba(249,137,72,0.4));
+    opacity: 1;
+  }
 }
 
-/* Pergunta (leve oscilação) */
-@keyframes tiltSoft {
-    0%, 100% {
-        transform: rotate(0deg);
-    }
-    50% {
-        transform: rotate(-4deg);
-    }
+/* --- INTERROGAÇÃO: balanço pendular elegante --- */
+@keyframes questionFloat {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0);
+    filter: drop-shadow(0 0 4px rgba(249,137,72,0.2));
+  }
+  25% {
+    transform: rotate(-8deg) translateY(-2px);
+    filter: drop-shadow(0 0 8px rgba(249,137,72,0.45));
+  }
+  50% {
+    transform: rotate(6deg) translateY(-1px);
+    filter: drop-shadow(0 0 6px rgba(249,137,72,0.35));
+  }
+  75% {
+    transform: rotate(-3deg) translateY(0px);
+    filter: drop-shadow(0 0 5px rgba(249,137,72,0.25));
+  }
+}
+
+/* --- CÉREBRO / DISC: brilho neural pulsante --- */
+@keyframes brainGlow {
+  0%, 100% {
+    transform: scale(1);
+    filter:
+      drop-shadow(0 0 3px rgba(249,137,72,0.20))
+      drop-shadow(0 0 0px rgba(255,180,100,0));
+  }
+  45% {
+    transform: scale(1.09);
+    filter:
+      drop-shadow(0 0 10px rgba(249,137,72,0.65))
+      drop-shadow(0 0 20px rgba(255,160,60,0.25));
+  }
+  75% {
+    transform: scale(1.04);
+    filter:
+      drop-shadow(0 0 6px rgba(249,137,72,0.4))
+      drop-shadow(0 0 12px rgba(255,150,50,0.15));
+  }
+}
+
+/* --- INDICADOR DE LIDERANÇA (pizza): rotação suave --- */
+@keyframes pieFloat {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+    filter: drop-shadow(0 0 4px rgba(249,137,72,0.2));
+  }
+  33% {
+    transform: rotate(-5deg) scale(1.08);
+    filter: drop-shadow(0 0 9px rgba(249,137,72,0.5));
+  }
+  66% {
+    transform: rotate(3deg) scale(1.04);
+    filter: drop-shadow(0 0 6px rgba(249,137,72,0.35));
+  }
 }
 
 /* ============================================
@@ -363,42 +439,74 @@
    APLICAÇÃO DAS ANIMAÇÕES
    ============================================ */
 
-/* Dica (lâmpada) */
-.card-dica .novo-titulo i {
-    animation: glowPulse 2.8s ease-in-out infinite;
+/* Dica Comportamental (lâmpada) */
+.card-dica .novo-titulo i,
+.card-dica .card-titulo i {
+  animation: glowPulse 3s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  transform-origin: center bottom;
 }
 
-/* Estatísticas */
-.card-stat .novo-titulo i {
-    animation: floatUp 3.2s ease-in-out infinite;
+/* Estatística de RH (gráfico) */
+.card-stat .novo-titulo i,
+.card-stat .card-titulo i {
+  animation: chartRise 3.5s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  transform-origin: center bottom;
 }
 
-/* Insight rápido (raio) */
+/* Indicador de Liderança (pizza) */
+.card-lideranca .novo-titulo i,
+.card-lideranca .card-titulo i {
+  animation: pieFloat 4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  transform-origin: center;
+}
+
+/* Insight Rápido para Líderes (raio) */
 .card-hero .hero-titulo i {
-    animation: pulseEnergy 2.2s ease-in-out infinite;
+  animation: pulseEnergy 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  transform-origin: center;
 }
 
-/* Pergunta reflexiva */
-.cards-topo .card:nth-child(2) .card-titulo i {
-    animation: tiltSoft 3.5s ease-in-out infinite;
+/* Pergunta Reflexiva do Dia (interrogação) */
+.cards-topo .card:nth-child(2) .card-titulo i,
+.card-pergunta .card-titulo i,
+.card-pergunta .novo-titulo i {
+  animation: questionFloat 4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  transform-origin: center bottom;
 }
 
-/* Perfil DISC (cérebro) */
-#cardDiscDia .card-titulo i {
-    animation: glowPulse 3.5s ease-in-out infinite;
-    opacity: 0.9;
+/* Perfil DISC do Dia (cérebro) */
+#cardDiscDia .card-titulo i,
+.card-disc .card-titulo i {
+  animation: brainGlow 3.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  transform-origin: center;
+  opacity: 0.92;
 }
 
-.card:hover .card-titulo i {
-    transform: scale(1.15);
-    filter: drop-shadow(0 0 10px rgba(249,137,72,0.6));
+/* Hover pausa a animação e faz o ícone crescer */
+.card:hover .card-titulo i,
+.cards-grid-2x2 .card-novo:hover .novo-titulo i,
+.cards-grid-2x2 .card-hero:hover .hero-titulo i {
+  animation-play-state: paused;
+  transform: scale(1.16) !important;
+  filter: drop-shadow(0 0 12px rgba(249,137,72,0.7)) !important;
+  transition: transform 0.25s ease, filter 0.25s ease;
 }
 
-.card:hover .card-titulo i {
-    animation-play-state: paused;
+/* Acessibilidade — sem movimento */
+@media (prefers-reduced-motion: reduce) {
+  .card-dica .novo-titulo i,
+  .card-stat .novo-titulo i,
+  .card-lideranca .novo-titulo i,
+  .card-hero .hero-titulo i,
+  .card-pergunta .card-titulo i,
+  #cardDiscDia .card-titulo i,
+  .card-disc .card-titulo i,
+  .cards-topo .card:nth-child(2) .card-titulo i {
+    animation: none !important;
+  }
 }
 
-/* Animação escalonada nos cards filhos */
+/* Animação de entrada escalonada dos cards — MANTER */
 .cards-3 .card:nth-child(1) { animation-delay: 0.05s; }
 .cards-3 .card:nth-child(2) { animation-delay: 0.12s; }
 .cards-3 .card:nth-child(3) { animation-delay: 0.19s; }
