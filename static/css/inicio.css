@@ -93,14 +93,16 @@
 .ico-grafico .ponto-3 { animation: pontoPop 3s ease infinite 0.8s;  transform-origin: 13px 14px; }
 .ico-grafico .ponto-4 { animation: pontoPop 3s ease infinite 1.05s; transform-origin: 19px 6px; }
 
-/* ── PIZZA: rotação pendular suave ── */
+/* INDICADOR LIDERANÇA ── PIZZA: giro contínuo suave com glow crescente ── */
 @keyframes pizzaGirar {
-  0%   { transform: rotate(0deg);   filter: drop-shadow(0 0 3px rgba(249,137,72,0.2)); }
-  35%  { transform: rotate(-14deg); filter: drop-shadow(0 0 9px rgba(249,137,72,0.65)); }
-  65%  { transform: rotate(7deg);   filter: drop-shadow(0 0 5px rgba(249,137,72,0.4)); }
-  100% { transform: rotate(0deg);   filter: drop-shadow(0 0 3px rgba(249,137,72,0.2)); }
+  0%   { transform: rotate(0deg);   filter: drop-shadow(0 0 2px rgba(249,137,72,0.2)); }
+  50%  { transform: rotate(180deg); filter: drop-shadow(0 0 8px rgba(249,137,72,0.55)); }
+  100% { transform: rotate(360deg); filter: drop-shadow(0 0 2px rgba(249,137,72,0.2)); }
 }
-.ico-pizza { animation: pizzaGirar 4s cubic-bezier(0.45,0,0.55,1) infinite; transform-origin: center; }
+.ico-pizza {
+  animation: pizzaGirar 6s linear infinite;
+  transform-origin: center;
+}
 
 /* ── RAIO: flash de energia ── */
 @keyframes raioFlash {
@@ -130,21 +132,28 @@
 .ico-cerebro .neuronio-2 { animation: neuronioFire 3.5s ease-in-out infinite 0.55s; transform-origin: 16px 11px; }
 .ico-cerebro .neuronio-3 { animation: neuronioFire 3.5s ease-in-out infinite 0.38s; transform-origin: 12px 9px; }
 
-/* ── INTERROGAÇÃO: balanço + ponto saltando ── */
-@keyframes interrogacaoBalance {
-  0%, 100% { transform: rotate(0deg) translateY(0); }
-  20%      { transform: rotate(-11deg) translateY(-2px); }
-  42%      { transform: rotate(8deg)  translateY(-1px); }
-  62%      { transform: rotate(-4deg) translateY(0); }
-  80%      { transform: rotate(2deg)  translateY(0); }
+/* ── INTERROGAÇÃO: efeito escrevendo o ? ── */
+@keyframes escreverArco {
+  0%        { stroke-dashoffset: 22; opacity: 0.2; }
+  40%       { stroke-dashoffset: 0;  opacity: 1; }
+  75%       { stroke-dashoffset: 0;  opacity: 1; }
+  95%, 100% { stroke-dashoffset: 22; opacity: 0.2; }
 }
-@keyframes pontoBounce {
-  0%, 100% { transform: scale(1) translateY(0); }
-  38%      { transform: scale(1.7) translateY(-2.5px); }
-  58%      { transform: scale(0.75) translateY(1px); }
+@keyframes pontoAparece {
+  0%, 38%   { opacity: 0; transform: scale(0); }
+  52%, 72%  { opacity: 1; transform: scale(1.3); }
+  90%, 100% { opacity: 0; transform: scale(0); }
 }
-.ico-pergunta { animation: interrogacaoBalance 4s cubic-bezier(0.45,0,0.55,1) infinite; transform-origin: center 10px; }
-.ico-pergunta .interrogacao-ponto { animation: pontoBounce 4s cubic-bezier(0.45,0,0.55,1) infinite; transform-origin: 12px 18.5px; }
+.ico-pergunta .interrogacao-arco {
+  stroke-dasharray: 22;
+  stroke-dashoffset: 22;
+  animation: escreverArco 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.ico-pergunta .interrogacao-ponto {
+  opacity: 0;
+  animation: pontoAparece 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: 12px 18.5px;
+}
 
 /* ── Hover pausa ── */
 .card:hover .ico-animado,
