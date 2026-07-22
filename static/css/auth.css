@@ -213,6 +213,12 @@
 .user-avatar-clicavel:hover {
     box-shadow: 0 0 0 3px rgba(249,137,72,0.5);
 }
+.user-avatar-clicavel.user-avatar-estatico {
+    cursor: default;
+}
+.user-avatar-clicavel.user-avatar-estatico:hover {
+    box-shadow: none;
+}
 
 .user-avatar-visitante {
     width: 36px;

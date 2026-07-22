@@ -1,7 +1,7 @@
 // ============================================================================
 // auth.js — DISC Dashboard
 // • Bloqueia acesso sem login em todas as páginas
-// • Persiste sessão via localStorage entre navegações
+// • Mantém a sessão somente enquanto a aba do site estiver aberta
 // • Modal de usuário (foto/avatar clicável) com opções estilizadas
 // • Modal de confirmação de saída estilizado (tema claro/escuro)
 // • CSS externo → auth.css
@@ -101,7 +101,7 @@
         });
 
         document.getElementById("btnSairConfirmar").addEventListener("click", () => {
-            try { localStorage.removeItem("__discSessao"); } catch {}
+            try { sessionStorage.removeItem("__discSessao"); } catch {}
             window.__discAuthOk  = false;
             window.__discUsuario = null;
             window.location.reload();
@@ -144,15 +144,15 @@
                     </div>
                 </div>
                 <div class="user-modal-divisor"></div>
+                ${isAdmin ? `
                 <div class="user-modal-acoes">
-                    ${isAdmin ? `
                     <button class="user-modal-btn" id="btnModalConfig">
                         <i class="fas fa-cog"></i> Configuracoes
-                    </button>` : ""}
+                    </button>
                     <button class="user-modal-btn user-modal-btn-sair" id="btnModalSair">
                         <i class="fas fa-sign-out-alt"></i> Sair
                     </button>
-                </div>
+                </div>` : ""}
             </div>
         `;
         document.body.appendChild(bg);
@@ -186,7 +186,7 @@
         const isAdmin = usuario.role === "admin";
 
         userBox.innerHTML = `
-            <div class="user-avatar-clicavel" id="userAvatarBtn" title="Minha conta">
+            <div class="user-avatar-clicavel${isAdmin ? "" : " user-avatar-estatico"}" id="userAvatarBtn" title="${isAdmin ? "Minha conta" : "Visitante"}">
                 ${isAdmin
                     ? `<img src="${usuario.foto || 'static/imagens/foto2.jpeg'}" alt="Usuario" class="user-foto">`
                     : `<div class="user-foto user-avatar-visitante">
@@ -204,16 +204,24 @@
             </div>
         `;
 
-        document.getElementById("userAvatarBtn")?.addEventListener("click", (e) => {
-            e.stopPropagation();
-            abrirModalUsuario(usuario, document.getElementById("userAvatarBtn"));
-        });
+        if (isAdmin) {
+            document.getElementById("userAvatarBtn")?.addEventListener("click", (e) => {
+                e.stopPropagation();
+                abrirModalUsuario(usuario, document.getElementById("userAvatarBtn"));
+            });
+        }
     }
 
-    // ── Recupera sessão persistida ───────────────────────────────────────────
+    const paginaAtual = window.location.pathname.split("/").pop() || "index.html";
+    const eIndex = paginaAtual === "index.html" || paginaAtual === "" || paginaAtual === "/";
+
+    // Remove a sessão persistente usada pelas versões anteriores.
+    try { localStorage.removeItem("__discSessao"); } catch {}
+
+    // ── Recupera sessão apenas da aba atual ──────────────────────────────────
     const _sessao = (() => {
         try {
-            const sess = JSON.parse(localStorage.getItem("__discSessao"));
+            const sess = JSON.parse(sessionStorage.getItem("__discSessao"));
             if (!sess) return null;
             const perfil = JSON.parse(localStorage.getItem("__discPerfil") || "{}");
             return { ...sess, ...perfil };
@@ -227,6 +235,12 @@
             if (!aplicarPermissoes(_sessao)) return;
             atualizarHeaderUsuario(_sessao);
         });
+        return;
+    }
+
+    // Sem uma sessão ativa, qualquer acesso direto retorna ao index bloqueado.
+    if (!eIndex) {
+        window.location.replace("index.html");
         return;
     }
 
@@ -270,13 +284,10 @@
     document.body.appendChild(modal);
     setTimeout(() => document.getElementById("loginEmail")?.focus(), 120);
 
-    const paginaAtual = window.location.pathname.split("/").pop() || "index.html";
-    const eIndex = paginaAtual === "index.html" || paginaAtual === "" || paginaAtual === "/";
-
     function concluirLogin(usuario) {
         window.__discAuthOk  = true;
         window.__discUsuario = usuario;
-        try { localStorage.setItem("__discSessao", JSON.stringify(usuario)); } catch {}
+        try { sessionStorage.setItem("__discSessao", JSON.stringify(usuario)); } catch {}
 
         modal.classList.add("fechando");
         setTimeout(() => {
