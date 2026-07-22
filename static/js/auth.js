@@ -11,6 +11,11 @@
 
     const RESTRITO_VISITANTE = ["recruta", "configuracoes"];
 
+    function obterPaginaAtual() {
+        const arquivo = window.location.pathname.split("/").pop() || "index.html";
+        return arquivo.replace(/\.html$/i, "") || "index";
+    }
+
     const USUARIOS = [
         {
             email: "admin@sistema.com",
@@ -21,13 +26,47 @@
         }
     ];
 
-    function aplicarPermissoes(role) {
-        if (role === "admin") return;
+    function aplicarPermissoes(usuario) {
+        const role = usuario?.role || "visitante";
+        const isAdmin = role === "admin";
+
+        document.body.dataset.discRole = role;
+
+        document.querySelectorAll("[data-admin-only]").forEach(elemento => {
+            elemento.hidden = !isAdmin;
+            elemento.setAttribute("aria-hidden", String(!isAdmin));
+        });
+
+        const saudacao = document.getElementById("bemVindoDashboard");
+        if (saudacao) {
+            saudacao.textContent = isAdmin
+                ? "Bem-vindo, Prof. Paulo Rocha!"
+                : "Bem-vindo, Visitante!";
+        }
+
+        if (isAdmin) return true;
+
         RESTRITO_VISITANTE.forEach(page => {
             const btn = document.querySelector(`.menu-item[data-page="${page}"]`);
             if (btn) btn.style.display = "none";
         });
+
+        if (RESTRITO_VISITANTE.includes(obterPaginaAtual())) {
+            window.location.replace("index.html");
+            return false;
+        }
+
+        return true;
     }
+
+    // Impede que acoes exclusivas sejam disparadas por visitantes via script/DOM.
+    document.addEventListener("click", (evento) => {
+        const acaoRestrita = evento.target.closest?.("[data-admin-only]");
+        if (acaoRestrita && window.__discUsuario?.role !== "admin") {
+            evento.preventDefault();
+            evento.stopImmediatePropagation();
+        }
+    }, true);
 
     function abrirModalSair() {
         const existente = document.getElementById("modalSairBG");
@@ -185,7 +224,7 @@
         window.__discAuthOk  = true;
         window.__discUsuario = _sessao;
         document.addEventListener("DOMContentLoaded", () => {
-            aplicarPermissoes(_sessao.role);
+            if (!aplicarPermissoes(_sessao)) return;
             atualizarHeaderUsuario(_sessao);
         });
         return;
@@ -225,7 +264,7 @@
                     <i class="fas fa-user"></i> Continuar como Visitante
                 </button>
             </div>
-            <p class="login-rodape">DISC Dashboard · Prof. Paulo Rocha · CRV Solucoes em TI</p>
+            <p class="login-rodape">DISC Dashboard · Gestao Comportamental · CRV Solucoes em TI</p>
         </div>
     `;
     document.body.appendChild(modal);
@@ -242,7 +281,7 @@
         modal.classList.add("fechando");
         setTimeout(() => {
             modal.remove();
-            aplicarPermissoes(usuario.role);
+            if (!aplicarPermissoes(usuario)) return;
             atualizarHeaderUsuario(usuario);
             document.dispatchEvent(new CustomEvent("discLoginOk", { detail: usuario }));
             if (!eIndex) window.location.href = "index.html";

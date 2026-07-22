@@ -4,6 +4,10 @@
    ============================================================ */
 
 /* ── MODAL LOGIN ──────────────────────────────────────────── */
+[data-admin-only][hidden] {
+    display: none !important;
+}
+
 #modalLogin {
     display: flex;
     position: fixed;
