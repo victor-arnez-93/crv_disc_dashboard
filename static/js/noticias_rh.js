@@ -5,7 +5,7 @@
 const RSS_FEEDS = [
   { nome: "Você RH",    rss: "https://api.rss2json.com/v1/api.json?rss_url=https://vocerh.abril.com.br/feed/",          limite: 5, categoria: "vocerh"   },
   { nome: "Startups",   rss: "https://api.rss2json.com/v1/api.json?rss_url=https://startups.com.br/feed/",              limite: 2, categoria: "startups" },
-  { nome: "MIT Sloan BR", rss: "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmitsloanreview.com.br%2Ffeed%2F", limite: 2, categoria: "mitsloan" }
+  { nome: "MIT Sloan BR", rss: "https://server-crv-disc-dashboard.onrender.com/api/noticias-mit", limite: 2, categoria: "mitsloan" }
 ];
 
 // IMAGENS PADRÃO — alterna fixo por índice, sem repetir
@@ -195,7 +195,9 @@ async function buscarNoticiasMultiRSS() {
 
   for (const feed of RSS_FEEDS) {
     try {
-      const resp = await fetch(feed.rss + "&cache=" + Date.now());
+      const separadorCache = feed.rss.includes("?") ? "&" : "?";
+      const resp = await fetch(feed.rss + separadorCache + "cache=" + Date.now());
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const data = await resp.json();
       if (!data.items) continue;
 

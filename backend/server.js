@@ -180,6 +180,195 @@ async function chamarGroq(messages) {
   return { erro: true, status: 502, codigo: "all_models_failed" };
 }
 
+
+
+// ============================================================
+// NOTÍCIAS — MIT SLOAN MANAGEMENT REVIEW BRASIL
+// ============================================================
+// O feed /feed/ do site deixou de existir (404). Para não depender do
+// RSS2JSON nesse caso, o próprio backend consulta o site e devolve os dados
+// no mesmo formato de "items" esperado pelo frontend.
+const MIT_SLOAN_BASE = "https://mitsloanreview.com.br";
+
+function limparTextoHtml(valor = "") {
+  return String(valor)
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#039;|&#39;/gi, "'")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+async function fetchComTimeout(url, timeoutMs = 12000) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    return await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; CRV-DISC-Dashboard/1.0)",
+        "Accept": "application/json,text/html,application/xhtml+xml"
+      },
+      signal: controller.signal
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+function atributoHtml(tag, nome) {
+  const regex = new RegExp(`${nome}=["']([^"']*)["']`, "i");
+  return tag.match(regex)?.[1] || "";
+}
+
+function obterMetaHtml(html, chave) {
+  const metas = html.match(/<meta\b[^>]*>/gi) || [];
+
+  for (const meta of metas) {
+    const identificador = atributoHtml(meta, "property") || atributoHtml(meta, "name");
+    if (identificador.toLowerCase() === chave.toLowerCase()) {
+      return limparTextoHtml(atributoHtml(meta, "content"));
+    }
+  }
+
+  return "";
+}
+
+async function buscarMitViaWordPress() {
+  const url = `${MIT_SLOAN_BASE}/wp-json/wp/v2/posts?per_page=6&_embed=1`;
+  const response = await fetchComTimeout(url);
+
+  if (!response.ok) {
+    throw new Error(`WordPress REST retornou HTTP ${response.status}`);
+  }
+
+  const posts = await response.json();
+  if (!Array.isArray(posts) || posts.length === 0) {
+    throw new Error("WordPress REST retornou lista vazia");
+  }
+
+  return posts.map(post => {
+    const media = post?._embedded?.["wp:featuredmedia"]?.[0];
+
+    return {
+      title: limparTextoHtml(post?.title?.rendered || ""),
+      description: limparTextoHtml(post?.excerpt?.rendered || ""),
+      content: post?.content?.rendered || post?.excerpt?.rendered || "",
+      pubDate: post?.date || post?.date_gmt || new Date().toISOString(),
+      thumbnail: media?.source_url || "",
+      link: post?.link || ""
+    };
+  }).filter(item => item.title && item.link);
+}
+
+function extrairLinksArtigos(html) {
+  const matches = [...html.matchAll(/href=["']([^"']+)["']/gi)];
+  const vistos = new Set();
+  const links = [];
+  const ignorar = [
+    "/wp-", "/produto", "/categoria", "/category", "/tag/", "/author/", "/autor/",
+    "/planos", "/faq", "/podcast", "/review", "/edicoes", "/login", "/minha-conta",
+    "/newsletter", "/sobre", "/contato", "/pesquisa", "/search"
+  ];
+
+  for (const match of matches) {
+    try {
+      const url = new URL(match[1], MIT_SLOAN_BASE);
+      if (url.origin !== MIT_SLOAN_BASE) continue;
+
+      const path = url.pathname.replace(/\/+$/, "");
+      if (!path || path === "") continue;
+      if (ignorar.some(prefixo => path.toLowerCase().startsWith(prefixo))) continue;
+
+      // Artigos do portal ficam majoritariamente na raiz: /slug-do-artigo/
+      const partes = path.split("/").filter(Boolean);
+      if (partes.length !== 1) continue;
+
+      const canonica = `${MIT_SLOAN_BASE}/${partes[0]}/`;
+      if (!vistos.has(canonica)) {
+        vistos.add(canonica);
+        links.push(canonica);
+      }
+    } catch {
+      // Ignora href inválido.
+    }
+  }
+
+  return links;
+}
+
+async function buscarMitViaPagina() {
+  const homeResponse = await fetchComTimeout(`${MIT_SLOAN_BASE}/`);
+  if (!homeResponse.ok) {
+    throw new Error(`Home MIT Sloan retornou HTTP ${homeResponse.status}`);
+  }
+
+  const homeHtml = await homeResponse.text();
+  const candidatos = extrairLinksArtigos(homeHtml).slice(0, 12);
+  const artigos = [];
+
+  for (const link of candidatos) {
+    if (artigos.length >= 6) break;
+
+    try {
+      const response = await fetchComTimeout(link, 10000);
+      if (!response.ok) continue;
+
+      const html = await response.text();
+      const tipo = obterMetaHtml(html, "og:type");
+      const titulo = obterMetaHtml(html, "og:title");
+      const descricao = obterMetaHtml(html, "og:description");
+      const imagem = obterMetaHtml(html, "og:image");
+      const data = obterMetaHtml(html, "article:published_time");
+      const canonical = obterMetaHtml(html, "og:url") || link;
+
+      if (!titulo || (tipo && tipo !== "article") || !data) continue;
+
+      artigos.push({
+        title: titulo.replace(/\s*[-–|]\s*MIT Sloan Management Review Brasil\s*$/i, "").trim(),
+        description: descricao,
+        content: descricao,
+        pubDate: data,
+        thumbnail: imagem,
+        link: canonical
+      });
+    } catch (err) {
+      console.warn("Falha ao ler artigo MIT Sloan:", link, err?.message || err);
+    }
+  }
+
+  return artigos.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+}
+
+app.get("/api/noticias-mit", async (req, res) => {
+  try {
+    let items = [];
+
+    try {
+      items = await buscarMitViaWordPress();
+    } catch (err) {
+      console.warn("MIT Sloan REST indisponível, usando fallback da página:", err?.message || err);
+      items = await buscarMitViaPagina();
+    }
+
+    if (!items.length) {
+      return res.status(502).json({ status: "error", items: [] });
+    }
+
+    res.set("Cache-Control", "public, max-age=900");
+    return res.json({ status: "ok", items: items.slice(0, 6) });
+  } catch (err) {
+    console.error("Erro ao buscar notícias MIT Sloan:", err);
+    return res.status(502).json({ status: "error", items: [] });
+  }
+});
+
 // ============================================================
 // ROTA DO CHAT
 // ============================================================
