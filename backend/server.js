@@ -25,9 +25,12 @@ app.get("/ping", (req, res) => {
 // ============================================================
 // MODELOS COM FALLBACK AUTOMÁTICO
 // ============================================================
+// GPT-OSS 20B fica como principal por estar no catálogo atual da Groq
+// e ter boa relação entre qualidade, velocidade e limite de uso.
 const MODELOS = [
-  { id: "llama-3.3-70b-versatile", nome: "Llama 3.3 70B" },
-  { id: "llama-3.1-8b-instant",    nome: "Llama 3.1 8B"  }
+  { id: "openai/gpt-oss-20b",       nome: "GPT-OSS 20B" },
+  { id: "llama-3.1-8b-instant",     nome: "Llama 3.1 8B" },
+  { id: "llama-3.3-70b-versatile",  nome: "Llama 3.3 70B" }
 ];
 
 // ============================================================
@@ -71,59 +74,110 @@ Idioma: sempre português brasileiro.`;
 // FUNÇÃO DE CHAMADA COM FALLBACK
 // ============================================================
 async function chamarGroq(messages) {
+  const apiKey = process.env.GROQ_API_KEY;
+
+  if (!apiKey) {
+    console.error("GROQ_API_KEY não configurada no ambiente.");
+    return { erro: true, status: 500, codigo: "missing_api_key" };
+  }
+
   for (let i = 0; i < MODELOS.length; i++) {
     const modelo = MODELOS[i];
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
 
     try {
       const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+          "Authorization": `Bearer ${apiKey}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
           model: modelo.id,
           messages,
           temperature: 0.75,
-          max_tokens: 1024
-        })
+          max_completion_tokens: 1024
+        }),
+        signal: controller.signal
       });
 
-      const data = await response.json();
+      const raw = await response.text();
+      let data = {};
 
-      // Cota esgotada ou modelo indisponível → tenta o próximo
-      if (!response.ok) {
-        const code = data?.error?.code || "";
-        const isCotaOuModelo =
-          code === "rate_limit_exceeded" ||
-          code === "model_decommissioned" ||
-          code === "model_not_found" ||
-          response.status === 429;
-
-        if (isCotaOuModelo && i < MODELOS.length - 1) {
-          console.warn(`Modelo ${modelo.nome} indisponível (${code}), tentando fallback...`);
-          continue; // tenta o próximo modelo
-        }
-
-        console.error("Erro Groq:", data);
-        return { erro: true, status: response.status };
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch {
+        data = { erro_raw: raw.substring(0, 500) };
       }
 
-      // Sucesso — retorna resposta + qual modelo foi usado
+      if (!response.ok) {
+        const code = data?.error?.code || data?.error?.type || "";
+        const mensagemErro = data?.error?.message || "Erro sem mensagem retornada pela Groq";
+
+        console.warn(
+          `Groq falhou em ${modelo.nome}: HTTP ${response.status} | ${code} | ${mensagemErro}`
+        );
+
+        // Erros ligados a modelo, permissão/cota, capacidade ou indisponibilidade
+        // tentam automaticamente o próximo modelo disponível.
+        const podeTentarFallback =
+          [403, 404, 408, 409, 429, 498, 500, 502, 503, 504].includes(response.status) ||
+          [
+            "rate_limit_exceeded",
+            "model_decommissioned",
+            "model_not_found",
+            "model_not_allowed",
+            "permission_denied",
+            "capacity_exceeded",
+            "server_error"
+          ].includes(code);
+
+        if (podeTentarFallback && i < MODELOS.length - 1) {
+          continue;
+        }
+
+        return {
+          erro: true,
+          status: response.status,
+          codigo: code || "groq_error"
+        };
+      }
+
+      const resposta = data?.choices?.[0]?.message?.content;
+
+      if (!resposta) {
+        console.warn(`Resposta vazia recebida de ${modelo.nome}.`);
+        if (i < MODELOS.length - 1) continue;
+        return { erro: true, status: 502, codigo: "empty_response" };
+      }
+
       return {
-        resposta: data.choices[0].message.content,
+        resposta,
         modelo: modelo.nome,
-        isFallback: i > 0  // true se usou modelo de fallback
+        isFallback: i > 0
       };
 
     } catch (err) {
-      console.error(`Erro ao chamar modelo ${modelo.nome}:`, err);
+      const foiTimeout = err?.name === "AbortError";
+      console.error(
+        `${foiTimeout ? "Timeout" : "Erro"} ao chamar ${modelo.nome}:`,
+        err
+      );
+
       if (i < MODELOS.length - 1) continue;
-      return { erro: true };
+      return {
+        erro: true,
+        status: foiTimeout ? 504 : 502,
+        codigo: foiTimeout ? "timeout" : "network_error"
+      };
+
+    } finally {
+      clearTimeout(timeout);
     }
   }
 
-  return { erro: true };
+  return { erro: true, status: 502, codigo: "all_models_failed" };
 }
 
 // ============================================================
@@ -145,7 +199,11 @@ app.post("/api/chat", async (req, res) => {
   const resultado = await chamarGroq(messages);
 
   if (resultado.erro) {
-    return res.status(502).json({ erro: "Erro na API de IA." });
+    const status = resultado.status === 500 ? 500 : 502;
+    return res.status(status).json({
+      erro: "Erro na API de IA.",
+      codigo: resultado.codigo || "groq_error"
+    });
   }
 
   res.json({
