@@ -1,0 +1,17 @@
+{
+  "results": [
+    "Banco: 324 questões únicas, quatro alternativas, uma correta, comentário e fonte",
+    "120 combinações de tema, dificuldade e quantidade geram o total solicitado",
+    "Correção completa: 12/12 e comentários com fontes",
+    "8 dinâmicas completas e impressão com o mesmo CSS de Casos de Liderança",
+    "Casos de liderança: 30 cartões, contexto justificado e nota didática",
+    "Biblioteca dedicada: seis casos, filtros e identificação de exemplos fictícios",
+    "Estratégia: quatro ferramentas, quiz por tema e persistência das anotações",
+    "3 trilhas × 10 cenários; pontuação sem clique duplicado; chat na altura do simulador e HTML escapado",
+    "Notícias reais via servidor local: 11 cartões, leitura justificada, parágrafos e fechamento por Escape",
+    "API: três fontes reais, CORS, cache e validação de entrada",
+    "Seis páginas sem transbordamento horizontal em 390px; início nos dois temas",
+    "Sem erros JavaScript nas páginas revisadas"
+  ],
+  "errors": []
+}

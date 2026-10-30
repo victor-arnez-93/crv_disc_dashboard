@@ -132,38 +132,17 @@ async function carregarNoticias() {
     const ul = document.getElementById("noticiasList");
     if (!ul) return;
 
-    const feeds = [
-        { nome: "Você RH",        rss: "https://api.rss2json.com/v1/api.json?rss_url=https://vocerh.abril.com.br/feed/" },
-        { nome: "Endeavor Brasil", rss: "https://api.rss2json.com/v1/api.json?rss_url=https://endeavor.org.br/feed/" },
-        { nome: "MIT Sloan BR",    rss: "https://api.rss2json.com/v1/api.json?rss_url=https://www.mitsloanreview.com.br/feed/" }
-    ];
-
-    const noticias = [];
-
-    for (const feed of feeds) {
-        if (noticias.length >= 3) break;
-        try {
-            const resp = await fetch(feed.rss);
-            const data = await resp.json();
-            if (!data.items?.length) continue;
-            const item = data.items[0];
-            noticias.push({ titulo: item.title, link: item.link, fonte: feed.nome });
-        } catch { continue; }
+    ul.innerHTML = '<li>Consultando fontes…</li>';
+    try {
+        const { items } = await window.DISC_NOTICIAS.carregar();
+        if (!items.length) throw new Error('Sem notícias');
+        const e = window.DISC_UI.escape;
+        ul.innerHTML = items.slice(0, 3).map(n => `
+            <li><div class="noticia-texto">${e(n.titulo)}</div>
+                <div class="noticia-fonte"><a href="${e(n.link)}" target="_blank" rel="noopener noreferrer">${e(n.fonte)}</a></div></li>`).join('');
+    } catch {
+        ul.innerHTML = '<li><span class="insight-texto">Fontes temporariamente indisponíveis.</span></li>';
     }
-
-    if (!noticias.length) {
-        ul.innerHTML = `<li><span class="insight-texto">Erro ao carregar notícias.</span></li>`;
-        return;
-    }
-
-    ul.innerHTML = noticias.map(n => `
-        <li>
-            <div class="noticia-texto">${n.titulo}</div>
-            <div class="noticia-fonte">
-                <a href="${n.link}" target="_blank" rel="noopener noreferrer">${n.fonte}</a>
-            </div>
-        </li>
-    `).join("");
 }
 
 // ============================================================================

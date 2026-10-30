@@ -7,6 +7,8 @@
 (function () {
 
 const PAGINAS = [
+    { titulo: "Casos de Uso DISC", url: "biblioteca.html", icone: "fa-book-reader", role: "todos", tags: "biblioteca casos uso disc vendas rh" },
+    { titulo: "Estratégia Empresarial", url: "estrategia.html", icone: "fa-chess", role: "todos", tags: "estrategia swot porter bcg ansoff matriz planejamento empresarial" },
     { titulo: "Início",               url: "index.html",         icone: "fa-home",           role: "todos",  tags: "inicio home dashboard painel boas-vindas frases clima relogio" },
     { titulo: "Teste DISC",           url: "teste_disc.html",    icone: "fa-clipboard-list", role: "todos",  tags: "teste disc avaliacao perfil comportamental dominancia influencia estabilidade conformidade" },
     { titulo: "DISC Recruta",         url: "recruta.html",       icone: "fa-users-cog",      role: "admin",  tags: "recruta recrutamento selecao candidatos disc rh" },

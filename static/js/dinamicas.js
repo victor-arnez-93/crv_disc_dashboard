@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ============================================
 
 function abrirModal(dinamicaId) {
-    const modal = document.getElementById('modalDetalhes');
+    const modal = document.getElementById('modalCaso');
     const modalBody = document.getElementById('modalBody');
 
     // Dados completos das 8 dinâmicas
@@ -54,7 +54,7 @@ function abrirModal(dinamicaId) {
                 'Promover integração entre os participantes',
                 'Estimular comunicação e observação',
                 'Criar ambiente descontraído e receptivo',
-                'Desenvolver capacidade de percepção não-verbal'
+                'Discutir percepções e limites das interpretações, sem inferir mentira por gestos'
             ],
             passos: [
                 'Cada pessoa pensa em 3 afirmações sobre si mesma (2 verdadeiras, 1 falsa)',
@@ -98,7 +98,7 @@ function abrirModal(dinamicaId) {
                 'Fortalecer capacidade de resolver conflitos'
             ],
             passos: [
-                'Facilitador apresenta 3-4 situações corporativas conflituosas reais',
+                'Facilitador apresenta 3-4 situações corporativas fictícias ou devidamente anonimizadas',
                 'Divide participantes em grupos pequenos',
                 'Cada pessoa recebe um papel (gerente, colaborador, cliente, etc.)',
                 'Grupos encenam a situação da perspectiva de cada personagem',
@@ -106,7 +106,7 @@ function abrirModal(dinamicaId) {
                 'Discussão sobre como mudou a percepção ao trocar de papel'
             ],
             materiais: 'Cartões com situações impressas, papéis com personagens, espaço para movimentação.',
-            dicas: 'Use situações reais do ambiente de trabalho para maior conexão. Permita que expressem emoções genuínas.'
+            dicas: 'Use situações fictícias ou anonimizadas. Não exija relatos pessoais nem exposição emocional.'
         },
 
         dinamica4: {
@@ -127,7 +127,7 @@ function abrirModal(dinamicaId) {
                 'Compara-se com mensagem original e discute-se distorções'
             ],
             materiais: 'Mensagem escrita preparada, cronômetro (opcional), flipchart para comparação.',
-            dicas: 'Use jargões corporativos e informações específicas. Filme para análise posterior (opcional).'
+            dicas: 'Compare uma rodada sem checagem com outra que permita perguntas. Discuta como confirmar entendimento reduz ruídos.'
         },
 
         dinamica5: {
@@ -164,11 +164,11 @@ function abrirModal(dinamicaId) {
                 'Grupo forma círculo físico ou virtual',
                 'Uma pessoa por vez fica no centro (ou destaque)',
                 'Cada membro do grupo oferece um feedback positivo específico',
-                'Pessoa no centro apenas ouve, sem comentar ou justificar',
+                'A pessoa escolhe ouvir ou receber os comentários por escrito e pode pedir esclarecimentos',
                 'Após todos falarem, pessoa agradece e próxima vai ao centro',
                 'Facilitador fecha com reflexão sobre sentimentos e aprendizados'
             ],
-            materiais: 'Ambiente tranquilo, cadeiras em círculo, lenços (emoções podem aflorar).',
+            materiais: 'Ambiente tranquilo e cadeiras em círculo; possibilidade de participação por escrito ou como observador.',
             dicas: 'Feedbacks devem ser específicos, não genéricos. Estabeleça ambiente seguro e confidencial.'
         },
 
@@ -191,7 +191,7 @@ function abrirModal(dinamicaId) {
                 'Avaliação: qual equipe ficou mais próxima do objetivo?'
             ],
             materiais: 'LEGO, blocos de madeira, papel e palitos, ou materiais recicláveis. Cronômetro.',
-            dicas: 'Grave em vídeo para análise posterior. Discuta barreiras de comunicação identificadas.'
+            dicas: 'Faça uma segunda rodada com perguntas permitidas. Compare os resultados e discuta o efeito das restrições; não classifique pessoas pela atividade.'
         },
 
         dinamica8: {
@@ -219,36 +219,33 @@ function abrirModal(dinamicaId) {
     const dinamica = dinamicas[dinamicaId];
 
     if (dinamica) {
-        modalBody.innerHTML = `
-            <h2>${dinamica.titulo}</h2>
-            <p><strong>Descrição:</strong> ${dinamica.descricao}</p>
-
-            <h3 style="color: var(--cor-primaria); margin-top: 24px;">Objetivos:</h3>
-            <ul>
-                ${dinamica.objetivos.map(obj => `<li>${obj}</li>`).join('')}
-            </ul>
-
-            <h3 style="color: var(--cor-primaria); margin-top: 24px;">Passo a Passo:</h3>
-            <ol style="list-style: decimal; padding-left: 25px;">
-                ${dinamica.passos.map(passo => `<li style="padding-left: 0;">${passo}</li>`).join('')}
-            </ol>
-
-            <p style="margin-top: 20px;"><strong>Materiais:</strong> ${dinamica.materiais}</p>
-            <p style="margin-top: 12px; padding: 15px; background: rgba(249,137,72,0.1); border-left: 4px solid var(--cor-primaria); border-radius: 8px;"><strong>💡 Dicas:</strong> ${dinamica.dicas}</p>
-        `;
-
-        modal.classList.add('show');
+        document.getElementById('modalTitulo').textContent = dinamica.titulo;
+        const indice = Number(dinamicaId.replace('dinamica', '')) - 1;
+        const card = document.querySelectorAll('.dinamica-card')[indice];
+        const metadados = [...card.querySelectorAll('.dinamica-info span')].map(el => el.textContent.trim());
+        const secao = (titulo, conteudo) => `<section class="modal-secao"><h3>${titulo}</h3>${conteudo}</section>`;
+        modalBody.innerHTML =
+            secao('Contexto', `<p>${dinamica.descricao}</p><p><strong>Duração:</strong> ${metadados[0]} · <strong>Grupo:</strong> ${metadados[1]}</p>`) +
+            secao('Objetivos', `<ul>${dinamica.objetivos.map(v => `<li>${v}</li>`).join('')}</ul>`) +
+            secao('Passo a passo', `<ol>${dinamica.passos.map(v => `<li>${v}</li>`).join('')}</ol>`) +
+            secao('Materiais', `<p>${dinamica.materiais}</p>`) +
+            secao('Orientações para facilitar', `<p>${dinamica.dicas}</p>`) +
+            secao('Discussão e fechamento', '<ul><li>O que aconteceu durante a atividade?</li><li>Que comportamentos facilitaram ou dificultaram a participação?</li><li>O que pode ser aplicado no trabalho e qual ação o grupo combina experimentar?</li></ul>') +
+            secao('Cuidados de aplicação', '<p>Combine participação voluntária e possibilidade de observar sem se expor. Use exemplos fictícios, preserve a privacidade e adapte a atividade às necessidades de acessibilidade. A atividade é didática; não é avaliação psicológica ou diagnóstico individual.</p>');
+        document.body.style.overflow = 'hidden';
+        modal.classList.add('ativo');
     }
 }
 
 function fecharModal() {
-    const modal = document.getElementById('modalDetalhes');
-    modal.classList.remove('show');
+    const modal = document.getElementById('modalCaso');
+    modal.classList.remove('ativo');
+    document.body.style.overflow = '';
 }
 
 // Fechar modal ao clicar fora
-document.getElementById('modalDetalhes')?.addEventListener('click', (e) => {
-    if (e.target.id === 'modalDetalhes') {
+document.getElementById('modalCaso')?.addEventListener('click', (e) => {
+    if (e.target.id === 'modalCaso') {
         fecharModal();
     }
 });
@@ -257,5 +254,21 @@ document.getElementById('modalDetalhes')?.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         fecharModal();
+    }
+});
+
+document.getElementById('btnImprimirDinamica').addEventListener('click', () => window.print());
+document.getElementById('btnCompartilharDinamica').addEventListener('click', async () => {
+    const text = document.getElementById('modalTitulo').textContent + '\n\n' + document.getElementById('modalBody').innerText;
+    try {
+        if (navigator.share) await navigator.share({ title: 'Dinâmica para aula', text });
+        else {
+            await navigator.clipboard.writeText(text);
+            const button = document.getElementById('btnCompartilharDinamica');
+            button.innerHTML = '<i class="fas fa-check"></i> Copiado';
+            setTimeout(() => button.innerHTML = '<i class="fas fa-share-alt"></i> Compartilhar', 2000);
+        }
+    } catch (error) {
+        if (error.name !== 'AbortError') document.getElementById('btnCompartilharDinamica').textContent = 'Não foi possível copiar';
     }
 });

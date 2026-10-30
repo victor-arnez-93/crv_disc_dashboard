@@ -1103,3 +1103,15 @@ RESPONSIVIDADE MOBILE — APENAS CONTEÚDO
   }
 }
 
+
+.gabarito-explicacao {
+    margin-top: 20px;
+    padding: 18px;
+    border-left: 3px solid var(--cor-primaria);
+    background: rgba(249,137,72,.08);
+    border-radius: 8px;
+    line-height: 1.7;
+}
+.quiz-fonte { margin-top: 12px; font-size: .88rem; opacity: .85; }
+.quiz-fonte a { color: var(--cor-primaria); display: inline-block; }
+@media print { .gabarito-explicacao { display: none !important; } }

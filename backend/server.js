@@ -1,21 +1,26 @@
 import express from "express";
 import fetch from "node-fetch";
 import cors from "cors";
+import Parser from "rss-parser";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const allowedOrigins = new Set([
+    'https://discprofpaulorocha.com', 'https://www.discprofpaulorocha.com',
+    'https://dashboard.discprofpaulorocha.com',
+    'https://crv-disc-dashboard.onrender.com',
+    'https://victor-arnez-93.github.io',
+    ...(process.env.ALLOWED_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean)
+]);
 app.use(cors({
-  origin: [
-    "https://discprofpaulorocha.com",
-    "https://dashboard.discprofpaulorocha.com",
-    "https://crv-disc-dashboard.onrender.com",
-    "http://localhost",
-    "http://127.0.0.1"
-  ]
+    origin(origin, callback) {
+        const local = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin || '');
+        callback(null, !origin || local || allowedOrigins.has(origin));
+    }
 }));
 
-app.use(express.json());
+app.use(express.json({ limit: "32kb" }));
 
 // Health check
 app.get("/ping", (req, res) => {
@@ -68,6 +73,13 @@ Formato das respostas:
 - Respostas entre 3-6 parágrafos
 - Quando der listas, use marcadores simples
 
+Rigor das respostas:
+- Não invente autores, títulos, citações literais, percentuais ou links.
+- Quando não houver uma referência verificável, explique a ideia sem atribuição inventada.
+- Cenários criados por você são exemplos fictícios, não resultados comprovados.
+- DISC descreve tendências, não diagnóstico clínico, competência técnica ou destino individual.
+- Não recomende selecionar ou excluir candidatos apenas por estilos DISC.
+- Inclua SWOT, Cinco Forças de Porter, BCG e Ansoff quando pertinente à gestão.
 Idioma: sempre português brasileiro.`;
 
 // ============================================================
@@ -372,17 +384,109 @@ app.get("/api/noticias-mit", async (req, res) => {
 // ============================================================
 // ROTA DO CHAT
 // ============================================================
+const rssParser = new Parser({
+    customFields: { item: ['content:encoded', 'media:content', 'media:thumbnail'] }
+});
+const FONTES_NOTICIAS = {
+    vocerh: { nome: 'Você RH', feed: 'https://vocerh.abril.com.br/feed/', wp: 'https://vocerh.abril.com.br/wp-json/wp/v2/posts?per_page=6&_embed=1' },
+    startups: { nome: 'Startups', feed: 'https://startups.com.br/feed/', wp: 'https://startups.com.br/wp-json/wp/v2/posts?per_page=6&_embed=1' },
+    mitsloan: { nome: 'MIT Sloan BR' }
+};
+const cacheNoticias = new Map();
+const pendentesNoticias = new Map();
+const CACHE_TTL = 15 * 60 * 1000;
+const STALE_TTL = 24 * 60 * 60 * 1000;
+function urlPublica(value) {
+    try { const u = new URL(value); return ['http:', 'https:'].includes(u.protocol) ? u.href : ''; }
+    catch { return ''; }
+}
+function normalizarArtigo(item) {
+    const link = urlPublica(item.link || '');
+    const title = limparTextoHtml(item.title || '');
+    const date = new Date(item.pubDate || item.isoDate || '');
+    return { title, link, pubDate: Number.isNaN(date.getTime()) ? null : date.toISOString(),
+        description: limparTextoHtml(item.description || item.contentSnippet || ''),
+        content: String(item['content:encoded'] || item.content || item.description || '').slice(0, 80000),
+        thumbnail: urlPublica(item.thumbnail || item.enclosure?.url || item['media:content']?.$?.url || '') };
+}
+async function lerFonteNoticias(id) {
+    const fonte = FONTES_NOTICIAS[id];
+    let items;
+    if (id === 'mitsloan') {
+        try { items = await buscarMitViaWordPress(); }
+        catch { items = await buscarMitViaPagina(); }
+    } else {
+        try {
+            const resposta = await fetchComTimeout(fonte.feed);
+            if (!resposta.ok) throw new Error(`RSS HTTP ${resposta.status}`);
+            const xml = await resposta.text();
+            if (xml.length > 3000000) throw new Error('Feed excede limite');
+            const feed = await rssParser.parseString(xml);
+            items = feed.items;
+            if (!items?.length) throw new Error('Feed vazio');
+        } catch {
+            const resposta = await fetchComTimeout(fonte.wp);
+            if (!resposta.ok) throw new Error(`REST HTTP ${resposta.status}`);
+            const posts = await resposta.json();
+            if (!Array.isArray(posts)) throw new Error('REST inválida');
+            items = posts.map(post => ({ title: post.title?.rendered, link: post.link,
+                description: post.excerpt?.rendered, content: post.content?.rendered,
+                pubDate: post.date_gmt ? post.date_gmt + 'Z' : null,
+                thumbnail: post._embedded?.['wp:featuredmedia']?.[0]?.source_url }));
+        }
+    }
+    const normalizadas = items.map(normalizarArtigo).filter(item => item.title && item.link).slice(0, 6);
+    if (!normalizadas.length) throw new Error('Nenhum artigo válido');
+    return normalizadas;
+}
+async function obterFonteNoticias(id) {
+    const cache = cacheNoticias.get(id);
+    if (cache && Date.now() - cache.time < CACHE_TTL) return { ...cache, stale: false };
+    if (pendentesNoticias.has(id)) return pendentesNoticias.get(id);
+    const trabalho = (async () => {
+        try {
+            const items = await lerFonteNoticias(id);
+            const entry = { items, time: Date.now() };
+            cacheNoticias.set(id, entry);
+            return { ...entry, stale: false };
+        } catch (error) {
+            if (cache && Date.now() - cache.time < STALE_TTL) return { ...cache, stale: true };
+            throw error;
+        } finally { pendentesNoticias.delete(id); }
+    })();
+    pendentesNoticias.set(id, trabalho);
+    return trabalho;
+}
+app.get('/api/noticias/:fonte', async (req, res) => {
+    const { fonte } = req.params;
+    if (!Object.hasOwn(FONTES_NOTICIAS, fonte)) return res.status(404).json({ erro: 'Fonte desconhecida' });
+    try {
+        const resultado = await obterFonteNoticias(fonte);
+        res.set('Cache-Control', 'public, max-age=300');
+        res.json({ status: 'ok', fonte: FONTES_NOTICIAS[fonte].nome,
+            items: resultado.items, stale: resultado.stale,
+            fetchedAt: new Date(resultado.time).toISOString() });
+    } catch {
+        res.status(502).json({ status: 'error', items: [], erro: 'Fonte temporariamente indisponível.' });
+    }
+});
+
 app.post("/api/chat", async (req, res) => {
-  const { mensagem, historico = [] } = req.body;
-
-  if (!mensagem || mensagem.trim().length === 0) {
-    return res.status(400).json({ erro: "Mensagem vazia." });
+  const { mensagem, historico = [] } = req.body || {};
+  if (typeof mensagem !== 'string' || !mensagem.trim() || mensagem.length > 6000) {
+    return res.status(400).json({ erro: 'Envie uma mensagem de até 6000 caracteres.' });
   }
-
+  if (!Array.isArray(historico)) {
+    return res.status(400).json({ erro: 'Histórico inválido.' });
+  }
+  const seguro = historico.slice(-10).filter(item =>
+    item && ['user', 'assistant'].includes(item.role) &&
+    typeof item.content === 'string' && item.content.length <= 8000
+  ).map(item => ({ role: item.role, content: item.content }));
   const messages = [
-    { role: "system", content: SYSTEM_PROMPT },
-    ...historico.slice(-10),
-    { role: "user", content: mensagem }
+    { role: 'system', content: SYSTEM_PROMPT },
+    ...seguro,
+    { role: 'user', content: mensagem.trim() }
   ];
 
   const resultado = await chamarGroq(messages);

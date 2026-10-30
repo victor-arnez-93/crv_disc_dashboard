@@ -1,0 +1,136 @@
+/* Revisão visual incremental — preserva paleta, tipografia e componentes. */
+[hidden] { display: none !important; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--cor-primaria);
+    outline-offset: 4px;
+}
+.sidebar-menu { gap: 0; flex-shrink: 0; }
+.sidebar .menu-item { min-height: 48px; }
+.nota-didatica {
+    font-size: .86rem;
+    line-height: 1.6;
+    opacity: .78;
+    margin-top: 16px;
+}
+#modalContexto, .modal-secao p, #modalCasoBody p {
+    text-align: justify;
+    hyphens: auto;
+    overflow-wrap: anywhere;
+}
+.modal-secao ol { padding-left: 24px; }
+.modal-secao ol li { margin-bottom: 12px; line-height: 1.7; }
+.modal-header h2 { padding-right: 38px; }
+.insights-grid-principal { align-items: stretch; }
+.insights-grid-principal .insights-chat-container {
+    height: auto;
+    min-height: 780px;
+    max-height: none;
+}
+.insights-chat-messages { min-height: 0; flex-basis: 0; }
+.insights-chat-header, .insights-chat-input, .insights-chat-sugestoes { flex-shrink: 0; }
+.status-online { background: #a1a1aa; }
+.status-online[data-estado="disponivel"] { background: #10b981; }
+.status-online[data-estado="indisponivel"] { background: #f59e0b; }
+.trilha-label { display: block; font-size: .85rem; margin: 18px 0 8px; font-weight: 700; }
+#trilhaCenarios {
+    width: 100%; margin-bottom: 18px; padding: 13px 14px;
+    border: 1px solid rgba(249,137,72,.35); border-radius: 10px;
+    background: var(--cor-fundo); color: var(--cor-texto);
+    font: 500 .9rem 'Manrope', sans-serif;
+}
+#noticias-status { margin: 0 0 22px; font-size: .9rem; opacity: .8; line-height: 1.7; }
+#modal-noticia { overflow: auto; max-height: 88vh; }
+#modal-noticia-titulo { font-family: 'Manrope', sans-serif; font-size: clamp(1.2rem, 2vw, 1.7rem); line-height: 1.4; margin: 8px 38px 8px 0; }
+#modal-noticia-fonte { opacity: .72; font-size: .86rem; margin-bottom: 24px; }
+#modal-noticia-conteudo { font-size: 1rem; text-align: left; }
+#modal-noticia-conteudo p {
+    text-align: justify !important;
+    line-height: 1.85 !important;
+    margin: 0 0 1.25em !important;
+    hyphens: auto;
+    overflow-wrap: anywhere;
+}
+.noticia-capa-leitura { display: block; width: 100%; height: 230px; object-fit: cover; border-radius: 12px; margin-bottom: 26px; }
+#modal-noticia-footer { padding: 4px 0 12px; }
+#modal-noticia-footer a { display: inline-flex; width: auto; }
+.estrategia-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 24px; }
+.estrategia-tabs button {
+    padding: 14px 22px;
+    background: var(--cor-sidebar);
+    color: var(--cor-texto);
+    border: 1px solid rgba(249,137,72,.35);
+    border-radius: 12px;
+    font: 600 .95rem 'Manrope', sans-serif;
+    cursor: pointer;
+}
+.estrategia-tabs button.active { background: var(--cor-primaria); color: #111; border-color: var(--cor-primaria); }
+.estrategia-painel {
+    background: var(--cor-sidebar);
+    border: 1px solid rgba(249,137,72,.28);
+    border-radius: 22px;
+    padding: clamp(20px, 3vw, 42px);
+    line-height: 1.75;
+}
+.estrategia-painel h2 { font: 700 clamp(1.4rem, 2.5vw, 2rem) 'Orbitron', sans-serif; margin: 10px 0 20px; }
+.estrategia-sobretitulo { color: var(--cor-primaria); text-transform: uppercase; letter-spacing: .1em; font-size: .78rem; font-weight: 700; }
+.estrategia-painel h3 { font: 700 1.05rem 'Manrope', sans-serif; margin-bottom: 10px; color: var(--cor-primaria); }
+.estrategia-painel > section { margin: 28px 0; }
+.estrategia-eixos { font-size: .9rem; opacity: .8; margin: 26px 0 16px; }
+.estrategia-matriz { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.estrategia-quadrante { padding: 24px; background: rgba(249,137,72,.045); border: 1px solid rgba(249,137,72,.23); border-radius: 14px; }
+.estrategia-quadrante p { font-size: .9rem; margin-bottom: 18px; }
+.estrategia-painel label { display: block; font-size: .8rem; font-weight: 700; margin-bottom: 8px; opacity: .75; }
+.estrategia-painel textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(249,137,72,.28);
+    border-radius: 10px;
+    background: var(--cor-fundo);
+    color: var(--cor-texto);
+    padding: 12px;
+    resize: vertical;
+    font: 400 .9rem/1.6 'Manrope', sans-serif;
+}
+.cinco-forcas section:last-child { grid-column: 1 / -1; }
+.estrategia-exemplo { padding: 22px; background: rgba(249,137,72,.06); border-left: 3px solid var(--cor-primaria); }
+.estrategia-plano small { font-size: .76rem; opacity: .65; display: block; margin-top: 6px; }
+.estrategia-fonte { border-top: 1px solid rgba(249,137,72,.2); padding-top: 22px; font-size: .8rem; opacity: .85; }
+.estrategia-fonte a { display: block; color: var(--cor-primaria); }
+.estrategia-acoes { display: flex; gap: 14px; flex-wrap: wrap; margin: 24px 0; }
+.estrategia-acoes a { text-decoration: none; }
+/* Mesmo botão de impressão utilizado nos Casos de Liderança. */
+.estrategia-acoes .btn-modal {
+    padding: 12px 24px; border-radius: 10px; border: 2px solid;
+    font: 600 15px 'Manrope', sans-serif; cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+}
+.estrategia-acoes .btn-imprimir { background: rgba(139,92,246,.1); border-color: #8b5cf6; color: #8b5cf6; }
+@media (max-width: 1100px) {
+    .insights-grid-principal .insights-chat-container { height: 760px; min-height: 600px; }
+}
+@media (max-width: 680px) {
+    .estrategia-matriz { grid-template-columns: 1fr; }
+    .estrategia-tabs button { flex: 1 1 45%; padding: 12px 8px; font-size: .85rem; }
+    .estrategia-quadrante { padding: 18px; }
+    .insights-grid-principal .insights-chat-container { height: 680px; min-height: 520px; }
+    .noticia-capa-leitura { height: 170px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+@media print {
+    .nota-didatica { font-size: 9pt; }
+    #modalCaso .modal-body { max-height: none !important; overflow: visible !important; }
+    #modalCaso .modal-secao ol li { font: 11pt/1.6 Arial, sans-serif !important; margin-bottom: 3mm !important; }
+    body:has(.estrategia-main) > :not(.estrategia-main) { display: none !important; }
+    .estrategia-main { margin: 0 !important; padding: 0 !important; width: 100% !important; }
+    .estrategia-main .card-principal, .estrategia-tabs, .estrategia-acoes { display: none !important; }
+    .estrategia-painel { border: 0; padding: 0; color: #000; background: #fff; }
+    .estrategia-painel * { color: #000 !important; box-shadow: none !important; text-shadow: none !important; font-family: Arial, sans-serif !important; }
+    .estrategia-painel::before { content: 'DISC Dashboard — Prof. Paulo Rocha'; display: block; text-align: center; font-size: 11pt; border-bottom: 1px solid #ccc; padding-bottom: 8px; margin-bottom: 16px; }
+    .estrategia-painel textarea { background: #fff; color: #000; border: 1px solid #bbb; overflow: visible; }
+    .estrategia-quadrante { break-inside: avoid; background: #fff; border-color: #aaa; padding: 12px; }
+    .estrategia-fonte a { overflow-wrap: anywhere; }
+    @page { size: A4; margin: 18mm 15mm; }
+}
