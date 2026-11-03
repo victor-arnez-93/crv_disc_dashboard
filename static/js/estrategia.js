@@ -49,5 +49,4 @@ function mostrarFerramenta(id) {
 
 }
 document.querySelectorAll('[data-ferramenta]').forEach(button => button.addEventListener('click', () => mostrarFerramenta(button.dataset.ferramenta)));
-document.getElementById('imprimirEstrategia').addEventListener('click', window.DISC_IMPRIMIR);
 mostrarFerramenta('swot');

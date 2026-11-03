@@ -242,8 +242,22 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 #modal-noticia-fonte { margin-inline: 3rem; }
 [data-theme="light"] #modal-noticia-bg { background: rgba(24, 24, 24, .68); }
-[data-theme="light"] #modal-noticia { background: #2b2b2b; color: #fff; }
-[data-theme="light"] #modal-noticia-footer a i { color: #fff; }
+[data-theme="light"] #modal-noticia {
+    background: #fff;
+    color: #161616;
+}
+[data-theme="dark"] #modal-noticia {
+    background: #2b2b2b;
+    color: #fff;
+}
+[data-theme="light"] #fechar-modal-noticia,
+[data-theme="light"] #modal-noticia-footer a,
+[data-theme="light"] #modal-noticia-footer a i {
+    color: #161616;
+}
+[data-theme="light"] #modal-noticia-footer a {
+    border-color: #bbb;
+}
 @media print {
     body:not([data-disc-role="admin"]) > :nth-child(n),
     .quiz-banco {
@@ -257,3 +271,82 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 #painel-lideranca .caso-btn.btn-ler-caso:hover { filter: brightness(1.1); }
 #painel-uso .caso-card::before { content: none; }
 #painel-uso .caso-card { cursor: default; }
+
+.quiz-banco > summary {
+    padding: .4rem .25rem;
+    font-size: 1.1rem;
+}
+.quiz-banco > p {
+    margin: .45rem 0 1rem;
+}
+.quiz-banco .quiz-banco-filtros {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr)) repeat(2, auto);
+}
+.quiz-banco-filtros label {
+    min-width: 0;
+    margin: 0;
+}
+.quiz-banco-filtros :is(input, select, button) {
+    min-height: 2.75rem;
+}
+.quiz-banco-navegacao,
+.quiz-banco-navegacao nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .6rem;
+}
+.quiz-banco-navegacao {
+    justify-content: space-between;
+    margin: 1rem 0 .65rem;
+}
+.quiz-banco-navegacao p {
+    margin: 0;
+}
+.quiz-banco-navegacao button {
+    min-width: 2.4rem;
+    min-height: 2.4rem;
+    border: 1px solid rgba(249, 137, 72, .35);
+    border-radius: 8px;
+    background: var(--cor-header);
+    color: var(--cor-texto);
+    font-size: 1.35rem;
+    cursor: pointer;
+}
+.quiz-banco-navegacao button:disabled {
+    opacity: .4;
+    cursor: default;
+}
+.quiz-banco .quiz-banco-item {
+    padding: .7rem .9rem;
+    margin-bottom: .45rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+.quiz-banco-item[open] summary {
+    padding-bottom: .6rem;
+    border-bottom: 1px solid rgba(249, 137, 72, .25);
+}
+.quiz-banco-item ul {
+    padding-inline-start: 1.3rem;
+}
+.quiz-banco-item > p {
+    margin-block: .65rem;
+}
+@media (max-width: 1100px) {
+    .quiz-banco .quiz-banco-filtros {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .quiz-banco-filtros label:first-child {
+        grid-column: 1 / -1;
+    }
+    .quiz-banco-filtros button {
+        justify-content: center;
+    }
+}
+@media (max-width: 480px) {
+    .quiz-banco .quiz-banco-filtros {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

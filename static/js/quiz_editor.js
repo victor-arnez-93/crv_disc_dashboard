@@ -13,6 +13,14 @@
         porter: 'Cinco Forças de Porter', bcg: 'Matriz BCG', ansoff: 'Matriz Ansoff'
     };
     const niveis = { basico: 'Básico', intermediario: 'Intermediário', avancado: 'Avançado' };
+    const categoria = document.getElementById('categoriaQuestao');
+    const nivel = document.getElementById('nivelQuestao');
+    const anterior = document.getElementById('questoesAnterior');
+    const proxima = document.getElementById('questoesProxima');
+    const porPagina = 6;
+    let pagina = 1;
+    Object.entries(temas).forEach(([id, titulo]) => categoria.add(new Option(titulo, id)));
+    Object.entries(niveis).forEach(([id, titulo]) => nivel.add(new Option(titulo, id)));
     let editando;
     let edicoes = {};
 
@@ -33,15 +41,31 @@
         if (!admin() || !painel.open) return;
         const normalizar = valor => valor.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
         const termo = normalizar(busca.value.trim());
-        const itens = banco.filter(q => normalizar(`${q.id} ${temas[q.tema]} ${niveis[q.dificuldade]} ${q.pergunta}`).includes(termo));
-        lista.innerHTML = `<p>${itens.length} questões encontradas</p>` + itens.map(q => `
+        const id = /^#?([0-9]+)$/.exec(termo);
+        const palavras = termo.split(/\s+/);
+        const itens = banco.filter(q => {
+            if ((categoria.value && categoria.value !== q.tema) ||
+                (nivel.value && nivel.value !== q.dificuldade)) return false;
+            if (id) return q.id === Number(id[1]);
+            const texto = normalizar(`${temas[q.tema]} ${niveis[q.dificuldade]} ${q.pergunta}`);
+            return palavras.every(palavra => texto.includes(palavra));
+        });
+        const paginas = Math.max(1, Math.ceil(itens.length / porPagina));
+        pagina = Math.min(paginas, Math.max(1, pagina));
+        document.getElementById('totalQuestoes').textContent = itens.length === 1
+            ? '1 questão encontrada' : `${itens.length} questões encontradas`;
+        document.getElementById('paginaQuestoes').textContent = `${pagina} / ${paginas}`;
+        anterior.disabled = pagina <= 1;
+        proxima.disabled = pagina >= paginas;
+        const inicio = (pagina - 1) * porPagina;
+        lista.innerHTML = itens.slice(inicio, inicio + porPagina).map(q => `
             <details class="quiz-banco-item">
                 <summary><small>#${q.id} · ${temas[q.tema]} · ${niveis[q.dificuldade]}</small><br>${e(q.pergunta)}</summary>
                 <ul>${q.alternativas.map(a => `<li>${e(a.texto)} ${a.correta ? '<strong>✓ Gabarito</strong>' : ''}</li>`).join('')}</ul>
                 <p>${e(q.explicacao)}</p>
                 <p><a href="${e(window.DISC_UI.url(q.fonte.url))}" target="_blank" rel="noopener noreferrer">${e(q.fonte.autor)} · ${e(q.fonte.obra)}</a></p>
                 <button type="button" class="btn-ler-caso" data-editar="${q.id}">Editar</button>
-            </details>`).join('');
+            </details>`).join('') || '<p>Nenhuma questão corresponde à busca e aos filtros.</p>';
     }
 
     function editar(questao) {
@@ -101,8 +125,9 @@
         edicoes = atualizadas;
         aplicar(questao);
         form.hidden = true;
-        busca.value = String(id);
-        listar();
+        busca.value = `#${id}`;
+        categoria.value = nivel.value = '';
+        refiltrar();
         busca.focus();
     });
     form.addEventListener('click', event => {
@@ -116,7 +141,15 @@
         if (botao) editar(banco.find(q => q.id === Number(botao.dataset.editar)));
     });
     painel.addEventListener('toggle', listar);
-    busca.addEventListener('input', listar);
+    function refiltrar() {
+        pagina = 1;
+        listar();
+    }
+    busca.addEventListener('input', refiltrar);
+    categoria.addEventListener('change', refiltrar);
+    nivel.addEventListener('change', refiltrar);
+    anterior.addEventListener('click', () => { pagina--; listar(); });
+    proxima.addEventListener('click', () => { pagina++; listar(); });
     document.getElementById('novaQuestao').addEventListener('click', () => editar());
     document.getElementById('exportarQuestoes').addEventListener('click', () => {
         if (!admin()) return;

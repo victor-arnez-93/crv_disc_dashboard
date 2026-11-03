@@ -248,12 +248,22 @@
     <details class="quiz-banco" data-admin-only hidden aria-hidden="true">
         <summary><i class="fas fa-database"></i> Banco de Questões</summary>
         <p>Consulte gabaritos e referências. As alterações são salvas neste navegador. Exporte o banco para publicá-las com o painel.</p>
-        <div class="quiz-banco-acoes">
-            <label>Buscar questão <input id="buscarQuestao" type="search" placeholder="Título, tema ou ID"></label>
+        <div class="quiz-banco-acoes quiz-banco-filtros">
+            <label>Buscar questão <input id="buscarQuestao" type="search" placeholder="Enunciado, tema ou #ID"></label>
+            <label>Categoria <select id="categoriaQuestao"><option value="">Todas</option></select></label>
+            <label>Dificuldade <select id="nivelQuestao"><option value="">Todas</option></select></label>
             <button type="button" class="btn-ler-caso" id="novaQuestao">Nova questão</button>
             <button type="button" class="btn-ler-caso" id="exportarQuestoes">Exportar banco</button>
         </div>
         <form id="editarQuestao" hidden></form>
+        <div class="quiz-banco-navegacao">
+            <p id="totalQuestoes" role="status"></p>
+            <nav aria-label="Paginação do banco de questões">
+                <button type="button" id="questoesAnterior" aria-label="Página anterior">‹</button>
+                <span id="paginaQuestoes"></span>
+                <button type="button" id="questoesProxima" aria-label="Próxima página">›</button>
+            </nav>
+        </div>
         <div id="listaQuestoes"></div>
     </details>
     <div id="areaQuiz" class="area-quiz" style="display: none;">
