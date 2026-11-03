@@ -1,3 +1,4 @@
+(() => {
 // ============================================================================
 // CASOS_LIDERANCA.JS — DISC DASHBOARD
 // Biblioteca com 30 Casos Práticos de Liderança
@@ -593,10 +594,10 @@ const campoBuscaCasos = document.getElementById('campoBuscaCasos');
 const gridCasos = document.getElementById('gridCasos');
 const semResultados = document.getElementById('semResultados');
 const casosFiltrados = document.getElementById('casosFiltrados');
-const modalCaso = document.getElementById('modalCaso');
-const btnFecharModal = document.getElementById('btnFecharModal');
-const btnImprimirCaso = document.getElementById('btnImprimirCaso');
-const btnCompartilharCaso = document.getElementById('btnCompartilharCaso');
+const modalCaso = document.getElementById('lideranca-modalCaso');
+const btnFecharModal = document.getElementById('lideranca-btnFecharModal');
+const btnImprimirCaso = document.getElementById('lideranca-btnImprimirCaso');
+const btnCompartilharCaso = document.getElementById('lideranca-btnCompartilharCaso');
 
 // ============================================================================
 // EVENT LISTENERS
@@ -612,7 +613,7 @@ modalCaso.addEventListener('click', (e) => {
     if (e.target === modalCaso) fecharModal();
 });
 
-btnImprimirCaso.addEventListener('click', () => window.print());
+btnImprimirCaso.addEventListener('click', () => window.DISC_IMPRIMIR());
 
 btnCompartilharCaso.addEventListener('click', compartilharCaso);
 
@@ -679,7 +680,6 @@ function renderizarCasos() {
 function criarCardCaso(caso) {
     const card = document.createElement('div');
     card.className = 'caso-card';
-    card.onclick = () => abrirModal(caso);
 
     const perfilNome = {
         'D': 'Dominância',
@@ -720,12 +720,13 @@ function criarCardCaso(caso) {
             </span>
         </div>
         <div class="caso-footer">
-            <span class="caso-btn">
-                Ler Caso Completo <i class="fas fa-arrow-right"></i>
-            </span>
+            <button type="button" class="caso-btn btn-ler-caso">
+                <i class="fas fa-book-reader"></i> Ler Caso Completo
+            </button>
         </div>
     `;
 
+    card.querySelector('.caso-btn').addEventListener('click', () => abrirModal(caso));
     return card;
 }
 
@@ -758,16 +759,16 @@ function abrirModal(caso) {
     };
 
     // Preencher modal
-    document.getElementById('modalBadgePerfil').textContent = caso.perfil;
-    document.getElementById('modalBadgePerfil').className = `modal-badge perfil-${caso.perfil}`;
-    document.getElementById('modalTitulo').textContent = caso.titulo;
-    document.getElementById('modalTema').textContent = temaLabel[caso.tema];
-    document.getElementById('modalComplexidade').textContent = complexidadeLabel[caso.complexidade];
-    document.getElementById('modalContexto').textContent = caso.contexto;
-    document.getElementById('modalNotaDidatica').textContent = 'Caso fictício para discussão. Dados são ilustrativos. Analise os comportamentos e o contexto; o perfil DISC não determina como uma pessoa age.';
+    document.getElementById('lideranca-modalBadgePerfil').textContent = caso.perfil;
+    document.getElementById('lideranca-modalBadgePerfil').className = `modal-badge perfil-${caso.perfil}`;
+    document.getElementById('lideranca-modalTitulo').textContent = caso.titulo;
+    document.getElementById('lideranca-modalTema').textContent = temaLabel[caso.tema];
+    document.getElementById('lideranca-modalComplexidade').textContent = complexidadeLabel[caso.complexidade];
+    document.getElementById('lideranca-modalContexto').textContent = caso.contexto;
+    document.getElementById('lideranca-modalNotaDidatica').textContent = 'Caso fictício para discussão. Dados são ilustrativos. Analise os comportamentos e o contexto; o perfil DISC não determina como uma pessoa age.';
 
     // Perguntas
-    const ulPerguntas = document.getElementById('modalPerguntas');
+    const ulPerguntas = document.getElementById('lideranca-modalPerguntas');
     ulPerguntas.innerHTML = '';
     caso.perguntas.forEach(pergunta => {
         const li = document.createElement('li');
@@ -776,7 +777,7 @@ function abrirModal(caso) {
     });
 
     // Pontos-chave
-    const ulPontos = document.getElementById('modalPontos');
+    const ulPontos = document.getElementById('lideranca-modalPontos');
     ulPontos.innerHTML = '';
     caso.pontosChave.forEach(ponto => {
         const li = document.createElement('li');
@@ -803,7 +804,7 @@ function fecharModal() {
 // ============================================================================
 
 function compartilharCaso() {
-    const titulo = document.getElementById('modalTitulo').textContent;
+    const titulo = document.getElementById('lideranca-modalTitulo').textContent;
     const texto = `📚 Caso de Liderança: ${titulo}\n\nConfira este caso prático no DISC Dashboard para discussão em aula!`;
 
     if (navigator.share) {
@@ -825,3 +826,5 @@ function copiarTexto(texto) {
 // ============================================================================
 // FIM DO ARQUIVO
 // ============================================================================
+
+})();

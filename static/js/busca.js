@@ -8,15 +8,15 @@
 
 const PAGINAS = [
     { titulo: "Casos de Uso DISC", url: "biblioteca.html", icone: "fa-book-reader", role: "todos", tags: "biblioteca casos uso disc vendas rh" },
-    { titulo: "Estratégia Empresarial", url: "estrategia.html", icone: "fa-chess", role: "todos", tags: "estrategia swot porter bcg ansoff matriz planejamento empresarial" },
+    { titulo: "Ferramentas de Estratégia", url: "estrategia.html", icone: "fa-chess", role: "todos", tags: "estrategia swot porter bcg ansoff matriz planejamento empresarial" },
     { titulo: "Início",               url: "index.html",         icone: "fa-home",           role: "todos",  tags: "inicio home dashboard painel boas-vindas frases clima relogio" },
     { titulo: "Teste DISC",           url: "teste_disc.html",    icone: "fa-clipboard-list", role: "todos",  tags: "teste disc avaliacao perfil comportamental dominancia influencia estabilidade conformidade" },
     { titulo: "DISC Recruta",         url: "recruta.html",       icone: "fa-users-cog",      role: "admin",  tags: "recruta recrutamento selecao candidatos disc rh" },
     { titulo: "Insights & IA",        url: "insights_ia.html",   icone: "fa-brain",          role: "todos",  tags: "insights ia inteligencia artificial analise gestao recomendacoes" },
     { titulo: "Quiz para Aulas",      url: "quiz.html",          icone: "fa-question-circle",role: "todos",  tags: "quiz perguntas aula sala aprendizado avaliacao" },
-    { titulo: "Casos de Liderança",   url: "casos.html",         icone: "fa-book-open",      role: "todos",  tags: "casos lideranca lider historias exemplos gestao" },
+    { titulo: "Casos de Liderança",   url: "biblioteca.html#lideranca",         icone: "fa-book-open",      role: "todos",  tags: "casos lideranca lider historias exemplos gestao" },
     { titulo: "Simulador Feedback",   url: "feedback.html",      icone: "fa-comments",       role: "todos",  tags: "feedback simulador retorno avaliacao conversa comunicacao" },
-    { titulo: "Dinâmicas & Empatia",  url: "dinamicas.html",     icone: "fa-users",          role: "todos",  tags: "dinamicas empatia equipe atividades exercicios team building grupo escuta" },
+    { titulo: "Dinâmicas & Empatia",  url: "biblioteca.html#dinamicas",     icone: "fa-users",          role: "todos",  tags: "dinamicas empatia equipe atividades exercicios team building grupo escuta" },
     { titulo: "Notícias de RH",       url: "noticias_rh.html",   icone: "fa-newspaper",      role: "todos",  tags: "noticias rh recursos humanos artigos tendencias mercado" },
     { titulo: "Configurações",        url: "configuracoes.html", icone: "fa-cog",            role: "admin",  tags: "configuracoes perfil usuario foto nome email tema contato" },
 ];

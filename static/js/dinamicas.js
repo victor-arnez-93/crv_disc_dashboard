@@ -1,3 +1,4 @@
+(() => {
 /* ============================================
    DINAMICAS.JS — Funcionalidades da página
    ============================================ */
@@ -41,9 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // MODAL DE DETALHES - TODAS AS 8 DINÂMICAS
 // ============================================
 
-function abrirModal(dinamicaId) {
-    const modal = document.getElementById('modalCaso');
-    const modalBody = document.getElementById('modalBody');
+function abrirDinamica(dinamicaId) {
+    const modal = document.getElementById('dinamicas-modalCaso');
+    const modalBody = document.getElementById('dinamicas-modalBody');
 
     // Dados completos das 8 dinâmicas
     const dinamicas = {
@@ -219,7 +220,7 @@ function abrirModal(dinamicaId) {
     const dinamica = dinamicas[dinamicaId];
 
     if (dinamica) {
-        document.getElementById('modalTitulo').textContent = dinamica.titulo;
+        document.getElementById('dinamicas-modalTitulo').textContent = dinamica.titulo;
         const indice = Number(dinamicaId.replace('dinamica', '')) - 1;
         const card = document.querySelectorAll('.dinamica-card')[indice];
         const metadados = [...card.querySelectorAll('.dinamica-info span')].map(el => el.textContent.trim());
@@ -237,38 +238,42 @@ function abrirModal(dinamicaId) {
     }
 }
 
-function fecharModal() {
-    const modal = document.getElementById('modalCaso');
+function fecharDinamica() {
+    const modal = document.getElementById('dinamicas-modalCaso');
     modal.classList.remove('ativo');
     document.body.style.overflow = '';
 }
 
 // Fechar modal ao clicar fora
-document.getElementById('modalCaso')?.addEventListener('click', (e) => {
-    if (e.target.id === 'modalCaso') {
-        fecharModal();
+document.getElementById('dinamicas-modalCaso')?.addEventListener('click', (e) => {
+    if (e.target.id === 'dinamicas-modalCaso') {
+        fecharDinamica();
     }
 });
 
 // Fechar com ESC
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-        fecharModal();
+        fecharDinamica();
     }
 });
 
-document.getElementById('btnImprimirDinamica').addEventListener('click', () => window.print());
-document.getElementById('btnCompartilharDinamica').addEventListener('click', async () => {
-    const text = document.getElementById('modalTitulo').textContent + '\n\n' + document.getElementById('modalBody').innerText;
+document.getElementById('dinamicas-btnImprimirDinamica').addEventListener('click', () => window.DISC_IMPRIMIR());
+document.getElementById('dinamicas-btnCompartilharDinamica').addEventListener('click', async () => {
+    const text = document.getElementById('dinamicas-modalTitulo').textContent + '\n\n' + document.getElementById('dinamicas-modalBody').innerText;
     try {
         if (navigator.share) await navigator.share({ title: 'Dinâmica para aula', text });
         else {
             await navigator.clipboard.writeText(text);
-            const button = document.getElementById('btnCompartilharDinamica');
+            const button = document.getElementById('dinamicas-btnCompartilharDinamica');
             button.innerHTML = '<i class="fas fa-check"></i> Copiado';
             setTimeout(() => button.innerHTML = '<i class="fas fa-share-alt"></i> Compartilhar', 2000);
         }
     } catch (error) {
-        if (error.name !== 'AbortError') document.getElementById('btnCompartilharDinamica').textContent = 'Não foi possível copiar';
+        if (error.name !== 'AbortError') document.getElementById('dinamicas-btnCompartilharDinamica').textContent = 'Não foi possível copiar';
     }
 });
+
+window.abrirDinamica = abrirDinamica;
+window.fecharDinamica = fecharDinamica;
+})();

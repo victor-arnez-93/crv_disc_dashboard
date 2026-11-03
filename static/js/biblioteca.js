@@ -1,5 +1,5 @@
 function filtrarCasos(categoria, el) {
-    const cards = document.querySelectorAll('.caso-card');
+    const cards = document.querySelectorAll('#painel-uso .caso-card');
     const filtros = document.querySelectorAll('.filtro-caso');
 
     filtros.forEach(f => f.classList.remove('active'));
@@ -25,8 +25,8 @@ function filtrarCasos(categoria, el) {
 }
 
 function abrirCaso(casoId) {
-    const modal = document.getElementById('modalCaso');
-    const modalBody = document.getElementById('modalCasoBody');
+    const modal = document.getElementById('uso-modalCaso');
+    const modalBody = document.getElementById('uso-modalCasoBody');
 
     const casos = {
         caso1: {
@@ -250,12 +250,12 @@ function abrirCaso(casoId) {
 }
 
 function fecharModalCaso() {
-    document.getElementById('modalCaso').classList.remove('show');
+    document.getElementById('uso-modalCaso').classList.remove('show');
 }
 
 // Fechar modal ao clicar fora
-document.getElementById('modalCaso')?.addEventListener('click', (e) => {
-    if (e.target.id === 'modalCaso') {
+document.getElementById('uso-modalCaso')?.addEventListener('click', (e) => {
+    if (e.target.id === 'uso-modalCaso') {
         fecharModalCaso();
     }
 });

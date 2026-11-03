@@ -51,10 +51,10 @@
         </button>
 
         <button class="menu-item" data-page="biblioteca" onclick="window.location.href='biblioteca.html'">
-            <i class="fas fa-book-reader"></i><span>Casos de Uso DISC</span>
+            <i class="fas fa-book-reader"></i><span>Biblioteca de Aulas</span>
         </button>
         <button class="menu-item" data-page="estrategia" onclick="window.location.href='estrategia.html'">
-            <i class="fas fa-chess"></i><span>Estratégia Empresarial</span>
+            <i class="fas fa-chess"></i><span>Ferramentas de Estratégia</span>
         </button>
 
         <button class="menu-item" data-page="quiz" onclick="window.location.href='quiz.html'">
@@ -62,19 +62,9 @@
             <span>Quiz para Aulas</span>
         </button>
 
-        <button class="menu-item" data-page="casos" onclick="window.location.href='casos.html'">
-            <i class="fas fa-book-open"></i>
-            <span>Casos de Liderança</span>
-        </button>
-
         <button class="menu-item" data-page="feedback" onclick="window.location.href='feedback.html'">
             <i class="fas fa-comments"></i>
             <span>Simulador Feedback</span>
-        </button>
-
-        <button class="menu-item" data-page="dinamicas" onclick="window.location.href='dinamicas.html'">
-            <i class="fas fa-users"></i>
-            <span>Dinâmicas & Empatia</span>
         </button>
 
         <button class="menu-item" data-page="noticias_rh" onclick="window.location.href='noticias_rh.html'">
@@ -219,9 +209,7 @@
                 <option value="conflitos">Gestão de Conflitos</option>
                 <option value="motivacao">Motivação</option>
                 <option value="swot">Análise SWOT</option>
-                <option value="porter">Cinco Forças de Porter</option>
-                <option value="bcg">Matriz BCG</option>
-                <option value="ansoff">Matriz Ansoff</option>
+                <option value="estrategia">Estratégia empresarial · Porter, BCG e Ansoff</option>
             </select>
         </div>
 
@@ -257,6 +245,17 @@
     <!-- ============================================ -->
     <!-- ÁREA DO QUIZ GERADO -->
     <!-- ============================================ -->
+    <details class="quiz-banco" data-admin-only hidden aria-hidden="true">
+        <summary><i class="fas fa-database"></i> Banco de Questões</summary>
+        <p>Consulte gabaritos e referências. As alterações são salvas neste navegador. Exporte o banco para publicá-las com o painel.</p>
+        <div class="quiz-banco-acoes">
+            <label>Buscar questão <input id="buscarQuestao" type="search" placeholder="Título, tema ou ID"></label>
+            <button type="button" class="btn-ler-caso" id="novaQuestao">Nova questão</button>
+            <button type="button" class="btn-ler-caso" id="exportarQuestoes">Exportar banco</button>
+        </div>
+        <form id="editarQuestao" hidden></form>
+        <div id="listaQuestoes"></div>
+    </details>
     <div id="areaQuiz" class="area-quiz" style="display: none;">
 
         <!-- Cabeçalho de Prova (para impressão) -->
@@ -287,7 +286,7 @@
             <button class="btn-acao btn-reiniciar" id="btnReiniciar">
                 <i class="fas fa-redo"></i> Refazer Quiz
             </button>
-            <button class="btn-acao btn-compartilhar" id="btnCompartilhar" data-admin-only hidden aria-hidden="true">
+            <button class="btn-acao btn-compartilhar" id="btnCompartilhar" hidden>
                 <i class="fas fa-share-alt"></i> Compartilhar
             </button>
             <button class="btn-acao btn-imprimir" id="btnImprimir" data-admin-only hidden aria-hidden="true">
@@ -348,6 +347,7 @@
 <script src="static/js/busca.js"></script>
 <script src="static/js/configuracoes.js"></script>
 <script src="static/js/quiz_bank.js"></script>
+<script src="static/js/quiz_editor.js"></script>
 <script src="static/js/quiz_generator.js"></script>
 
 </body>

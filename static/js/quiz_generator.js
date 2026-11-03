@@ -8,6 +8,7 @@
 // ============================================================================
 
 const bancoPerguntas = window.DISC_QUIZ_BANK;
+const escaparQuiz = window.DISC_UI.escape;
 
 let quizAtual = [];
 let respostas = {};
@@ -84,7 +85,7 @@ function gerarQuiz() {
     let perguntasFiltradas = [...bancoPerguntas];
 
     if (tema !== "todos") {
-        perguntasFiltradas = perguntasFiltradas.filter(p => p.tema === tema);
+        perguntasFiltradas = perguntasFiltradas.filter(p => tema === "estrategia" ? ["porter", "bcg", "ansoff"].includes(p.tema) : p.tema === tema);
     }
 
     if (dificuldade !== "todas") {
@@ -112,7 +113,11 @@ function gerarQuiz() {
         return;
     }
 
-    quizAtual = selecionarSemRepetirConceito(perguntasFiltradas, qtdFinal);
+    quizAtual = tema === "estrategia"
+        ? embaralhar(["porter", "bcg", "ansoff"].flatMap(subtema =>
+            selecionarSemRepetirConceito(perguntasFiltradas.filter(q => q.tema === subtema),
+                Math.floor(qtdFinal / 3) + (subtema === "porter" ? qtdFinal % 3 : 0))))
+        : selecionarSemRepetirConceito(perguntasFiltradas, qtdFinal);
     _iniciarQuiz(tema, dificuldade, qtdFinal);
 }
 
@@ -129,7 +134,7 @@ function _iniciarQuiz(tema, dificuldade, qtdFinal) {
         conflitos: "Gestão de Conflitos",
         motivacao: "Motivação",
         swot: "Análise SWOT",
-        porter: "Cinco Forças de Porter",
+        estrategia: "Estratégia Empresarial",
         bcg: "Matriz BCG",
         ansoff: "Matriz Ansoff"
     };
@@ -147,6 +152,7 @@ function _iniciarQuiz(tema, dificuldade, qtdFinal) {
     mensagemInicial.style.display = "none";
     areaQuiz.style.display = "block";
     resultadoFinal.style.display = "none";
+    btnCompartilhar.hidden = true;
 
     tituloQuiz.textContent =
         `Quiz de ${temaTexto[tema]} — ${qtdFinal} questões (${dificuldadeTexto[dificuldade]})`;
@@ -173,7 +179,7 @@ quizAtual.forEach((pergunta, index) => {
 
     card.innerHTML = `
         <span class="pergunta-numero">Questão ${index + 1}</span>
-        <p class="pergunta-texto">${pergunta.pergunta}</p>
+        <p class="pergunta-texto">${escaparQuiz(pergunta.pergunta)}</p>
         <div class="alternativas">
             ${alternativasEmbaralhadas.map((alt) => `
                 <label class="alternativa">
@@ -183,7 +189,7 @@ quizAtual.forEach((pergunta, index) => {
                         value="${alt.correta}"
                         data-pergunta-id="${pergunta.id}"
                     >
-                    <span>${alt.texto}</span>
+                    <span>${escaparQuiz(alt.texto)}</span>
                 </label>
             `).join('')}
         </div>
@@ -263,9 +269,9 @@ function finalizarQuiz() {
         if (!card.querySelector('.gabarito-explicacao')) {
             const nota = document.createElement('div');
             nota.className = 'gabarito-explicacao';
-            nota.innerHTML = `<p><strong>Comentário:</strong> ${pergunta.explicacao}</p>
-              <p class="quiz-fonte"><strong>Base conceitual:</strong> ${pergunta.fonte.autor}. ${pergunta.fonte.obra}.
-              <a href="${pergunta.fonte.url}" target="_blank" rel="noopener noreferrer">Consultar fonte <i class="fas fa-external-link-alt"></i></a></p>`;
+            nota.innerHTML = `<p><strong>Comentário:</strong> ${escaparQuiz(pergunta.explicacao)}</p>
+              <p class="quiz-fonte"><strong>Base conceitual:</strong> ${escaparQuiz(pergunta.fonte.autor)}. ${escaparQuiz(pergunta.fonte.obra)}.
+              <a href="${escaparQuiz(window.DISC_UI.url(pergunta.fonte.url))}" target="_blank" rel="noopener noreferrer">Consultar fonte <i class="fas fa-external-link-alt"></i></a></p>`;
             card.appendChild(nota);
         }
     });
@@ -283,6 +289,7 @@ function finalizarQuiz() {
     document.getElementById('feedbackDesempenho').textContent = feedback;
 
     resultadoFinal.style.display = 'block';
+    btnCompartilhar.hidden = false;
     resultadoFinal.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
@@ -323,6 +330,7 @@ function reiniciarQuiz() {
 // ============================================================================
 
 function compartilharQuiz() {
+    if (resultadoFinal.style.display !== "block") return;
     const acertos = Object.values(respostas).filter(r => r === true).length;
     const total = quizAtual.length;
     const percentual = Math.round((acertos / total) * 100);
@@ -350,7 +358,7 @@ function copiarTexto(texto) {
 // ============================================================================
 
 function imprimirQuiz() {
-    window.print();
+    window.DISC_IMPRIMIR();
 }
 
 // ============================================================================
@@ -385,5 +393,6 @@ function selecionarSemRepetirConceito(perguntas, quantidade) {
     }
 }
 
-const temaSolicitado = new URLSearchParams(location.search).get('tema');
+const temaLink = new URLSearchParams(location.search).get('tema');
+const temaSolicitado = ['porter', 'bcg', 'ansoff'].includes(temaLink) ? 'estrategia' : temaLink;
 if ([...filtroTema.options].some(option => option.value === temaSolicitado)) filtroTema.value = temaSolicitado;

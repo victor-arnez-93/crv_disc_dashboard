@@ -731,7 +731,7 @@
     animation: slideUp 0.3s ease;
 }
 
-#modalCasoBody {
+#uso-modalCasoBody {
     overflow-y: auto;
     padding-right: 6px;
 }
@@ -782,7 +782,7 @@
     color: #0a0a0a;
 }
 
-#modalCasoBody h2 {
+#uso-modalCasoBody h2 {
     font-family: 'Orbitron', sans-serif;
     font-size: 26px;
     font-weight: 700;
@@ -790,7 +790,7 @@
     margin-bottom: 20px;
 }
 
-#modalCasoBody h3 {
+#uso-modalCasoBody h3 {
     font-family: 'Orbitron', sans-serif;
     font-size: 20px;
     font-weight: 700;
@@ -799,7 +799,7 @@
     margin-bottom: 12px;
 }
 
-#modalCasoBody p {
+#uso-modalCasoBody p {
     font-size: 15px;
     font-family: 'Manrope', sans-serif;
     color: var(--cor-texto);
@@ -807,13 +807,13 @@
     margin-bottom: 16px;
 }
 
-#modalCasoBody ul {
+#uso-modalCasoBody ul {
     list-style: none;
     padding: 0;
     margin: 20px 0;
 }
 
-#modalCasoBody li {
+#uso-modalCasoBody li {
     font-size: 14px;
     font-family: 'Manrope', sans-serif;
     color: var(--cor-texto);
@@ -822,7 +822,7 @@
     position: relative;
 }
 
-#modalCasoBody li::before {
+#uso-modalCasoBody li::before {
     content: '✓';
     position: absolute;
     left: 0;
@@ -1368,19 +1368,19 @@
     width: 95%;
   }
 
-  #modalCasoBody h2 {
+  #uso-modalCasoBody h2 {
     font-size: 22px;
   }
 
-  #modalCasoBody h3 {
+  #uso-modalCasoBody h3 {
     font-size: 18px;
   }
 
-  #modalCasoBody p {
+  #uso-modalCasoBody p {
     font-size: 14px;
   }
 
-  #modalCasoBody li {
+  #uso-modalCasoBody li {
     font-size: 13px;
   }
 }
@@ -1452,11 +1452,11 @@
     padding: 24px 18px;
   }
 
-  #modalCasoBody h2 {
+  #uso-modalCasoBody h2 {
     font-size: 20px;
   }
 
-  #modalCasoBody h3 {
+  #uso-modalCasoBody h3 {
     font-size: 16px;
   }
 }

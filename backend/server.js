@@ -439,9 +439,9 @@ async function lerFonteNoticias(id) {
     if (!normalizadas.length) throw new Error('Nenhum artigo válido');
     return normalizadas;
 }
-async function obterFonteNoticias(id) {
+async function obterFonteNoticias(id, atualizar = false) {
     const cache = cacheNoticias.get(id);
-    if (cache && Date.now() - cache.time < CACHE_TTL) return { ...cache, stale: false };
+    if (!atualizar && cache && Date.now() - cache.time < CACHE_TTL) return { ...cache, stale: false };
     if (pendentesNoticias.has(id)) return pendentesNoticias.get(id);
     const trabalho = (async () => {
         try {
@@ -461,8 +461,9 @@ app.get('/api/noticias/:fonte', async (req, res) => {
     const { fonte } = req.params;
     if (!Object.hasOwn(FONTES_NOTICIAS, fonte)) return res.status(404).json({ erro: 'Fonte desconhecida' });
     try {
-        const resultado = await obterFonteNoticias(fonte);
-        res.set('Cache-Control', 'public, max-age=300');
+        const atualizar = req.query.atualizar === '1';
+        const resultado = await obterFonteNoticias(fonte, atualizar);
+        res.set('Cache-Control', atualizar || resultado.stale ? 'no-store' : 'public, max-age=300');
         res.json({ status: 'ok', fonte: FONTES_NOTICIAS[fonte].nome,
             items: resultado.items, stale: resultado.stale,
             fetchedAt: new Date(resultado.time).toISOString() });

@@ -9,6 +9,10 @@
 
 (function () {
 
+    window.DISC_IMPRIMIR = () => {
+        if (window.__discUsuario?.role === "admin") window.print();
+    };
+
     const RESTRITO_VISITANTE = ["recruta", "configuracoes"];
 
     function obterPaginaAtual() {

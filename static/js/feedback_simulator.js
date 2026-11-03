@@ -1081,7 +1081,7 @@ document.getElementById("btnImprimir").addEventListener("click", () => {
     // mas garantimos por segurança
     resultado.style.display = "block";
 
-    window.print();
+    window.DISC_IMPRIMIR();
 
     bodyChildren.forEach((el, i) => {
         el.style.display = estadosOriginais[i];

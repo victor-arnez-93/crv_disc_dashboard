@@ -13,7 +13,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     opacity: .78;
     margin-top: 16px;
 }
-#modalContexto, .modal-secao p, #modalCasoBody p {
+#lideranca-modalContexto, .modal-secao p, #uso-modalCasoBody p {
     text-align: justify;
     hyphens: auto;
     overflow-wrap: anywhere;
@@ -121,8 +121,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 @media print {
     .nota-didatica { font-size: 9pt; }
-    #modalCaso .modal-body { max-height: none !important; overflow: visible !important; }
-    #modalCaso .modal-secao ol li { font: 11pt/1.6 Arial, sans-serif !important; margin-bottom: 3mm !important; }
+    :is(#lideranca-modalCaso, #dinamicas-modalCaso) .modal-body { max-height: none !important; overflow: visible !important; }
+    :is(#lideranca-modalCaso, #dinamicas-modalCaso) .modal-secao ol li { font: 11pt/1.6 Arial, sans-serif !important; margin-bottom: 3mm !important; }
     body:has(.estrategia-main) > :not(.estrategia-main) { display: none !important; }
     .estrategia-main { margin: 0 !important; padding: 0 !important; width: 100% !important; }
     .estrategia-main .card-principal, .estrategia-tabs, .estrategia-acoes { display: none !important; }
@@ -134,3 +134,126 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     .estrategia-fonte a { overflow-wrap: anywhere; }
     @page { size: A4; margin: 18mm 15mm; }
 }
+
+.biblioteca-abas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .35rem 1.25rem;
+    padding: .4rem 1rem;
+    margin-bottom: 1.5rem;
+    background: var(--cor-header);
+    border: 1px solid rgba(249, 137, 72, .28);
+    border-radius: 16px;
+}
+.biblioteca-abas button {
+    background: transparent;
+    color: var(--cor-texto);
+    border: 0;
+    border-bottom: 3px solid transparent;
+    padding: .8rem .45rem;
+    font: 700 1rem 'Rajdhani', sans-serif;
+    cursor: pointer;
+}
+.biblioteca-abas button[aria-pressed="true"] {
+    border-color: var(--cor-primaria);
+    color: var(--cor-primaria);
+}
+#painel-lideranca .caso-btn.btn-ler-caso {
+    display: flex;
+    justify-content: center;
+    gap: .5rem;
+    border-radius: 12px;
+    background: #f98948;
+    color: #141414;
+    width: 100%;
+    padding: .85rem;
+}
+.insights-dicas-section { margin-bottom: 2rem; }
+#btnGerarQuiz { align-self: end; margin-bottom: 0; }
+.quiz-banco, .quiz-banco-item, #editarQuestao {
+    background: var(--cor-header);
+    border: 1px solid rgba(249, 137, 72, .28);
+    border-radius: 14px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+.quiz-banco summary { cursor: pointer; font-weight: 700; }
+.quiz-banco-item small { color: var(--cor-primaria); }
+.quiz-banco-item strong { color: var(--cor-primaria); }
+.quiz-banco-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: .75rem;
+    margin: .8rem 0;
+}
+.quiz-banco .btn-ler-caso {
+    display: inline-flex;
+    width: auto;
+    background: #f98948;
+    color: #141414;
+    border: 0;
+    border-radius: 10px;
+    padding: .7rem 1rem;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+.quiz-banco label { display: grid; gap: .3rem; margin-bottom: .45rem; }
+.quiz-banco input, .quiz-banco select, .quiz-banco textarea {
+    width: 100%;
+    padding: .65rem;
+    border: 1px solid rgba(249, 137, 72, .35);
+    border-radius: 8px;
+    background: var(--cor-header);
+    color: var(--cor-texto);
+    font: inherit;
+}
+#noticias-status {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .55rem;
+    margin: 1rem 0;
+}
+.noticias-fonte-status {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .4rem .75rem;
+    border-radius: 999px;
+    border: 1px solid rgba(249, 137, 72, .3);
+    background: var(--cor-header);
+    font-size: .85rem;
+}
+.noticias-fonte-status > span {
+    width: .5rem;
+    height: .5rem;
+    border-radius: 50%;
+    background: #22a56d;
+}
+.noticias-fonte-status[data-estado="cache"] > span { background: #d89125; }
+.noticias-fonte-status[data-estado="indisponivel"] > span { background: #d45050; }
+#modal-noticia-titulo, #modal-noticia-fonte { text-align: center; }
+#modal-noticia-titulo {
+    margin: .9rem 3rem .35rem;
+    font-size: clamp(1.15rem, 1.8vw, 1.55rem);
+}
+#modal-noticia-fonte { margin-inline: 3rem; }
+[data-theme="light"] #modal-noticia-bg { background: rgba(24, 24, 24, .68); }
+[data-theme="light"] #modal-noticia { background: #2b2b2b; color: #fff; }
+[data-theme="light"] #modal-noticia-footer a i { color: #fff; }
+@media print {
+    body:not([data-disc-role="admin"]) > :nth-child(n),
+    .quiz-banco {
+        display: none !important;
+    }
+}
+#painel-lideranca .caso-btn.btn-ler-caso {
+    border: 0;
+    cursor: pointer;
+}
+#painel-lideranca .caso-btn.btn-ler-caso:hover { filter: brightness(1.1); }
+#painel-uso .caso-card::before { content: none; }
+#painel-uso .caso-card { cursor: default; }

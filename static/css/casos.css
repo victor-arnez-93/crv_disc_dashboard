@@ -684,7 +684,7 @@
     }
 
     /* EXIBE APENAS O MODAL ATIVO */
-    #modalCaso.ativo {
+    :is(#lideranca-modalCaso, #dinamicas-modalCaso).ativo {
         display: block !important;
         position: static !important;
         width: 100% !important;

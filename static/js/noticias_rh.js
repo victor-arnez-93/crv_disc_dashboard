@@ -62,7 +62,7 @@ function renderizarNoticias() {
         container.appendChild(card);
     });
 }
-async function carregarNoticias() {
+async function carregarNoticias(atualizar = false) {
     const btn = document.getElementById('btn-carregar-novidades');
     if (btn.disabled) return;
     btn.disabled = true;
@@ -74,12 +74,23 @@ async function carregarNoticias() {
     }
     status.textContent = 'Consultando as três fontes…';
     try {
-        const resultado = await window.DISC_NOTICIAS.carregar();
-        noticias = resultado.items;
-        renderizarNoticias();
-        const labels = { atualizada: 'disponível', cache: 'última consulta salva', indisponivel: 'temporariamente indisponível' };
-        status.textContent = resultado.estados.map(f => `${f.nome}: ${labels[f.estado]}`).join(' · ');
-        if (!noticias.length) status.textContent += '. Tente atualizar novamente em instantes.';
+        const labels = { atualizada: 'Disponível', cache: 'Consulta salva', indisponivel: 'Indisponível' };
+        const anteriores = noticias;
+        const mostrar = ({ items, estados }) => {
+            status.innerHTML = estados.map(f => `<span class="noticias-fonte-status" data-estado="${f.estado}">
+                <span aria-hidden="true"></span><strong>${e(f.nome)}</strong> ${labels[f.estado]}</span>`).join('');
+            const fontesConsultadas = new Set(estados.filter(f => f.estado !== 'indisponivel').map(f => f.nome));
+            const novas = [...items, ...anteriores.filter(n => !fontesConsultadas.has(n.fonte))]
+                .sort((a, b) => (Date.parse(b.data) || 0) - (Date.parse(a.data) || 0));
+            if (JSON.stringify(novas) !== JSON.stringify(noticias)) {
+                noticias = novas;
+                renderizarNoticias();
+            }
+        };
+        const resultado = await window.DISC_NOTICIAS.carregar({ atualizar, aoReceber: mostrar });
+        if (!noticias.length && resultado.estados.every(f => f.estado === 'indisponivel')) {
+            status.append(' Tente atualizar novamente em instantes.');
+        }
     } catch {
         status.textContent = 'Não foi possível consultar as fontes. Tente atualizar novamente.';
     } finally {
@@ -91,6 +102,6 @@ document.addEventListener('click', event => {
     if (event.target.id === 'modal-noticia-bg' || event.target.closest('#fechar-modal-noticia')) fecharNoticia();
 });
 document.addEventListener('keydown', event => { if (event.key === 'Escape') fecharNoticia(); });
-document.addEventListener('DOMContentLoaded', carregarNoticias);
+document.addEventListener('DOMContentLoaded', () => carregarNoticias());
 
-document.getElementById('btn-carregar-novidades').addEventListener('click', carregarNoticias);
+document.getElementById('btn-carregar-novidades').addEventListener('click', () => carregarNoticias(true));

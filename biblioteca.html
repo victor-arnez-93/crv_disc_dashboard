@@ -20,6 +20,8 @@
 
     <!-- CSS DA PÁGINA INSIGHTS & IA -->
     <link rel="stylesheet" href="static/css/insights_ia.css">
+<link rel="stylesheet" href="static/css/dinamicas.css">
+<link rel="stylesheet" href="static/css/casos.css">
 <link rel="stylesheet" href="static/css/polimento.css">
 </head>
 
@@ -54,10 +56,10 @@
         </button>
 
         <button class="menu-item" data-page="biblioteca" onclick="window.location.href='biblioteca.html'">
-            <i class="fas fa-book-reader"></i><span>Casos de Uso DISC</span>
+            <i class="fas fa-book-reader"></i><span>Biblioteca de Aulas</span>
         </button>
         <button class="menu-item" data-page="estrategia" onclick="window.location.href='estrategia.html'">
-            <i class="fas fa-chess"></i><span>Estratégia Empresarial</span>
+            <i class="fas fa-chess"></i><span>Ferramentas de Estratégia</span>
         </button>
 
         <button class="menu-item" data-page="quiz" onclick="window.location.href='quiz.html'">
@@ -65,19 +67,9 @@
             <span>Quiz para Aulas</span>
         </button>
 
-        <button class="menu-item" data-page="casos" onclick="window.location.href='casos.html'">
-            <i class="fas fa-book-open"></i>
-            <span>Casos de Liderança</span>
-        </button>
-
         <button class="menu-item" data-page="feedback" onclick="window.location.href='feedback.html'">
             <i class="fas fa-comments"></i>
             <span>Simulador Feedback</span>
-        </button>
-
-        <button class="menu-item" data-page="dinamicas" onclick="window.location.href='dinamicas.html'">
-            <i class="fas fa-users"></i>
-            <span>Dinâmicas & Empatia</span>
         </button>
 
         <button class="menu-item" data-page="noticias_rh" onclick="window.location.href='noticias_rh.html'">
@@ -186,7 +178,7 @@
 <!-- ================================================================== -->
 <!-- CONTEÚDO PRINCIPAL                                                 -->
 <!-- ================================================================== -->
-<main class="main-content"><div class="insights-container">
+<main class="main-content"><nav class="biblioteca-abas" aria-label="Materiais da biblioteca"><button type="button" data-biblioteca-aba="uso" aria-controls="painel-uso"><i class="fas fa-book-reader" aria-hidden="true"></i> Casos de Uso DISC</button><button type="button" data-biblioteca-aba="lideranca" aria-controls="painel-lideranca"><i class="fas fa-book-open" aria-hidden="true"></i> Casos de Liderança</button><button type="button" data-biblioteca-aba="dinamicas" aria-controls="painel-dinamicas"><i class="fas fa-users" aria-hidden="true"></i> Dinâmicas &amp; Empatia</button></nav><section id="painel-uso" data-biblioteca-painel="uso" hidden><div class="insights-container">
     <div class="insights-card-principal">
         <h1 class="insights-titulo-principal"><i class="fas fa-book-open"></i> Biblioteca de Casos de Uso</h1>
         <p class="insights-subtitulo">Seis situações fictícias para discussão sobre liderança, vendas, RH e conflitos. Números dos exemplos são ilustrativos e não comprovam efeitos do DISC.</p>
@@ -315,21 +307,391 @@
             </div>
         </div>
 
-</div></main>
+</div></section><section id="painel-lideranca" data-biblioteca-painel="lideranca" hidden>
+
+    <!-- Card Principal -->
+    <div class="card-principal">
+        <h1 class="dashboard-title"><i class="fas fa-book"></i> Biblioteca de casos de liderança</h1>
+        <p class="dashboard-subtitle">
+            30 casos práticos prontos para uso em sala de aula, treinamentos e discussões sobre liderança e gestão de pessoas
+        </p>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- CONTROLES DE FILTROS -->
+    <!-- ============================================ -->
+    <div class="controles-casos">
+
+        <div class="filtro-grupo">
+            <label for="filtroPerfil">
+                <i class="fas fa-user-tag"></i> Perfil DISC
+            </label>
+            <select id="filtroPerfil" class="filtro-select">
+                <option value="todos">Todos os Perfis</option>
+                <option value="D">Dominância (D)</option>
+                <option value="I">Influência (I)</option>
+                <option value="S">Estabilidade (S)</option>
+                <option value="C">Conformidade (C)</option>
+                <option value="misto">Perfis Mistos</option>
+            </select>
+        </div>
+
+        <div class="filtro-grupo">
+            <label for="filtroTema">
+                <i class="fas fa-tag"></i> Tema
+            </label>
+            <select id="filtroTema" class="filtro-select">
+                <option value="todos">Todos os Temas</option>
+                <option value="feedback">Feedback</option>
+                <option value="conflito">Gestão de Conflitos</option>
+                <option value="motivacao">Motivação</option>
+                <option value="delegacao">Delegação</option>
+                <option value="comunicacao">Comunicação</option>
+                <option value="mudanca">Gestão de Mudanças</option>
+            </select>
+        </div>
+
+        <div class="filtro-grupo">
+            <label for="filtroComplexidade">
+                <i class="fas fa-layer-group"></i> Complexidade
+            </label>
+            <select id="filtroComplexidade" class="filtro-select">
+                <option value="todas">Todas</option>
+                <option value="basico">Básico</option>
+                <option value="intermediario">Intermediário</option>
+                <option value="avancado">Avançado</option>
+            </select>
+        </div>
+
+        <div class="filtro-grupo">
+            <label for="campoBuscaCasos">
+                <i class="fas fa-search"></i> Buscar Palavra-chave
+            </label>
+            <input
+                type="text"
+                id="campoBuscaCasos"
+                class="filtro-input"
+                placeholder="Ex: comunicação, equipe..."
+            >
+        </div>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- ESTATÍSTICAS -->
+    <!-- ============================================ -->
+    <div class="casos-stats">
+        <div class="stat-card">
+            <i class="fas fa-book-open"></i>
+            <div class="stat-info">
+                <span class="stat-numero" id="totalCasos">30</span>
+                <span class="stat-label">Casos Disponíveis</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-filter"></i>
+            <div class="stat-info">
+                <span class="stat-numero" id="casosFiltrados">30</span>
+                <span class="stat-label">Exibindo</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-graduation-cap"></i>
+            <div class="stat-info">
+                <span class="stat-numero">6</span>
+                <span class="stat-label">Temas Cobertos</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- GRID DE CASOS -->
+    <!-- ============================================ -->
+    <div id="gridCasos" class="grid-casos">
+        <!-- Casos serão inseridos aqui via JavaScript -->
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MENSAGEM SEM RESULTADOS -->
+    <!-- ============================================ -->
+    <div id="semResultados" class="sem-resultados" style="display: none;">
+        <i class="fas fa-search"></i>
+        <h3>Nenhum caso encontrado</h3>
+        <p>Tente ajustar os filtros ou buscar por outra palavra-chave</p>
+    </div>
+
+</section><section id="painel-dinamicas" data-biblioteca-painel="dinamicas" hidden>
+
+    <div class="dinamicas-container">
+
+        <!-- Card Principal -->
+        <div class="dinamicas-card-principal">
+            <h1 class="dinamicas-titulo-principal">
+                <i class="fas fa-users"></i>
+                Dinâmicas & Empatia
+            </h1>
+            <p class="dinamicas-subtitulo">
+                Atividades práticas para desenvolver trabalho em equipe, comunicação e inteligência emocional em ambientes corporativos
+            </p>
+        </div>
+
+        <!-- Filtros -->
+        <div class="dinamicas-filtros">
+            <button class="filtro-btn active" data-filtro="todos">
+                <i class="fas fa-th"></i> Todas
+            </button>
+            <button class="filtro-btn" data-filtro="quebra-gelo">
+                <i class="fas fa-snowflake"></i> Quebra-gelo
+            </button>
+            <button class="filtro-btn" data-filtro="autoconhecimento">
+                <i class="fas fa-user-check"></i> Autoconhecimento
+            </button>
+            <button class="filtro-btn" data-filtro="empatia">
+                <i class="fas fa-heart"></i> Empatia
+            </button>
+            <button class="filtro-btn" data-filtro="comunicacao">
+                <i class="fas fa-comments"></i> Comunicação
+            </button>
+        </div>
+
+        <!-- Grid de Dinâmicas -->
+        <div class="dinamicas-grid">
+
+            <!-- Dinâmica 1 -->
+            <div class="dinamica-card" data-categoria="quebra-gelo">
+                <div class="dinamica-icone">
+                    <i class="fas fa-snowflake"></i>
+                </div>
+                <h3>Duas Verdades e Uma Mentira</h3>
+                <p>Cada participante conta 3 fatos sobre si, sendo 2 verdadeiros e 1 falso. O grupo tenta descobrir qual é a mentira.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 15-20 min</span>
+                    <span><i class="fas fa-users"></i> 5-30 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirDinamica('dinamica1')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+            <!-- Dinâmica 2 -->
+            <div class="dinamica-card" data-categoria="autoconhecimento">
+                <div class="dinamica-icone">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <h3>Dinâmica do Espelho</h3>
+                <p>Exercício de autopercepção onde os participantes refletem sobre suas características e como são vistos pelos outros.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 30-40 min</span>
+                    <span><i class="fas fa-users"></i> 8-20 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirDinamica('dinamica2')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+            <!-- Dinâmica 3 -->
+            <div class="dinamica-card" data-categoria="empatia">
+                <div class="dinamica-icone">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3>Caminhada na Pele do Outro</h3>
+                <p>Simulação de situações do dia a dia assumindo perspectivas diferentes para desenvolver empatia e compreensão.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 40-50 min</span>
+                    <span><i class="fas fa-users"></i> 10-25 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirDinamica('dinamica3')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+            <!-- Dinâmica 4 -->
+            <div class="dinamica-card" data-categoria="comunicacao">
+                <div class="dinamica-icone">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h3>Telefone Sem Fio Corporativo</h3>
+                <p>Versão profissional do clássico jogo para demonstrar ruídos de comunicação e importância da clareza.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 20-25 min</span>
+                    <span><i class="fas fa-users"></i> 6-15 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirDinamica('dinamica4')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+            <!-- Dinâmica 5 -->
+            <div class="dinamica-card" data-categoria="autoconhecimento">
+                <div class="dinamica-icone">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>Mapeamento de Forças e Fraquezas</h3>
+                <p>Atividade individual e em grupo para identificar pontos fortes e áreas de desenvolvimento de cada membro.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 35-45 min</span>
+                    <span><i class="fas fa-users"></i> 5-20 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirDinamica('dinamica5')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+            <!-- Dinâmica 6 -->
+            <div class="dinamica-card" data-categoria="empatia">
+                <div class="dinamica-icone">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Círculo de Feedback Positivo</h3>
+                <p>Cada pessoa recebe feedbacks construtivos e positivos do grupo, fortalecendo vínculos e autoestima.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 30-40 min</span>
+                    <span><i class="fas fa-users"></i> 8-15 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirDinamica('dinamica6')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+            <!-- Dinâmica 7 -->
+            <div class="dinamica-card" data-categoria="comunicacao">
+                <div class="dinamica-icone">
+                    <i class="fas fa-puzzle-piece"></i>
+                </div>
+                <h3>Construção Colaborativa</h3>
+                <p>Equipes devem construir algo juntas usando apenas comunicação verbal, sem gestos ou demonstrações físicas.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 25-35 min</span>
+                    <span><i class="fas fa-users"></i> 10-30 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirDinamica('dinamica7')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+            <!-- Dinâmica 8 -->
+            <div class="dinamica-card" data-categoria="quebra-gelo">
+                <div class="dinamica-icone">
+                    <i class="fas fa-laugh"></i>
+                </div>
+                <h3>Apresentação Criativa</h3>
+                <p>Cada pessoa se apresenta de forma criativa usando objetos, histórias ou performances breves e divertidas.</p>
+
+                <div class="dinamica-info">
+                    <span><i class="fas fa-clock"></i> 20-30 min</span>
+                    <span><i class="fas fa-users"></i> 5-25 pessoas</span>
+                </div>
+
+                <button class="dinamica-btn" onclick="abrirDinamica('dinamica8')">
+                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</section></main>
 <!-- Modal para Leitura de Caso -->
-<div id="modalCaso" class="modal-caso">
+<div id="uso-modalCaso" class="modal-caso">
     <div class="modal-caso-content">
         <button class="modal-close" onclick="fecharModalCaso()">
             <i class="fas fa-times"></i>
         </button>
-        <div id="modalCasoBody">
+        <div id="uso-modalCasoBody">
             <!-- Conteúdo inserido via JS -->
         </div>
     </div>
 </div>
 
+
+
+<!-- ================================================================== -->
+<!-- MODAL CASO COMPLETO -->
+<!-- ================================================================== -->
+<div id="lideranca-modalCaso" class="modal-caso">
+    <div class="modal-caso-content">
+
+        <button class="modal-close" id="lideranca-btnFecharModal">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <div class="modal-header">
+            <span class="modal-badge" id="lideranca-modalBadgePerfil">D</span>
+            <h2 id="lideranca-modalTitulo">Título do Caso</h2>
+            <div class="modal-tags">
+                <span class="tag-tema" id="lideranca-modalTema">Feedback</span>
+                <span class="tag-complexidade" id="lideranca-modalComplexidade">Intermediário</span>
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <div class="modal-secao">
+                <h3><i class="fas fa-file-alt"></i> Contexto</h3>
+                <p id="lideranca-modalContexto"></p><p id="lideranca-modalNotaDidatica" class="nota-didatica"></p>
+            </div>
+
+            <div class="modal-secao">
+                <h3><i class="fas fa-question-circle"></i> Perguntas para Reflexão</h3>
+                <ul id="lideranca-modalPerguntas"></ul>
+            </div>
+
+            <div class="modal-secao">
+                <h3><i class="fas fa-lightbulb"></i> Pontos-Chave para Discussão</h3>
+                <ul id="lideranca-modalPontos"></ul>
+            </div>
+        </div>
+
+        <div class="modal-footer" data-admin-only hidden aria-hidden="true">
+            <button class="btn-modal btn-imprimir" id="lideranca-btnImprimirCaso">
+                <i class="fas fa-print"></i> Imprimir para Aula
+            </button>
+            <button class="btn-modal btn-compartilhar" id="lideranca-btnCompartilharCaso">
+                <i class="fas fa-share-alt"></i> Compartilhar
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<!-- ================================================================== -->
+<!-- SCRIPTS -->
+<!-- ================================================================== -->
+
+
+<!-- Mesmo componente e folha de impressão de Casos de Liderança. -->
+<div id="dinamicas-modalCaso" class="modal-caso" role="dialog" aria-modal="true" aria-labelledby="dinamicas-modalTitulo">
+    <div class="modal-caso-content">
+        <button class="modal-close" onclick="fecharDinamica()" aria-label="Fechar dinâmica"><i class="fas fa-times"></i></button>
+        <div class="modal-header"><h2 id="dinamicas-modalTitulo"></h2></div>
+        <div id="dinamicas-modalBody" class="modal-body"></div>
+        <div class="modal-footer" data-admin-only hidden aria-hidden="true">
+            <button class="btn-modal btn-imprimir" id="dinamicas-btnImprimirDinamica"><i class="fas fa-print"></i> Imprimir para Aula</button>
+            <button class="btn-modal btn-compartilhar" id="dinamicas-btnCompartilharDinamica"><i class="fas fa-share-alt"></i> Compartilhar</button>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
 <script src="static/js/app_config.js"></script>
 <script src="static/js/auth.js"></script>
 <script src="static/js/main.js"></script><script src="static/js/busca.js"></script>
 <script src="static/js/configuracoes.js"></script><script src="static/js/biblioteca.js"></script>
+<script src="static/js/casos_lideranca.js"></script>
+<script src="static/js/dinamicas.js"></script>
+<script src="static/js/biblioteca_abas.js"></script>
 </body></html>
